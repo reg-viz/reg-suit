@@ -1,6 +1,7 @@
 import { S3 } from "aws-sdk";
 import * as uuid from "uuid/v4";
-import { Setupper, PluginCreateOptions } from "reg-suit-core/lib/core";
+import { PluginPreparer, PluginCreateOptions } from "reg-suit-core/lib/core";
+import { PluginConfig } from "./s3-publisher";
 
 export interface SetupInquireResult {
   createBucket: boolean;
@@ -25,7 +26,7 @@ function createPolicy(bucketName: string) {
 
 const BUCKET_PREFIX = "reg-publish-bucket";
 
-export class S3Setupper implements Setupper<SetupInquireResult> {
+export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, PluginConfig> {
   private _s3client = new S3();
 
   inquire(opt: any) {
@@ -33,7 +34,7 @@ export class S3Setupper implements Setupper<SetupInquireResult> {
     return Promise.reject<SetupInquireResult>(null);
   }
 
-  setup(config: PluginCreateOptions<SetupInquireResult>) {
+  prepare(config: PluginCreateOptions<SetupInquireResult>) {
     const ir = config.options;
     if (!ir.createBucket) {
       return Promise.resolve({

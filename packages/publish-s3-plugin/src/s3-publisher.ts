@@ -25,7 +25,7 @@ export interface FileItem {
 const DEFAULT_PATTERN = "**/*.{html,png,json}";
 const CONCURRENCY_SIZE = 20;
 
-export class S3PublisherPlugin implements PublisherPlugin {
+export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
 
   name = "reg-publish-s3-plugin";
 

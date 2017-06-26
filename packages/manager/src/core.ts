@@ -25,35 +25,28 @@ export interface PluginCreateOptions<T> {
   options: T;
 }
 
-export interface Plugin {
-  init(config: PluginCreateOptions<any>): void; 
+export interface Plugin<T> {
+  init(config: PluginCreateOptions<T>): void; 
 }
 
-export interface Setupper<T> {
-  inquire(opt: any): Promise<T>;
-  setup(option: PluginCreateOptions<T>): Promise<any>;
+export interface PluginPreparer<S, T> {
+  inquire(opt: any): Promise<S>;
+  prepare(option: PluginCreateOptions<S>): Promise<T>;
 }
 
-export interface PublisherPlugin extends Publisher, Plugin { }
-export interface NotifierPlugin extends Notifier, Plugin { }
+export interface PublisherPlugin<T> extends Publisher, Plugin<T> { }
+export interface NotifierPlugin<T> extends Notifier, Plugin<T> { }
 
-export type RegisterPublisherPlugin = () => { publisher: PublisherPlugin };
-export type RegisterNotifierPlugin = () => { notifier: NotifierPlugin };
-
-function isPublisher(plugin: Plugin): plugin is PublisherPlugin {
-  return typeof (plugin as any)["fetch"] === "function" && typeof (plugin as any)["publish"] === "function";
+export type PublisherPluginFactory = <S, T>() => {
+  preparer?: PluginPreparer<S, T>
+  publisher: PublisherPlugin<T>;
 }
 
 export class RegSuitCore {
-  publisher: PublisherPlugin;
-  notifiers: NotifierPlugin[];
+  publisher: PublisherPlugin<any>;
+  notifiers: NotifierPlugin<any>[];
 
   loadPlugins() {
   }
 
-  regist(plugin: Plugin) {
-    if (isPublisher(plugin)) {
-      this.publisher = plugin;
-    }
-  }
 }
