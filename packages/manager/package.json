@@ -1,0 +1,13 @@
+{
+  "name": "reg-suit-core",
+  "version": "0.0.0-SNAPSHOT",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "typings": "lib",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
