@@ -8,9 +8,13 @@ export interface KeyGenerator {
   getActualKey(): Promise<string>;
 }
 
+export interface PublishResult {
+  reportUrl: string;
+}
+
 export interface Publisher {
   fetch(key: string): Promise<any>;
-  publish(key: string): Promise<any>;
+  publish(key: string): Promise<PublishResult>;
 }
 
 export interface Notifier {
@@ -178,27 +182,63 @@ export class RegSuitCore {
   }
 
   runAll() {
-    this.getKeyForActual();
-    this.getKeyForExpected();
-    this.fetch("");
-    this.compare();
-    this.publish("");
-    this.notify();
+    this.getExpectedKey()
+    .then(key => this.fetch(key))
+    .then(() => this.compare())
+    .then(() => this.getActualKey())
+    .then(key => this.publish(key))
+    .then(result => this.notify())
+    ;
   }
 
   compare() {
+    // TODO
+    return Promise.resolve();
   }
 
-  getKeyForExpected() {
-  }
-
-  getKeyForActual() {
-  }
-
-  fetch(keyForExpected: string) {
-    if (this._publisher) {
-      return this._publisher.fetch(keyForExpected);
+  getExpectedKey(): Promise<string | null> {
+    if (this._keyGenerator) {
+      return this._keyGenerator.getExpectedKey().catch(reason => {
+        this._logger.warn("Failed to fetch the expected key");
+        this._logger.error(reason);
+        return Promise.resolve(null);
+      });
     } else {
+      this._logger.info("Skipped fetch expected key because key generator plugin is not set up.");
+      return Promise.resolve(null);
+    }
+  }
+
+  getActualKey() {
+    const fallbackFn = () => {
+      return "snapshot_" + new Date().getTime();
+    }
+    if (this._keyGenerator) {
+      return this._keyGenerator.getActualKey().then(key => {
+        if (!key) {
+          this._logger.warn("Failed to fetch the actual key.");
+          return fallbackFn();
+        }
+        return key;
+      }).catch(reason => {
+        this._logger.warn("Failed to fetch the actual key.");
+        this._logger.error(reason);
+        return Promise.resolve<string>(fallbackFn());
+      });
+    } else {
+      this._logger.info("Skipped to fetch the actual key because key generator plugin is not set.");
+      return Promise.resolve<string>(fallbackFn());
+    }
+  }
+
+  fetch(keyForExpected: string | null) {
+    if (this._publisher && keyForExpected) {
+      return this._publisher.fetch(keyForExpected);
+    } else if (!keyForExpected) {
+      this._logger.info("Skipped to fetch the expeceted data because expected key is null.");
+      return Promise.resolve();
+    } else if (!this._publisher) {
+      this._logger.info("Skipped to fetch the expeceted data because publisher plugin is not set.");
       return Promise.resolve();
     }
   }
@@ -212,5 +252,6 @@ export class RegSuitCore {
   }
 
   notify() {
+    // TODO
   }
 }

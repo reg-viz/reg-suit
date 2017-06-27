@@ -72,7 +72,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
 
   publish(key: string) {
     return this._publishInternal(key).then(result => {
-      return result.reportUrl;
+      return { reportUrl: result.reportUrl };
     });
   }
 
