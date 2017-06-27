@@ -125,7 +125,7 @@ export class RegSuitCore {
   }
 
   _initKeyGenerator() {
-    const metadata = this._pluginHolders.filter(holder => isPublisher(holder));
+    const metadata = this._pluginHolders.filter(holder => isKeyGenerator(holder));
     if (metadata.length > 1) {
       const pluginNames = metadata.map(p => p.moduleId).join(", ");
       this._logger.warn(`2 or more key generator plugins are found. Select one of ${pluginNames}.`);
@@ -139,9 +139,9 @@ export class RegSuitCore {
           logger: this._logger,
           options: pluginSpecifiedOption,
         });
+        this._logger.verbose(`${ph.moduleId} is inialized with: `);
+        this._logger.verbose(`${JSON.stringify(pluginSpecifiedOption, null, 2)}`);
       }
-      this._logger.verbose(`${ph.moduleId} is inialized with: `);
-      this._logger.verbose(`${JSON.stringify(pluginSpecifiedOption, null, 2)}`);
     } else {
       this._logger.verbose("No key generator.");
     }
@@ -162,9 +162,9 @@ export class RegSuitCore {
           logger: this._logger,
           options: pluginSpecifiedOption,
         });
+        this._logger.verbose(`${ph.moduleId} is inialized with: `);
+        this._logger.verbose(`${JSON.stringify(pluginSpecifiedOption, null, 2)}`);
       }
-      this._logger.verbose(`${ph.moduleId} is inialized with: `);
-      this._logger.verbose(`${JSON.stringify(pluginSpecifiedOption, null, 2)}`);
     } else {
       this._logger.verbose("No publisher.");
     }
