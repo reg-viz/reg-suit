@@ -1,12 +1,10 @@
 {
   "compilerOptions": {
+    "baseUrl": "./packages",
     "declaration": true,
     "target": "es2016",
     "module": "commonjs",
     "moduleResolution": "node",
     "strict": true
-  },
-  "exclude": [
-    "node_modules"
-  ]
+  }
 }

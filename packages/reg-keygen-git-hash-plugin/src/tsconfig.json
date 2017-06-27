@@ -2,6 +2,9 @@
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "../lib"
+    "outDir": "../lib",
+    "paths": {
+      "reg-suit-core/lib/core": ["./reg-suit-core/src/core.ts"]
+    }
   }
 }
