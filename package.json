@@ -15,6 +15,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^7.0.31",
+    "lerna": "^2.0.0-rc.5",
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.6.1",
     "typescript": "^2.3.4"

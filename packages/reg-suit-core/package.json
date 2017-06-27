@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-core",
-  "version": "0.0.0-SNAPSHOT",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
