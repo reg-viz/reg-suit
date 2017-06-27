@@ -1,8 +1,5 @@
 {
-  "name": "reg-suit",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch:core": "tsc -w -p packages/reg-suit-core/src/tsconfig.json",
@@ -10,9 +7,6 @@
     "watch": "run-p watch:*",
     "clean": "rimraf packages/**/lib/**"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@types/node": "^7.0.31",
     "lerna": "^2.0.0-rc.5",
