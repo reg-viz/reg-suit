@@ -1,21 +1,18 @@
 {
-  "name": "reg-suit-core",
+  "name": "reg-keygen-git-hash-plugin",
   "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prepublish": "tsc -p src/tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "typings": "lib",
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@types/resolve": "^0.0.4",
-    "typescript": "^2.3.4"
-  },
   "dependencies": {
-    "resolve": "^1.3.3"
+    "reg-suit-core": "^0.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^2.3.4"
   }
 }

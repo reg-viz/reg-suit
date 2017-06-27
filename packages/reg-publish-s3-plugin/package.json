@@ -1,5 +1,5 @@
 {
-  "name": "publish-s3-plugin",
+  "name": "reg-publish-s3-plugin",
   "version": "0.0.2",
   "description": "",
   "main": "lib/index.js",
