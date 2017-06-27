@@ -4,6 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
+    "prepublish": "tsc -p src/tsconfig.json",
     "clean:e2e": "rimraf e2e/report-fixture-expected",
     "test": "npm run clean:e2e && tsc -p e2e/tsconfig.json && node built_e2e/script.js"
   },
@@ -16,6 +17,7 @@
     "lodash": "^4.17.4",
     "mime-types": "^2.1.15",
     "mkdirp": "^0.5.1",
+    "reg-suit-core": "0.0.0",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
