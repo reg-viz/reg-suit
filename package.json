@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch:core": "tsc -w -p packages/manager/src/tsconfig.json",
-    "watch:3spluing": "tsc -w -p packages/publish-s3-plugin/src/tsconfig.json",
+    "watch:core": "tsc -w -p packages/reg-suit-core/src/tsconfig.json",
+    "watch:s3plugin": "tsc -w -p packages/reg-publish-s3-plugin/src/tsconfig.json",
     "watch": "run-p watch:*",
     "clean": "rimraf packages/**/lib/**"
   },
