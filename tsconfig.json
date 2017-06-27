@@ -5,5 +5,8 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "strict": true
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

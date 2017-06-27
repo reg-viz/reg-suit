@@ -4,8 +4,8 @@ import { RegSuitConfiguration } from "./config-manager";
 import logger, { RegLogger } from "./logger";
 
 export interface KeyGenerator {
-  getExpectedKey(): Promise<any>;
-  getActualKey(): Promise<any>;
+  getExpectedKey(): Promise<string>;
+  getActualKey(): Promise<string>;
 }
 
 export interface Publisher {

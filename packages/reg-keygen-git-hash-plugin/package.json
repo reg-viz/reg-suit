@@ -2,13 +2,14 @@
   "name": "reg-keygen-git-hash-plugin",
   "version": "0.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
+    "prepublish": "tsc -p src/tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "reg-suit-core": "^0.0.2"
   },

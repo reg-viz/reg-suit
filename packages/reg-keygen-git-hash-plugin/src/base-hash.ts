@@ -2,12 +2,16 @@
 
 const { execSync } = require("child_process");
 
-export default function baseHash() {
+export function currentHash(): string {
   const currentName = execSync("git branch | grep \"^\\*\" | cut -b 3-", { encoding: "utf8" });
+  return execSync(`git rev-parse ${currentName}`, { encoding: "utf8" }).replace("\n", "");
+}
+
+export function baseHash(): string | null {
   const shownBranches = execSync("git show-branch -a --sha1-name", { encoding: "utf8" }).split(/\n/) as string[];
   const separatorIndex = shownBranches.findIndex((b) => /^--/.test(b));
   const branches: string[] = [];
-  const currentHash = execSync(`git rev-parse ${currentName}`, { encoding: "utf8" }).replace("\n", "");
+  const current = currentHash();
   const firstParentHashes = execSync("git log -n 1000 --oneline --first-parent", { encoding: "utf8" }).split("\n").map((log: string) => log.split(" ")[0]);
   
   let currentIndex: number;
@@ -34,13 +38,13 @@ export default function baseHash() {
           if (s === " ") return;
           const name = branches[i];
           const hash = execSync(`git rev-parse ${name}`, { encoding: "utf8" }).replace("\n", "");
-          if (hash === currentHash) return;
+          if (hash === current) return;
           return true;
         })
         .filter(s => !!s).length;
     })
     .map(b => (b.replace(/\].+/, "").match(/\[(.+)/) as any)[1])
-    .filter(hash => currentHash.indexOf(hash)) as string[]
+    .filter(hash => current.indexOf(hash)) as string[]
   ;
 
   if (!candidateHashes.length) return null;
