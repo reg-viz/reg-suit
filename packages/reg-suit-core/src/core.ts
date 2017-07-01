@@ -2,7 +2,6 @@ import * as resolve from "resolve";
 import * as fs from "fs";
 import * as path from "path";
 import configManager from "./config-manager";
-import { RegSuitConfiguration } from "./config-manager";
 import logger, { RegLogger } from "./logger";
 import {
   KeyGenerator,
@@ -24,6 +23,7 @@ import {
 import {
   CoreConfig,
   CreateQuestionsOptions,
+  RegSuitConfiguration,
 } from "./core-interface";
 
 const compare = require("reg-cli");

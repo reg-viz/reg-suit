@@ -1,13 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { CoreConfig } from "./core-interface";
-
-export interface RegSuitConfiguration {
-  core: CoreConfig;
-  plugins?: {
-    [key: string]: any;
-  }
-}
+import { CoreConfig, RegSuitConfiguration } from "./core-interface";
 
 const DEFAULT_CONFIG_FILE_NAME = "regconfig.json";
 

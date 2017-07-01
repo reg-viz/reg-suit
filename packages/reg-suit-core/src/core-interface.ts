@@ -4,6 +4,13 @@ export interface CoreConfig {
   actualDir: string;
 }
 
+export interface RegSuitConfiguration {
+  core: CoreConfig;
+  plugins?: {
+    [key: string]: any;
+  }
+}
+
 export interface Logger {
   info(msg: string): void;
   warn(msg: string): void;
