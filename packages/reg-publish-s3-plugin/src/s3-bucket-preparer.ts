@@ -1,6 +1,6 @@
 import { S3 } from "aws-sdk";
 import * as uuid from "uuid/v4";
-import { PluginPreparer, PluginCreateOptions } from "reg-suit-core/lib/plugin";
+import { PluginPreparer, PluginCreateOptions, PreparerQuestions } from "reg-suit-core/lib/plugin";
 import { PluginConfig } from "./s3-publisher-plugin";
 
 export interface SetupInquireResult {
@@ -29,9 +29,21 @@ const BUCKET_PREFIX = "reg-publish-bucket";
 export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, PluginConfig> {
   private _s3client = new S3();
 
-  inquire(opt: any) {
-    // TODO
-    return Promise.reject<SetupInquireResult>(null);
+  inquire() {
+    return [
+      {
+        name: "createBucket",
+        type: "confirm",
+        message: "Create a new S3 bucket",
+        default: true,
+      },
+      {
+        name: "bucketName",
+        type: "input",
+        message: "Existing bucket name",
+        when: (ctx: { createBucket: boolean }) => !ctx.createBucket,
+      },
+    ];
   }
 
   prepare(config: PluginCreateOptions<SetupInquireResult>) {

@@ -1,4 +1,5 @@
 import * as resolve from "resolve";
+import * as fs from "fs";
 import * as path from "path";
 import configManager from "./config-manager";
 import { RegSuitConfiguration } from "./config-manager";
@@ -19,6 +20,11 @@ import {
   KeyGeneratorPluginHolder,
   PublisherPluginHolder
 } from "./plugin";
+
+import {
+  CoreConfig,
+  CreateQuestionsOptions,
+} from "./core-interface";
 
 const compare = require("reg-cli");
 
@@ -85,9 +91,66 @@ export class RegSuitCore {
     }
   }
 
-  prepare(configFileName?: string) {
-    this._loadConfig(configFileName);
-    this._loadPlugins();
+  _getInstalledPlugins() {
+    const cwd = process.cwd();
+    try {
+      const packageJson = JSON.parse(fs.readFileSync(path.join(cwd, "package.json"), "utf8"));
+      let result: string[] = [];
+      if (packageJson["dependencies"]) {
+        result = [ ...result, ...Object.keys(packageJson["dependencies"])];
+      }
+      if (packageJson["devDependencies"]) {
+        result = [ ...result, ...Object.keys(packageJson["devDependencies"])];
+      }
+      return result.filter(dep => {
+        return dep.match(/^reg-.*-plugin$/);
+      });
+    } catch(e) {
+      this._logger.error(e);
+      return [];
+    }
+  }
+
+  createQuestions(opt: CreateQuestionsOptions) {
+    const config = this._loadConfig();
+    const installedPluginNames = this._getInstalledPlugins();
+    const holders: { name: string; preparer: PluginPreparer<any, any> }[] = [];
+    installedPluginNames.forEach(name => {
+      this._loadPlugin(name);
+    });
+    this._pluginHolders.forEach(h => {
+      if (h["preparer"]) {
+        holders.push({ name: h.moduleId, preparer: h["preparer"] });
+      }
+    });
+    return holders.map(holder => {
+      const questions = holder.preparer.inquire();
+      const boundPrepare = (inquireResult: any) => holder.preparer.prepare({
+        coreConfig: config.core,
+        logger: this._logger,
+        options: inquireResult,
+      });
+      return {
+        name: holder.name,
+        questions: questions as any, // FIXME
+        prepare: boundPrepare,
+      };
+    });
+  }
+
+  persistMergedConfig(opt: { core?: CoreConfig; pluginConfigs: { name: string; config: any }[] }) {
+    const baseConfig = this._loadConfig();
+    const mergedConfig = {
+      core: opt.core ? { ...baseConfig.core, ...opt.core } : baseConfig.core,
+      plugins: { } as {[key: string]: any},
+    };
+    opt.pluginConfigs.forEach(pc => {
+      mergedConfig.plugins[pc.name] = baseConfig.plugins ? {
+        ...baseConfig.plugins[pc.name],
+        ...pc.config,
+      } : pc.config;
+    });
+    configManager.writeConfig(mergedConfig);
   }
 
   init(configFileName?: string) {

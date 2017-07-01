@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/inquirer": "^0.0.35",
     "@types/resolve": "^0.0.4",
     "typescript": "^2.3.4"
   },

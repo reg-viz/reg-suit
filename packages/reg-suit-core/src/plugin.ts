@@ -1,3 +1,4 @@
+import * as inquirer from "inquirer";
 import { CoreConfig, Logger } from "./core-interface";
 
 export interface KeyGenerator {
@@ -28,8 +29,10 @@ export interface Plugin<T> {
   init(config: PluginCreateOptions<T>): void; 
 }
 
+export type PreparerQuestions = inquirer.Questions;
+
 export interface PluginPreparer<S, T> {
-  inquire(opt: any): Promise<S>;
+  inquire(): PreparerQuestions;
   prepare(option: PluginCreateOptions<S>): Promise<T>;
 }
 

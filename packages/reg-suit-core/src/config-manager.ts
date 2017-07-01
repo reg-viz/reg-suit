@@ -21,7 +21,7 @@ export class ConfigManager {
     } as CoreConfig;
     let readResult, readJsonObj;
     try {
-      readResult = fs.readFileSync(path.resolve(process.cwd(), configFileName), "utf8");
+      readResult = fs.readFileSync(this._getConfigPath(configFileName), "utf8");
       readJsonObj = JSON.parse(readResult);
     } catch(e) {
       // TODO logging
@@ -47,8 +47,12 @@ export class ConfigManager {
     }
   }
 
-  writeConfig() {
-    // TODO
+  writeConfig(config: RegSuitConfiguration, configFileName: string = DEFAULT_CONFIG_FILE_NAME) {
+    fs.writeFileSync(this._getConfigPath(configFileName), JSON.stringify(config, null, 2), "utf8");
+  }
+
+  private _getConfigPath(configFileName: string) {
+    return path.resolve(process.cwd(), configFileName);
   }
 }
 

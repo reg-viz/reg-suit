@@ -10,3 +10,8 @@ export interface Logger {
   error(msg: string | Error): void;
   verbose(msg: string): void;
 }
+
+export interface CreateQuestionsOptions {
+  configFileName?: string;
+  pluginNames?: string[];
+}
