@@ -1,4 +1,4 @@
-import { PublisherPluginFactory } from "reg-suit-core/lib/core";
+import { PublisherPluginFactory } from "reg-suit-core/lib/plugin";
 import { S3PublisherPlugin } from "./s3-publisher-plugin";
 import { S3BucketPreparer } from "./s3-bucket-preparer";
 

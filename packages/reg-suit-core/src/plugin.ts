@@ -37,5 +37,15 @@ export interface KeyGeneratorPlugin<T> extends KeyGenerator, Plugin<T> { }
 export interface PublisherPlugin<T> extends Publisher, Plugin<T> { }
 export interface NotifierPlugin<T> extends Notifier, Plugin<T> { }
 
+export interface KeyGeneratorPluginHolder<S, T> {
+  preparer?: PluginPreparer<S, T>;
+  keyGenerator: KeyGeneratorPlugin<T>;
+}
+
+export interface PublisherPluginHolder<S, T> {
+  preparer?: PluginPreparer<S, T>;
+  publisher: PublisherPlugin<T>;
+}
+
 export type KeyGeneratorPluginFactory = <S, T>() => KeyGeneratorPluginHolder<S, T>;
 export type PublisherPluginFactory = <S, T>() => PublisherPluginHolder<S, T>;

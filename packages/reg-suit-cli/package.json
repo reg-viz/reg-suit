@@ -1,0 +1,24 @@
+{
+  "name": "reg-suit",
+  "version": "0.0.2",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "reg-suit": "./lib/cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "tsc -p src/tsconfig.build.json"
+  },
+  "dependencies": {
+    "reg-suit-core": "^0.0.2",
+    "yargs": "^8.0.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/yargs": "^8.0.0",
+    "typescript": "2.3.4"
+  }
+}

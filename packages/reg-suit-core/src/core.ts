@@ -13,20 +13,14 @@ import {
   PluginPreparer,
   PublishResult,
   Publisher,
-  PublisherPlugin
+  PublisherPlugin,
+  KeyGeneratorPluginFactory,
+  PublisherPluginFactory,
+  KeyGeneratorPluginHolder,
+  PublisherPluginHolder
 } from "./plugin";
 
 const compare = require("reg-cli");
-
-export interface KeyGeneratorPluginHolder<S, T> {
-  preparer?: PluginPreparer<S, T>;
-  keyGenerator: KeyGeneratorPlugin<T>;
-}
-
-export interface PublisherPluginHolder<S, T> {
-  preparer?: PluginPreparer<S, T>;
-  publisher: PublisherPlugin<T>;
-}
 
 export interface PluginMetadata {
   moduleId: string;
@@ -39,6 +33,19 @@ function isPublisher(pluginHolder: PluginMetadata): pluginHolder is (PublisherPl
 
 function isKeyGenerator(pluginHolder: PluginMetadata): pluginHolder is (KeyGeneratorPluginHolder<any, any> & PluginMetadata) {
   return !!pluginHolder["keyGenerator"];
+}
+
+export interface ComparisonResult {
+  failedItems: string[];
+  newItems: string[];
+  deletedItems: string[],
+  passedItems: string[],
+  expectedItems: string[];
+  actualItems: string[];
+  diffItems: string[];
+  actualDir: string;
+  expectedDir: string;
+  diffDir: string;
 }
 
 export class RegSuitCore {
@@ -164,8 +171,7 @@ export class RegSuitCore {
       ignoreChange: true,
       urlPrefix: "",
       threshold: .5,
-    }) as Promise<any>)
-    .then(() => console.log("success!"))
+    }) as Promise<ComparisonResult>)
     .catch(x => console.error(x));
   }
 
