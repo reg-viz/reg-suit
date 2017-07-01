@@ -5,7 +5,7 @@ import * as glob from "glob";
 import * as _ from "lodash";
 import * as mkdirp from "mkdirp";
 import { lookup } from "mime-types";
-import { PublisherPlugin, PluginCreateOptions } from "reg-suit-core/lib/plugin";
+import { PublisherPlugin, PluginCreateOptions, PluginLogger } from "reg-suit-core/lib/plugin";
 
 export interface PluginConfig {
   bucketName: string;
@@ -29,6 +29,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
 
   name = "reg-publish-s3-plugin";
 
+  private _logger: PluginLogger;
   private _options: PluginCreateOptions<any>;
   private _pluginConfig: PluginConfigInternal;
   private _s3client: S3;

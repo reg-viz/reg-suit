@@ -1,4 +1,4 @@
-#!node
+#!/usr/bin/env node
 
 import * as yargs from "yargs";
 import * as inquirer from "inquirer";
