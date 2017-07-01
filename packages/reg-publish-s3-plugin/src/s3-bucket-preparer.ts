@@ -1,6 +1,6 @@
 import { S3 } from "aws-sdk";
 import * as uuid from "uuid/v4";
-import { PluginPreparer, PluginCreateOptions } from "reg-suit-core/lib/core";
+import { PluginPreparer, PluginCreateOptions } from "reg-suit-core/lib/plugin";
 import { PluginConfig } from "./s3-publisher-plugin";
 
 export interface SetupInquireResult {

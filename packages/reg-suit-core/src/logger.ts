@@ -1,6 +1,8 @@
-import { Logger } from "./core";
+import { Logger } from "./core-interface";
 
 export type LogLevel = "verbose" | "info" | "silent";
+
+// TODO chalk, plugin category setter, --no-color opt
 
 export class RegLogger implements Logger {
 

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { CoreConfig } from "./core";
+import { CoreConfig } from "./core-interface";
 
 export interface RegSuitConfiguration {
   core: CoreConfig;

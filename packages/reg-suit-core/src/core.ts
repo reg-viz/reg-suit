@@ -3,58 +3,20 @@ import * as path from "path";
 import configManager from "./config-manager";
 import { RegSuitConfiguration } from "./config-manager";
 import logger, { RegLogger } from "./logger";
+import {
+  KeyGenerator,
+  KeyGeneratorPlugin,
+  Notifier,
+  NotifierPlugin,
+  Plugin,
+  PluginCreateOptions,
+  PluginPreparer,
+  PublishResult,
+  Publisher,
+  PublisherPlugin
+} from "./plugin";
 
 const compare = require("reg-cli");
-
-export interface KeyGenerator {
-  getExpectedKey(): Promise<string>;
-  getActualKey(): Promise<string>;
-}
-
-export interface PublishResult {
-  reportUrl: string;
-}
-
-export interface Publisher {
-  fetch(key: string): Promise<any>;
-  publish(key: string): Promise<PublishResult>;
-}
-
-export interface Notifier {
-  notify(result: any): void;
-}
-
-export interface CoreConfig {
-  workingDir: string;
-  expectedDir: string;
-  actualDir: string;
-}
-
-export interface Logger {
-  info(msg: string): void;
-  warn(msg: string): void;
-  error(msg: string | Error): void;
-  verbose(msg: string): void;
-}
-
-export interface PluginCreateOptions<T> {
-  coreConfig: CoreConfig;
-  logger: Logger;
-  options: T;
-}
-
-export interface Plugin<T> {
-  init(config: PluginCreateOptions<T>): void; 
-}
-
-export interface PluginPreparer<S, T> {
-  inquire(opt: any): Promise<S>;
-  prepare(option: PluginCreateOptions<S>): Promise<T>;
-}
-
-export interface KeyGeneratorPlugin<T> extends KeyGenerator, Plugin<T> { }
-export interface PublisherPlugin<T> extends Publisher, Plugin<T> { }
-export interface NotifierPlugin<T> extends Notifier, Plugin<T> { }
 
 export interface KeyGeneratorPluginHolder<S, T> {
   preparer?: PluginPreparer<S, T>;
@@ -78,9 +40,6 @@ function isPublisher(pluginHolder: PluginMetadata): pluginHolder is (PublisherPl
 function isKeyGenerator(pluginHolder: PluginMetadata): pluginHolder is (KeyGeneratorPluginHolder<any, any> & PluginMetadata) {
   return !!pluginHolder["keyGenerator"];
 }
-
-export type KeyGeneratorPluginFactory = <S, T>() => KeyGeneratorPluginHolder<S, T>;
-export type PublisherPluginFactory = <S, T>() => PublisherPluginHolder<S, T>;
 
 export class RegSuitCore {
 
