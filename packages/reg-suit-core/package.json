@@ -2,7 +2,7 @@
   "name": "reg-suit-core",
   "version": "0.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "prepublish": "tsc -p src/tsconfig.build.json",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
   "typings": "lib",
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/inquirer": "^0.0.35",
     "@types/resolve": "^0.0.4",

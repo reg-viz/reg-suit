@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "",
   "bin": {
-    "reg-suit": "./lib/cli.js"
+    "reg-suit": "lib/cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,7 +16,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/inquirer": "^0.0.35",
     "@types/yargs": "^8.0.0",

@@ -7,11 +7,6 @@
   "version": "0.0.2",
   "commands": {
     "publish": {
-      "ignore": [
-        "e2e/**",
-        "built_e2e/**",
-        "src/**"
-      ]
     }
   }
 }
