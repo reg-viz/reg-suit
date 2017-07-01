@@ -1,7 +1,10 @@
 import * as resolve from "resolve";
+import * as path from "path";
 import configManager from "./config-manager";
 import { RegSuitConfiguration } from "./config-manager";
 import logger, { RegLogger } from "./logger";
+
+const compare = require("reg-cli");
 
 export interface KeyGenerator {
   getExpectedKey(): Promise<string>;
@@ -187,13 +190,24 @@ export class RegSuitCore {
     .then(() => this.compare())
     .then(() => this.getActualKey())
     .then(key => this.publish(key))
-    .then(result => this.notify())
+    .then(result => this.notify(result))
     ;
   }
 
   compare() {
-    // TODO
-    return Promise.resolve();
+    return (compare({
+      actualDir: path.join(this._config.core.workingDir, this._config.core.actualDir),
+      expectedDir: path.join(this._config.core.workingDir, this._config.core.expectedDir),
+      diffDir: path.join(this._config.core.workingDir, "diff"),
+      json: path.join(this._config.core.workingDir, "out.json"),
+      report: path.join(this._config.core.workingDir, "index.html"),
+      update: false,
+      ignoreChange: true,
+      urlPrefix: "",
+      threshold: .5,
+    }) as Promise<any>)
+    .then(() => console.log("success!"))
+    .catch(x => console.error(x));
   }
 
   getExpectedKey(): Promise<string | null> {
@@ -243,15 +257,15 @@ export class RegSuitCore {
     }
   }
 
-  publish(keyForActual: string) {
+  publish(keyForActual: string): Promise<PublishResult | null> {
     if (this._publisher) {
       return this._publisher.publish(keyForActual);
     } else {
-      return Promise.resolve();
+      return Promise.resolve(null);
     }
   }
 
-  notify() {
+  notify(result: PublishResult | null) {
     // TODO
   }
 }
