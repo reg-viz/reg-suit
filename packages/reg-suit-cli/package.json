@@ -2,7 +2,6 @@
   "name": "reg-suit",
   "version": "0.0.2",
   "description": "",
-  "main": "index.js",
   "bin": {
     "reg-suit": "./lib/cli.js"
   },
