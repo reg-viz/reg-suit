@@ -1,6 +1,6 @@
 import { S3 } from "aws-sdk";
 import * as uuid from "uuid/v4";
-import { PluginPreparer, PluginCreateOptions, PreparerQuestions } from "reg-suit-core/lib/plugin";
+import { PluginPreparer, PluginCreateOptions, PreparerQuestions, PluginLogger } from "reg-suit-core/lib/plugin";
 import { PluginConfig } from "./s3-publisher-plugin";
 
 export interface SetupInquireResult {
@@ -28,6 +28,7 @@ const BUCKET_PREFIX = "reg-publish-bucket";
 
 export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, PluginConfig> {
   private _s3client = new S3();
+  _logger: PluginLogger;
 
   inquire() {
     return [
@@ -47,6 +48,7 @@ export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, Plug
   }
 
   prepare(config: PluginCreateOptions<SetupInquireResult>) {
+    this._logger = config.logger;
     const ir = config.options;
     if (!ir.createBucket) {
       return Promise.resolve({
@@ -55,10 +57,15 @@ export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, Plug
     } else  {
       const id = uuid();
       const bucketName = `${BUCKET_PREFIX}-${id}`;
+      if (config.noEmit) {
+        this._logger.info("Skip create S3 bucket because noEmit option.");
+        return Promise.resolve({ bucketName });
+      }
       return this._createBucket(bucketName)
       .then(bucketName => {
         return this._updatePolicy(bucketName);
       }).then(bucketName => {
+        this._logger.info(`Create new S3 bucket: ${bucketName}`);
         return { bucketName };
       })
     }

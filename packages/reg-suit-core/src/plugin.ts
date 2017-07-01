@@ -1,6 +1,8 @@
 import * as inquirer from "inquirer";
 import { CoreConfig, Logger } from "./core-interface";
 
+export type PluginLogger = Logger;
+
 export interface KeyGenerator {
   getExpectedKey(): Promise<string>;
   getActualKey(): Promise<string>;
@@ -22,6 +24,7 @@ export interface Notifier {
 export interface PluginCreateOptions<T> {
   coreConfig: CoreConfig;
   logger: Logger;
+  noEmit: boolean;
   options: T;
 }
 

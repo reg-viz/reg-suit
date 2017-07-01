@@ -17,7 +17,9 @@ const baseConfA = {
     info: (msg: string) => console.log(msg),
     warn: (msg: string) => console.warn(msg),
     verbose: (msg: string) => console.log(msg),
+    error: (msg: any) => console.error(msg),
   },
+  noEmit: false,
 };
 
 const baseConfB = {
@@ -30,7 +32,9 @@ const baseConfB = {
     info: (msg: string) => console.log(msg),
     warn: (msg: string) => console.warn(msg),
     verbose: (msg: string) => console.log(msg),
+    error: (msg: any) => console.error(msg),
   },
+  noEmit: false,
 };
 
 let bn: string;

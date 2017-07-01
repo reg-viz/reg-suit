@@ -1,7 +1,7 @@
 import * as resolve from "resolve";
 import * as fs from "fs";
 import * as path from "path";
-import configManager from "./config-manager";
+import configManager, { ConfigManager } from "./config-manager";
 import logger, { RegLogger } from "./logger";
 import {
   KeyGenerator,
@@ -60,12 +60,22 @@ export class RegSuitCore {
   _publisher?: PublisherPlugin<any>;
   notifiers: NotifierPlugin<any>[] = [];
 
-  _logger: RegLogger;
+  noEmit: boolean;
+  logger: RegLogger;
   _config: RegSuitConfiguration;
+  _configManager: ConfigManager;
   _pluginHolders: PluginMetadata[] = [];
 
-  constructor() {
-    this._logger = logger;
+  constructor(opt?: {
+    logLevel?: "info" | "silent" | "verbose";
+    noEmit?: boolean;
+  }) {
+    this.logger = logger;
+    this._configManager = configManager;
+    if (opt && opt.logLevel) {
+      this.logger.setLevel(opt.logLevel);
+    }
+    this.noEmit = !!(opt && opt.noEmit);
   }
 
   _loadPlugins() {
@@ -82,7 +92,7 @@ export class RegSuitCore {
       pluginFileName = resolve.sync(name, { basedir: process.cwd() });
     } catch (e) {
       // TODO
-      this._logger.error(e);
+      this.logger.error(e);
     }
     if (pluginFileName) {
       const factory = require(pluginFileName);
@@ -106,7 +116,7 @@ export class RegSuitCore {
         return dep.match(/^reg-.*-plugin$/);
       });
     } catch(e) {
-      this._logger.error(e);
+      this.logger.error(e);
       return [];
     }
   }
@@ -127,8 +137,9 @@ export class RegSuitCore {
       const questions = holder.preparer.inquire();
       const boundPrepare = (inquireResult: any) => holder.preparer.prepare({
         coreConfig: config.core,
-        logger: this._logger,
+        logger: this.logger,
         options: inquireResult,
+        noEmit: this.noEmit,
       });
       return {
         name: holder.name,
@@ -138,7 +149,7 @@ export class RegSuitCore {
     });
   }
 
-  persistMergedConfig(opt: { core?: CoreConfig; pluginConfigs: { name: string; config: any }[] }) {
+  persistMergedConfig(opt: { core?: CoreConfig; pluginConfigs: { name: string; config: any }[] }, confirm: (newConfig: RegSuitConfiguration) => Promise<boolean>) {
     const baseConfig = this._loadConfig();
     const mergedConfig = {
       core: opt.core ? { ...baseConfig.core, ...opt.core } : baseConfig.core,
@@ -150,7 +161,12 @@ export class RegSuitCore {
         ...pc.config,
       } : pc.config;
     });
-    configManager.writeConfig(mergedConfig);
+    this.logger.verbose("Merged configuration: ");
+    this.logger.verbose(JSON.stringify(mergedConfig, null, 2));
+    if (this.noEmit) return Promise.resolve();
+    return confirm(mergedConfig).then(result => {
+      if (result) this._configManager.writeConfig(mergedConfig);
+    });
   }
 
   init(configFileName?: string) {
@@ -164,7 +180,7 @@ export class RegSuitCore {
     const metadata = this._pluginHolders.filter(holder => isKeyGenerator(holder));
     if (metadata.length > 1) {
       const pluginNames = metadata.map(p => p.moduleId).join(", ");
-      this._logger.warn(`2 or more key generator plugins are found. Select one of ${pluginNames}.`);
+      this.logger.warn(`2 or more key generator plugins are found. Select one of ${pluginNames}.`);
     } else if (metadata.length === 1 && this._config.plugins) {
       const ph = metadata[0];
       const pluginSpecifiedOption = this._config.plugins[ph.moduleId];
@@ -172,14 +188,15 @@ export class RegSuitCore {
         this._keyGenerator = ph.keyGenerator;
         this._keyGenerator.init({
           coreConfig: this._config.core,
-          logger: this._logger,
+          logger: this.logger,
           options: pluginSpecifiedOption,
+          noEmit: this.noEmit,
         });
-        this._logger.verbose(`${ph.moduleId} is inialized with: `);
-        this._logger.verbose(`${JSON.stringify(pluginSpecifiedOption, null, 2)}`);
+        this.logger.verbose(`${ph.moduleId} is inialized with: `);
+        this.logger.verbose(`${JSON.stringify(pluginSpecifiedOption, null, 2)}`);
       }
     } else {
-      this._logger.verbose("No key generator.");
+      this.logger.verbose("No key generator.");
     }
   }
 
@@ -187,7 +204,7 @@ export class RegSuitCore {
     const metadata = this._pluginHolders.filter(holder => isPublisher(holder));
     if (metadata.length > 1) {
       const pluginNames = metadata.map(p => p.moduleId).join(", ");
-      this._logger.warn(`2 or more publisher plugins are found. Select one of ${pluginNames}.`);
+      this.logger.warn(`2 or more publisher plugins are found. Select one of ${pluginNames}.`);
     } else if (metadata.length === 1 && this._config.plugins) {
       const ph = metadata[0];
       const pluginSpecifiedOption = this._config.plugins[ph.moduleId];
@@ -195,20 +212,21 @@ export class RegSuitCore {
         this._publisher = ph.publisher;
         this._publisher.init({
           coreConfig: this._config.core,
-          logger: this._logger,
+          logger: this.logger,
           options: pluginSpecifiedOption,
+          noEmit: this.noEmit,
         });
-        this._logger.verbose(`${ph.moduleId} is inialized with: `);
-        this._logger.verbose(`${JSON.stringify(pluginSpecifiedOption, null, 2)}`);
+        this.logger.verbose(`${ph.moduleId} is inialized with: `);
+        this.logger.verbose(`${JSON.stringify(pluginSpecifiedOption, null, 2)}`);
       }
     } else {
-      this._logger.verbose("No publisher.");
+      this.logger.verbose("No publisher.");
     }
   }
 
   _loadConfig(configFileName?: string) {
     if (!this._config) {
-      this._config = configManager.readConfig(configFileName).config;
+      this._config = this._configManager.readConfig(configFileName).config;
     }
     return this._config;
   }
@@ -241,12 +259,12 @@ export class RegSuitCore {
   getExpectedKey(): Promise<string | null> {
     if (this._keyGenerator) {
       return this._keyGenerator.getExpectedKey().catch(reason => {
-        this._logger.warn("Failed to fetch the expected key");
-        this._logger.error(reason);
+        this.logger.warn("Failed to fetch the expected key");
+        this.logger.error(reason);
         return Promise.resolve(null);
       });
     } else {
-      this._logger.info("Skipped fetch expected key because key generator plugin is not set up.");
+      this.logger.info("Skipped fetch expected key because key generator plugin is not set up.");
       return Promise.resolve(null);
     }
   }
@@ -258,17 +276,17 @@ export class RegSuitCore {
     if (this._keyGenerator) {
       return this._keyGenerator.getActualKey().then(key => {
         if (!key) {
-          this._logger.warn("Failed to fetch the actual key.");
+          this.logger.warn("Failed to fetch the actual key.");
           return fallbackFn();
         }
         return key;
       }).catch(reason => {
-        this._logger.warn("Failed to fetch the actual key.");
-        this._logger.error(reason);
+        this.logger.warn("Failed to fetch the actual key.");
+        this.logger.error(reason);
         return Promise.resolve<string>(fallbackFn());
       });
     } else {
-      this._logger.info("Skipped to fetch the actual key because key generator plugin is not set.");
+      this.logger.info("Skipped to fetch the actual key because key generator plugin is not set.");
       return Promise.resolve<string>(fallbackFn());
     }
   }
@@ -277,10 +295,10 @@ export class RegSuitCore {
     if (this._publisher && keyForExpected) {
       return this._publisher.fetch(keyForExpected);
     } else if (!keyForExpected) {
-      this._logger.info("Skipped to fetch the expeceted data because expected key is null.");
+      this.logger.info("Skipped to fetch the expeceted data because expected key is null.");
       return Promise.resolve();
     } else if (!this._publisher) {
-      this._logger.info("Skipped to fetch the expeceted data because publisher plugin is not set.");
+      this.logger.info("Skipped to fetch the expeceted data because publisher plugin is not set.");
       return Promise.resolve();
     }
   }
