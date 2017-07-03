@@ -82,11 +82,6 @@ function getRegCore(options: CliOptions, ignoreCache = false) {
       noEmit: options.noEmit,
     });
   }
-  if (options.configFileName) {
-    core.logger.verbose(`config file: ${options.configFileName}`);
-  } else {
-    core.logger.verbose(`config file: not specified.`);
-  }
   _coreInstanceForCache = core;
   return _coreInstanceForCache;
 }
@@ -205,6 +200,9 @@ function run(options: CliOptions) {
 
 function cli(): Promise<any> {
   const options = createOptions();
+  const version = require(path.resolve(__dirname, "../package.json")).version;
+  const core = getRegCore(options);
+  core.logger.info(`version: ${version}`);
   if (options.command === "run") {
     return run(options);
   } else if(options.command === "install") {

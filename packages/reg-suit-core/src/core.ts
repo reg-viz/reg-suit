@@ -247,6 +247,11 @@ export class RegSuitCore {
 
   _loadConfig(configFileName?: string) {
     if (!this._config) {
+      if (configFileName) {
+        this.logger.verbose(`config file: ${configFileName}`);
+      } else {
+        this.logger.verbose(`config file not specified, load from ${configManager.defaultConfigFileName}.`);
+      }
       this._config = this._configManager.readConfig(configFileName).config;
     }
     return this._config;
@@ -327,7 +332,7 @@ export class RegSuitCore {
       });
     } else {
       const fallbackKey = fallbackFn();
-      this.logger.info(`Use '${fallbackKey}' as the snapshot key because key generator plugin is not set.`);
+      this.logger.info(`Use '${fallbackKey}' as the current snapshot key because key generator plugin is not set up.`);
       return Promise.resolve({ ...ctx, actualKey: fallbackKey });
     }
   }

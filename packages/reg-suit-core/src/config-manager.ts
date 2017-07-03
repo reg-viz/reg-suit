@@ -6,6 +6,10 @@ const DEFAULT_CONFIG_FILE_NAME = "regconfig.json";
 
 export class ConfigManager {
 
+  get defaultConfigFileName() {
+    return DEFAULT_CONFIG_FILE_NAME;
+  }
+
   readConfig(configFileName: string = DEFAULT_CONFIG_FILE_NAME) {
     const defaultCoreConfig = {
       workingDir: path.join(process.cwd(), "./reg"),
