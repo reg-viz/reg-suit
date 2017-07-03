@@ -17,20 +17,20 @@ interface CliOptions {
 function createOptions() {
   yargs
     .alias("c", "config")
-    .boolean("dryRun")
+    .alias("t", "test").boolean("test")
     .alias("v", "verbose").boolean("verbose")
     .alias("q", "quiet").boolean("quiet")
     .command("run", "run all")
     .command("prepare", "prepare plugin")
   ;
-  const { config, verbose, quiet, dryRun } = yargs.argv;
+  const { config, verbose, quiet, test } = yargs.argv;
   const command = yargs.argv._[0] || "run";
   const logLevel = verbose ? "verbose" : (quiet ? "silent" : "info");
   return {
     command,
     logLevel,
     configFileName: config,
-    noEmit: dryRun,
+    noEmit: test,
   } as CliOptions;
 }
 
@@ -50,7 +50,7 @@ function getRegCore(options: CliOptions) {
 function run(options: CliOptions) {
   const core = getRegCore(options);
   core.init(options.configFileName);
-  core.runAll();
+  return core.runAll();
 }
 
 function prepare(options: CliOptions) {
@@ -64,7 +64,7 @@ function prepare(options: CliOptions) {
       default: true,
     }
   ]).then(({ result } : { result: boolean }) => result);
-  questions.reduce((acc, qh) => {
+  return questions.reduce((acc, qh) => {
     return acc.then(configs => {
       core.logger.info(`Set up ${qh.name}:`);
       return inquirer.prompt(qh.questions).then((ans: any) => qh.prepare(ans)).then((c: any) => [...configs, { name: qh.name, config: c }])
@@ -74,13 +74,20 @@ function prepare(options: CliOptions) {
   ;
 }
 
-function cli() {
+function cli(): Promise<any> {
   const options = createOptions();
   if (options.command === "run") {
-    run(options);
+    return run(options);
   } else if(options.command === "prepare") {
-    prepare(options);
+    return prepare(options);
   }
+  return Promise.resolve();
 }
 
-cli();
+cli()
+.then(() => process.exit(0))
+.catch((reason: any) => {
+  console.error(reason);
+  process.exit(1);
+})
+;

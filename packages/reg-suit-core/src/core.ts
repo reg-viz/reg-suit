@@ -24,6 +24,7 @@ import {
   CoreConfig,
   CreateQuestionsOptions,
   RegSuitConfiguration,
+  ComparisonResult,
 } from "./core-interface";
 
 const compare = require("reg-cli");
@@ -41,17 +42,20 @@ function isKeyGenerator(pluginHolder: PluginMetadata): pluginHolder is (KeyGener
   return !!pluginHolder["keyGenerator"];
 }
 
-export interface ComparisonResult {
-  failedItems: string[];
-  newItems: string[];
-  deletedItems: string[],
-  passedItems: string[],
-  expectedItems: string[];
-  actualItems: string[];
-  diffItems: string[];
-  actualDir: string;
-  expectedDir: string;
-  diffDir: string;
+export interface StepResultAfterExpectedKey {
+  expectedKey: string | null;
+}
+
+export interface StepResultAfterComparison extends StepResultAfterExpectedKey {
+  comparisonResult: ComparisonResult;
+}
+
+export interface StepResultAfterActualKey extends StepResultAfterComparison {
+  actualKey: string ;
+}
+
+export interface StepResultAfterPublish extends StepResultAfterActualKey {
+  reportUrl: string | null;
 }
 
 export class RegSuitCore {
@@ -232,16 +236,32 @@ export class RegSuitCore {
   }
 
   runAll() {
-    this.getExpectedKey()
-    .then(key => this.fetch(key))
-    .then(() => this.compare())
-    .then(() => this.getActualKey())
-    .then(key => this.publish(key))
-    .then(result => this.notify(result))
+    return this.getExpectedKey()
+    .then(ctx => this.fetch(ctx))
+    .then(ctx => this.compare(ctx))
+    .then(ctx => this.getActualKey(ctx))
+    .then(ctx => this.publish(ctx))
+    // .then(result => this.notify(result))
     ;
   }
 
-  compare() {
+  getExpectedKey(): Promise<StepResultAfterExpectedKey> {
+    if (this._keyGenerator) {
+      return this._keyGenerator.getExpectedKey()
+        .then(key => ({ expectedKey: key }))
+        .catch(reason => {
+          this.logger.warn("Failed to fetch the expected key");
+          this.logger.error(reason);
+          return Promise.resolve({ expectedKey: null });
+        })
+      ;
+    } else {
+      this.logger.info("Skipped fetch expected key because key generator plugin is not set up.");
+      return Promise.resolve({ expectedKey: null });
+    }
+  }
+
+  compare(ctx: StepResultAfterExpectedKey): Promise<StepResultAfterComparison> {
     return (compare({
       actualDir: path.join(this._config.core.workingDir, this._config.core.actualDir),
       expectedDir: path.join(this._config.core.workingDir, this._config.core.expectedDir),
@@ -253,61 +273,73 @@ export class RegSuitCore {
       urlPrefix: "",
       threshold: .5,
     }) as Promise<ComparisonResult>)
+    .then(result => {
+      this.logger.verbose("Comparison result:");
+      this.logger.verbose(JSON.stringify(result, null, 2));
+      return { ...ctx, comparisonResult: result };
+    })
     .catch(x => console.error(x));
   }
 
-  getExpectedKey(): Promise<string | null> {
-    if (this._keyGenerator) {
-      return this._keyGenerator.getExpectedKey().catch(reason => {
-        this.logger.warn("Failed to fetch the expected key");
-        this.logger.error(reason);
-        return Promise.resolve(null);
-      });
-    } else {
-      this.logger.info("Skipped fetch expected key because key generator plugin is not set up.");
-      return Promise.resolve(null);
-    }
-  }
-
-  getActualKey() {
+  getActualKey(ctx: StepResultAfterComparison): Promise<StepResultAfterActualKey> {
     const fallbackFn = () => {
-      return "snapshot_" + new Date().getTime();
+      return "snapshot_" + ~~(new Date().getTime() / 1000);
     }
     if (this._keyGenerator) {
       return this._keyGenerator.getActualKey().then(key => {
         if (!key) {
           this.logger.warn("Failed to fetch the actual key.");
-          return fallbackFn();
+          return { ...ctx, actualKey: fallbackFn() };
         }
         return key;
       }).catch(reason => {
         this.logger.warn("Failed to fetch the actual key.");
         this.logger.error(reason);
-        return Promise.resolve<string>(fallbackFn());
+        return Promise.resolve({ ...ctx, actualKey: fallbackFn() });
       });
     } else {
-      this.logger.info("Skipped to fetch the actual key because key generator plugin is not set.");
-      return Promise.resolve<string>(fallbackFn());
+      const fallbackKey = fallbackFn();
+      this.logger.info(`Use '${fallbackKey}' as the snapshot key because key generator plugin is not set.`);
+      return Promise.resolve({ ...ctx, actualKey: fallbackKey });
     }
   }
 
-  fetch(keyForExpected: string | null) {
+  fetch(ctx: StepResultAfterExpectedKey): Promise<StepResultAfterExpectedKey> {
+    const keyForExpected = ctx.expectedKey;
     if (this._publisher && keyForExpected) {
       return this._publisher.fetch(keyForExpected);
     } else if (!keyForExpected) {
       this.logger.info("Skipped to fetch the expeceted data because expected key is null.");
-      return Promise.resolve();
+      return Promise.resolve(ctx);
     } else if (!this._publisher) {
-      this.logger.info("Skipped to fetch the expeceted data because publisher plugin is not set.");
-      return Promise.resolve();
+      this.logger.info("Skipped to fetch the expeceted data because publisher plugin is not set up.");
+      return Promise.resolve(ctx);
+    } else {
+      return Promise.resolve(ctx);
     }
   }
 
-  publish(keyForActual: string): Promise<PublishResult | null> {
+  publish(ctx: StepResultAfterActualKey): Promise<StepResultAfterPublish> {
     if (this._publisher) {
-      return this._publisher.publish(keyForActual);
+      return this._publisher.publish(ctx.actualKey)
+        .then(result => {
+          this.logger.info(`Published snapshot '${ctx.actualKey}' successfully.`);
+          if (result.reportUrl) {
+            this.logger.info(`Report URL: ${result.reportUrl}`);
+          }
+          this.logger.verbose("Publish result:");
+          this.logger.verbose(JSON.stringify(result, null, 2));
+          return { ...ctx, reportUrl: result.reportUrl };
+        })
+        .catch(reason => {
+          this.logger.error("An error occurs when publishing snapshot:")
+          this.logger.error(reason);
+          return Promise.reject<StepResultAfterPublish>(reason);
+        })
+      ;
     } else {
-      return Promise.resolve(null);
+      this.logger.info("Skipped to publish the snapshot data because publisher plugin is not set up.");
+      return Promise.resolve(ctx);
     }
   }
 

@@ -29,6 +29,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
 
   name = "reg-publish-s3-plugin";
 
+  _noEmit: boolean;
   private _logger: PluginLogger;
   private _options: PluginCreateOptions<any>;
   private _pluginConfig: PluginConfigInternal;
@@ -44,6 +45,8 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
       ...config.options,
     };
     this._s3client = new S3();
+    this._noEmit = config.noEmit;
+    this._logger = config.logger;
   }
 
   createList(): Promise<FileItem[]> {
@@ -78,6 +81,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
   }
 
   fetch(key: string): Promise<any> {
+    if (this._noEmit) return Promise.resolve();
     return new Promise<S3.ListObjectsOutput>((resolve, reject) => {
       this._s3client.listObjects({
         Bucket: this._pluginConfig.bucketName,
@@ -121,6 +125,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
         return chunks.reduce((acc, chunk) => {
           return acc.then(list => {
             return Promise.all(chunk.map(item => {
+              if (this._noEmit) return Promise.resolve(item);
               return this._publishItem(key, item);
             })).then(items => [...list, ...items]);
           });
@@ -128,11 +133,9 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
       })
       .then(items => {
         const indexFile = items.find(item => item.path.endsWith("index.html"));
-        return {
-          // FIXME is this naming rule correct?
-          reportUrl: indexFile && `https://s3.amazonaws.com/${this._pluginConfig.bucketName}/${key}/${indexFile.path}`,
-          items,
-        };
+        // FIXME is this naming rule correct?
+        const reportUrl = indexFile && `https://s3.amazonaws.com/${this._pluginConfig.bucketName}/${key}/${indexFile.path}`;
+        return { reportUrl, items };
       })
     ;
   }
@@ -148,6 +151,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
           ContentType: item.mimeType,
         }, (err, x) => {
           if (err) return reject(err);
+          this._logger.verbose(`Uploaded ${item.absPath}`);
           return resolve(item);
         });
       });
@@ -168,6 +172,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
           if (err) {
             return reject(err);
           }
+          this._logger.verbose(`Downloaded ${item.absPath}`);
           resolve(item);
         });
       });
