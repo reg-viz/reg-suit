@@ -106,30 +106,42 @@ export class RegSuitCore {
   }
 
   createQuestions(opt: CreateQuestionsOptions) {
-    const config = this._loadConfig();
-    const holders: { name: string; preparer: PluginPreparer<any, any> }[] = [];
-    opt.pluginNames.forEach(name => {
-      this._loadPlugin(name);
-    });
+    const config = this._loadConfig(opt.configFileName);
+    const noConfigurablePlugins: string[] = [];
+    const preparerHolders : { name: string; preparer: PluginPreparer<any, any> }[] = [];
+    opt.pluginNames.forEach(name => this._loadPlugin(name));
     this._pluginHolders.forEach(h => {
       if (h["preparer"]) {
-        holders.push({ name: h.moduleId, preparer: h["preparer"] });
+        preparerHolders.push({ name: h.moduleId, preparer: h["preparer"] });
+      } else {
+        noConfigurablePlugins.push(h.moduleId);
       }
     });
-    return holders.map(holder => {
-      const questions = holder.preparer.inquire();
-      const boundPrepare = (inquireResult: any) => holder.preparer.prepare({
-        coreConfig: config.core,
-        logger: this.logger,
-        options: inquireResult,
-        noEmit: this.noEmit,
-      });
-      return {
-        name: holder.name,
-        questions: questions as any, // FIXME
-        prepare: boundPrepare,
-      };
-    });
+    return [
+      ...noConfigurablePlugins.map(pluginName => {
+        return {
+          name: pluginName,
+          questions: [] as any[],
+          prepare: (inquireResult: any) => Promise.resolve<any>(true),
+        };
+      }),
+      ...preparerHolders.map(holder => {
+        const questions = holder.preparer.inquire();
+        const boundPrepare = (inquireResult: any) => holder.preparer.prepare({
+          coreConfig: config.core,
+          logger: this.logger,
+          options: inquireResult,
+          noEmit: this.noEmit,
+        });
+        return {
+          name: holder.name,
+          // FIXME
+          // TS4053 Return type of public method from exported class has or is using name 'inquirer.Question' from external module "reg-suit-core/node_modules/@types/inquirer/index" but cannot be named.
+          questions: questions as any[],
+          prepare: boundPrepare,
+        };
+      }),
+    ];
   }
 
   persistMergedConfig(opt: { core?: CoreConfig; pluginConfigs: { name: string; config: any }[] }, confirm: (newConfig: RegSuitConfiguration) => Promise<boolean>) {

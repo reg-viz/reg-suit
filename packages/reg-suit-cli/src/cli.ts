@@ -55,9 +55,13 @@ function createOptions() {
   } as CliOptions;
 }
 
-function getRegCore(options: CliOptions) {
+let _coreInstanceForCache: RegSuitCore;
+function getRegCore(options: CliOptions, ignoreCache = false) {
   const localCoreModuleId = packageUtil.checkInstalledLocalCore();
   let core: RegSuitCore;
+  if (!ignoreCache && _coreInstanceForCache) {
+    return _coreInstanceForCache;
+  }
   if (localCoreModuleId) {
     // use local installed reg-suit-core if user project has it.
     const CoreFactory = require(localCoreModuleId)["RegSuitCore"] as typeof RegSuitCore;
@@ -76,7 +80,8 @@ function getRegCore(options: CliOptions) {
   } else {
     core.logger.verbose(`config file: not specified.`);
   }
-  return core;
+  _coreInstanceForCache = core;
+  return _coreInstanceForCache;
 }
 
 function init(options: CliOptions) {
@@ -123,7 +128,7 @@ function install(options: CliOptions) {
 }
 
 function prepare(options: CliOptions) {
-  const core = getRegCore(options);
+  const core = getRegCore(options, true);
   const installedPluginNames = packageUtil.getInstalledPlugins();
   let pluginNames: string[] = [];
   if (options.plugins.length) {
@@ -138,7 +143,6 @@ function prepare(options: CliOptions) {
   } else {
     pluginNames = installedPluginNames;
   }
-  const questions = core.createQuestions({ configFileName: options.configFileName, pluginNames });
   const confirmUpdateConfig = () => inquirer.prompt([
     {
       name: "result",
@@ -147,9 +151,12 @@ function prepare(options: CliOptions) {
       default: true,
     }
   ]).then(({ result } : { result: boolean }) => result);
+  const questions = core.createQuestions({ configFileName: options.configFileName, pluginNames });
   return questions.reduce((acc, qh) => {
     return acc.then(configs => {
-      core.logger.info(`Set up ${qh.name}:`);
+      if (qh.questions.length) {
+        core.logger.info(`Set up ${qh.name}:`);
+      }
       return inquirer.prompt(qh.questions).then((ans: any) => qh.prepare(ans)).then((c: any) => [...configs, { name: qh.name, config: c }])
     });
   }, Promise.resolve([]))
