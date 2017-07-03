@@ -14,10 +14,13 @@ import {
   PublishResult,
   Publisher,
   PublisherPlugin,
+  NotifyParams,
   KeyGeneratorPluginFactory,
   PublisherPluginFactory,
+  NotifierPluginFactory,
   KeyGeneratorPluginHolder,
-  PublisherPluginHolder
+  PublisherPluginHolder,
+  NotifierPluginHolder,
 } from "./plugin";
 
 import {
@@ -42,6 +45,10 @@ function isKeyGenerator(pluginHolder: PluginMetadata): pluginHolder is (KeyGener
   return !!pluginHolder["keyGenerator"];
 }
 
+function isNotifier(pluginHolder: PluginMetadata): pluginHolder is (NotifierPluginHolder<any, any> & PluginMetadata) {
+  return !!pluginHolder["notifier"];
+}
+
 export interface StepResultAfterExpectedKey {
   expectedKey: string | null;
 }
@@ -62,7 +69,7 @@ export class RegSuitCore {
 
   _keyGenerator?: KeyGeneratorPlugin<any>;
   _publisher?: PublisherPlugin<any>;
-  notifiers: NotifierPlugin<any>[] = [];
+  _notifiers: NotifierPlugin<any>[] = [];
 
   noEmit: boolean;
   logger: RegLogger;
@@ -169,6 +176,7 @@ export class RegSuitCore {
     this._loadPlugins();
     this._initKeyGenerator();
     this._initPublisher();
+    this._initNotifiers();
   }
 
   _initKeyGenerator() {
@@ -219,6 +227,27 @@ export class RegSuitCore {
     }
   }
 
+  _initNotifiers() {
+    const metadata = this._pluginHolders.filter(holder => isNotifier(holder));
+    this._notifiers = [];
+    metadata.forEach(ph => {
+      if (!this._config.plugins) return;
+      const pluginSpecifiedOption = this._config.plugins[ph.moduleId];
+      if (isNotifier(ph) && pluginSpecifiedOption) {
+        const notifier = ph.notifier;
+        notifier.init({
+          coreConfig: this._config.core,
+          logger: this.logger,
+          options: pluginSpecifiedOption,
+          noEmit: this.noEmit,
+        });
+        this._notifiers.push(ph.notifier);
+        this.logger.verbose(`${ph.moduleId} is inialized with: `);
+        this.logger.verbose(`${JSON.stringify(pluginSpecifiedOption, null, 2)}`);
+      }
+    });
+  }
+
   _loadConfig(configFileName?: string) {
     if (!this._config) {
       this._config = this._configManager.readConfig(configFileName).config;
@@ -242,7 +271,7 @@ export class RegSuitCore {
     .then(ctx => this.compare(ctx))
     .then(ctx => this.getActualKey(ctx))
     .then(ctx => this.publish(ctx))
-    // .then(result => this.notify(result))
+    .then(ctx => this.notify(ctx))
     ;
   }
 
@@ -344,7 +373,12 @@ export class RegSuitCore {
     }
   }
 
-  notify(result: PublishResult | null) {
-    // TODO
+  notify(ctx: StepResultAfterPublish): Promise<StepResultAfterPublish> {
+    const notifyParams: NotifyParams = {
+      ...ctx,
+    };
+    this.logger.verbose("Notify paramerters:");
+    this.logger.verbose(JSON.stringify(notifyParams, null, 2));
+    return Promise.all(this._notifiers.map((notifier) => notifier.notify(notifyParams))).then(() => ctx);
   }
 }

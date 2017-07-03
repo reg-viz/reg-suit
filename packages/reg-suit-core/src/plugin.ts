@@ -1,5 +1,5 @@
 import * as inquirer from "inquirer";
-import { CoreConfig, Logger } from "./core-interface";
+import { CoreConfig, Logger, ComparisonResult } from "./core-interface";
 
 export type PluginLogger = Logger;
 
@@ -17,8 +17,15 @@ export interface Publisher {
   publish(key: string): Promise<PublishResult>;
 }
 
+export interface NotifyParams {
+  expectedKey: string | null;
+  actualKey: string;
+  reportUrl: string | null;
+  comparisonResult: ComparisonResult;
+}
+
 export interface Notifier {
-  notify(result: any): void;
+  notify(params: NotifyParams): Promise<any>;
 }
 
 export interface PluginCreateOptions<T> {
@@ -53,5 +60,11 @@ export interface PublisherPluginHolder<S, T> {
   publisher: PublisherPlugin<T>;
 }
 
+export interface NotifierPluginHolder<S, T> {
+  preparer?: PluginPreparer<S, T>;
+  notifier: NotifierPlugin<T>;
+}
+
 export type KeyGeneratorPluginFactory = <S, T>() => KeyGeneratorPluginHolder<S, T>;
 export type PublisherPluginFactory = <S, T>() => PublisherPluginHolder<S, T>;
+export type NotifierPluginFactory = <S, T>() => NotifierPluginHolder<S, T>;
