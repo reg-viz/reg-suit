@@ -53,7 +53,7 @@ function getRegCore(options: CliOptions) {
   const localCoreModuleId = packageUtil.checkInstalledLocalCore();
   let core: RegSuitCore;
   if (localCoreModuleId) {
-    const Klazz = require(localCoreModuleId)["RegSuitCore"] as typeof RegSuitCore;
+    const Klazz = require(path.join(localCoreModuleId, "lib/index.js"))["RegSuitCore"] as typeof RegSuitCore;
     core = new Klazz({
       logLevel: options.logLevel,
       noEmit: options.noEmit,
