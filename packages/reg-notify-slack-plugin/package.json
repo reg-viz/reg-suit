@@ -1,0 +1,19 @@
+{
+  "name": "reg-notify-slack-plugin",
+  "version": "0.0.8",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepublish": "tsc -p src/tsconfig.build.json"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Quramy",
+    "email": "yosuke.kurami@gmail.com"
+  },
+  "repository": "git+https://github.com/Quramy/reg-suit.git"
+  "license": "MIT",
+  "dependencies": {
+    "reg-suit-core": "^0.0.8"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "paths": {
+      "reg-suit-core/lib/plugin": ["./reg-suit-core/src/plugin.ts"]
+    }
+  }
+}
