@@ -3,7 +3,14 @@ jobs:
   build:
     working_directory: ~/reg-suit
     docker:
-      - image: circleci/node:6
+      - image: node:6
+
     steps:
       - checkout
-      - run: echo "hello world"
+      - run:
+          name: Install dependencies
+          command: yarn
+      - run:
+          name: Bootstrap packages
+          command: yarn run lerna -- bootstrap
+
