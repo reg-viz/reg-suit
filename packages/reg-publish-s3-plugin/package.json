@@ -1,6 +1,6 @@
 {
   "name": "reg-publish-s3-plugin",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "lodash": "^4.17.4",
     "mime-types": "^2.1.15",
     "mkdirp": "^0.5.1",
-    "reg-suit-core": "^0.0.7",
+    "reg-suit-core": "^0.0.8",
     "uuid": "^3.1.0"
   },
   "devDependencies": {

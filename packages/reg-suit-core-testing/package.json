@@ -4,13 +4,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "reg-keygen-git-hash-plugin": "^0.0.7",
-    "reg-publish-s3-plugin": "^0.0.7",
-    "reg-suit-core": "^0.0.7"
+    "reg-keygen-git-hash-plugin": "^0.0.8",
+    "reg-publish-s3-plugin": "^0.0.8",
+    "reg-suit-core": "^0.0.8"
   },
   "devDependencies": {
-    "reg-suit": "^0.0.7",
+    "reg-suit": "^0.0.8",
     "typescript": "^2.3.4"
   },
-  "version": "0.0.7"
+  "version": "0.0.8"
 }
