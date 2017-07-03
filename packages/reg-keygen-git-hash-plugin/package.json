@@ -1,6 +1,6 @@
 {
   "name": "reg-keygen-git-hash-plugin",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "reg-suit-core": "^0.0.5"
+    "reg-suit-core": "^0.0.7"
   },
   "devDependencies": {
     "typescript": "^2.3.4"
