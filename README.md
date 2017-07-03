@@ -1,4 +1,7 @@
 # reg-suit
+[![CircleCI](https://circleci.com/gh/Quramy/reg-suit.svg?style=svg)](https://circleci.com/gh/Quramy/reg-suit)
+[![npm version](https://badge.fury.io/js/reg-suit.svg)](https://badge.fury.io/js/reg-suit)
+
 A tool for visual regression testing.
 
 * *Easy to setup*
