@@ -1,10 +1,26 @@
 {
     "defaultSeverity": "error",
-    "extends": [],
+    "extends": [
+      "tslint-eslint-rules"
+    ],
     "jsRules": {},
     "rules": {
+      "class-name": true,
+      "comment-format": [true, "check-space"],
       "prefer-const": true,
-      "no-console": [true, "log", "error"]
+      "indent": [true, "spaces"],
+      "import-spacing": true,
+      "no-duplicate-variable": true,
+      "no-eval": true,
+      "no-debugger": true,
+      "no-internal-module": true,
+      "no-unsafe-finally": true,
+      "quotemark": [true, "double"],
+      "semicolon": [true, "always"],
+      "object-curly-spacing": [true, "always"],
+      "no-trailing-whitespace": [true, "ignore-comments"],
+      "no-reference": true,
+      "no-console": [true, "log", "warn", "error"]
     },
     "rulesDirectory": []
 }

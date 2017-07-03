@@ -312,9 +312,7 @@ export class RegSuitCore {
   }
 
   getActualKey(ctx: StepResultAfterComparison): Promise<StepResultAfterActualKey> {
-    const fallbackFn = () => {
-      return "snapshot_" + ~~(new Date().getTime() / 1000);
-    }
+    const fallbackFn = () => "snapshot_" + ~~(new Date().getTime() / 1000);
     if (this._keyGenerator) {
       return this._keyGenerator.getActualKey().then(key => {
         if (!key) {
@@ -362,7 +360,7 @@ export class RegSuitCore {
           return { ...ctx, reportUrl: result.reportUrl };
         })
         .catch(reason => {
-          this.logger.error("An error occurs when publishing snapshot:")
+          this.logger.error("An error occurs when publishing snapshot:");
           this.logger.error(reason);
           return Promise.reject<StepResultAfterPublish>(reason);
         })

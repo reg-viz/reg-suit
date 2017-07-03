@@ -20,6 +20,7 @@
     "typescript": "^2.3.4"
   },
   "dependencies": {
-    "glob": "^7.1.2"
+    "glob": "^7.1.2",
+    "tslint-eslint-rules": "^4.1.1"
   }
 }

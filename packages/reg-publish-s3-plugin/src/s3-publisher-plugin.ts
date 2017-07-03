@@ -43,7 +43,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
 
   init(config: PluginCreateOptions<PluginConfig>) {
     this._options = config;
-    this._pluginConfig = { 
+    this._pluginConfig = {
       pattern: DEFAULT_PATTERN,
       ...config.options,
     };
@@ -95,7 +95,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
           return reject(err);
         }
         resolve(x);
-      })
+      });
     })
     .then(result => result.Contents || [])
     .then(contents => {
@@ -116,7 +116,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
             return this._fetchItem(key, item);
           })).then(items => [...list, ...items]);
         });
-      }, Promise.resolve([] as FileItem[]))
+      }, Promise.resolve([] as FileItem[]));
     })
     ;
   }

@@ -190,7 +190,7 @@ function prepare(options: CliOptions) {
       if (qh.questions.length) {
         core.logger.info(`Set up ${qh.name}:`);
       }
-      return inquirer.prompt(qh.questions).then((ans: any) => qh.prepare(ans)).then((c: any) => [...configs, { name: qh.name, config: c }])
+      return inquirer.prompt(qh.questions).then((ans: any) => qh.prepare(ans)).then((c: any) => [...configs, { name: qh.name, config: c }]);
     });
   }, Promise.resolve([]))
   .then(pluginConfigs => core.persistMergedConfig({ pluginConfigs }, confirmUpdateConfig))

@@ -66,12 +66,14 @@ export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, Plug
         return Promise.resolve({ bucketName });
       }
       return this._createBucket(bucketName)
-      .then(bucketName => {
-        return this._updatePolicy(bucketName);
-      }).then(bucketName => {
-        this._logger.info(`Create new S3 bucket: ${bucketName}`);
-        return { bucketName };
-      })
+        .then(bucketName => {
+          return this._updatePolicy(bucketName);
+        })
+        .then(bucketName => {
+          this._logger.info(`Create new S3 bucket: ${bucketName}`);
+          return { bucketName };
+        })
+      ;
     }
   }
 
@@ -101,5 +103,5 @@ export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, Plug
       });
     });
   }
-  
+
 }

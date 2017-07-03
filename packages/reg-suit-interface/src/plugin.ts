@@ -35,7 +35,7 @@ export interface PluginCreateOptions<T> {
 }
 
 export interface Plugin<T> {
-  init(config: PluginCreateOptions<T>): void; 
+  init(config: PluginCreateOptions<T>): void;
 }
 
 export type PreparerQuestions = any[]; // FIXME
