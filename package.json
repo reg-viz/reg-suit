@@ -6,6 +6,7 @@
     "watch:cli": "tsc -w -p packages/reg-suit-cli/src/tsconfig.build.json",
     "watch:gitHashPlugin": "tsc -w -p packages/reg-keygen-git-hash-plugin/src/tsconfig.build.json",
     "watch:s3Plugin": "tsc -w -p packages/reg-publish-s3-plugin/src/tsconfig.build.json",
+    "watch:slackPlugin": "tsc -w -p packages/reg-notify-slack-plugin/src/tsconfig.build.json",
     "watch": "run-p watch:*",
     "clean": "rimraf packages/**/lib/**"
   },

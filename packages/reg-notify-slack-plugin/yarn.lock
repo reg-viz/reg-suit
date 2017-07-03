@@ -668,9 +668,9 @@ reg-cli@^0.6.10:
     meow "^3.7.0"
     mustache "^2.3.0"
 
-reg-suit-core@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/reg-suit-core/-/reg-suit-core-0.0.8.tgz#0560fd53679b4a7c8a8e32b4d98427165e259fe6"
+reg-suit-core@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/reg-suit-core/-/reg-suit-core-0.0.9.tgz#18e109bd6d907237d22326e2c2bfb96d072b016b"
   dependencies:
     chalk "^2.0.1"
     reg-cli "^0.6.10"
@@ -835,6 +835,10 @@ tunnel-agent@^0.6.0:
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
+
+typescript@2.3.4:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.4.tgz#3d38321828231e434f287514959c37a82b629f42"
 
 uuid@^3.0.0:
   version "3.1.0"
