@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "tslint packages/*/src/**/*.ts packages/*/test/**/*.ts",
     "watch:core": "tsc -w -p packages/reg-suit-core/src/tsconfig.build.json",
     "watch:cli": "tsc -w -p packages/reg-suit-cli/src/tsconfig.build.json",
     "watch:gitHashPlugin": "tsc -w -p packages/reg-keygen-git-hash-plugin/src/tsconfig.build.json",
@@ -15,6 +16,7 @@
     "lerna": "^2.0.0-rc.5",
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.6.1",
+    "tslint": "^5.4.3",
     "typescript": "^2.3.4"
   },
   "dependencies": {

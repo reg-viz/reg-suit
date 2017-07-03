@@ -1,0 +1,10 @@
+{
+    "defaultSeverity": "error",
+    "extends": [],
+    "jsRules": {},
+    "rules": {
+      "prefer-const": true,
+      "no-console": [true, "log", "error"]
+    },
+    "rulesDirectory": []
+}
