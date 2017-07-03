@@ -1,19 +1,19 @@
 {
   "name": "reg-suit-core-testing",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "reg-keygen-git-hash-plugin": "^0.0.9",
-    "reg-notify-slack-plugin": "^0.0.9",
-    "reg-publish-s3-plugin": "^0.0.9",
-    "reg-suit-core": "^0.0.9"
+    "reg-keygen-git-hash-plugin": "^0.0.10",
+    "reg-notify-slack-plugin": "^0.0.10",
+    "reg-publish-s3-plugin": "^0.0.10",
+    "reg-suit-core": "^0.0.10"
   },
   "devDependencies": {
-    "reg-suit": "^0.0.9",
-    "reg-suit-interface": "^0.0.9",
+    "reg-suit": "^0.0.10",
+    "reg-suit-interface": "^0.0.10",
     "typescript": "^2.3.4"
   }
 }

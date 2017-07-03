@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-interface",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "",
   "typings": "lib/index.d.ts",
   "scripts": {
@@ -17,7 +17,5 @@
   "license": "MIT",
   "devDependencies": {
     "typescript": "^2.3.4"
-  },
-  "dependencies": {
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "reg-keygen-git-hash-plugin",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Determine snapshot key with Git hash.",
   "main": "lib/index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "repository": "git+https://github.com/Quramy/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "reg-suit-interface": "^0.0.9",
+    "reg-suit-interface": "^0.0.10",
     "typescript": "^2.3.4"
   }
 }
