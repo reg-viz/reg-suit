@@ -7,7 +7,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "tsc -p src/tsconfig.build.json"
+    "update:desc": "node ../../tools/extract-plugin-desc.js",
+    "copy:readme": "cp -f ../../README.md .",
+    "prepublish": "npm run update:desc && npm run copy:readme && tsc -p src/tsconfig.build.json"
   },
   "keywords": ["reg", "visual regression", "testing", "test"],
   "author": {

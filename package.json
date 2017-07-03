@@ -15,5 +15,8 @@
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.6.1",
     "typescript": "^2.3.4"
+  },
+  "dependencies": {
+    "glob": "^7.1.2"
   }
 }

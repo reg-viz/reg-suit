@@ -1,7 +1,7 @@
 {
   "name": "reg-notify-slack-plugin",
   "version": "0.0.8",
-  "description": "",
+  "description": "Notify reg-suit result to Slack channel.",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "tsc -p src/tsconfig.build.json"
