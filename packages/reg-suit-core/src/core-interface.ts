@@ -20,7 +20,7 @@ export interface Logger {
 
 export interface CreateQuestionsOptions {
   configFileName?: string;
-  pluginNames?: string[];
+  pluginNames: string[];
 }
 
 export interface ComparisonResult {

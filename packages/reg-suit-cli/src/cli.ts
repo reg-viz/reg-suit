@@ -5,11 +5,9 @@ import * as resolve from "resolve";
 import * as yargs from "yargs";
 import * as inquirer from "inquirer";
 
-import {
-  RegSuitCore
-} from "reg-suit-core/lib/core";
+import { RegSuitCore } from "reg-suit-core/lib/core";
 
-import packageUtil from "./package-util";
+import packageUtil, { PLUGIN_NAME_REGEXP } from "./package-util";
 
 interface PluginDescriptor {
   name: string;
@@ -24,6 +22,7 @@ interface CliOptions {
   logLevel: "verbose" | "info" | "silent";
   noEmit: boolean;
   npmClient: "npm" | "yarn";
+  plugins: string[];
 }
 
 function createOptions() {
@@ -34,18 +33,25 @@ function createOptions() {
     .alias("q", "quiet").boolean("quiet")
     .boolean("use-yarn")
     .command("run", "run all")
-    .command("prepare", "prepare plugin")
+    .command("prepare", "prepare plugin", {
+      plugin: {
+        alias: "p",
+        array: true,
+      },
+    })
   ;
-  const { config, verbose, quiet, test, useYarn } = yargs.argv;
+  const { config, verbose, quiet, test, useYarn, plugin } = yargs.argv;
   const command = yargs.argv._[0] || "run";
   const logLevel = verbose ? "verbose" : (quiet ? "silent" : "info");
   const npmClient = useYarn ? "yarn" : "npm";
+  const plugins = (plugin || []) as string[];
   return {
     command,
     logLevel,
     configFileName: config,
     noEmit: test,
     npmClient,
+    plugins,
   } as CliOptions;
 }
 
@@ -53,8 +59,9 @@ function getRegCore(options: CliOptions) {
   const localCoreModuleId = packageUtil.checkInstalledLocalCore();
   let core: RegSuitCore;
   if (localCoreModuleId) {
-    const Klazz = require(path.join(localCoreModuleId, "lib/index.js"))["RegSuitCore"] as typeof RegSuitCore;
-    core = new Klazz({
+    // use local installed reg-suit-core if user project has it.
+    const CoreFactory = require(localCoreModuleId)["RegSuitCore"] as typeof RegSuitCore;
+    core = new CoreFactory({
       logLevel: options.logLevel,
       noEmit: options.noEmit,
     });
@@ -72,10 +79,8 @@ function getRegCore(options: CliOptions) {
   return core;
 }
 
-function run(options: CliOptions) {
-  const core = getRegCore(options);
-  core.init(options.configFileName);
-  return core.runAll();
+function init(options: CliOptions) {
+  return install(options).then(() => prepare(options));
 }
 
 function install(options: CliOptions) {
@@ -119,18 +124,29 @@ function install(options: CliOptions) {
 
 function prepare(options: CliOptions) {
   const core = getRegCore(options);
-  const questions = core.createQuestions({ configFileName: options.configFileName });
+  const installedPluginNames = packageUtil.getInstalledPlugins();
+  let pluginNames: string[] = [];
+  if (options.plugins.length) {
+    options.plugins.forEach(name => {
+      const pluginName = PLUGIN_NAME_REGEXP.test(name) ? name : `reg-${name}-plugin`;
+      if (!installedPluginNames.some(p => p === pluginName)) {
+        core.logger.warn(`Plugin '${pluginName}' is not installed. Please exec 'npm install ${pluginName}' .`);
+      } else {
+        pluginNames.push(pluginName);
+      }
+    });
+  } else {
+    pluginNames = installedPluginNames;
+  }
+  const questions = core.createQuestions({ configFileName: options.configFileName, pluginNames });
   const confirmUpdateConfig = () => inquirer.prompt([
     {
       name: "result",
-      message: "Update configuration?",
+      message: "Update configuration file",
       type: "confirm",
       default: true,
     }
   ]).then(({ result } : { result: boolean }) => result);
-
-  let installPromise: Promise<any>;
-
   return questions.reduce((acc, qh) => {
     return acc.then(configs => {
       core.logger.info(`Set up ${qh.name}:`);
@@ -141,8 +157,10 @@ function prepare(options: CliOptions) {
   ;
 }
 
-function init(options: CliOptions) {
-  return install(options).then(() => prepare(options));
+function run(options: CliOptions) {
+  const core = getRegCore(options);
+  core.init(options.configFileName);
+  return core.runAll();
 }
 
 function cli(): Promise<any> {

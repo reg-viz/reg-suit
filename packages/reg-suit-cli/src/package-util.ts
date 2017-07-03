@@ -1,7 +1,9 @@
 import * as child_process from "child_process";
+import * as fs from "fs";
 import * as path from "path";
 import * as resolve from "resolve";
 
+export const PLUGIN_NAME_REGEXP = /^reg-.*-plugin$/;
 const CLI_MODULE_ID = require(path.join(__dirname, "..", "package.json"))["name"] as string;
 
 export type NpmClient = "npm" | "yarn";
@@ -50,6 +52,23 @@ export class PackageUtil {
 
   checkInstalledLocalCli() {
     return this.checkInstalled(CLI_MODULE_ID);
+  }
+
+  getInstalledPlugins() {
+    const cwd = process.cwd();
+    try {
+      const packageJson = JSON.parse(fs.readFileSync(path.join(cwd, "package.json"), "utf8"));
+      let result: string[] = [];
+      if (packageJson["dependencies"]) {
+        result = [ ...result, ...Object.keys(packageJson["dependencies"])];
+      }
+      if (packageJson["devDependencies"]) {
+        result = [ ...result, ...Object.keys(packageJson["devDependencies"])];
+      }
+      return result.filter(dep => PLUGIN_NAME_REGEXP.test(dep));
+    } catch (e) {
+      return [];
+    }
   }
 }
 

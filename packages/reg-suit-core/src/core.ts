@@ -105,31 +105,10 @@ export class RegSuitCore {
     }
   }
 
-  _getInstalledPlugins() {
-    const cwd = process.cwd();
-    try {
-      const packageJson = JSON.parse(fs.readFileSync(path.join(cwd, "package.json"), "utf8"));
-      let result: string[] = [];
-      if (packageJson["dependencies"]) {
-        result = [ ...result, ...Object.keys(packageJson["dependencies"])];
-      }
-      if (packageJson["devDependencies"]) {
-        result = [ ...result, ...Object.keys(packageJson["devDependencies"])];
-      }
-      return result.filter(dep => {
-        return dep.match(/^reg-.*-plugin$/);
-      });
-    } catch(e) {
-      this.logger.error(e);
-      return [];
-    }
-  }
-
   createQuestions(opt: CreateQuestionsOptions) {
     const config = this._loadConfig();
-    const installedPluginNames = this._getInstalledPlugins();
     const holders: { name: string; preparer: PluginPreparer<any, any> }[] = [];
-    installedPluginNames.forEach(name => {
+    opt.pluginNames.forEach(name => {
       this._loadPlugin(name);
     });
     this._pluginHolders.forEach(h => {
