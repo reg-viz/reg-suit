@@ -1,6 +1,6 @@
 {
   "name": "reg-suit",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "bin": {
     "reg-suit": "lib/cli.js"
@@ -11,7 +11,12 @@
     "copy:readme": "cp -f ../../README.md .",
     "prepublish": "npm run update:desc && npm run copy:readme && tsc -p src/tsconfig.build.json"
   },
-  "keywords": ["reg", "visual regression", "testing", "test"],
+  "keywords": [
+    "reg",
+    "visual regression",
+    "testing",
+    "test"
+  ],
   "author": {
     "name": "Quramy",
     "email": "yosuke.kurami@gmail.com"
@@ -21,7 +26,7 @@
   "dependencies": {
     "cp-file": "^4.2.0",
     "inquirer": "^3.1.1",
-    "reg-suit-core": "^0.0.8",
+    "reg-suit-core": "^0.0.9",
     "resolve": "^1.3.3",
     "yargs": "^8.0.2"
   },

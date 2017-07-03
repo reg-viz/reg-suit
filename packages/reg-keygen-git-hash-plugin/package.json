@@ -1,13 +1,16 @@
 {
   "name": "reg-keygen-git-hash-plugin",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Determine snapshot key with Git hash.",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "tsc -p src/tsconfig.build.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["reg", "reg-suit-plugin"],
+  "keywords": [
+    "reg",
+    "reg-suit-plugin"
+  ],
   "author": {
     "name": "Quramy",
     "email": "yosuke.kurami@gmail.com"
@@ -15,7 +18,7 @@
   "repository": "git+https://github.com/Quramy/reg-suit.git",
   "license": "MIT",
   "dependencies": {
-    "reg-suit-core": "^0.0.8"
+    "reg-suit-core": "^0.0.9"
   },
   "devDependencies": {
     "typescript": "^2.3.4"

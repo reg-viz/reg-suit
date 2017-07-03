@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-core",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -8,7 +8,9 @@
     "prepublish": "tsc -p src/tsconfig.build.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["reg"],
+  "keywords": [
+    "reg"
+  ],
   "author": {
     "name": "Quramy",
     "email": "yosuke.kurami@gmail.com"
