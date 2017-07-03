@@ -11,6 +11,7 @@ export function sendWebHook(opt: SendOption): Promise<any> {
     method: "POST",
     json: true,
     body: {
+      "username": "Reg suit",
       "icon_url": "https://raw.githubusercontent.com/Quramy/reg-suit/master/logo/reglogo_64.png",
       "text": opt.body,
     },
