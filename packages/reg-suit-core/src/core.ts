@@ -226,6 +226,16 @@ export class RegSuitCore {
     return this._config;
   }
 
+  getDirectoryInfo(configFileName?: string) {
+    this._loadConfig(configFileName);
+    const actualDir = path.join(path.resolve(process.cwd(), this._config.core.workingDir), this._config.core.actualDir);
+    const expectedDir = path.join(path.resolve(process.cwd(), this._config.core.workingDir), this._config.core.expectedDir);
+    return {
+      actualDir,
+      expectedDir,
+    };
+  }
+
   runAll() {
     return this.getExpectedKey()
     .then(ctx => this.fetch(ctx))

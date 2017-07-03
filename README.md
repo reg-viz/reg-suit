@@ -8,19 +8,14 @@ A tool for visual regression testing.
 ## Getting Started
 
 ```sh
-npm install -g reg-suit
+$ npm install -g reg-suit
+$ cd path-to-your-project
+$ reg-suit init
+# Answer a few questions...
 ```
 
 ```sh
-cd path-to-your-project
-```
-
-```sh
-reg-suit init
-```
-
-```sh
-reg-suit run
+$ reg-suit run
 ```
 
 ## How it works

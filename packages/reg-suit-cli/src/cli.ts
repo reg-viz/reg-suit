@@ -14,6 +14,9 @@ interface PluginDescriptor {
   description: string;
 }
 
+type CpFile = (from: string, to: string) => Promise<void>;
+const cpFile = require("cp-file") as CpFile;
+
 const WELL_KNOWN_PLUGINS = require(path.join(__dirname, "..", "well-known-plugins.json")) as PluginDescriptor[];
 
 interface CliOptions {
@@ -23,6 +26,7 @@ interface CliOptions {
   noEmit: boolean;
   npmClient: "npm" | "yarn";
   plugins: string[];
+  noInstallCore: boolean;
 }
 
 function createOptions() {
@@ -31,6 +35,7 @@ function createOptions() {
     .alias("t", "test").boolean("test")
     .alias("v", "verbose").boolean("verbose")
     .alias("q", "quiet").boolean("quiet")
+    .boolean("use-dev-core")
     .boolean("use-yarn")
     .command("run", "run all")
     .command("prepare", "prepare plugin", {
@@ -40,11 +45,12 @@ function createOptions() {
       },
     })
   ;
-  const { config, verbose, quiet, test, useYarn, plugin } = yargs.argv;
+  const { config, verbose, quiet, test, useYarn, plugin, useDevCore } = yargs.argv;
   const command = yargs.argv._[0] || "run";
   const logLevel = verbose ? "verbose" : (quiet ? "silent" : "info");
   const npmClient = useYarn ? "yarn" : "npm";
   const plugins = (plugin || []) as string[];
+  const noInstallCore = !!useDevCore;
   return {
     command,
     logLevel,
@@ -52,12 +58,13 @@ function createOptions() {
     noEmit: test,
     npmClient,
     plugins,
+    noInstallCore,
   } as CliOptions;
 }
 
 let _coreInstanceForCache: RegSuitCore;
 function getRegCore(options: CliOptions, ignoreCache = false) {
-  const localCoreModuleId = packageUtil.checkInstalledLocalCore();
+  const localCoreModuleId = options.noInstallCore ? null : packageUtil.checkInstalledLocalCore();
   let core: RegSuitCore;
   if (!ignoreCache && _coreInstanceForCache) {
     return _coreInstanceForCache;
@@ -85,7 +92,33 @@ function getRegCore(options: CliOptions, ignoreCache = false) {
 }
 
 function init(options: CliOptions) {
-  return install(options).then(() => prepare(options));
+  return install(options).then(() => prepare(options)).then(() => {
+    return inquirer.prompt([
+      {
+        name: "copyFromSample",
+        message: "Copy sample images to working dir",
+        type: "confirm",
+        default: true,
+      },
+    ]).then(({ copyFromSample }: { copyFromSample: boolean }) => {
+      const core = getRegCore(options);
+      const { actualDir } = core.getDirectoryInfo(options.configFileName);
+      core.logger.info("Initialization ended successfully \u2728");
+      if (copyFromSample) {
+        const fromDir = packageUtil.checkInstalled("reg-cli");
+        if (fromDir) {
+          const fromPath = path.join(fromDir, "report", "sample", "actual", "sample.jpg");
+          const toPath = path.join(actualDir, "sample.jpg");
+          return cpFile(fromPath, toPath).then(() => {
+            core.logger.verbose(`Copied file from ${fromPath} to ${toPath}.`);
+            core.logger.info("Execute 'reg-suit' \u2B50");
+          });
+        }
+      } else {
+        core.logger.info(`Put your images files into ${actualDir}.`);
+      }
+    });
+  });
 }
 
 function install(options: CliOptions) {
