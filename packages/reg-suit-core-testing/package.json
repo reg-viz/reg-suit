@@ -6,10 +6,10 @@
   "dependencies": {
     "reg-keygen-git-hash-plugin": "^0.0.5",
     "reg-publish-s3-plugin": "^0.0.5",
-    "reg-suit": "^0.0.5",
     "reg-suit-core": "^0.0.5"
   },
   "devDependencies": {
+    "reg-suit": "0.0.5",
     "typescript": "^2.3.4"
   },
   "version": "0.0.5"
