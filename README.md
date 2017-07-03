@@ -1,6 +1,51 @@
 # reg-suit
+A tool for visual regression testing.
 
-*T.B.D.*
+* *Easy to setup*
+* *Easy to integrate your CI flow*
+* *Easy to extend*
+
+## Getting Started
+
+```sh
+npm install -g reg-suit
+```
+
+```sh
+cd path-to-your-project
+```
+
+```sh
+reg-suit init
+```
+
+```sh
+reg-suit run
+```
+
+## How it works
+
+reg-suit calls installed plugins according to the following procedure:
+
+* Determine the key of snapshot which will be used as the expected images via installed key-generator plugin. This step will be skipped if key-generator plugin is not set.
+* Fetch the previous snapshot images as the expected snapshot via installed publisher plugin. This step will be skipped if publisher plugin is not set.
+* Compare images using [reg-cli](https://github.com/bokuweb/reg-cli) and create report.
+* Determine the key of the current snapshot via installed key-generator plugin. If key-Generator is not set, time stamp is used.
+* Publish the current snapshot and report via installed publisher-plugin. This step will be skipped if publisher plugin is not set.
+* Notify result via installed notifier-plugin.
+
+## CLI Usage
+
+### `run` command [default]
+
+### `prepare` command
+
+```sh
+reg-suit prepare
+```
+
+It's useful to configure reg-suit and plugins.
+
 
 ## License
 The MIT License (MIT)
