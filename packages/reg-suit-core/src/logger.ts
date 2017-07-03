@@ -1,5 +1,5 @@
 import * as chalk from "chalk";
-import { Logger } from "./core-interface";
+import { Logger } from "reg-suit-interface";
 
 export type LogLevel = "verbose" | "info" | "silent";
 

@@ -1,5 +1,6 @@
 {
   "name": "reg-suit-core-testing",
+  "version": "0.0.9",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,7 +13,7 @@
   },
   "devDependencies": {
     "reg-suit": "^0.0.9",
+    "reg-suit-interface": "^0.0.9",
     "typescript": "^2.3.4"
-  },
-  "version": "0.0.9"
+  }
 }

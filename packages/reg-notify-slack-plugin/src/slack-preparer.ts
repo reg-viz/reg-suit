@@ -1,7 +1,7 @@
 import {
   PluginCreateOptions,
   PluginPreparer
-} from "reg-suit-core/lib/plugin";
+} from "reg-suit-interface";
 
 import { SlackNotiferPluginOptions } from "./slack-notifier-plugin";
 import { sendWebHook } from "./send-web-hook";

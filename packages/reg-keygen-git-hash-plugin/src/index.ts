@@ -1,4 +1,8 @@
-import { KeyGeneratorPlugin, PluginCreateOptions, KeyGeneratorPluginFactory } from "reg-suit-core/lib/plugin";
+import {
+  KeyGeneratorPlugin,
+  PluginCreateOptions,
+  KeyGeneratorPluginFactory
+} from "reg-suit-interface";
 import { baseHash, currentHash } from "./base-hash";
 
 class GitHashKeyGenPlugin implements KeyGeneratorPlugin<null> {

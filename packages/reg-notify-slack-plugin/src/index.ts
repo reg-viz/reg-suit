@@ -1,4 +1,4 @@
-import { NotifierPluginFactory } from "reg-suit-core/lib/plugin";
+import { NotifierPluginFactory } from "reg-suit-interface";
 import { SlackNotifierPlugin } from "./slack-notifier-plugin";
 import { SlackPreparer } from "./slack-preparer";
 

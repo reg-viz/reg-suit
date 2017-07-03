@@ -2,7 +2,7 @@
   "extends": "./tsconfig.build.json",
   "compilerOptions": {
     "paths": {
-      "reg-suit-core/lib/core": ["./reg-suit-core/src/core.ts"]
+      "reg-suit-core": ["./reg-suit-core/src/index.ts"]
     }
   }
 }

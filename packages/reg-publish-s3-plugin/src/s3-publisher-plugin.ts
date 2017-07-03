@@ -5,7 +5,10 @@ import * as glob from "glob";
 import * as _ from "lodash";
 import * as mkdirp from "mkdirp";
 import { lookup } from "mime-types";
-import { PublisherPlugin, PluginCreateOptions, PluginLogger } from "reg-suit-core/lib/plugin";
+import { PublisherPlugin,
+  PluginCreateOptions,
+  PluginLogger
+} from "reg-suit-interface";
 
 export interface PluginConfig {
   bucketName: string;

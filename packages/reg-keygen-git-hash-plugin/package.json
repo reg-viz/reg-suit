@@ -17,10 +17,8 @@
   },
   "repository": "git+https://github.com/Quramy/reg-suit.git",
   "license": "MIT",
-  "dependencies": {
-    "reg-suit-core": "^0.0.9"
-  },
   "devDependencies": {
+    "reg-suit-interface": "^0.0.9",
     "typescript": "^2.3.4"
   }
 }

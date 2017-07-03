@@ -3,7 +3,7 @@ import {
   PluginLogger,
   NotifierPlugin,
   NotifyParams
-} from "reg-suit-core/lib/plugin";
+} from "reg-suit-interface";
 
 import { sendWebHook } from "./send-web-hook";
 

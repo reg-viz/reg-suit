@@ -1,6 +1,10 @@
-import { S3 } from "aws-sdk";
 import * as uuid from "uuid/v4";
-import { PluginPreparer, PluginCreateOptions, PreparerQuestions, PluginLogger } from "reg-suit-core/lib/plugin";
+import { S3 } from "aws-sdk";
+import { PluginPreparer,
+  PluginCreateOptions,
+  PreparerQuestions,
+  PluginLogger
+} from "reg-suit-interface";
 import { PluginConfig } from "./s3-publisher-plugin";
 
 export interface SetupInquireResult {

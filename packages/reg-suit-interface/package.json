@@ -1,0 +1,23 @@
+{
+  "name": "reg-suit-interface",
+  "version": "0.0.9",
+  "description": "",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "prepublish": "tsc -p src/tsconfig.build.json"
+  },
+  "keywords": [
+    "reg"
+  ],
+  "author": {
+    "name": "Quramy",
+    "email": "yosuke.kurami@gmail.com"
+  },
+  "repository": "git+https://github.com/Quramy/reg-suit.git",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^2.3.4"
+  },
+  "dependencies": {
+  }
+}

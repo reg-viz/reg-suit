@@ -5,7 +5,7 @@ import * as resolve from "resolve";
 import * as yargs from "yargs";
 import * as inquirer from "inquirer";
 
-import { RegSuitCore } from "reg-suit-core/lib/core";
+import { RegSuitCore } from "reg-suit-core";
 
 import packageUtil, { PLUGIN_NAME_REGEXP } from "./package-util";
 

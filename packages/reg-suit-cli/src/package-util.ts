@@ -73,4 +73,5 @@ export class PackageUtil {
 }
 
 const packageUtil = new PackageUtil();
+
 export default packageUtil;

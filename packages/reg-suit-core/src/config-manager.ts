@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { CoreConfig, RegSuitConfiguration } from "./core-interface";
+import { CoreConfig, RegSuitConfiguration } from "reg-suit-interface";
 
 const DEFAULT_CONFIG_FILE_NAME = "regconfig.json";
 

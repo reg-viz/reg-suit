@@ -21,14 +21,11 @@ import {
   KeyGeneratorPluginHolder,
   PublisherPluginHolder,
   NotifierPluginHolder,
-} from "./plugin";
-
-import {
   CoreConfig,
   CreateQuestionsOptions,
   RegSuitConfiguration,
   ComparisonResult,
-} from "./core-interface";
+} from "reg-suit-interface";
 
 const compare = require("reg-cli");
 
