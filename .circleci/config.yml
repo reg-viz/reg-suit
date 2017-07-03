@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/
     docker:
-      -image: circleci/node:6
+      - image: circleci/node:6
     steps:
-      -checkout
-    -run: echo "hello world"
+      - checkout
+      - run: echo "hello world"
