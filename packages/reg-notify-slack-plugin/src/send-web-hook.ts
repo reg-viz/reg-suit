@@ -15,5 +15,6 @@ export function sendWebHook(opt: SendOption): Promise<any> {
       "text": opt.body,
     },
   };
-  return rp(reqParam).then(() => Promise.resolve(null));
+  // FIXME
+  return (rp(reqParam) as any) as Promise<any>;
 }
