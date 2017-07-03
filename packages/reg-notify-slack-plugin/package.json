@@ -6,12 +6,12 @@
   "scripts": {
     "prepublish": "tsc -p src/tsconfig.build.json"
   },
-  "keywords": [],
+  "keywords": ["reg", "reg-suit-plugin"],
   "author": {
     "name": "Quramy",
     "email": "yosuke.kurami@gmail.com"
   },
-  "repository": "git+https://github.com/Quramy/reg-suit.git"
+  "repository": "git+https://github.com/Quramy/reg-suit.git",
   "license": "MIT",
   "dependencies": {
     "reg-suit-core": "^0.0.8"

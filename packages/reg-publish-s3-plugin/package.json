@@ -8,8 +8,12 @@
     "clean:e2e": "rimraf e2e/report-fixture-expected",
     "test": "npm run clean:e2e && tsc -p e2e/tsconfig.json && node built_e2e/script.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["reg", "reg-suit-plugin"],
+  "author": {
+    "name": "Quramy",
+    "email": "yosuke.kurami@gmail.com"
+  },
+  "repository": "git+https://github.com/Quramy/reg-suit.git",
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.77.0",

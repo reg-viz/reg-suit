@@ -3,13 +3,17 @@
   "version": "0.0.8",
   "description": "",
   "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "prepublish": "tsc -p src/tsconfig.build.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "typings": "lib",
-  "keywords": [],
-  "author": "",
+  "keywords": ["reg"],
+  "author": {
+    "name": "Quramy",
+    "email": "yosuke.kurami@gmail.com"
+  },
+  "repository": "git+https://github.com/Quramy/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
     "@types/chalk": "^0.4.31",
