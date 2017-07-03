@@ -305,7 +305,10 @@ export class RegSuitCore {
       this.logger.verbose(JSON.stringify(result, null, 2));
       return { ...ctx, comparisonResult: result };
     })
-    .catch(x => console.error(x));
+    .catch(reason => {
+      this.logger.error(reason);
+      return Promise.reject<StepResultAfterComparison>(reason);
+    });
   }
 
   getActualKey(ctx: StepResultAfterComparison): Promise<StepResultAfterActualKey> {

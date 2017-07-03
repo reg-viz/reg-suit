@@ -13,4 +13,7 @@ jobs:
       - run:
           name: Bootstrap packages
           command: yarn run lerna -- bootstrap
+      - run:
+          name: Lint
+          command: yarn run lint
 

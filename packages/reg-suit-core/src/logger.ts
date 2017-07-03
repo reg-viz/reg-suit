@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 import * as chalk from "chalk";
 import { Logger } from "reg-suit-interface";
 
