@@ -384,6 +384,9 @@ export class RegSuitCore {
     const notifyParams: NotifyParams = {
       ...ctx,
     };
+    if (!this._notifiers.length) {
+      this.logger.info("Skipped to notify result because notifier plugins are not set up.");
+    }
     this.logger.verbose("Notify paramerters:");
     this.logger.verbose(JSON.stringify(notifyParams, null, 2));
     return Promise.all(this._notifiers.map((notifier) => notifier.notify(notifyParams))).then(() => ctx);
