@@ -15,7 +15,10 @@ export class GitCmdClient {
   }
 
   logFirstParent() {
-    return execSync("git log -n 1000 --oneline --first-parent", { encoding: "utf8" });
+    // TODO need review.
+    // the --first-parent option sometimes hides base hash candidates,,, is it correct?
+    // return execSync("git log -n 1000 --oneline --first-parent", { encoding: "utf8" });
+    return execSync("git log -n 1000 --oneline", { encoding: "utf8" });
   }
 
   logGraph() {
