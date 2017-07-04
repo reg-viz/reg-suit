@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "clean": "rimraf packages/**/lib/**",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "lerna run test",
     "lint": "tslint packages/*/src/**/*.ts packages/*/test/**/*.ts",
     "watch:interface": "tsc -w -p packages/reg-suit-interface/src/tsconfig.build.json",
     "watch:core": "tsc -w -p packages/reg-suit-core/src/tsconfig.build.json",

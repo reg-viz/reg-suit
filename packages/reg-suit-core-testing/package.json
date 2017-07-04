@@ -3,7 +3,7 @@
   "version": "0.0.10",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"T.B.D.\""
   },
   "dependencies": {
     "reg-keygen-git-hash-plugin": "^0.0.10",
