@@ -1,5 +1,7 @@
 # reg-keygen-git-hash-plugin
 
+A reg-suit plugin to determine the snapshot key with Git commit hash.
+
 ## Configure
 
 ```sh

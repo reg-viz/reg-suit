@@ -1,0 +1,10 @@
+* [feat-y] add xx
+ ! [feature-x] Merge branch 'master' into feature-x
+  ! [master] second
+---
+*   [95de535] add xx
+ -  [7f2a3a8] Merge branch 'master' into feature-x
+ +  [a2af753] add d
+ +  [a192189] add x2
+ +  [d3ea9e2] add x
+*++ [04b2059] second

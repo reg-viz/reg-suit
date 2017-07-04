@@ -6,12 +6,16 @@ export class GitCmdClient {
     return execSync("git branch | grep \"^\\*\" | cut -b 3-", { encoding: "utf8" });
   }
 
-  revPerse(currentName: string) {
+  revParse(currentName: string) {
     return execSync(`git rev-parse ${currentName}`, { encoding: "utf8" });
   }
 
   showBranch() {
     return execSync("git show-branch -a --sha1-name", { encoding: "utf8" });
+  }
+
+  logFirstParent() {
+    return execSync("git log -n 1000 --oneline --first-parent", { encoding: "utf8" });
   }
 
   logGraph() {

@@ -3,13 +3,17 @@ import {
   PluginCreateOptions,
   KeyGeneratorPluginFactory
 } from "reg-suit-interface";
-import { baseHash, currentHash } from "./base-hash";
+
+import { CommitExplorer } from "./commit-explorer";
 
 class GitHashKeyGenPlugin implements KeyGeneratorPlugin<null> {
+
+  private _explorer = new CommitExplorer();
+
   init(config: PluginCreateOptions<null>): void { }
 
   getExpectedKey(): Promise<string> {
-    const result = baseHash();
+    const result = this._explorer.getBaseCommitHash();
     if (result) {
       return Promise.resolve(result);
     } else {
@@ -18,7 +22,7 @@ class GitHashKeyGenPlugin implements KeyGeneratorPlugin<null> {
   }
 
   getActualKey(): Promise<string> {
-    return Promise.resolve(currentHash());
+    return Promise.resolve(this._explorer.getCurrentCommitHash());
   }
 }
 
