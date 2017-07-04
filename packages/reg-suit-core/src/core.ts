@@ -280,15 +280,18 @@ export class RegSuitCore {
   getExpectedKey(): Promise<StepResultAfterExpectedKey> {
     if (this._keyGenerator) {
       return this._keyGenerator.getExpectedKey()
-        .then(key => ({ expectedKey: key }))
+        .then(key => {
+          this.logger.info(`Detected the previous snapshot key: '${key}'`);
+          return { expectedKey: key };
+        })
         .catch(reason => {
-          this.logger.warn("Failed to fetch the expected key");
+          this.logger.warn("Failed to detect the previous snapshot key");
           this.logger.error(reason);
           return Promise.resolve({ expectedKey: null });
         })
       ;
     } else {
-      this.logger.info("Skipped fetch expected key because key generator plugin is not set up.");
+      this.logger.info("Skipped to detect the previous snapshot key because key generator plugin is not set up.");
       return Promise.resolve({ expectedKey: null });
     }
   }
@@ -321,12 +324,13 @@ export class RegSuitCore {
     if (this._keyGenerator) {
       return this._keyGenerator.getActualKey().then(key => {
         if (!key) {
-          this.logger.warn("Failed to fetch the actual key.");
+          this.logger.warn("Failed to generate the current snapshot key.");
           return { ...ctx, actualKey: fallbackFn() };
         }
-        return key;
+        this.logger.info(`The current snapshot key: '${key}'`);
+        return { ...ctx, actualKey: key };
       }).catch(reason => {
-        this.logger.warn("Failed to fetch the actual key.");
+        this.logger.warn("Failed to gerenate the current snapshot key.");
         this.logger.error(reason);
         return Promise.resolve({ ...ctx, actualKey: fallbackFn() });
       });
