@@ -71,7 +71,10 @@ IGNORE
 
 cat << IGNORE > $PKG_DIR/.npmignore
 yarn.lock
+lib/**/*.test.js
 lib/**/*.spec.js
+lib/**/*.test.d.ts
+lib/**/*.spec.d.ts
 src/
 test/
 e2e/
