@@ -15,7 +15,7 @@ export interface Logger {
   info(msg: string): void;
   warn(msg: string): void;
   error(msg: string | Error): void;
-  verbose(msg: string): void;
+  verbose(msg: string, ...objects: any[]): void;
 }
 
 export interface CreateQuestionsOptions {

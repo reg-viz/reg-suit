@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 import { S3PublisherPlugin } from "../lib/s3-publisher-plugin";
 import { S3BucketPreparer } from "../lib/s3-bucket-preparer";
 import * as glob from "glob";
@@ -16,7 +17,7 @@ const baseConfA = {
   logger: {
     info: (msg: string) => console.log(msg),
     warn: (msg: string) => console.warn(msg),
-    verbose: (msg: string) => console.log(msg),
+    verbose: (msg: string, ...objects: any[]) => console.log(msg),
     error: (msg: any) => console.error(msg),
   },
   noEmit: false,
@@ -31,7 +32,7 @@ const baseConfB = {
   logger: {
     info: (msg: string) => console.log(msg),
     warn: (msg: string) => console.warn(msg),
-    verbose: (msg: string) => console.log(msg),
+    verbose: (msg: string, ...objects: any[]) => console.log(msg),
     error: (msg: any) => console.error(msg),
   },
   noEmit: false,

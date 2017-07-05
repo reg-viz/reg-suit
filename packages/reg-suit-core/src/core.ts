@@ -163,8 +163,7 @@ export class RegSuitCore {
         ...pc.config,
       } : pc.config;
     });
-    this.logger.verbose("Merged configuration: ");
-    this.logger.verbose(JSON.stringify(mergedConfig, null, 2));
+    this.logger.verbose("Merged configuration: ", mergedConfig);
     if (JSON.stringify(baseConfig) === JSON.stringify(mergedConfig)) {
       // If there is no difference, exit quietly.
       return Promise.resolve();
@@ -199,8 +198,7 @@ export class RegSuitCore {
           options: pluginSpecifiedOption,
           noEmit: this.noEmit,
         });
-        this.logger.verbose(`${ph.moduleId} is inialized with: `);
-        this.logger.verbose(`${JSON.stringify(pluginSpecifiedOption, null, 2)}`);
+        this.logger.verbose(`${ph.moduleId} is inialized with: `, pluginSpecifiedOption);
       }
     } else {
       this.logger.verbose("No key generator.");
@@ -223,8 +221,7 @@ export class RegSuitCore {
           options: pluginSpecifiedOption,
           noEmit: this.noEmit,
         });
-        this.logger.verbose(`${ph.moduleId} is inialized with: `);
-        this.logger.verbose(`${JSON.stringify(pluginSpecifiedOption, null, 2)}`);
+        this.logger.verbose(`${ph.moduleId} is inialized with: `, pluginSpecifiedOption);
       }
     } else {
       this.logger.verbose("No publisher.");
@@ -246,8 +243,7 @@ export class RegSuitCore {
           noEmit: this.noEmit,
         });
         this._notifiers.push(ph.notifier);
-        this.logger.verbose(`${ph.moduleId} is inialized with: `);
-        this.logger.verbose(`${JSON.stringify(pluginSpecifiedOption, null, 2)}`);
+        this.logger.verbose(`${ph.moduleId} is inialized with: `, pluginSpecifiedOption);
       }
     });
   }
@@ -316,8 +312,7 @@ export class RegSuitCore {
       threshold: .5,
     }) as Promise<ComparisonResult>)
     .then(result => {
-      this.logger.verbose("Comparison result:");
-      this.logger.verbose(JSON.stringify(result, null, 2));
+      this.logger.verbose("Comparison result:", result);
       return { ...ctx, comparisonResult: result };
     })
     .catch(reason => {
@@ -371,8 +366,7 @@ export class RegSuitCore {
           if (result.reportUrl) {
             this.logger.info(`Report URL: ${result.reportUrl}`);
           }
-          this.logger.verbose("Publish result:");
-          this.logger.verbose(JSON.stringify(result, null, 2));
+          this.logger.verbose("Publish result:", result);
           return { ...ctx, reportUrl: result.reportUrl };
         })
         .catch(reason => {
@@ -394,8 +388,7 @@ export class RegSuitCore {
     if (!this._notifiers.length) {
       this.logger.info("Skipped to notify result because notifier plugins are not set up.");
     }
-    this.logger.verbose("Notify paramerters:");
-    this.logger.verbose(JSON.stringify(notifyParams, null, 2));
+    this.logger.verbose("Notify paramerters:", notifyParams);
     return Promise.all(this._notifiers.map((notifier) => notifier.notify(notifyParams))).then(() => ctx);
   }
 }

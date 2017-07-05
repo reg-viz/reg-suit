@@ -40,9 +40,14 @@ export class RegLogger implements Logger {
     }
   }
 
-  verbose(msg: string) {
+  verbose(msg: string, ...objects: any[]) {
     if (this._level === "verbose") {
       console.log(this._prefix + chalk.green("debug ") + chalk.gray(msg));
+      if (objects && objects.length) {
+        objects.forEach(obj => {
+          console.log(JSON.stringify(obj, null, 2));
+        });
+      }
     }
   }
 
