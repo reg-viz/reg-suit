@@ -16,6 +16,7 @@ interface PluginDescriptor {
 
 type CpFile = (from: string, to: string) => Promise<void>;
 const cpFile = require("cp-file") as CpFile;
+const appRootDir = require("app-root-dir").get() as string;
 
 const WELL_KNOWN_PLUGINS = require(path.join(__dirname, "..", "well-known-plugins.json")) as PluginDescriptor[];
 
@@ -185,7 +186,22 @@ function prepare(options: CliOptions) {
       if (qh.questions.length) {
         core.logger.info(`Set up ${qh.name}:`);
       }
-      return inquirer.prompt(qh.questions).then((ans: any) => qh.prepare(ans)).then((c: any) => [...configs, { name: qh.name, config: c }]);
+      const additionalQuestion = !!qh.configured ? () => inquirer.prompt([{
+        name: "override",
+        type: "confirm",
+        message: `${qh.name} has been already configured. Override this configuration`,
+        default: false,
+      }]) as Promise<{ override: boolean }> : () => Promise.resolve({ override: true });
+      return additionalQuestion()
+        .then(({ override }) => {
+          if (override) {
+            return inquirer.prompt(qh.questions).then((ans: any) => qh.prepare(ans));
+          } else {
+            return Promise.resolve<any>(qh.configured);
+          }
+        })
+        .then((c: any) => [...configs, { name: qh.name, config: c }])
+      ;
     });
   }, Promise.resolve([]))
   .then(pluginConfigs => core.persistMergedConfig({ pluginConfigs }, confirmUpdateConfig))

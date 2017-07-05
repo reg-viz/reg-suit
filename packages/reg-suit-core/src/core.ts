@@ -127,6 +127,7 @@ export class RegSuitCore {
           name: pluginName,
           questions: [] as any[],
           prepare: (inquireResult: any) => Promise.resolve<any>(true),
+          configured: null,
         };
       }),
       ...preparerHolders.map(holder => {
@@ -137,12 +138,14 @@ export class RegSuitCore {
           options: inquireResult,
           noEmit: this.noEmit,
         });
+        const configured = (config.plugins && typeof config.plugins[holder.name] === "object") ? config.plugins[holder.name] : null;
         return {
           name: holder.name,
           // FIXME
           // TS4053 Return type of public method from exported class has or is using name 'inquirer.Question' from external module "reg-suit-core/node_modules/@types/inquirer/index" but cannot be named.
           questions: questions as any[],
           prepare: boundPrepare,
+          configured,
         };
       }),
     ];
@@ -152,7 +155,7 @@ export class RegSuitCore {
     const baseConfig = this._loadConfig();
     const mergedConfig = {
       core: opt.core ? { ...baseConfig.core, ...opt.core } : baseConfig.core,
-      plugins: { } as {[key: string]: any},
+      plugins: { ...baseConfig.plugins },
     };
     opt.pluginConfigs.forEach(pc => {
       mergedConfig.plugins[pc.name] = baseConfig.plugins ? {
@@ -162,6 +165,10 @@ export class RegSuitCore {
     });
     this.logger.verbose("Merged configuration: ");
     this.logger.verbose(JSON.stringify(mergedConfig, null, 2));
+    if (JSON.stringify(baseConfig) === JSON.stringify(mergedConfig)) {
+      // If there is no difference, exit quietly.
+      return Promise.resolve();
+    }
     if (this.noEmit) return Promise.resolve();
     return confirm(mergedConfig).then(result => {
       if (result) this._configManager.writeConfig(mergedConfig);
