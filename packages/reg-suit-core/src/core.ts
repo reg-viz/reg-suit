@@ -183,6 +183,16 @@ export class RegSuitCore {
     this._initNotifiers();
   }
 
+  _initPlugin<S, P extends Plugin<S>>(targetPlugin: P, metadata: PluginMetadata, pluginSpecifiedOption: S): P {
+    targetPlugin.init({
+      coreConfig: this._config.core,
+      logger: this.logger.fork(metadata.moduleId),
+      options: pluginSpecifiedOption,
+      noEmit: this.noEmit,
+    });
+    return targetPlugin;
+  }
+
   _initKeyGenerator() {
     const metadata = this._pluginHolders.filter(holder => isKeyGenerator(holder));
     if (metadata.length > 1) {
@@ -192,13 +202,7 @@ export class RegSuitCore {
       const ph = metadata[0];
       const pluginSpecifiedOption = this._config.plugins[ph.moduleId];
       if (isKeyGenerator(ph) && pluginSpecifiedOption) {
-        this._keyGenerator = ph.keyGenerator;
-        this._keyGenerator.init({
-          coreConfig: this._config.core,
-          logger: this.logger.fork(ph.moduleId),
-          options: pluginSpecifiedOption,
-          noEmit: this.noEmit,
-        });
+        this._keyGenerator = this._initPlugin(ph.keyGenerator, ph, pluginSpecifiedOption);
         this.logger.verbose(`${ph.moduleId} is inialized with: `, pluginSpecifiedOption);
       }
     } else {
@@ -215,13 +219,7 @@ export class RegSuitCore {
       const ph = metadata[0];
       const pluginSpecifiedOption = this._config.plugins[ph.moduleId];
       if (isPublisher(ph) && pluginSpecifiedOption) {
-        this._publisher = ph.publisher;
-        this._publisher.init({
-          coreConfig: this._config.core,
-          logger: this.logger.fork(ph.moduleId),
-          options: pluginSpecifiedOption,
-          noEmit: this.noEmit,
-        });
+        this._publisher = this._initPlugin(ph.publisher, ph, pluginSpecifiedOption);
         this.logger.verbose(`${ph.moduleId} is inialized with: `, pluginSpecifiedOption);
       }
     } else {
@@ -236,13 +234,7 @@ export class RegSuitCore {
       if (!this._config.plugins) return;
       const pluginSpecifiedOption = this._config.plugins[ph.moduleId];
       if (isNotifier(ph) && pluginSpecifiedOption) {
-        const notifier = ph.notifier;
-        notifier.init({
-          coreConfig: this._config.core,
-          logger: this.logger.fork(ph.moduleId),
-          options: pluginSpecifiedOption,
-          noEmit: this.noEmit,
-        });
+        const notifier = this._initPlugin(ph.notifier, ph, pluginSpecifiedOption);
         this._notifiers.push(ph.notifier);
         this.logger.verbose(`${ph.moduleId} is inialized with: `, pluginSpecifiedOption);
       }
@@ -317,6 +309,8 @@ export class RegSuitCore {
       return { ...ctx, comparisonResult: result };
     })
     .catch(reason => {
+      // re-throw notifiers error because it's fatal.
+      this.logger.error("An error occurs during compare images:");
       this.logger.error(reason);
       return Promise.reject<StepResultAfterComparison>(reason);
     });
@@ -371,7 +365,8 @@ export class RegSuitCore {
           return { ...ctx, reportUrl: result.reportUrl };
         })
         .catch(reason => {
-          this.logger.error("An error occurs when publishing snapshot:");
+          // re-throw notifiers error because it's fatal.
+          this.logger.error("An error occurs during publishing snapshot:");
           this.logger.error(reason);
           return Promise.reject<StepResultAfterPublish>(reason);
         })
@@ -389,7 +384,16 @@ export class RegSuitCore {
     if (!this._notifiers.length) {
       this.logger.info("Skipped to notify result because notifier plugins are not set up.");
     }
-    this.logger.verbose("Notify paramerters:", notifyParams);
-    return Promise.all(this._notifiers.map((notifier) => notifier.notify(notifyParams))).then(() => ctx);
+    this.logger.verbose("Notify parameters:", notifyParams);
+    return Promise.all(
+      this._notifiers.map((notifier) => {
+        return notifier.notify(notifyParams).catch((reason) => {
+          // Don't re-throw notifiers error because it's not fatal.
+          this.logger.error("An error occurs during notify:");
+          this.logger.error(reason);
+          return Promise.resolve();
+        });
+      })
+    ).then(() => ctx);
   }
 }
