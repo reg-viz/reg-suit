@@ -1,6 +1,6 @@
 /* tslint:disable:no-console */
 
-import { updateReview } from "./review-client";
+// import { updateReview } from "./review-client";
 import { GithubApiError, isGhError } from "./error";
 import { updateStatus } from "./status-client";
 
