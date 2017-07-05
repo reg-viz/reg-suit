@@ -18,6 +18,7 @@ type CpFile = (from: string, to: string) => Promise<void>;
 const cpFile = require("cp-file") as CpFile;
 
 const WELL_KNOWN_PLUGINS = require(path.join(__dirname, "..", "well-known-plugins.json")) as PluginDescriptor[];
+const version = require(path.resolve(__dirname, "../package.json")).version as string;
 
 interface CliOptions {
   command: string;
@@ -31,21 +32,24 @@ interface CliOptions {
 
 function createOptions() {
   yargs
-    .alias("c", "config")
-    .alias("t", "test").boolean("test")
-    .alias("v", "verbose").boolean("verbose")
-    .alias("q", "quiet").boolean("quiet")
-    .boolean("use-dev-core")
-    .boolean("use-yarn")
-    .command("run", "run all")
-    .command("prepare", "prepare plugin", {
-      plugin: {
-        alias: "p",
-        array: true,
-      },
+    .usage("Usage: $0 [options] <command>")
+    .help()
+    .option("h", { alias: "help", group: "Global Options:" })
+    .option("c", { alias: "config", desc: "Configuration file path.", default: "regconfig.json", group: "Global Options:" })
+    .option("t", { alias: "test", desc: "Perform a trial with no changes.", boolean: true, default: false, group: "Global Options:" })
+    .option("v", { alias: "verbose", desc: "Display debug logging messages.", boolean: true, default: false, group: "Global Options:" })
+    .option("q", { alias: "quiet", desc: "Suppress logging messages", boolean: true, default: false, group: "Global Options:" })
+    .option("version", { desc: "Print version number.", group: "Global Options:" }).version(version)
+    .boolean("use-dev-core") // This option is used for cli developers only, so does not need help.
+    .command("init", "Install and set up reg-suit and plugins into your project.", {
+      useYarn: { desc: "Whether to use yarn as npm client.", boolean: true, default: false },
+    })
+    .command("run", "Run all procedure regression testing.")
+    .command("prepare", "Configure installed plugin", {
+      "p": { alias: "plugin", array: true, desc: "Plugin name(s) you want to set up(e.g. slack-notify)." },
     })
   ;
-  const { config, verbose, quiet, test, useYarn, plugin, useDevCore } = yargs.argv;
+  const { config, verbose, quiet, test, useYarn, plugin, useDevCore  } = yargs.argv;
   const command = yargs.argv._[0] || "run";
   const logLevel = verbose ? "verbose" : (quiet ? "silent" : "info");
   const npmClient = useYarn ? "yarn" : "npm";
@@ -216,7 +220,6 @@ function run(options: CliOptions) {
 function cli(): Promise<any> {
   const options = createOptions();
   const core = getRegCore(options);
-  const version = require(path.resolve(__dirname, "../package.json")).version as string;
   core.logger.info(`${core.logger.colors.magenta("version")}: ${version}`);
   if (options.command === "run") {
     return run(options);
@@ -226,8 +229,10 @@ function cli(): Promise<any> {
     return prepare(options);
   } else if(options.command === "init") {
     return init(options);
+  } else {
+    yargs.showHelp();
+    return Promise.resolve();
   }
-  return Promise.resolve();
 }
 
 cli()
