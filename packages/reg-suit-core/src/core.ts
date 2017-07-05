@@ -1,8 +1,9 @@
 import * as resolve from "resolve";
 import * as fs from "fs";
 import * as path from "path";
+import { createLogger, RegLogger } from "reg-suit-util";
 import configManager, { ConfigManager } from "./config-manager";
-import logger, { RegLogger } from "./logger";
+
 import {
   KeyGenerator,
   KeyGeneratorPlugin,
@@ -78,7 +79,7 @@ export class RegSuitCore {
     logLevel?: "info" | "silent" | "verbose";
     noEmit?: boolean;
   }) {
-    this.logger = logger;
+    this.logger = createLogger();
     this._configManager = configManager;
     if (opt && opt.logLevel) {
       this.logger.setLevel(opt.logLevel);

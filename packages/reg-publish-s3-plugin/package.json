@@ -33,6 +33,7 @@
     "@types/mkdirp": "^0.3.29",
     "@types/uuid": "^3.0.0",
     "reg-suit-interface": "^0.0.10",
+    "reg-suit-util": "^0.0.12",
     "rimraf": "^2.6.1",
     "typescript": "^2.3.4"
   }

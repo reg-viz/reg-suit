@@ -1,4 +1,5 @@
 /* tslint:disable:no-console */
+import { createLogger } from "reg-suit-util";
 import { S3PublisherPlugin } from "../lib/s3-publisher-plugin";
 import { S3BucketPreparer } from "../lib/s3-bucket-preparer";
 import * as glob from "glob";
@@ -8,18 +9,15 @@ import { S3 } from "aws-sdk";
 const preparer = new S3BucketPreparer();
 
 const plugin = new S3PublisherPlugin();
+const logger = createLogger();
+logger.setLevel("verbose");
 const baseConfA = {
   coreConfig: {
     actualDir: "dir_a",
     expectedDir: "dir_b",
     workingDir: __dirname + "/../e2e/report-fixture",
   },
-  logger: {
-    info: (msg: string) => console.log(msg),
-    warn: (msg: string) => console.warn(msg),
-    verbose: (msg: string, ...objects: any[]) => console.log(msg),
-    error: (msg: any) => console.error(msg),
-  },
+  logger,
   noEmit: false,
 };
 
@@ -29,12 +27,7 @@ const baseConfB = {
     expectedDir: "dir_b",
     workingDir: __dirname + "/../e2e/report-fixture-expected",
   },
-  logger: {
-    info: (msg: string) => console.log(msg),
-    warn: (msg: string) => console.warn(msg),
-    verbose: (msg: string, ...objects: any[]) => console.log(msg),
-    error: (msg: any) => console.error(msg),
-  },
+  logger,
   noEmit: false,
 };
 

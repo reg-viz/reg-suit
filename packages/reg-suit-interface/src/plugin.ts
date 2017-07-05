@@ -1,4 +1,5 @@
-import { CoreConfig, Logger, ComparisonResult } from "./core";
+import { CoreConfig, ComparisonResult } from "./core";
+import { Logger } from "./logger";
 
 export type PluginLogger = Logger;
 

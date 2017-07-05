@@ -215,9 +215,9 @@ function run(options: CliOptions) {
 
 function cli(): Promise<any> {
   const options = createOptions();
-  const version = require(path.resolve(__dirname, "../package.json")).version;
   const core = getRegCore(options);
-  core.logger.info(`version: ${version}`);
+  const version = require(path.resolve(__dirname, "../package.json")).version as string;
+  core.logger.info(`${core.logger.colors.magenta("version")}: ${version}`);
   if (options.command === "run") {
     return run(options);
   } else if(options.command === "install") {
