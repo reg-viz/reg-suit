@@ -16,7 +16,6 @@ interface PluginDescriptor {
 
 type CpFile = (from: string, to: string) => Promise<void>;
 const cpFile = require("cp-file") as CpFile;
-const appRootDir = require("app-root-dir").get() as string;
 
 const WELL_KNOWN_PLUGINS = require(path.join(__dirname, "..", "well-known-plugins.json")) as PluginDescriptor[];
 
