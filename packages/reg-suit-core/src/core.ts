@@ -135,7 +135,7 @@ export class RegSuitCore {
         const questions = holder.preparer.inquire();
         const boundPrepare = (inquireResult: any) => holder.preparer.prepare({
           coreConfig: config.core,
-          logger: this.logger,
+          logger: this.logger.fork(holder.name),
           options: inquireResult,
           noEmit: this.noEmit,
         });
@@ -195,7 +195,7 @@ export class RegSuitCore {
         this._keyGenerator = ph.keyGenerator;
         this._keyGenerator.init({
           coreConfig: this._config.core,
-          logger: this.logger,
+          logger: this.logger.fork(ph.moduleId),
           options: pluginSpecifiedOption,
           noEmit: this.noEmit,
         });
@@ -218,7 +218,7 @@ export class RegSuitCore {
         this._publisher = ph.publisher;
         this._publisher.init({
           coreConfig: this._config.core,
-          logger: this.logger,
+          logger: this.logger.fork(ph.moduleId),
           options: pluginSpecifiedOption,
           noEmit: this.noEmit,
         });
@@ -239,7 +239,7 @@ export class RegSuitCore {
         const notifier = ph.notifier;
         notifier.init({
           coreConfig: this._config.core,
-          logger: this.logger,
+          logger: this.logger.fork(ph.moduleId),
           options: pluginSpecifiedOption,
           noEmit: this.noEmit,
         });
