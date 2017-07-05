@@ -22,13 +22,14 @@ provider:
   runtime: nodejs6.10
 
 # you can add packaging information here
-# package:
-#   include:
-#     - lib/**
-#     - node_modules/**
-#   exclude:
-#     - src/**
-#     - yarn.lock
+package:
+  include:
+    - dist/**
+  exclude:
+    - node_modules/**
+    - src/**
+    - keys/**
+    - yarn.lock
 
 functions:
   #   hello:

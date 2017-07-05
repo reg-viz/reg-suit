@@ -3,6 +3,7 @@
   "name": "reg-gh-app",
   "version": "0.0.13",
   "description": "",
+  "main": "dist/handler.js",
   "scripts": {
     "start": "export NODE_ENV=DEV; sls offline start",
     "test": "echo T.B.D.",
