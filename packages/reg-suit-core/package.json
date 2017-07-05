@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "test": "echo \"T.B.D.\"",
+    "test": "ava",
+    "watch:test": "ava --watch",
     "prepublish": "tsc -p src/tsconfig.build.json"
   },
   "keywords": [
@@ -18,6 +19,7 @@
   "repository": "git+https://github.com/Quramy/reg-suit.git",
   "license": "MIT",
   "dependencies": {
+    "ava": "^0.20.0",
     "chalk": "^2.0.1",
     "reg-cli": "^0.6.10",
     "reg-suit-util": "^0.0.13",
@@ -29,5 +31,8 @@
     "@types/resolve": "^0.0.4",
     "reg-suit-interface": "^0.0.13",
     "typescript": "^2.3.4"
+  },
+  "ava": {
+    "files": "lib/**/*.test.js"
   }
 }

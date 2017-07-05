@@ -4,10 +4,46 @@ import { CoreConfig, RegSuitConfiguration } from "reg-suit-interface";
 
 const DEFAULT_CONFIG_FILE_NAME = "regconfig.json";
 
+const ESCAPE_REGEXP = /\$(\$[^\$]+)/g;
+const PLACEHOLDER_REGEXP = /\$([^\$]+)/g;
+const PLACEHOLDER_REGEXP_BRACE = /\$\{([^\$\{\}]+)\}/g;
+
+function expandPlaceholders(x: any): any {
+  if (typeof x === "object") {
+    Object.keys(x).forEach(k => {
+      x[k] = expandPlaceholders(x[k]);
+    });
+    return x;
+  } else if (Array.isArray(x)) {
+    return x.map(item => expandPlaceholders(x));
+  } else if (typeof x === "string") {
+    if (ESCAPE_REGEXP.test(x)) {
+      return x.replace(ESCAPE_REGEXP, (_, g1) => g1);
+    } else if (PLACEHOLDER_REGEXP_BRACE.test(x)) {
+      return x.replace(PLACEHOLDER_REGEXP_BRACE, (_, g1) => process.env[g1]);
+    } else if (PLACEHOLDER_REGEXP.test(x)) {
+      return x.replace(PLACEHOLDER_REGEXP, (_, g1) => process.env[g1]);
+    } else {
+      return x;
+    }
+  } else {
+    return x;
+  }
+}
+
 export class ConfigManager {
 
   get defaultConfigFileName() {
     return DEFAULT_CONFIG_FILE_NAME;
+  }
+
+  replaceEnvValue(rawConfig: RegSuitConfiguration): RegSuitConfiguration {
+    if (!rawConfig.plugins) return rawConfig;
+    const plugins = { ...rawConfig.plugins };
+    if (!!plugins["__replaced__"]) return rawConfig;
+    expandPlaceholders(plugins);
+    plugins["__replaced__"] = true;
+    return { ...rawConfig, plugins };
   }
 
   readConfig(configFileName: string = DEFAULT_CONFIG_FILE_NAME) {

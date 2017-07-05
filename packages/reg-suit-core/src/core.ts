@@ -1,7 +1,7 @@
 import * as resolve from "resolve";
 import * as fs from "fs";
 import * as path from "path";
-import { createLogger, RegLogger } from "reg-suit-util";
+import { createLogger, RegLogger, LogLevel } from "reg-suit-util";
 import configManager, { ConfigManager } from "./config-manager";
 
 import {
@@ -76,7 +76,7 @@ export class RegSuitCore {
   _pluginHolders: PluginMetadata[] = [];
 
   constructor(opt?: {
-    logLevel?: "info" | "silent" | "verbose";
+    logLevel?: LogLevel;
     noEmit?: boolean;
   }) {
     this.logger = createLogger();
@@ -100,8 +100,8 @@ export class RegSuitCore {
     try {
       pluginFileName = resolve.sync(name, { basedir: process.cwd() });
     } catch (e) {
-      // TODO
-      this.logger.error(e);
+      this.logger.error(`Failed to load plugin '${name}'`);
+      throw e;
     }
     if (pluginFileName) {
       const factory = require(pluginFileName);
@@ -183,13 +183,21 @@ export class RegSuitCore {
     this._initNotifiers();
   }
 
-  _initPlugin<S, P extends Plugin<S>>(targetPlugin: P, metadata: PluginMetadata, pluginSpecifiedOption: S): P {
+  _initPlugin<S, P extends Plugin<S>>(targetPlugin: P, metadata: PluginMetadata): P {
+    const replacedConf = this._configManager.replaceEnvValue(this._loadConfig());
+    let pluginSpecifiedOption: S;
+    if (replacedConf.plugins && replacedConf.plugins[metadata.moduleId]) {
+      pluginSpecifiedOption = replacedConf.plugins[metadata.moduleId];
+    } else {
+      pluginSpecifiedOption = { } as S;
+    }
     targetPlugin.init({
       coreConfig: this._config.core,
       logger: this.logger.fork(metadata.moduleId),
       options: pluginSpecifiedOption,
       noEmit: this.noEmit,
     });
+    this.logger.verbose(`${metadata.moduleId} is inialized with: `, pluginSpecifiedOption);
     return targetPlugin;
   }
 
@@ -200,10 +208,8 @@ export class RegSuitCore {
       this.logger.warn(`2 or more key generator plugins are found. Select one of ${pluginNames}.`);
     } else if (metadata.length === 1 && this._config.plugins) {
       const ph = metadata[0];
-      const pluginSpecifiedOption = this._config.plugins[ph.moduleId];
-      if (isKeyGenerator(ph) && pluginSpecifiedOption) {
-        this._keyGenerator = this._initPlugin(ph.keyGenerator, ph, pluginSpecifiedOption);
-        this.logger.verbose(`${ph.moduleId} is inialized with: `, pluginSpecifiedOption);
+      if (isKeyGenerator(ph)) {
+        this._keyGenerator = this._initPlugin(ph.keyGenerator, ph);
       }
     } else {
       this.logger.verbose("No key generator.");
@@ -217,10 +223,8 @@ export class RegSuitCore {
       this.logger.warn(`2 or more publisher plugins are found. Select one of ${pluginNames}.`);
     } else if (metadata.length === 1 && this._config.plugins) {
       const ph = metadata[0];
-      const pluginSpecifiedOption = this._config.plugins[ph.moduleId];
-      if (isPublisher(ph) && pluginSpecifiedOption) {
-        this._publisher = this._initPlugin(ph.publisher, ph, pluginSpecifiedOption);
-        this.logger.verbose(`${ph.moduleId} is inialized with: `, pluginSpecifiedOption);
+      if (isPublisher(ph)) {
+        this._publisher = this._initPlugin(ph.publisher, ph);
       }
     } else {
       this.logger.verbose("No publisher.");
@@ -233,10 +237,8 @@ export class RegSuitCore {
     metadata.forEach(ph => {
       if (!this._config.plugins) return;
       const pluginSpecifiedOption = this._config.plugins[ph.moduleId];
-      if (isNotifier(ph) && pluginSpecifiedOption) {
-        const notifier = this._initPlugin(ph.notifier, ph, pluginSpecifiedOption);
-        this._notifiers.push(ph.notifier);
-        this.logger.verbose(`${ph.moduleId} is inialized with: `, pluginSpecifiedOption);
+      if (isNotifier(ph)) {
+        this._notifiers.push(this._initPlugin(ph.notifier, ph));
       }
     });
   }
