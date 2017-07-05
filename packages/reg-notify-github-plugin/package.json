@@ -1,0 +1,24 @@
+{
+  "name": "reg-notify-github-plugin",
+  "version": "0.0.13",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo T.B.D.",
+    "prepublish": "tsc -p src/tsconfig.build.json"
+  },
+  "keywords": [
+    "reg"
+  ],
+  "author": {
+    "name": "Quramy",
+    "email": "yosuke.kurami@gmail.com"
+  },
+  "repository": "git+https://github.com/Quramy/reg-suit.git",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^2.3.4"
+  },
+  "dependencies": {
+  }
+}
