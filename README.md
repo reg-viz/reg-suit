@@ -2,7 +2,7 @@
 [![CircleCI](https://circleci.com/gh/Quramy/reg-suit.svg?style=svg)](https://circleci.com/gh/Quramy/reg-suit)
 [![npm version](https://badge.fury.io/js/reg-suit.svg)](https://badge.fury.io/js/reg-suit)
 
-A tool for visual regression testing.
+Tool for visual regression testing.
 
 * *Easy to setup*
 * *Easy to integrate your CI flow*
@@ -21,6 +21,33 @@ $ reg-suit init
 $ reg-suit run
 ```
 
+## CLI Usage
+
+```sh
+reg-suit [options] <command>
+```
+
+### `run` command
+
+Run visual testing, publish the current snapshot images, and send notifications.
+
+### `init` command
+
+Install and configure reg-suit and plugins into your project.
+
+- `--use-yarn` : By the default cli installs packages using `npm`. If you prefer yarn pkg, turn this option on.
+
+### `prepare` command
+
+Configure the installed plugin(s). It's useful to configure reg-suit and plugins.
+
+- `--plugin` : Specify plugin name(s) to be configured.
+
+### Global options
+*T.B.D*
+
+If you want more details, please exec `reg-suit -h` or `reg-suit <command> -h`.
+
 ## How it works
 
 reg-suit calls installed plugins according to the following procedure:
@@ -31,18 +58,6 @@ reg-suit calls installed plugins according to the following procedure:
 * Determine the key of the current snapshot via installed key-generator plugin. If key-Generator is not set, time stamp is used.
 * Publish the current snapshot and report via installed publisher-plugin. This step will be skipped if publisher plugin is not set.
 * Notify result via installed notifier-plugin.
-
-## CLI Usage
-
-### `run` command [default]
-
-### `prepare` command
-
-```sh
-reg-suit prepare
-```
-
-It's useful to configure reg-suit and plugins.
 
 
 ## License
