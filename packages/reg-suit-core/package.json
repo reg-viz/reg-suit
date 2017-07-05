@@ -5,8 +5,8 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "test": "ava",
-    "watch:test": "ava --watch",
+    "test": "export HOGE_FOO=hoge; ava",
+    "watch:test": "export HOGE_FOO=hoge; ava --watch",
     "prepublish": "tsc -p src/tsconfig.build.json"
   },
   "keywords": [

@@ -22,61 +22,61 @@ test("replace placeholders in config", t => {
   const conf = {
     core: coreConf,
     plugins: {
-      "some-plugin": { "xxx": "$TERM", "yyy": "${TERM}", "zzz": "TERM" }
+      "some-plugin": { "xxx": "$HOGE_FOO", "yyy": "${HOGE_FOO}", "zzz": "HOGE_FOO" }
     }
   };
   const manager = new ConfigManager();
   const actual = manager.replaceEnvValue(conf) as any;
-  t.is(actual.plugins["some-plugin"].xxx, process.env["TERM"]);
-  t.is(actual.plugins["some-plugin"].yyy, process.env["TERM"]);
-  t.is(actual.plugins["some-plugin"].zzz, "TERM");
+  t.is(actual.plugins["some-plugin"].xxx, process.env["HOGE_FOO"]);
+  t.is(actual.plugins["some-plugin"].yyy, process.env["HOGE_FOO"]);
+  t.is(actual.plugins["some-plugin"].zzz, "HOGE_FOO");
 });
 
 test("replace nested placeholders", t => {
   const conf = {
     core: coreConf,
     plugins: {
-      "some-plugin": { "xxx": { "yyy": "$TERM" } }
+      "some-plugin": { "xxx": { "yyy": "$HOGE_FOO" } }
     }
   };
   const manager = new ConfigManager();
   const actual = manager.replaceEnvValue(conf) as any;
-  t.is(actual.plugins["some-plugin"].xxx.yyy, process.env["TERM"]);
+  t.is(actual.plugins["some-plugin"].xxx.yyy, process.env["HOGE_FOO"]);
 });
 
 test("replace placeholders in array", t => {
   const conf = {
     core: coreConf,
     plugins: {
-      "some-plugin": { "xxx": ["$TERM"] }
+      "some-plugin": { "xxx": ["$HOGE_FOO"] }
     }
   };
   const manager = new ConfigManager();
   const actual = manager.replaceEnvValue(conf) as any;
-  t.is(actual.plugins["some-plugin"].xxx[0], process.env["TERM"]);
+  t.is(actual.plugins["some-plugin"].xxx[0], process.env["HOGE_FOO"]);
 });
 
 test("escape $$ to $", t => {
   const conf = {
     core: coreConf,
     plugins: {
-      "some-plugin": { "xxx": "$$TERM" }
+      "some-plugin": { "xxx": "$$HOGE_FOO" }
     }
   };
   const manager = new ConfigManager();
   const actual = manager.replaceEnvValue(conf) as any;
-  t.is(actual.plugins["some-plugin"].xxx, "$TERM");
+  t.is(actual.plugins["some-plugin"].xxx, "$HOGE_FOO");
 });
 
 test("replace only once", t => {
   const conf = {
     core: coreConf,
     plugins: {
-      "some-plugin": { "xxx": "$TERM", "yyy": "$$TERM" }
+      "some-plugin": { "xxx": "$HOGE_FOO", "yyy": "$$HOGE_FOO" }
     }
   };
   const manager = new ConfigManager();
   const actual = manager.replaceEnvValue(manager.replaceEnvValue(conf)) as any;
-  t.is(actual.plugins["some-plugin"].xxx, process.env["TERM"]);
-  t.is(actual.plugins["some-plugin"].yyy, "$TERM");
+  t.is(actual.plugins["some-plugin"].xxx, process.env["HOGE_FOO"]);
+  t.is(actual.plugins["some-plugin"].yyy, "$HOGE_FOO");
 });
