@@ -17,6 +17,7 @@ cat << JSON > $PKG_DIR/package.json
   "description": "",
   "main": "lib/index.js",
   "scripts": {
+    "test": "echo T.B.D.",
     "prepublish": "tsc -p src/tsconfig.build.json"
   },
   "keywords": [
