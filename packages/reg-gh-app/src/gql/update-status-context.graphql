@@ -1,0 +1,10 @@
+query UpdateStatusContext {
+  viewer {
+    repositories(last: 1) {
+      nodes {
+        name,
+        owner { login }
+      }
+    }
+  }
+}

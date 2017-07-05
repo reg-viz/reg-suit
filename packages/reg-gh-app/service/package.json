@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "scripts": {
+    "prepublish": "tsc -p src/tsconfig.json",
+    "watch:serverless": "export NODE_ENV=DEV; ../node_modules/.bin/serverless offline start",
+    "watch:tsc": "tsc -p src/tsconfig.json -w",
+    "start": "../../../node_modules/.bin/run-p watch:*"
+  },
+}
