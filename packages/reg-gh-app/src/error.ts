@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 export interface GithubApiError {
   wellKnown: true;
   statusCode?: number;

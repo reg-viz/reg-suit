@@ -4,6 +4,10 @@
     "description": "Determine snapshot key with Git hash."
   },
   {
+    "name": "reg-notify-github-plugin",
+    "description": ""
+  },
+  {
     "name": "reg-notify-slack-plugin",
     "description": "Notify reg-suit result to Slack channel."
   },

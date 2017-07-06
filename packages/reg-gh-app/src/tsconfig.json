@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "strict": true,
     "rootDir": ".",
-    "noEmit": true
+    "noEmit": true,
+    "typeRoots": ["../node_modules/@types", "./typeDef"]
   }
 }

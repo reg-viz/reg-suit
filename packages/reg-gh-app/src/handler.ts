@@ -24,6 +24,7 @@ function createNormalResponse(callback: any) {
 
 function createErrorResponse(callback: any) {
   return (reason: any) => {
+    console.error(reason);
     if (isGhError(reason)) {
       const errResponse = {
         ...BASE_RESPONSE,
