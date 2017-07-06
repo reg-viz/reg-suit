@@ -1,6 +1,6 @@
 {
   "name": "reg-gh-app-interface",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "",
   "typings": "lib/index.d.ts",
   "scripts": {
@@ -18,7 +18,5 @@
   "license": "MIT",
   "devDependencies": {
     "typescript": "^2.3.4"
-  },
-  "dependencies": {
   }
 }
