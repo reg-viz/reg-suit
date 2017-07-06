@@ -23,14 +23,11 @@ provider:
 
 # you can add packaging information here
 package:
+  exclude:
+    - ./**
   include:
     - dist/**
     - package.json
-  exclude:
-    - node_modules/**
-    - src/**
-    - keys/**
-    - yarn.lock
 
 functions:
   #   hello:
