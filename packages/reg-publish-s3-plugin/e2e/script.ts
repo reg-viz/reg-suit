@@ -55,12 +55,26 @@ preparer.prepare({ ...baseConfA, options: { createBucket: true, } })
 .then(() => {
   const list = glob.sync("dir_b/sample01.png", { cwd: baseConfB.coreConfig.workingDir });
   assert.equal(list[0], "dir_b/sample01.png");
-  console.log(" 🌟  Test was ended successfully! 🌟 ");
+})
+.then(() => {
+  return new Promise(resolve => {
+    new S3().listObjects({
+      Bucket: bn,
+    }, (err, result) => {
+      if (result.Contents) {
+        new S3().deleteObjects({
+          Bucket: bn,
+          Delete: { Objects: result.Contents.map(c => ({ Key: c.Key as any })) },
+        }, (err2, x) => resolve(x));
+      }
+    });
+  });
 })
 .then(() => {
   new S3().deleteBucket({
     Bucket: bn,
   }, () => {
+    console.log(" 🌟  Test was ended successfully! 🌟 ");
     process.exit(0);
   });
 })
