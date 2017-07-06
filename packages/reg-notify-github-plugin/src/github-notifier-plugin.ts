@@ -19,7 +19,7 @@ export interface GitHubPluginOption {
   customEndpoint?: string;
 }
 
-const defaultEndpoint = fs.readFileSync(path.join(__dirname, "..", "endpoint"), "utf8");
+const defaultEndpoint = require("../.endpoint.json").endpoint as string;
 
 export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> {
 
@@ -79,7 +79,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
         body: prCommentBody,
         json: true,
       };
-      this._logger.verbose("PR comment: ", prCommentBody);
+      this._logger.verbose("PR comment: ", commentReq);
       reqs.push(commentReq);
     }
     if (this._noEmit) {

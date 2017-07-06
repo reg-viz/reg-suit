@@ -5,8 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo T.B.D.",
-    "endpoint": "cp ../reg-gh-app/.endpoint ./",
-    "prepublish": "npm run endpoint && tsc -p src/tsconfig.build.json"
+    "prepublish": "tsc -p src/tsconfig.build.json"
   },
   "keywords": [
     "reg", "reg-suit-plugin", "GitHub"
