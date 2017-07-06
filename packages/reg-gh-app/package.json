@@ -8,7 +8,7 @@
     "start": "export NODE_ENV=DEV; sls offline start",
     "test": "ava",
     "codegen": "apollo-codegen generate src/gql/*.graphql --target ts --output src/gql/_generated.ts --schema schema.json",
-    "prepublish": "tsc -p src/tsconfig.json",
+    "prepublish": "tsc -p src/tsconfig.build.json",
     "deploy": "/bin/bash ./deploy.sh"
   },
   "keywords": [
@@ -28,6 +28,7 @@
     "graphql-tag": "^2.4.2",
     "light-ts-loader": "^1.1.2",
     "raw-loader": "^0.5.1",
+    "reg-gh-app-interface": "0.0.13",
     "serverless": "^1.16.1",
     "serverless-offline": "^3.14.2",
     "serverless-webpack": "^2.0.0",

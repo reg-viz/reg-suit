@@ -1,15 +1,8 @@
 import { DataValidationError } from "./error";
 import { UpdatePrCommentContextQuery, UpdatePrCommentContextQueryVariables } from "./gql/_generated";
+import { CommentToPrBody } from "reg-gh-app-interface";
 
-export interface CommentToPrEventBody {
-  installationId: string;
-  branchName: string;
-  failedItemsCount: number;
-  newItemsCount: number;
-  deletedItemsCount: number;
-  passedItemsCount: number;
-  reportUrl?: string;
-}
+export type CommentToPrEventBody  = CommentToPrBody;
 
 export interface UpdateIssueCommentBody {
   body: string;

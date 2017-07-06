@@ -1,11 +1,8 @@
 {
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "target": "es2015",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "strict": true,
-    "rootDir": ".",
-    "outDir": "../lib",
-    "typeRoots": ["../node_modules/@types", "./typeDef"]
+    "paths": {
+      "reg-gh-app-interface": ["./reg-gh-app-interface/src/index.ts"]
+    }
   }
 }

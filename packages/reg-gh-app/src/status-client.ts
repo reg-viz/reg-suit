@@ -5,14 +5,14 @@ import * as updateStatusContextQuery from "./gql/update-status-context.graphql";
 import * as statusDetailQuery from "./gql/status-detail.graphql";
 import { PullRequestReviewPayload } from "./webhook-detect";
 import {
-  UpdateStatusBody,
+  UpdateStatusEventBody,
   convert,
   validateEventBody,
   createStatusDetailQueryVariables,
   createSuccessStatusParams,
 } from "./status-fns";
 
-export async function updateStatus(eventBody: UpdateStatusBody) {
+export async function updateStatus(eventBody: UpdateStatusEventBody) {
   validateEventBody(eventBody);
   const token = await auth(eventBody.installationId);
   const client = new GhApiClient(token);

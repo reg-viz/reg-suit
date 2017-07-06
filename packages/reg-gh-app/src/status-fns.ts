@@ -1,16 +1,11 @@
+import { UpdateStatusBody } from "reg-gh-app-interface";
 import { DataValidationError } from "./error";
 import { UpdateStatusContextQuery, StatusDetailQuery, StatusDetailQueryVariables } from "./gql/_generated";
 import { PullRequestReviewPayload } from "./webhook-detect";
 
-export interface UpdateStatusBody {
-  installationId: string;
-  sha1: string;
-  description: string;
-  state: "success" | "failure";
-  reportUrl?: string;
-}
+export type UpdateStatusEventBody = UpdateStatusBody;
 
-export function validateEventBody(input: Partial<UpdateStatusBody>) {
+export function validateEventBody(input: Partial<UpdateStatusEventBody>) {
   const result =
     typeof input.installationId === "string" &&
     typeof input.sha1 === "string" &&
@@ -28,7 +23,7 @@ export interface UpdateStatusParams {
   context: string;
 }
 
-export function convert(result: UpdateStatusContextQuery, eventBody: UpdateStatusBody) {
+export function convert(result: UpdateStatusContextQuery, eventBody: UpdateStatusEventBody) {
   const repos = result.viewer.repositories.nodes;
   if (!repos || !repos.length || repos.length !== 1) {
     throw new DataValidationError(500, "Don't detect target repository");
