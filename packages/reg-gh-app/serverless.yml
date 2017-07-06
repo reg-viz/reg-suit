@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: services
+service: reg-gh-app
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -25,6 +25,7 @@ provider:
 package:
   include:
     - dist/**
+    - package.json
   exclude:
     - node_modules/**
     - src/**
