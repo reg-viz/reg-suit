@@ -5,8 +5,12 @@ export class CommitExplorer {
 
   _gitCmdClient = new GitCmdClient();
 
+  getCurrentBranchName(): string {
+    return this._gitCmdClient.currentName().replace("\n", "");
+  }
+
   getCurrentCommitHash(): string {
-    const currentName = this._gitCmdClient.currentName().replace("\n", "");
+    const currentName = this.getCurrentBranchName();
     if (!currentName.length) {
       throw new Error("Fail to detect the current branch.");
     }

@@ -1,14 +1,15 @@
 {
   "name": "reg-notify-github-plugin",
   "version": "0.0.13",
-  "description": "",
+  "description": "Notify reg-suit regult to GitHub repository",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo T.B.D.",
-    "prepublish": "tsc -p src/tsconfig.build.json"
+    "endpoint": "cp ../reg-gh-app/.endpoint ./",
+    "prepublish": "npm run endpoint && tsc -p src/tsconfig.build.json"
   },
   "keywords": [
-    "reg"
+    "reg", "reg-suit-plugin", "GitHub"
   ],
   "author": {
     "name": "Quramy",
@@ -17,8 +18,14 @@
   "repository": "git+https://github.com/Quramy/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^2.3.4"
+    "@types/request-promise": "^4.1.35",
+    "reg-keygen-git-hash-plugin": "^0.0.13",
+    "typescript": "2.3.4"
   },
   "dependencies": {
+    "reg-gh-app-interface": "^0.0.13",
+    "reg-suit-interface": "^0.0.13",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
   }
 }
