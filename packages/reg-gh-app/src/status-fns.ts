@@ -1,5 +1,6 @@
 import { DataValidationError } from "./error";
-import { UpdateStatusContextQuery } from "./gql/_generated";
+import { UpdateStatusContextQuery, StatusDetailQuery, StatusDetailQueryVariables } from "./gql/_generated";
+import { PullRequestReviewPayload } from "./webhook-detect";
 
 export interface UpdateStatusBody {
   installationId: string;
@@ -22,7 +23,7 @@ export function validateEventBody(input: Partial<UpdateStatusBody>) {
 
 export interface UpdateStatusParams {
   state: "success" | "failure";
-  target_url?: string;
+  target_url: string | null;
   description: string;
   context: string;
 }
@@ -46,3 +47,29 @@ export function convert(result: UpdateStatusContextQuery, eventBody: UpdateStatu
   };
 }
 
+export function createStatusDetailQueryVariables(payload: PullRequestReviewPayload): StatusDetailQueryVariables | null {
+  if (payload.review.state !== "approved") return null;
+  return {
+    prNumber: payload.pull_request.number,
+  };
+}
+
+export function createSuccessStatusParams(detail: StatusDetailQuery, payload: PullRequestReviewPayload): { path: string, body: UpdateStatusParams } | null {
+  const repos = detail.viewer.repositories.nodes;
+  if (!repos || !repos.length || repos.length !== 1) throw new DataValidationError(404, "Repository not found");
+  const repo = repos[0];
+  if (!repo.pullRequest) throw new DataValidationError(404, "PR not found");
+  const commits = repo.pullRequest.commits.nodes;
+  if (!commits) throw new DataValidationError(500, "No commits");
+  const hit = commits.find(c => c.commit.oid === payload.review.commit_id);
+  if (!hit || !hit.commit.status || !hit.commit.status.context) return null;
+  return {
+    path: `/repos/${payload.repository.full_name}/statuses/${hit.commit.oid}`,
+    body: {
+      state: "success",
+      description: "The difference was approved with review.",
+      context: "reg",
+      target_url: hit.commit.status.context.targetUrl,
+    },
+  };
+}

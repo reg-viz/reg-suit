@@ -37,6 +37,13 @@ functions:
   #           path: api/hello
   #           method: get
   #           cors: true
+  webhook:
+    handler: dist/handler.ghWebhook
+    events:
+      - http:
+          path: api/gh-webhook
+          method: post
+          cors: true
   status:
     handler: dist/handler.updateStatus
     events:
