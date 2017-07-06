@@ -1,0 +1,46 @@
+{
+  "viewer": {
+    "login": "reg[bot]",
+    "repositories": {
+      "nodes": [
+        {
+          "name": "simple-gh-pr-app-example-repo",
+          "owner": {
+            "login": "Quramy"
+          },
+          "ref": {
+            "associatedPullRequests": {
+              "totalCount": 1,
+              "nodes": [
+                {
+                  "id": "MDExOlB1bGxSZXF1ZXN0MTI5MTA1Mzk3",
+                  "number": 2,
+                  "comments": {
+                    "totalCount": 3,
+                    "nodes": [
+                      {
+                        "databaseId": 313297772,
+                        "createdAt": "2017-07-06T05:20:38Z",
+                        "viewerDidAuthor": false
+                      },
+                      {
+                        "databaseId": 313300946,
+                        "createdAt": "2017-07-06T05:39:53Z",
+                        "viewerDidAuthor": false
+                      },
+                      {
+                        "databaseId": 313310042,
+                        "createdAt": "2017-07-06T06:42:09Z",
+                        "viewerDidAuthor": false
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

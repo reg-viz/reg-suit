@@ -23,10 +23,10 @@ export function gqlRequest(query: string, token: string, variables?: any) {
   });
 }
 
-export function requestWithV3api(path: string, token: string, body?: any) {
+export function requestWithV3api(token: string, method: "POST" | "PATCH", path: string, body?: any) {
   return rp({
     url: "https://api.github.com" + path,
-    method: "POST",
+    method,
     headers: {
       ...BASIC_HEADERS,
       "Authorization": `Bearer ${token}`,
@@ -44,10 +44,18 @@ export class GhApiClient {
     return gqlRequest(query, this._token, variables);
   }
 
+  requestWithRestAPI(path: string, method: "POST" | "PATCH", body: any) {
+    return requestWithV3api(this._token, method, path, body);
+  }
+
   get(path: string) {
   }
 
   post(path: string, body?: any) {
-    return requestWithV3api(path, this._token, body);
+    return requestWithV3api(this._token, "POST", path, body);
+  }
+
+  patch(path: string, body: any) {
+    return requestWithV3api(this._token, "PATCH", path, body);
   }
 }

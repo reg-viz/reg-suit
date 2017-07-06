@@ -46,6 +46,13 @@ functions:
           path: api/update-status
           method: post
           cors: true
+  prcomments:
+    handler: dist/handler.commentToPR
+    events:
+      - http:
+          path: api/comment-to-pr
+          method: post
+          cors: true
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
 #      - sns: greeter-topic

@@ -1,8 +1,8 @@
 /* tslint:disable:no-console */
 
-// import { updateReview } from "./review-client";
-import { GithubApiError, isGhError } from "./error";
+import { isGhError } from "./error";
 import { updateStatus } from "./status-client";
+import { commentToPR } from "./pr-comment-client";
 
 const BASE_RESPONSE = {
   statusCode: 200,
@@ -12,7 +12,7 @@ const BASE_RESPONSE = {
   },
 };
 
-function createNormalResponse(callback: any) {
+function normalResponse(callback: any) {
   return (data: any) => {
     const response = {
       ...BASE_RESPONSE,
@@ -22,9 +22,8 @@ function createNormalResponse(callback: any) {
   };
 }
 
-function createErrorResponse(callback: any) {
+function errorResponse(callback: any) {
   return (reason: any) => {
-    console.error(reason);
     if (isGhError(reason)) {
       const errResponse = {
         ...BASE_RESPONSE,
@@ -45,5 +44,11 @@ function createErrorResponse(callback: any) {
 
 module.exports.updateStatus = (event: any, context: any, callback: any) => {
   const p = JSON.parse(event.body);
-  updateStatus(p).then(createNormalResponse(callback)).catch(createErrorResponse(callback));
+  updateStatus(p).then(normalResponse(callback)).catch(errorResponse(callback));
 };
+
+module.exports.commentToPR = (event: any, context: any, callback: any) => {
+  const p = JSON.parse(event.body);
+  commentToPR(p).then(normalResponse(callback)).catch(errorResponse(callback));
+};
+

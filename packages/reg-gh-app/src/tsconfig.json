@@ -5,7 +5,7 @@
     "moduleResolution": "node",
     "strict": true,
     "rootDir": ".",
-    "noEmit": true,
+    "outDir": "../lib",
     "typeRoots": ["../node_modules/@types", "./typeDef"]
   }
 }

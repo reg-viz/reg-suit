@@ -6,8 +6,8 @@
   "main": "dist/handler.js",
   "scripts": {
     "start": "export NODE_ENV=DEV; sls offline start",
-    "test": "echo T.B.D.",
-    "codegen": "apollo-codegen generate service/src/gql/*.graphql --target ts --output src/gql/_generated.ts --schema schema.json",
+    "test": "ava",
+    "codegen": "apollo-codegen generate src/gql/*.graphql --target ts --output src/gql/_generated.ts --schema schema.json",
     "prepublish": "tsc -p src/tsconfig.json"
   },
   "keywords": [
@@ -23,6 +23,7 @@
     "@types/jsonwebtoken": "^7.2.1",
     "@types/request-promise": "^4.1.35",
     "apollo-codegen": "^0.13.2",
+    "ava": "^0.20.0",
     "graphql-tag": "^2.4.2",
     "light-ts-loader": "^1.1.2",
     "raw-loader": "^0.5.1",
@@ -36,5 +37,8 @@
     "jsonwebtoken": "^7.4.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
+  },
+  "ava": {
+    "files": "lib/**/*.test.js"
   }
 }
