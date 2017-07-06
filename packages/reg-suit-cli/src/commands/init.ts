@@ -28,10 +28,13 @@ function init(options: CliOptions) {
       if (copyFromSample) {
         const fromDir = packageUtil.checkInstalled("reg-cli");
         if (fromDir) {
-          const fromPath = path.join(fromDir, "report", "sample", "actual", "sample.jpg");
-          const toPath = path.join(actualDir, "sample.jpg");
-          return cpFile(fromPath, toPath).then(() => {
-            core.logger.verbose(`Copied file from ${fromPath} to ${toPath}.`);
+          Promise.all(["actual", "expected"].map(name => {
+            const fromPath = path.join(fromDir, "report", "sample", name, "sample.jpg");
+            const toPath = path.join(actualDir, "sample.jpg");
+            return cpFile(fromPath, toPath).then(() => {
+              core.logger.verbose(`Copied file from ${fromPath} to ${toPath}.`);
+            });
+          })).then(() => {
             core.logger.info("Execute 'reg-suit' \u2B50");
           });
         }
