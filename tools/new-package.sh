@@ -4,6 +4,11 @@ BASE_DIR=$(cd $(dirname $0); pwd)/..
 
 PKG_NAME=$1
 
+if [ -z "$PKG_NAME" ]; then
+  echo "Usage $0 <package_name>"
+  exit 0
+fi
+
 PKG_DIR=$BASE_DIR/packages/$PKG_NAME
 VERSION=$(cat $BASE_DIR/lerna.json | jq -r .version)
 
