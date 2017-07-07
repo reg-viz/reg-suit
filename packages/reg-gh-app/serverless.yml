@@ -20,6 +20,7 @@ service: reg-gh-app
 provider:
   name: aws
   runtime: nodejs6.10
+  timeout: 12
 
 # you can add packaging information here
 package:
