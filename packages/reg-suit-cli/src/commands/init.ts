@@ -28,7 +28,7 @@ function init(options: CliOptions) {
       if (copyFromSample) {
         const fromDir = packageUtil.checkInstalled("reg-cli");
         if (fromDir) {
-          Promise.all(["actual", "expected"].map(name => {
+          return Promise.all(["actual", "expected"].map(name => {
             const fromPath = path.join(fromDir, "report", "sample", name, "sample.jpg");
             const toPath = path.join(actualDir, "sample.jpg");
             return cpFile(fromPath, toPath).then(() => {

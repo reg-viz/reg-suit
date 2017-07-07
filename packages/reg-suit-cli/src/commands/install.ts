@@ -29,7 +29,7 @@ function install(options: CliOptions) {
       core.logger.info("This project does not have local installed reg-suit, so install it.");
     }
     if (options.noEmit) return Promise.resolve([]);
-    core.logger.info("Install dependencies to the local directory. This procedure takes some minute, please wait...");
+    core.logger.info("Install dependencies to the local directory. This procedure takes some minutes, please wait...");
     if (!isCliInstalled) {
       return packageUtil.installPluginAndCli(options.npmClient, pluginNamesToInstall)
       .then(packages => {
