@@ -15,6 +15,8 @@ import * as rp from "request-promise";
 
 export interface GitHubPluginOption {
   installationId: string;
+  owner: string;
+  repository: string;
   prComment: boolean;
   customEndpoint?: string;
 }
@@ -26,6 +28,8 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
   _logger: PluginLogger;
   _noEmit: boolean;
   _installationId: string;
+  _repository: string;
+  _owner: string;
   _prComment: boolean;
 
   _apiPrefix: string;
@@ -35,6 +39,8 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     this._noEmit = config.noEmit;
     this._logger = config.logger;
     this._installationId = config.options.installationId;
+    this._owner = config.options.owner;
+    this._repository = config.options.repository;
     this._prComment = config.options.prComment;
     this._apiPrefix = config.options.customEndpoint || defaultEndpoint;
     this._commitExplorer = new CommitExplorer();
@@ -52,6 +58,8 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
 
     const updateStatusBody: UpdateStatusBody = {
       installationId: this._installationId,
+      owner: this._owner,
+      repository: this._repository,
       sha1: this._commitExplorer.getCurrentCommitHash(),
       description,
       state,
@@ -69,6 +77,8 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     if (this._prComment) {
       const prCommentBody: CommentToPrBody = {
         installationId: this._installationId,
+        owner: this._owner,
+        repository: this._repository,
         branchName: this._commitExplorer.getCurrentBranchName(),
         failedItemsCount, newItemsCount, deletedItemsCount, passedItemsCount,
       };
