@@ -3,13 +3,15 @@ import * as path from "path";
 
 import { GitCmdClient } from "../git-cmd-client";
 
-export class GitLogLoader implements GitCmdClient {
+export class GitLogLoader extends GitCmdClient {
 
   private _loadFile(name: string) {
     return fs.readFileSync(path.join(path.resolve(__dirname, "../../test/fixture"), this._dirname, name), "utf8");
   }
 
-  constructor(private _dirname: string) { }
+  constructor(private _dirname: string) {
+    super();
+  }
 
   currentName(): string {
     return this._loadFile("current-name.txt");
