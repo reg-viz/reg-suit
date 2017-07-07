@@ -64,7 +64,7 @@ export function createSuccessStatusParams(detail: StatusDetailQuery, payload: Pu
     path: `/repos/${payload.repository.full_name}/statuses/${hit.commit.oid}`,
     body: {
       state: "success",
-      description: "The difference was approved with review.",
+      description: "Reviewer aprroved visual differences.",
       context: "reg",
       target_url: hit.commit.status.context.targetUrl,
     },
