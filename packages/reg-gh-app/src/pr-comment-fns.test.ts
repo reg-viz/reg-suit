@@ -1,8 +1,10 @@
 import test from "ava";
-import { convert } from "./pr-comment-fns";
+import { convert, CommentToPrEventBody } from "./pr-comment-fns";
 
-const eventBody = {
+const eventBody: CommentToPrEventBody = {
   installationId: "100",
+  owner: "someone",
+  repository: "some-repo",
   branchName: "feat-x",
   deletedItemsCount: 0,
   failedItemsCount: 0,
@@ -12,15 +14,15 @@ const eventBody = {
 };
 
 test("convert from data01", t => {
-  const result = require("../test/gql-log/update-pr-comment-context/data01.json");
-  const actual = convert(result, eventBody);
+  const log = require("../test/gql-log/update-pr-comment-context/data01.json");
+  const actual = convert(log.data, eventBody);
   if (!Array.isArray(actual)) return t.fail();
   t.is(actual[0].method, "POST");
 });
 
 test("convert from data02", t => {
-  const result = require("../test/gql-log/update-pr-comment-context/data02.json");
-  const actual = convert(result, eventBody);
+  const log = require("../test/gql-log/update-pr-comment-context/data02.json");
+  const actual = convert(log.data, eventBody);
   if (!Array.isArray(actual)) return t.fail();
   t.is(actual[0].method, "PATCH");
 });

@@ -1,4 +1,4 @@
-import { DataValidationError } from "./error";
+import { NotInstallationError, DataValidationError } from "./error";
 import { UpdatePrCommentContextQuery, UpdatePrCommentContextQueryVariables } from "./gql/_generated";
 import { CommentToPrBody } from "reg-gh-app-interface";
 
@@ -14,7 +14,10 @@ export interface UpdateIssueCommentApiParams {
 }
 
 export function validateEventBody(input: Partial<CommentToPrEventBody>) {
-  const result = typeof input.installationId === "string" &&
+  const result =
+    typeof input.installationId === "string" &&
+    typeof input.owner === "string" &&
+    typeof input.repository === "string" &&
     typeof input.branchName === "string" &&
     typeof input.failedItemsCount === "number" &&
     typeof input.newItemsCount === "number" &&
@@ -43,11 +46,10 @@ export function createCommentBody(eventBody: CommentToPrEventBody) {
 }
 
 export function convert(context: UpdatePrCommentContextQuery, eventBody: CommentToPrEventBody): UpdateIssueCommentApiParams[] | { message: string }{
-  const repos = context.viewer.repositories.nodes;
-  if (!repos || repos.length !== 1) {
-    throw new DataValidationError(500, "Don't detect target repository");
+  const repo = context.repository;
+  if (!repo) {
+    throw new NotInstallationError(eventBody.repository);
   }
-  const repo = repos[0];
   if (!repo.ref) {
     throw new DataValidationError(404, `Can't find ${eventBody.branchName} branch.`);
   }
@@ -56,7 +58,7 @@ export function convert(context: UpdatePrCommentContextQuery, eventBody: Comment
   return prs.map(pr => {
     const paramsForCreate = {
       method: "POST",
-      path: `/repos/${repo.owner.login}/${repo.name}/issues/${pr.number}/comments`,
+      path: `/repos/${repo.nameWithOwner}/issues/${pr.number}/comments`,
       body: { body: createCommentBody(eventBody) },
     } as UpdateIssueCommentApiParams;
     if (!pr.comments.nodes || !pr.comments.nodes.length) {
@@ -69,7 +71,7 @@ export function convert(context: UpdatePrCommentContextQuery, eventBody: Comment
       const targetComment = hits.sort((c1, c2) => new Date(c2.createdAt).getTime() - new Date(c1.createdAt).getTime())[0];
       return {
         method: "PATCH",
-        path: `/repos/${repo.owner.login}/${repo.name}/issues/comments/${targetComment.databaseId}`,
+        path: `/repos/${repo.nameWithOwner}/issues/comments/${targetComment.databaseId}`,
         body: { body: createCommentBody(eventBody) },
       } as UpdateIssueCommentApiParams;
     }

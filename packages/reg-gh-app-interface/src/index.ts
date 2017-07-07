@@ -1,5 +1,10 @@
-export interface CommentToPrBody {
+export interface BaseEventBody {
   installationId: string;
+  owner: string;
+  repository: string;
+}
+
+export interface CommentToPrBody extends BaseEventBody {
   branchName: string;
   failedItemsCount: number;
   newItemsCount: number;
@@ -8,7 +13,7 @@ export interface CommentToPrBody {
   reportUrl?: string;
 }
 
-export interface UpdateStatusBody {
+export interface UpdateStatusBody extends BaseEventBody {
   installationId: string;
   sha1: string;
   description: string;

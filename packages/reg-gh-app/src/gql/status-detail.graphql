@@ -1,18 +1,14 @@
-query StatusDetail($prNumber: Int!){
-  viewer {
-    repositories(last: 1) {
-      nodes {
-        pullRequest(number: $prNumber) {
-          commits(last: 100) {
-            nodes {
-              commit {
-                oid
-                status {
-                  context(name: "reg") {
-                    state
-                    targetUrl
-                  }
-                }
+query StatusDetail($prNumber: Int!, $owner: String!, $repository: String!){
+  repository(owner: $owner, name: $repository) {
+    pullRequest(number: $prNumber) {
+      commits(last: 100) {
+        nodes {
+          commit {
+            oid
+            status {
+              context(name: "reg") {
+                state
+                targetUrl
               }
             }
           }

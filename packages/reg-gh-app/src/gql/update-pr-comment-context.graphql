@@ -1,21 +1,15 @@
-query UpdatePrCommentContext($branchName: String!) {
-  viewer {
-    login
-    repositories(last: 1) {
-      nodes {
-        name,
-        owner { login }
-        ref(qualifiedName: $branchName) {
-          associatedPullRequests(last: 5, states: OPEN) {
-            totalCount,
+query UpdatePrCommentContext($branchName: String!, $owner: String!, $repository: String!) {
+  repository(owner: $owner, name: $repository) {
+    nameWithOwner
+    ref(qualifiedName: $branchName) {
+      associatedPullRequests(last: 5, states: OPEN) {
+        totalCount,
+        nodes {
+          id, number
+          comments(first: 50) {
+            totalCount
             nodes {
-              id, number
-              comments(first: 50) {
-                totalCount
-                nodes {
-                  databaseId, createdAt, viewerDidAuthor
-                }
-              }
+              databaseId, createdAt, viewerDidAuthor
             }
           }
         }

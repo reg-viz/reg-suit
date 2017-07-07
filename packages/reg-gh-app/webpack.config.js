@@ -5,6 +5,10 @@ module.exports = {
   entry: {
     handler: path.resolve(__dirname, "src/handler.ts"),
   },
+  node: {
+    __filename: false,
+    __dirname: false,
+  },
   target: "node",
   output: {
     libraryTarget: "commonjs",

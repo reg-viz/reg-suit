@@ -1,3 +1,5 @@
+import * as fs from "fs";
+import * as path from "path";
 export interface PullRequestReviewPayload {
   installation: {
     id: string;
@@ -9,13 +11,18 @@ export interface PullRequestReviewPayload {
   repository: {
     name: string;
     full_name: string;
+    owner: {
+      login: string;
+    };
   };
   pull_request: {
     number: number;
   };
 }
 
-const EventTypeKey = "X-GitHub-Event";
+// FIXME which one is correct?
+const EventTypeKey1 = "X-GitHub-Event";
+const EventTypeKey2 = "X-Github-Event";
 
 export interface PullRequestReviewAction {
   type: "pullRequestReview";
@@ -25,9 +32,13 @@ export interface PullRequestReviewAction {
 export type WebhookAction = PullRequestReviewAction;
 
 export function detectAction(event: { headers?: { [key: string]: string }, body?: string }): WebhookAction | null {
+  if (process.env["NODE_ENV"] === "DEV" && event && event.headers) {
+    const payloadPath = event.headers["X-Dev-Payload-Path"];
+    event.body = fs.readFileSync(path.join(__dirname, "..", payloadPath), "utf8") as string;
+  }
   if (!event || !event.body) return null;
-  if (event && event.headers && event.headers[EventTypeKey]) {
-    const t = event.headers[EventTypeKey];
+  if (event && event.headers && (event.headers[EventTypeKey1] || event.headers[EventTypeKey2])) {
+    const t = event.headers[EventTypeKey1] || event.headers[EventTypeKey2];
     switch (t) {
       case "pull_request_review":
         return {

@@ -1,9 +1,7 @@
 {
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "target": "es2015",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "strict": true,
+    "declaration": false,
     "rootDir": ".",
     "outDir": "../lib",
     "typeRoots": ["../node_modules/@types", "./typeDef"]

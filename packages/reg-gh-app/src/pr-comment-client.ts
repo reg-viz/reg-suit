@@ -13,7 +13,12 @@ import * as updatePrCommentContextQuery from "./gql/update-pr-comment-context.gr
 export async function commentToPR(eventBody: CommentToPrEventBody) {
   const token = await auth(eventBody.installationId);
   const client = new GhApiClient(token);
-  const { data } = await client.requestWithGraphQL(updatePrCommentContextQuery, { branchName: eventBody.branchName } as UpdatePrCommentContextQueryVariables) as { data: UpdatePrCommentContextQuery };
+  const variables: UpdatePrCommentContextQueryVariables = {
+    owner: eventBody.owner,
+    repository: eventBody.repository,
+    branchName: eventBody.branchName,
+  };
+  const { data } = await client.requestWithGraphQL(updatePrCommentContextQuery, variables) as { data: UpdatePrCommentContextQuery };
   const converted = convert(data, eventBody);
   if (!Array.isArray(converted)) return converted;
   await Promise.all(converted.map(({ path, method, body }) => client.requestWithRestAPI(path, method, body)));

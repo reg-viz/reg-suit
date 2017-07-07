@@ -1,6 +1,6 @@
 import { auth } from "./auth";
 import { GhApiClient } from "./gh-api-client";
-import { UpdateStatusContextQuery, StatusDetailQuery } from "./gql/_generated";
+import { UpdateStatusContextQuery, UpdateStatusContextQueryVariables, StatusDetailQuery } from "./gql/_generated";
 import * as updateStatusContextQuery from "./gql/update-status-context.graphql";
 import * as statusDetailQuery from "./gql/status-detail.graphql";
 import { PullRequestReviewPayload } from "./webhook-detect";
@@ -16,7 +16,11 @@ export async function updateStatus(eventBody: UpdateStatusEventBody) {
   validateEventBody(eventBody);
   const token = await auth(eventBody.installationId);
   const client = new GhApiClient(token);
-  const context = await client.requestWithGraphQL(updateStatusContextQuery) as { data: UpdateStatusContextQuery };
+  const variables: UpdateStatusContextQueryVariables = {
+    owner: eventBody.owner,
+    repository: eventBody.repository,
+  };
+  const context = await client.requestWithGraphQL(updateStatusContextQuery, variables) as { data: UpdateStatusContextQuery };
   const { path, body } = convert(context.data, eventBody);
   return client.post(path, body);
 }

@@ -1,10 +1,5 @@
-query UpdateStatusContext {
-  viewer {
-    repositories(last: 1) {
-      nodes {
-        name,
-        owner { login }
-      }
-    }
+query UpdateStatusContext($owner: String!, $repository: String!) {
+  repository(owner: $owner, name: $repository) {
+    nameWithOwner
   }
 }
