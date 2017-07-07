@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { CoreConfig, RegSuitConfiguration } from "reg-suit-interface";
+import { RegLogger } from "reg-suit-util";
 
 const DEFAULT_CONFIG_FILE_NAME = "regconfig.json";
 
@@ -36,6 +37,8 @@ export class ConfigManager {
   get defaultConfigFileName() {
     return DEFAULT_CONFIG_FILE_NAME;
   }
+
+  constructor(private _logger: RegLogger, private _noEmit: boolean) { }
 
   replaceEnvValue(rawConfig: RegSuitConfiguration): RegSuitConfiguration {
     if (!rawConfig.plugins) return rawConfig;
@@ -88,6 +91,3 @@ export class ConfigManager {
     return path.resolve(process.cwd(), configFileName);
   }
 }
-
-const configManager = new ConfigManager();
-export default configManager;

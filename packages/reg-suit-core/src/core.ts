@@ -1,8 +1,5 @@
 import * as fs from "fs";
 import * as path from "path";
-import { createLogger, RegLogger, LogLevel } from "reg-suit-util";
-import configManager, { ConfigManager } from "./config-manager";
-
 import {
   KeyGenerator,
   KeyGeneratorPlugin,
@@ -17,7 +14,9 @@ import {
   RegSuitConfiguration,
   ComparisonResult,
 } from "reg-suit-interface";
+import { createLogger, RegLogger, LogLevel } from "reg-suit-util";
 
+import { ConfigManager } from "./config-manager";
 import { PluginManager } from "./plugin-manager";
 
 const compare = require("reg-cli");
@@ -55,11 +54,11 @@ export class RegSuitCore {
     noEmit?: boolean;
   }) {
     this.logger = createLogger();
-    this._configManager = configManager;
     if (opt && opt.logLevel) {
       this.logger.setLevel(opt.logLevel);
     }
     this.noEmit = !!(opt && opt.noEmit);
+    this._configManager = new ConfigManager(this.logger, this.noEmit);
     this._pluginManager = new PluginManager(this.logger, this.noEmit);
     this._pluginManager.rawConfig = this._loadConfig();
   }
@@ -106,7 +105,7 @@ export class RegSuitCore {
       if (configFileName) {
         this.logger.verbose(`config file: ${configFileName}`);
       } else {
-        this.logger.verbose(`config file not specified, load from ${configManager.defaultConfigFileName}.`);
+        this.logger.verbose(`config file not specified, load from ${this._configManager.defaultConfigFileName}.`);
       }
       this._config = this._configManager.readConfig(configFileName).config;
     }
