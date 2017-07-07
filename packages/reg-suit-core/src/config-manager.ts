@@ -20,9 +20,9 @@ function expandPlaceholders(x: any): any {
     if (ESCAPE_REGEXP.test(x)) {
       return x.replace(ESCAPE_REGEXP, (_, g1) => g1);
     } else if (PLACEHOLDER_REGEXP_BRACE.test(x)) {
-      return x.replace(PLACEHOLDER_REGEXP_BRACE, (_, g1) => process.env[g1]);
+      return x.replace(PLACEHOLDER_REGEXP_BRACE, (_, g1) => process.env[g1] as string);
     } else if (PLACEHOLDER_REGEXP.test(x)) {
-      return x.replace(PLACEHOLDER_REGEXP, (_, g1) => process.env[g1]);
+      return x.replace(PLACEHOLDER_REGEXP, (_, g1) => process.env[g1] as string);
     } else {
       return x;
     }
@@ -52,7 +52,7 @@ export class ConfigManager {
       actualDir: "actual",
       expectedDir: "expected",
     } as CoreConfig;
-    let readResult, readJsonObj;
+    let readResult: any, readJsonObj: any;
     try {
       readResult = fs.readFileSync(this._getConfigPath(configFileName), "utf8");
       readJsonObj = JSON.parse(readResult);

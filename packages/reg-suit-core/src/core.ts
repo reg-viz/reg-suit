@@ -183,13 +183,17 @@ export class RegSuitCore {
     this._initNotifiers();
   }
 
-  _initPlugin<S, P extends Plugin<S>>(targetPlugin: P, metadata: PluginMetadata): P {
+  _initPlugin<S extends { disabled?: boolean }, P extends Plugin<S>>(targetPlugin: P, metadata: PluginMetadata): P | undefined {
     const replacedConf = this._configManager.replaceEnvValue(this._loadConfig());
     let pluginSpecifiedOption: S;
     if (replacedConf.plugins && replacedConf.plugins[metadata.moduleId]) {
       pluginSpecifiedOption = replacedConf.plugins[metadata.moduleId];
     } else {
-      pluginSpecifiedOption = { } as S;
+      pluginSpecifiedOption = { disabled: true } as S;
+    }
+    if (pluginSpecifiedOption.disabled === true) {
+      this.logger.verbose(`${metadata.moduleId} is disabled.`);
+      return;
     }
     targetPlugin.init({
       coreConfig: this._config.core,
@@ -211,9 +215,8 @@ export class RegSuitCore {
       if (isKeyGenerator(ph)) {
         this._keyGenerator = this._initPlugin(ph.keyGenerator, ph);
       }
-    } else {
-      this.logger.verbose("No key generator.");
     }
+    if (!this._keyGenerator) this.logger.verbose("No key generator.");
   }
 
   _initPublisher() {
@@ -226,9 +229,8 @@ export class RegSuitCore {
       if (isPublisher(ph)) {
         this._publisher = this._initPlugin(ph.publisher, ph);
       }
-    } else {
-      this.logger.verbose("No publisher.");
     }
+    if (!this._publisher) this.logger.verbose("No publisher.");
   }
 
   _initNotifiers() {
@@ -238,7 +240,8 @@ export class RegSuitCore {
       if (!this._config.plugins) return;
       const pluginSpecifiedOption = this._config.plugins[ph.moduleId];
       if (isNotifier(ph)) {
-        this._notifiers.push(this._initPlugin(ph.notifier, ph));
+        const np = this._initPlugin(ph.notifier, ph);
+        np && this._notifiers.push(np);
       }
     });
   }
