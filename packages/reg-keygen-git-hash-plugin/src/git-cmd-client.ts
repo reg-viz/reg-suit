@@ -2,12 +2,17 @@ import { execSync } from "child_process";
 
 export class GitCmdClient {
 
+  private _revParseHash: { [key: string]: string; } = { };
+
   currentName() {
     return execSync("git branch | grep \"^\\*\" | cut -b 3-", { encoding: "utf8" });
   }
 
   revParse(currentName: string) {
-    return execSync(`git rev-parse ${currentName}`, { encoding: "utf8" });
+    if (!this._revParseHash[currentName]) {
+      this._revParseHash[currentName] = execSync(`git rev-parse ${currentName}`, { encoding: "utf8" });
+    }
+    return this._revParseHash[currentName];
   }
 
   showBranch() {
@@ -15,9 +20,6 @@ export class GitCmdClient {
   }
 
   logFirstParent() {
-    // TODO need review.
-    // the --first-parent option sometimes hides base hash candidates,,, is it correct?
-    // return execSync("git log -n 1000 --oneline --first-parent", { encoding: "utf8" });
     return execSync("git log -n 1000 --oneline", { encoding: "utf8" });
   }
 
