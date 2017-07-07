@@ -1,6 +1,6 @@
 {
   "name": "reg-notify-github-plugin",
-  "version": "0.0.15",
+  "version": "0.0.17",
   "description": "Notify reg-suit regult to GitHub repository",
   "main": "lib/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/request-promise": "^4.1.35",
-    "reg-keygen-git-hash-plugin": "^0.0.14",
+    "reg-keygen-git-hash-plugin": "^0.0.17",
     "typescript": "2.3.4"
   },
   "dependencies": {

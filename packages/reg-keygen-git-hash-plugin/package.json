@@ -1,6 +1,6 @@
 {
   "name": "reg-keygen-git-hash-plugin",
-  "version": "0.0.14",
+  "version": "0.0.17",
   "description": "Determine snapshot key with Git hash.",
   "main": "lib/index.js",
   "scripts": {

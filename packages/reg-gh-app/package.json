@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "reg-gh-app",
-  "version": "0.0.15",
+  "version": "0.0.17",
   "description": "",
   "main": "dist/handler.js",
   "scripts": {
