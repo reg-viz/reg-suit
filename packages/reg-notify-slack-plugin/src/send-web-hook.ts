@@ -6,8 +6,8 @@ export interface SendOption {
 }
 
 export function sendWebHook(opt: SendOption): Promise<any> {
-  const reqParam: rp.OptionsWithUri = {
-    uri: opt.webhookUrl,
+  const reqParam: rp.OptionsWithUrl = {
+    url: opt.webhookUrl,
     method: "POST",
     json: true,
     body: {
@@ -16,6 +16,5 @@ export function sendWebHook(opt: SendOption): Promise<any> {
       "text": opt.body,
     },
   };
-  // FIXME
   return (rp(reqParam) as any) as Promise<any>;
 }

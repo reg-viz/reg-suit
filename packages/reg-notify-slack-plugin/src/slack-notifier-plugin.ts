@@ -14,14 +14,19 @@ export interface SlackNotiferPluginOptions {
 export class SlackNotifierPlugin implements NotifierPlugin<SlackNotiferPluginOptions> {
   _logger: PluginLogger;
   _webhookUrl: string;
+  _noEmmit: boolean;
 
   init(config: PluginCreateOptions<SlackNotiferPluginOptions>): void {
     this._logger = config.logger;
     this._webhookUrl = config.options.webhookUrl;
+    this._noEmmit = config.noEmit;
   }
 
   notify(params: NotifyParams): Promise<any> {
     const body = this.createBody(params);
+    this._logger.info(`Send to slack ${this._logger.colors.green(this._webhookUrl)}.`);
+    this._logger.verbose("body to send to slack", body);
+    if (this._noEmmit) return Promise.resolve();
     return sendWebHook({
       body,
       webhookUrl: this._webhookUrl,
