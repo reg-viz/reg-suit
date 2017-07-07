@@ -1,4 +1,3 @@
-import * as resolve from "resolve";
 import * as fs from "fs";
 import * as path from "path";
 import { createLogger, RegLogger, LogLevel } from "reg-suit-util";
@@ -10,42 +9,18 @@ import {
   Notifier,
   NotifierPlugin,
   Plugin,
-  PluginCreateOptions,
-  PluginPreparer,
-  PublishResult,
   Publisher,
   PublisherPlugin,
   NotifyParams,
-  KeyGeneratorPluginFactory,
-  PublisherPluginFactory,
-  NotifierPluginFactory,
-  KeyGeneratorPluginHolder,
-  PublisherPluginHolder,
-  NotifierPluginHolder,
   CoreConfig,
   CreateQuestionsOptions,
   RegSuitConfiguration,
   ComparisonResult,
 } from "reg-suit-interface";
 
+import { PluginManager } from "./plugin-manager";
+
 const compare = require("reg-cli");
-
-export interface PluginMetadata {
-  moduleId: string;
-  [key: string]: any;
-}
-
-function isPublisher(pluginHolder: PluginMetadata): pluginHolder is (PublisherPluginHolder<any, any> & PluginMetadata) {
-  return !!pluginHolder["publisher"];
-}
-
-function isKeyGenerator(pluginHolder: PluginMetadata): pluginHolder is (KeyGeneratorPluginHolder<any, any> & PluginMetadata) {
-  return !!pluginHolder["keyGenerator"];
-}
-
-function isNotifier(pluginHolder: PluginMetadata): pluginHolder is (NotifierPluginHolder<any, any> & PluginMetadata) {
-  return !!pluginHolder["notifier"];
-}
 
 export interface StepResultAfterExpectedKey {
   expectedKey: string | null;
@@ -71,9 +46,9 @@ export class RegSuitCore {
 
   noEmit: boolean;
   logger: RegLogger;
+  _pluginManager: PluginManager;
   _config: RegSuitConfiguration;
   _configManager: ConfigManager;
-  _pluginHolders: PluginMetadata[] = [];
 
   constructor(opt?: {
     logLevel?: LogLevel;
@@ -85,71 +60,12 @@ export class RegSuitCore {
       this.logger.setLevel(opt.logLevel);
     }
     this.noEmit = !!(opt && opt.noEmit);
-  }
-
-  _loadPlugins() {
-    if (!this._config.plugins) return;
-    const pluginNames = Object.keys(this._config.plugins);
-    pluginNames.forEach(pluginName => {
-      this._loadPlugin(pluginName);
-    });
-  }
-
-  _loadPlugin(name: string) {
-    let pluginFileName = null;
-    try {
-      pluginFileName = resolve.sync(name, { basedir: process.cwd() });
-    } catch (e) {
-      this.logger.error(`Failed to load plugin '${name}'`);
-      throw e;
-    }
-    if (pluginFileName) {
-      const factory = require(pluginFileName);
-      const pluginHolder = factory();
-      this._pluginHolders.push({ ...pluginHolder, moduleId: name });
-    }
+    this._pluginManager = new PluginManager(this.logger, this.noEmit);
+    this._pluginManager.rawConfig = this._loadConfig();
   }
 
   createQuestions(opt: CreateQuestionsOptions) {
-    const config = this._loadConfig(opt.configFileName);
-    const noConfigurablePlugins: string[] = [];
-    const preparerHolders : { name: string; preparer: PluginPreparer<any, any> }[] = [];
-    opt.pluginNames.forEach(name => this._loadPlugin(name));
-    this._pluginHolders.forEach(h => {
-      if (h["preparer"]) {
-        preparerHolders.push({ name: h.moduleId, preparer: h["preparer"] });
-      } else {
-        noConfigurablePlugins.push(h.moduleId);
-      }
-    });
-    return [
-      ...noConfigurablePlugins.map(pluginName => {
-        return {
-          name: pluginName,
-          questions: [] as any[],
-          prepare: (inquireResult: any) => Promise.resolve<any>(true),
-          configured: null,
-        };
-      }),
-      ...preparerHolders.map(holder => {
-        const questions = holder.preparer.inquire();
-        const boundPrepare = (inquireResult: any) => holder.preparer.prepare({
-          coreConfig: config.core,
-          logger: this.logger.fork(holder.name),
-          options: inquireResult,
-          noEmit: this.noEmit,
-        });
-        const configured = (config.plugins && typeof config.plugins[holder.name] === "object") ? config.plugins[holder.name] : null;
-        return {
-          name: holder.name,
-          // FIXME
-          // TS4053 Return type of public method from exported class has or is using name 'inquirer.Question' from external module "reg-suit-core/node_modules/@types/inquirer/index" but cannot be named.
-          questions: questions as any[],
-          prepare: boundPrepare,
-          configured,
-        };
-      }),
-    ];
+    return this._pluginManager.createQuestions(opt);
   }
 
   persistMergedConfig(opt: { core?: CoreConfig; pluginConfigs: { name: string; config: any }[] }, confirm: (newConfig: RegSuitConfiguration) => Promise<boolean>) {
@@ -176,74 +92,13 @@ export class RegSuitCore {
   }
 
   init(configFileName?: string) {
-    this._loadConfig(configFileName);
-    this._loadPlugins();
-    this._initKeyGenerator();
-    this._initPublisher();
-    this._initNotifiers();
-  }
-
-  _initPlugin<S extends { disabled?: boolean }, P extends Plugin<S>>(targetPlugin: P, metadata: PluginMetadata): P | undefined {
-    const replacedConf = this._configManager.replaceEnvValue(this._loadConfig());
-    let pluginSpecifiedOption: S;
-    if (replacedConf.plugins && replacedConf.plugins[metadata.moduleId]) {
-      pluginSpecifiedOption = replacedConf.plugins[metadata.moduleId];
-    } else {
-      pluginSpecifiedOption = { disabled: true } as S;
-    }
-    if (pluginSpecifiedOption.disabled === true) {
-      this.logger.verbose(`${metadata.moduleId} is disabled.`);
-      return;
-    }
-    targetPlugin.init({
-      coreConfig: this._config.core,
-      logger: this.logger.fork(metadata.moduleId),
-      options: pluginSpecifiedOption,
-      noEmit: this.noEmit,
-    });
-    this.logger.verbose(`${metadata.moduleId} is inialized with: `, pluginSpecifiedOption);
-    return targetPlugin;
-  }
-
-  _initKeyGenerator() {
-    const metadata = this._pluginHolders.filter(holder => isKeyGenerator(holder));
-    if (metadata.length > 1) {
-      const pluginNames = metadata.map(p => p.moduleId).join(", ");
-      this.logger.warn(`2 or more key generator plugins are found. Select one of ${pluginNames}.`);
-    } else if (metadata.length === 1 && this._config.plugins) {
-      const ph = metadata[0];
-      if (isKeyGenerator(ph)) {
-        this._keyGenerator = this._initPlugin(ph.keyGenerator, ph);
-      }
-    }
-    if (!this._keyGenerator) this.logger.verbose("No key generator.");
-  }
-
-  _initPublisher() {
-    const metadata = this._pluginHolders.filter(holder => isPublisher(holder));
-    if (metadata.length > 1) {
-      const pluginNames = metadata.map(p => p.moduleId).join(", ");
-      this.logger.warn(`2 or more publisher plugins are found. Select one of ${pluginNames}.`);
-    } else if (metadata.length === 1 && this._config.plugins) {
-      const ph = metadata[0];
-      if (isPublisher(ph)) {
-        this._publisher = this._initPlugin(ph.publisher, ph);
-      }
-    }
-    if (!this._publisher) this.logger.verbose("No publisher.");
-  }
-
-  _initNotifiers() {
-    const metadata = this._pluginHolders.filter(holder => isNotifier(holder));
-    this._notifiers = [];
-    metadata.forEach(ph => {
-      if (!this._config.plugins) return;
-      const pluginSpecifiedOption = this._config.plugins[ph.moduleId];
-      if (isNotifier(ph)) {
-        const np = this._initPlugin(ph.notifier, ph);
-        np && this._notifiers.push(np);
-      }
-    });
+    const rawConfig = this._loadConfig(configFileName);
+    this._pluginManager.rawConfig = rawConfig;
+    this._pluginManager.replacedConfig = this._configManager.replaceEnvValue(rawConfig);
+    this._pluginManager.loadPlugins();
+    this._keyGenerator = this._pluginManager.initKeyGenerator();
+    this._publisher = this._pluginManager.initPublisher();
+    this._notifiers = this._pluginManager.initNotifiers();
   }
 
   _loadConfig(configFileName?: string) {
