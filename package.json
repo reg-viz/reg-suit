@@ -13,8 +13,8 @@
     "watch": "run-p watch:*"
   },
   "devDependencies": {
-    "@types/node": "^7.0.31",
-    "lerna": "^2.0.0-rc.5",
+    "@types/node": "^8.0.8",
+    "lerna": "^2.0.0",
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.6.1",
     "tslint": "^5.4.3",
