@@ -20,11 +20,11 @@
   "license": "MIT",
   "devDependencies": {
     "@types/request-promise": "^4.1.35",
-    "reg-keygen-git-hash-plugin": "^0.0.17",
     "typescript": "2.3.4"
   },
   "dependencies": {
     "reg-gh-app-interface": "^0.0.15",
+    "reg-keygen-git-hash-plugin": "^0.0.17",
     "reg-suit-interface": "^0.0.13",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
