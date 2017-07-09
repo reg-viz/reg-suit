@@ -20,3 +20,20 @@ jobs:
           name: Test
           command: yarn run test
 
+  deploy:
+    working_directory: ~/reg-suit
+    steps:
+      - run:
+        name: deploy-service
+        command: echo "deploy"
+
+workflows:
+  version: 2
+  publish-npm:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+
+
