@@ -5,7 +5,7 @@
   },
   {
     "name": "reg-notify-github-plugin",
-    "description": "Notify reg-suit regult to GitHub repository"
+    "description": "Notify reg-suit result to GitHub repository"
   },
   {
     "name": "reg-notify-slack-plugin",

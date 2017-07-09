@@ -19,7 +19,7 @@
   "devDependencies": {
     "@types/chalk": "^0.4.31",
     "reg-suit-interface": "^0.0.13",
-    "typescript": "^2.3.4"
+    "typescript": "2.3.4"
   },
   "dependencies": {
     "chalk": "^2.0.1"
