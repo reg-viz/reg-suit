@@ -4,7 +4,7 @@
   "description": "Notify reg-suit result to GitHub repository",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo T.B.D.",
+    "test": "ava",
     "prepublish": "tsc -p src/tsconfig.build.json"
   },
   "keywords": [
@@ -20,13 +20,19 @@
   "license": "MIT",
   "devDependencies": {
     "@types/request-promise": "^4.1.35",
+    "ava": "^0.20.0",
     "reg-gh-app-interface": "^0.0.15",
     "reg-suit-interface": "^0.0.13",
     "typescript": "2.3.4"
   },
   "dependencies": {
+    "open": "^0.0.5",
     "reg-keygen-git-hash-plugin": "^0.0.17",
+    "reg-suit-util": "^0.0.17",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
+  },
+  "ava": {
+    "files": "lib/**/*.test.js"
   }
 }
