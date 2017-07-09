@@ -19,6 +19,9 @@ jobs:
           name: Test
           command: yarn run test
   deploy:
+    working_directory: ~/reg-suit
+    docker:
+      - image: node:6
     steps:
       - run:
         name: deploy-service
