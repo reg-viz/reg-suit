@@ -33,22 +33,19 @@ function isNotifier(pluginHolder: PluginMetadata): pluginHolder is (NotifierPlug
 export class PluginManager {
 
   _pluginHolders: PluginMetadata[] = [];
-  rawConfig: RegSuitConfiguration;
-  replacedConfig?: RegSuitConfiguration;
 
-  constructor(private _logger: RegLogger, private _noEmit: boolean) {
+  constructor(private _logger: RegLogger, private _noEmit: boolean, private _config: RegSuitConfiguration) {
   }
 
   loadPlugins() {
-    if (!this.rawConfig.plugins) return;
-    const pluginNames = Object.keys(this.rawConfig.plugins);
+    if (!this._config.plugins) return;
+    const pluginNames = Object.keys(this._config.plugins);
     pluginNames.forEach(pluginName => {
       this._loadPlugin(pluginName);
     });
   }
 
   createQuestions(opt: CreateQuestionsOptions) {
-    const config = this.rawConfig;
     const noConfigurablePlugins: string[] = [];
     const preparerHolders : { name: string; preparer: PluginPreparer<any, any> }[] = [];
     opt.pluginNames.forEach(name => this._loadPlugin(name));
@@ -71,12 +68,12 @@ export class PluginManager {
       ...preparerHolders.map(holder => {
         const questions = holder.preparer.inquire();
         const boundPrepare = (inquireResult: any) => holder.preparer.prepare({
-          coreConfig: config.core,
+          coreConfig: this._config.core,
           logger: this._logger.fork(holder.name),
           options: inquireResult,
           noEmit: this._noEmit,
         });
-        const configured = (config.plugins && typeof config.plugins[holder.name] === "object") ? config.plugins[holder.name] : null;
+        const configured = (this._config.plugins && typeof this._config.plugins[holder.name] === "object") ? this._config.plugins[holder.name] : null;
         return {
           name: holder.name,
           // FIXME
@@ -141,6 +138,7 @@ export class PluginManager {
     let pluginFileName = null;
     try {
       pluginFileName = resolve.sync(name, { basedir: process.cwd() });
+      this._logger.verbose(`Loaded plugin from ${this._logger.colors.magenta(pluginFileName)}`);
     } catch (e) {
       this._logger.error(`Failed to load plugin '${name}'`);
       throw e;
@@ -153,11 +151,9 @@ export class PluginManager {
   }
 
   private _initPlugin<S extends { disabled?: boolean }, P extends Plugin<S>>(targetPlugin: P, metadata: PluginMetadata): P | undefined {
-    if (!this.replacedConfig) throw new Error("Invalid state");
-    const replacedConf = this.replacedConfig;
     let pluginSpecifiedOption: S;
-    if (replacedConf.plugins && replacedConf.plugins[metadata.moduleId]) {
-      pluginSpecifiedOption = replacedConf.plugins[metadata.moduleId];
+    if (this._config.plugins && this._config.plugins[metadata.moduleId]) {
+      pluginSpecifiedOption = this._config.plugins[metadata.moduleId];
     } else {
       pluginSpecifiedOption = { disabled: true } as S;
     }
@@ -166,7 +162,7 @@ export class PluginManager {
       return;
     }
     targetPlugin.init({
-      coreConfig: this.replacedConfig.core,
+      coreConfig: this._config.core,
       logger: this._logger.fork(metadata.moduleId),
       options: pluginSpecifiedOption,
       noEmit: this._noEmit,
