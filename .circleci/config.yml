@@ -4,7 +4,6 @@ jobs:
     working_directory: ~/reg-suit
     docker:
       - image: node:6
-
     steps:
       - checkout
       - run:
@@ -19,9 +18,7 @@ jobs:
       - run:
           name: Test
           command: yarn run test
-
   deploy:
-    working_directory: ~/reg-suit
     steps:
       - run:
         name: deploy-service
@@ -29,7 +26,7 @@ jobs:
 
 workflows:
   version: 2
-  publish-npm:
+  publish_npm:
     jobs:
       - build
       - deploy:
