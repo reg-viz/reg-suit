@@ -24,16 +24,20 @@ jobs:
       - image: node:6
     steps:
       - run:
-        name: deploy-service
-        command: echo "deploy"
+          name: deploy-service
+          command: ls -la
 
 workflows:
   version: 2
   publish_npm:
     jobs:
       - build
-      - deploy:
+      - hold:
+          type: approval
           requires:
             - build
+      - deploy:
+          requires:
+            - hold
 
 
