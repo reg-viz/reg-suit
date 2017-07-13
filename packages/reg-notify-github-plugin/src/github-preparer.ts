@@ -58,15 +58,20 @@ export class GitHubPreparer implements PluginPreparer<GitHubPreparerOption, GitH
         result = [...inputOwnerRepo];
       }
     }
-    result.push({
+    result = result.concat([{
+      type: "confirm",
+      name: "openApp",
+      message: "The GitHub app installation ID is required. Open installation window in your browser",
+      default: true,
+    }, {
       type: "input",
       name: "installationId",
-      message: "Installation ID",
-      when: () => {
-        open("https://github.com/apps/reg/installations/new");
+      message: "Installation ID (It be indicated in URL such as https://github.com/settings/installations/xxxxx)",
+      when: ({ openApp }: { openApp: boolean }) => {
+        openApp && open("https://github.com/apps/reg/installations/new");
         return true;
       },
-    });
+    }]);
     return result;
   }
 
