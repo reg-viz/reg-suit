@@ -1,3 +1,4 @@
+import * as path from "path";
 import * as resolve from "resolve";
 import {
   Plugin,
@@ -11,7 +12,7 @@ import {
   NotifierPlugin,
   NotifierPluginHolder,
 } from "reg-suit-interface";
-import { RegLogger } from "reg-suit-util";
+import { RegLogger, fsUtil } from "reg-suit-util";
 
 export interface PluginMetadata {
   moduleId: string;
@@ -32,6 +33,9 @@ function isNotifier(pluginHolder: PluginMetadata): pluginHolder is (NotifierPlug
 
 export class PluginManager {
 
+  /**
+   * @internal
+   **/
   _pluginHolders: PluginMetadata[] = [];
 
   constructor(private _logger: RegLogger, private _noEmit: boolean, private _config: RegSuitConfiguration) {
@@ -40,9 +44,7 @@ export class PluginManager {
   loadPlugins() {
     if (!this._config.plugins) return;
     const pluginNames = Object.keys(this._config.plugins);
-    pluginNames.forEach(pluginName => {
-      this._loadPlugin(pluginName);
-    });
+    pluginNames.forEach(pluginName => this._loadPlugin(pluginName));
   }
 
   createQuestions(opt: CreateQuestionsOptions) {
@@ -136,8 +138,10 @@ export class PluginManager {
 
   private _loadPlugin(name: string) {
     let pluginFileName = null;
+    const pkgJsonPath = fsUtil.lookup("package.json", this._config.core.workingDir);
+    const basedir = pkgJsonPath ? path.dirname(pkgJsonPath) : process.cwd();
     try {
-      pluginFileName = resolve.sync(name, { basedir: process.cwd() });
+      pluginFileName = resolve.sync(name, { basedir });
       this._logger.verbose(`Loaded plugin from ${this._logger.colors.magenta(pluginFileName)}`);
     } catch (e) {
       this._logger.error(`Failed to load plugin '${name}'`);
