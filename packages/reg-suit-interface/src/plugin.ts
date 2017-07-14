@@ -1,3 +1,4 @@
+import { Question } from "inquirer";
 import { CoreConfig, ComparisonResult } from "./core";
 import { Logger } from "./logger";
 
@@ -39,7 +40,8 @@ export interface Plugin<T> {
   init(config: PluginCreateOptions<T>): void;
 }
 
-export type PreparerQuestions = any[]; // FIXME
+export type PreparerQuestion = Question;
+export type PreparerQuestions = PreparerQuestion[];
 
 export interface PluginPreparer<S, T> {
   inquire(): PreparerQuestions;
