@@ -35,6 +35,11 @@ jobs:
           name: Bootstrap packages
           command: yarn run lerna -- bootstrap
       - run:
+          name: Setup git
+          command: |
+            git config --global user.email "yosuke.kurami@gmail.com"
+            git config --global user.name "Quramy"
+      - run:
           name: Login npm
           command: |
             echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
