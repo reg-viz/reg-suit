@@ -1,10 +1,18 @@
+defaults: &defaults
+  working_directory: ~/temp
+  docker:
+    - image: node:6
+
 version: 2
 jobs:
   build:
-    working_directory: ~/reg-suit
-    docker:
-      - image: node:6
+    flow:
+      <<: *defaults
     steps:
+      - run:
+          command: |
+            mkdir -p reg-suit
+            cd reg-suit
       - checkout
       - run:
           name: Install dependencies
@@ -18,18 +26,19 @@ jobs:
       - run:
           name: Test
           command: yarn run test
+      - run:
+          command: cd ../
       - persist_to_workspace:
-          root: ./
+          root: reg-suit
           paths:
             - packages
             - node_modules
   deploy:
-    working_directory: ~/reg-suit
-    docker:
-      - image: node:6
+    flow:
+      <<: *defaults
     steps:
       - attach_workspace:
-        at: ~/reg-suit
+        at: ~/temp/reg-suit
       - run:
           name: deploy-service
           command: ls -la
