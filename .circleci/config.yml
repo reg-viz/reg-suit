@@ -6,8 +6,7 @@ defaults: &defaults
 version: 2
 jobs:
   build:
-    flow:
-      <<: *defaults
+    <<: *defaults
     steps:
       - run:
           command: |
@@ -34,8 +33,7 @@ jobs:
             - packages
             - node_modules
   deploy:
-    flow:
-      <<: *defaults
+    <<: *defaults
     steps:
       - attach_workspace:
         at: ~/temp/reg-suit
