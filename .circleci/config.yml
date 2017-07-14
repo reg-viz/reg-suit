@@ -40,9 +40,9 @@ jobs:
             echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
             npm whoami
       - run:
-          name: deploy-service
+          name: Publish to npm
           command: |
-            yarn run lerna publish -- --skip-npm --skip-git --yes --cd-version="patch"
+            yarn run lerna publish -- --yes --cd-version="patch"
 
 workflows:
   version: 2
