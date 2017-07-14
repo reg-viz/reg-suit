@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-util",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
