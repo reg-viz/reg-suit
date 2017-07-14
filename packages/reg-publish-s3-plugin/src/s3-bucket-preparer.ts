@@ -1,5 +1,5 @@
 import * as uuid from "uuid/v4";
-import { S3 } from "aws-sdk";
+import { S3, config as awsConfig } from "aws-sdk";
 import { PluginPreparer,
   PluginCreateOptions,
   PreparerQuestions,
@@ -61,6 +61,11 @@ export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, Plug
     } else  {
       const id = uuid();
       const bucketName = `${BUCKET_PREFIX}-${id}`;
+      if (!awsConfig.credentials || !awsConfig.credentials.accessKeyId) {
+        this._logger.warn("Failed to read AWS credentials.");
+        this._logger.warn(`Create ${this._logger.colors.magenta("~/.aws/credentials")} or export ${this._logger.colors.green("$AWS_ACCESS_KEY_ID")} and ${this._logger.colors.green("$AWS_SECRET_ACCESS_KEY")}.`);
+        return Promise.resolve({ bucketName: "your_s3_bucket_name" });
+      }
       if (config.noEmit) {
         this._logger.info(`Skip to create S3 bucket ${bucketName} because noEmit option.`);
         return Promise.resolve({ bucketName });
@@ -70,7 +75,7 @@ export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, Plug
           return this._updatePolicy(bucketName);
         })
         .then(bucketName => {
-          this._logger.info(`Create new S3 bucket: ${bucketName}`);
+          this._logger.info(`Create new S3 bucket: ${this._logger.colors.magenta(bucketName)}`);
           return { bucketName };
         })
       ;
