@@ -18,11 +18,18 @@ jobs:
       - run:
           name: Test
           command: yarn run test
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - packages
+            - node_modules
   deploy:
     working_directory: ~/reg-suit
     docker:
       - image: node:6
     steps:
+      - attach_workspace:
+        at: ~/reg-suit
       - run:
           name: deploy-service
           command: ls -la
