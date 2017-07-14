@@ -35,7 +35,7 @@ function init(options: CliOptions) {
               core.logger.verbose(`Copied file from ${fromPath} to ${toPath}.`);
             });
           })).then(() => {
-            core.logger.info("Execute 'reg-suit' \u2B50");
+            core.logger.info("Execute 'reg-suit run' \u2B50");
           });
         }
       } else {

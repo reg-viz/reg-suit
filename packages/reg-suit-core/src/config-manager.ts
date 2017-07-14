@@ -51,7 +51,7 @@ export class ConfigManager {
 
   readConfig(configFileName: string = DEFAULT_CONFIG_FILE_NAME) {
     const defaultCoreConfig = {
-      workingDir: path.join(process.cwd(), "./reg"),
+      workingDir: "reg",
       actualDir: "actual",
       expectedDir: "expected",
     } as CoreConfig;

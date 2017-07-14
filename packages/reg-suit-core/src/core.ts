@@ -6,7 +6,7 @@ import {
   CreateQuestionsOptions,
   RegSuitConfiguration,
 } from "reg-suit-interface";
-import { createLogger, RegLogger, LogLevel } from "reg-suit-util";
+import { createLogger, RegLogger, LogLevel, fsUtil } from "reg-suit-util";
 
 import { ConfigManager } from "./config-manager";
 import { PluginManager } from "./plugin-manager";
@@ -49,7 +49,8 @@ export class RegSuitCore {
         ...pc.config,
       } : pc.config;
     });
-    this.logger.verbose("Merged configuration: ", mergedConfig);
+    this.logger.info("Configuration:");
+    this.logger.info(JSON.stringify(mergedConfig, null, 2));
     if (JSON.stringify(baseConfig) === JSON.stringify(mergedConfig)) {
       // If there is no difference, exit quietly.
       return Promise.resolve();
@@ -70,6 +71,7 @@ export class RegSuitCore {
     const keyGenerator = this._pluginManager.initKeyGenerator();
     const publisher = this._pluginManager.initPublisher();
     const notifiers = this._pluginManager.initNotifiers();
+    const directoryInfo = this.getDirectoryInfo(configFileName);
     return new RegProcessor({
       coreConfig: this._config.core,
       logger: this.logger,
@@ -78,6 +80,7 @@ export class RegSuitCore {
         keyGenerator,
         publisher,
         notifiers,
+        directoryInfo,
       },
     });
   }
@@ -96,8 +99,9 @@ export class RegSuitCore {
 
   getDirectoryInfo(configFileName?: string) {
     this._loadConfig(configFileName);
-    const actualDir = path.join(path.resolve(process.cwd(), this._config.core.workingDir), this._config.core.actualDir);
-    const expectedDir = path.join(path.resolve(process.cwd(), this._config.core.workingDir), this._config.core.expectedDir);
-    return { actualDir, expectedDir };
+    const workingDir = path.resolve(fsUtil.prjRootDir(), this._config.core.workingDir);
+    const actualDir = path.join(workingDir, this._config.core.actualDir);
+    const expectedDir = path.join(workingDir, this._config.core.expectedDir);
+    return { workingDir, actualDir, expectedDir };
   }
 }

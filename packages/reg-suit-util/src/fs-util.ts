@@ -12,6 +12,15 @@ export class FsUtil {
       return this.lookup(fileOrDirName, path.resolve(firstDir, ".."), level - 1);
     }
   }
+
+  prjRootDir(configFileName = "package.json") {
+    const c = this.lookup(configFileName);
+    if (c) {
+      return path.dirname(c);
+    } else {
+      return process.cwd();
+    }
+  }
 }
 
 export const fsUtil = new FsUtil();

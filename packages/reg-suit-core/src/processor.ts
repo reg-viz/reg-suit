@@ -9,6 +9,7 @@ import {
   PluginLogger,
   ComparisonResult,
 } from "reg-suit-interface";
+import { fsUtil } from "reg-suit-util";
 
 const compare = require("reg-cli");
 
@@ -16,6 +17,11 @@ export interface ProcessorOptions {
   keyGenerator?: KeyGeneratorPlugin<any>;
   publisher?: PublisherPlugin<any>;
   notifiers: NotifierPlugin<any>[];
+  directoryInfo: {
+    workingDir: string;
+    actualDir: string;
+    expectedDir: string;
+  };
 }
 
 export interface StepResultAfterExpectedKey {
@@ -38,6 +44,7 @@ export class RegProcessor {
 
   private _logger: PluginLogger;
   private _config: CoreConfig;
+  private _directoryInfo: ProcessorOptions["directoryInfo"];
   private _keyGenerator?: KeyGeneratorPlugin<any>;
   private _publisher?: PublisherPlugin<any>;
   private _notifiers: NotifierPlugin<any>[];
@@ -47,6 +54,7 @@ export class RegProcessor {
   ) {
     this._logger = opt.logger;
     this._config = opt.coreConfig;
+    this._directoryInfo = opt.options.directoryInfo;
     this._keyGenerator = opt.options.keyGenerator;
     this._publisher = opt.options.publisher;
     this._notifiers = opt.options.notifiers;
@@ -82,12 +90,13 @@ export class RegProcessor {
   }
 
   compare(ctx: StepResultAfterExpectedKey): Promise<StepResultAfterComparison> {
+    const { actualDir, expectedDir, workingDir } = this._directoryInfo;
     return (compare({
-      actualDir: path.join(this._config.workingDir, this._config.actualDir),
-      expectedDir: path.join(this._config.workingDir, this._config.expectedDir),
-      diffDir: path.join(this._config.workingDir, "diff"),
-      json: path.join(this._config.workingDir, "out.json"),
-      report: path.join(this._config.workingDir, "index.html"),
+      actualDir,
+      expectedDir,
+      diffDir: path.join(workingDir, "diff"),
+      json: path.join(workingDir, "out.json"),
+      report: path.join(workingDir, "index.html"),
       update: false,
       ignoreChange: true,
       urlPrefix: "",
