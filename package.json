@@ -7,6 +7,7 @@
     "watch:interface": "tsc -w -p packages/reg-suit-interface/src/tsconfig.build.json",
     "watch:core": "tsc -w -p packages/reg-suit-core/src/tsconfig.build.json",
     "watch:cli": "tsc -w -p packages/reg-suit-cli/src/tsconfig.build.json",
+    "watch:util": "tsc -w -p packages/reg-suit-util/src/tsconfig.build.json",
     "watch": "run-p watch:*"
   },
   "devDependencies": {

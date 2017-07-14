@@ -38,7 +38,7 @@ export class RegLogger implements Logger {
 
   warn(msg: string) {
     if (this._level !== "silent") {
-      console.warn(this._prefix + this.colors.bgYellow("warn ") + msg);
+      console.warn(this._prefix + this.colors.yellow("warn ") + msg);
     }
   }
 

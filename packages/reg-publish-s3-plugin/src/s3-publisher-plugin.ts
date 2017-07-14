@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { S3 } from "aws-sdk";
+import { S3, config as awsConfig } from "aws-sdk";
 import * as glob from "glob";
 import * as _ from "lodash";
 import * as mkdirp from "mkdirp";
@@ -50,6 +50,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
     this._s3client = new S3();
     this._noEmit = config.noEmit;
     this._logger = config.logger;
+    this._checkCredentials();
   }
 
   createList(): Promise<FileItem[]> {
@@ -141,6 +142,14 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
         return { reportUrl, items };
       })
     ;
+  }
+
+  private _checkCredentials() {
+    if (!awsConfig.credentials || !awsConfig.credentials.accessKeyId || !awsConfig.credentials.secretAccessKey) {
+      this._logger.error("Failed to read AWS credentials.");
+      this._logger.error(`Create ${this._logger.colors.magenta("~/.aws/credentials")} or export ${this._logger.colors.green("$AWS_ACCESS_KEY_ID")} and ${this._logger.colors.green("$AWS_SECRET_ACCESS_KEY")}.`);
+      throw new Error("AWS credentials are not set.");
+    }
   }
 
   private _publishItem(key: string, item: FileItem): Promise<FileItem> {
