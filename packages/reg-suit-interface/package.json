@@ -16,6 +16,7 @@
   "repository": "git+https://github.com/Quramy/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
+    "@types/inquirer": "^0.0.35",
     "typescript": "2.3.4"
   }
 }

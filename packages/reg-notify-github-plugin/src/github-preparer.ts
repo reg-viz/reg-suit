@@ -1,6 +1,7 @@
 import * as path from "path";
 
 import {
+  PreparerQuestion,
   PluginCreateOptions,
   PluginPreparer
 } from "reg-suit-interface";
@@ -33,7 +34,7 @@ export class GitHubPreparer implements PluginPreparer<GitHubPreparerOption, GitH
   inquire(): any[] {
     const prjDir = fsUtil.lookup("package.json");
     let result: any[] = [];
-    const inputOwnerRepo = [
+    const inputOwnerRepo: PreparerQuestion[] = [
       {
         type: "input",
         name: "inputRepo",
@@ -58,20 +59,24 @@ export class GitHubPreparer implements PluginPreparer<GitHubPreparerOption, GitH
         result = [...inputOwnerRepo];
       }
     }
-    result = result.concat([{
-      type: "confirm",
-      name: "openApp",
-      message: "The GitHub app installation ID is required. Open installation window in your browser",
-      default: true,
-    }, {
-      type: "input",
-      name: "installationId",
-      message: "Installation ID (It be indicated in URL such as https://github.com/settings/installations/xxxxx)",
-      when: ({ openApp }: { openApp: boolean }) => {
-        openApp && open("https://github.com/apps/reg/installations/new");
-        return true;
+    result = [
+      ...result,
+      {
+        type: "confirm",
+        name: "openApp",
+        message: "The GitHub app installation ID is required. Open installation window in your browser",
+        default: true,
       },
-    }]);
+      {
+        type: "input",
+        name: "installationId",
+        message: "Installation ID (It be indicated in URL such as https://github.com/settings/installations/xxxxx)",
+        when: ({ openApp }: { openApp: boolean }) => {
+          openApp && open("https://github.com/apps/reg/installations/new");
+          return true;
+        },
+      }
+    ];
     return result;
   }
 
