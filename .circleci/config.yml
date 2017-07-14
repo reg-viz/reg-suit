@@ -21,8 +21,11 @@ jobs:
       - run:
           name: Test
           command: yarn run test
+      - run: cd ..
       - persist_to_workspace:
-          root: ./
+          root: reg-suit
+          paths:
+            - "*"
   deploy:
     <<: *defaults
     steps:
