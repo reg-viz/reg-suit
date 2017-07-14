@@ -47,6 +47,7 @@ jobs:
       - run:
           name: Publish to npm
           command: |
+            echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
             yarn run lerna publish -- --yes --cd-version="patch"
 
 workflows:
