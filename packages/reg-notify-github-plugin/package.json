@@ -1,6 +1,6 @@
 {
   "name": "reg-notify-github-plugin",
-  "version": "0.0.20",
+  "version": "0.1.0",
   "description": "Notify reg-suit result to GitHub repository",
   "main": "lib/index.js",
   "scripts": {
@@ -21,14 +21,14 @@
   "devDependencies": {
     "@types/request-promise": "^4.1.35",
     "ava": "^0.20.0",
-    "reg-gh-app-interface": "^0.0.15",
-    "reg-suit-interface": "^0.0.19",
+    "reg-gh-app-interface": "^0.1.0",
+    "reg-suit-interface": "^0.1.0",
     "typescript": "2.3.4"
   },
   "dependencies": {
     "open": "^0.0.5",
-    "reg-keygen-git-hash-plugin": "^0.0.19",
-    "reg-suit-util": "^0.0.20",
+    "reg-keygen-git-hash-plugin": "^0.1.0",
+    "reg-suit-util": "^0.1.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
   },
