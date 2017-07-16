@@ -101,7 +101,7 @@ workflows:
               only: master
           requires:
             - confirm_patch
-      - patch_minor:
+      - minor_release:
           filters:
             branches:
               only: master
