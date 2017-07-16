@@ -14,7 +14,7 @@
     "name": "Quramy",
     "email": "yosuke.kurami@gmail.com"
   },
-  "repository": "git+https://github.com/Quramy/reg-suit.git",
+  "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
     "@types/chalk": "^0.4.31",
