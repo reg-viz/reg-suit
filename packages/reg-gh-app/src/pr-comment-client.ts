@@ -11,6 +11,7 @@ import {
 import * as updatePrCommentContextQuery from "./gql/update-pr-comment-context.graphql";
 
 export async function commentToPR(eventBody: CommentToPrEventBody) {
+  validateEventBody(eventBody);
   const token = await auth(eventBody.installationId);
   const client = new GhApiClient(token);
   const variables: UpdatePrCommentContextQueryVariables = {
