@@ -9,6 +9,11 @@ function createFixture(name: string) {
   return explorerFixture;
 }
 
+test("detached head", t => {
+  const fixture = createFixture("detached-head");
+  t.throws(() => fixture.getCurrentBranchName());
+});
+
 test("no commit", t => {
   const fixture = createFixture("no-commit");
   t.throws(() => fixture.getCurrentCommitHash());
