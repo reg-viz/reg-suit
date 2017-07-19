@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-core",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -21,14 +21,14 @@
   "dependencies": {
     "cpx": "^1.5.0",
     "reg-cli": "^0.8.0",
-    "reg-suit-util": "^0.1.0",
+    "reg-suit-util": "^0.2.0",
     "resolve": "^1.3.3",
     "rimraf": "^2.6.1"
   },
   "devDependencies": {
     "@types/resolve": "^0.0.4",
     "ava": "^0.20.0",
-    "reg-suit-interface": "^0.1.0",
+    "reg-suit-interface": "^0.2.0",
     "typescript": "^2.3.4"
   },
   "ava": {
