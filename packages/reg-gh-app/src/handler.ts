@@ -29,7 +29,7 @@ function errorResponse(callback: any) {
       const errResponse = {
         ...BASE_RESPONSE,
         statusCode: reason.statusCode || 400,
-        body: reason.body || { message: "An error occurred during calling GitHub API" },
+        body: JSON.stringify(reason.body || { message: "An error occurred during calling GitHub API" }),
       };
       if (errResponse.statusCode >= 500) {
         console.error(reason);
@@ -40,7 +40,7 @@ function errorResponse(callback: any) {
       const response = {
         ...BASE_RESPONSE,
         statusCode: 500,
-        body: { message: "Internal server error" },
+        body: JSON.stringify({ message: "Internal server error." }),
       };
       return callback(null, response);
     }
