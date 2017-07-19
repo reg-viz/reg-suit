@@ -21,6 +21,29 @@ export interface GitHubPluginOption {
   customEndpoint?: string;
 }
 
+interface GhAppStatusCodeError {
+  name: "StatusCodeError";
+  statusCode: number;
+  error: {
+    message: string;
+  };
+}
+
+function isGhAppError(x: any): x is GhAppStatusCodeError {
+  return x.name && x.name === "StatusCodeError";
+}
+
+const errorHandler = (logger: PluginLogger) => {
+  return (reason: any) => {
+    if (isGhAppError(reason)) {
+      logger.error(reason.error.message);
+      return Promise.reject(reason.error);
+    } else {
+      return Promise.reject(reason);
+    }
+  };
+};
+
 const defaultEndpoint = require("../.endpoint.json").endpoint as string;
 
 export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> {
@@ -95,6 +118,6 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     if (this._noEmit) {
       return Promise.resolve();
     }
-    return Promise.all(reqs.map(r => rp(r)));
+    return Promise.all(reqs.map(r => rp(r).catch(errorHandler(this._logger))));
   }
 }
