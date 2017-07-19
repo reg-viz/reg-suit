@@ -1,6 +1,6 @@
 {
   "name": "reg-notify-github-plugin",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Notify reg-suit result to GitHub repository",
   "main": "lib/index.js",
   "scripts": {
