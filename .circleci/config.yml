@@ -45,6 +45,10 @@ jobs:
             echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
             npm whoami
       - run:
+          name: Deploy services
+          command: |
+            yarn run deploy
+      - run:
           name: Publish to npm
           command: |
             yarn run lerna publish -- --yes --cd-version="patch"
@@ -71,6 +75,10 @@ jobs:
           command: |
             echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
             npm whoami
+      - run:
+          name: Deploy services
+          command: |
+            yarn run deploy
       - run:
           name: Publish to npm
           command: |

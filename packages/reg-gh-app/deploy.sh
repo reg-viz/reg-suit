@@ -1,5 +1,8 @@
 #!/bin/bash
 
+if [ ! -f keys/private-key.pem ]; then
+  node keys/pem-zip.js
+fi
 yarn run webpack
 cp serverless.yml serverless.yml.bk
 cat serverless.yml.bk | sed "s/- serverless-webpack//" > serverless.yml
