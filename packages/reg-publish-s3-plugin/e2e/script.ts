@@ -11,49 +11,51 @@ const preparer = new S3BucketPreparer();
 const plugin = new S3PublisherPlugin();
 const logger = createLogger();
 logger.setLevel("verbose");
-const baseConfA = {
-  coreConfig: {
-    actualDir: "dir_a",
-    expectedDir: "dir_b",
-    workingDir: __dirname + "/../e2e/report-fixture",
-  },
+const baseConf = {
+  coreConfig: { actualDir: "", workingDir: "" },
   logger,
   noEmit: false,
 };
 
-const baseConfB = {
-  coreConfig: {
-    actualDir: "dir_a",
-    expectedDir: "dir_b",
-    workingDir: __dirname + "/../e2e/report-fixture-expected",
-  },
-  logger,
-  noEmit: false,
+const dirsA = {
+  base: __dirname + "/../e2e/report-fixture",
+  actualDir: __dirname + "/../e2e/report-fixture/dir_a",
+  expectedDir: __dirname + "/../e2e/report-fixture/dir_b",
+  diffDir: "",
+};
+
+const dirsB = {
+  base: __dirname + "/../e2e/report-fixture-expected",
+  actualDir: __dirname + "/../e2e/report-fixture-expected/dir_a",
+  expectedDir: __dirname + "/../e2e/report-fixture-expected/dir_b",
+  diffDir: "",
 };
 
 let bn: string;
-preparer.prepare({ ...baseConfA, options: { createBucket: true, } })
+preparer.prepare({ ...baseConf, options: { createBucket: true, }, workingDirs: dirsA })
 .then(({ bucketName }) => {
   bn = bucketName || "";
   plugin.init({
-    ...baseConfA,
+    ...baseConf,
     options: {
       bucketName: bn,
-    }
+    },
+    workingDirs: dirsA,
   });
   return plugin.publish("abcdef12345");
 })
 .then(() => {
   plugin.init({
-    ...baseConfB,
+    ...baseConf,
     options: {
       bucketName: bn,
-    }
+    },
+    workingDirs: dirsB,
   });
   return plugin.fetch("abcdef12345");
 })
 .then(() => {
-  const list = glob.sync("dir_b/sample01.png", { cwd: baseConfB.coreConfig.workingDir });
+  const list = glob.sync("dir_b/sample01.png", { cwd: dirsB.base });
   assert.equal(list[0], "dir_b/sample01.png");
 })
 .then(() => {

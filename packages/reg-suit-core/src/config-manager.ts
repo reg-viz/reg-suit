@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { CoreConfig, RegSuitConfiguration } from "reg-suit-interface";
-import { RegLogger } from "reg-suit-util";
+import { RegLogger, fsUtil } from "reg-suit-util";
 
 const DEFAULT_CONFIG_FILE_NAME = "regconfig.json";
 
@@ -32,15 +32,35 @@ function expandPlaceholders(x: any): any {
   }
 }
 
+export interface ConfigManagerCreateOptions {
+  configFileName?: string;
+  logger: RegLogger;
+  noEmit: boolean;
+}
+
 export class ConfigManager {
 
   get defaultConfigFileName() {
     return DEFAULT_CONFIG_FILE_NAME;
   }
 
-  constructor(private _logger: RegLogger, private _noEmit: boolean) { }
+  /**
+   * @internal
+   **/
+  _loadedConfig: RegSuitConfiguration;
 
-  replaceEnvValue(rawConfig: RegSuitConfiguration): RegSuitConfiguration {
+  private _configFileName?: string;
+  private _logger: RegLogger;
+  private _noEmit: boolean;
+
+  constructor(opt: ConfigManagerCreateOptions) {
+    this._configFileName = opt.configFileName;
+    this._logger = opt.logger;
+    this._noEmit = opt.noEmit;
+  }
+
+  replaceEnvValue(): RegSuitConfiguration {
+    const rawConfig = this.config;
     if (!rawConfig.plugins) return rawConfig;
     const plugins = { ...rawConfig.plugins };
     if (!!((<any>rawConfig)["__replaced__"])) return rawConfig;
@@ -49,18 +69,35 @@ export class ConfigManager {
     return { ...rawConfig, plugins };
   }
 
-  readConfig(configFileName: string = DEFAULT_CONFIG_FILE_NAME) {
+  get config() {
+    if (!this._loadedConfig) {
+      this._loadedConfig = this.readConfig().config;
+    }
+    return this._loadedConfig;
+  }
+
+  readConfig() {
     const defaultCoreConfig = {
-      workingDir: "reg",
-      actualDir: "actual",
-      expectedDir: "expected",
+      workingDir: ".reg",
+      actualDir: "directory_contains_actual_images",
+      threshold: 0,
     } as CoreConfig;
     let readResult: any, readJsonObj: any;
+    const configFilePath = this._getConfigPath();
     try {
-      readResult = fs.readFileSync(this._getConfigPath(configFileName), "utf8");
-      readJsonObj = JSON.parse(readResult);
-    } catch(e) {
-      // TODO logging
+      readResult = fs.readFileSync(configFilePath, "utf8");
+    } catch (e) {
+      this._logger.verbose(`Failed to load config file: ${this._logger.colors.magenta(configFilePath)}`);
+    }
+    if (readResult) {
+      try {
+        readJsonObj = JSON.parse(readResult);
+      } catch (e) {
+        const msg = `Failed to read ${this._configFileName} because it's invalid JSON file.`;
+        this._logger.error(msg);
+        this._logger.error(readResult);
+        throw new Error(msg);
+      }
     }
     if (readJsonObj) {
       return {
@@ -83,11 +120,18 @@ export class ConfigManager {
     }
   }
 
-  writeConfig(config: RegSuitConfiguration, configFileName: string = DEFAULT_CONFIG_FILE_NAME) {
-    fs.writeFileSync(this._getConfigPath(configFileName), JSON.stringify(config, null, 2), "utf8");
+  writeConfig(config: RegSuitConfiguration) {
+    this._loadedConfig = config;
+    fs.writeFileSync(this._getConfigPath(), JSON.stringify(config, null, 2), "utf8");
   }
 
-  private _getConfigPath(configFileName: string) {
-    return path.resolve(process.cwd(), configFileName);
+  private _getConfigPath() {
+    if (this._configFileName) {
+      this._logger.verbose(`config file: ${this._configFileName}`);
+      return path.resolve(fsUtil.prjRootDir(), this._configFileName);
+    } else {
+      this._logger.verbose(`config file not specified, load from ${DEFAULT_CONFIG_FILE_NAME}.`);
+      return path.resolve(fsUtil.prjRootDir(), DEFAULT_CONFIG_FILE_NAME);
+    }
   }
 }

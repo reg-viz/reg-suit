@@ -13,7 +13,7 @@ type CpFile = (from: string, to: string) => Promise<void>;
 const cpFile = require("cp-file") as CpFile;
 
 function init(options: CliOptions) {
-  return install(options).then(() => prepare(options)).then(() => {
+  return install(options).then(() => prepare(options, true)).then(() => {
     return inquirer.prompt([
       {
         name: "copyFromSample",
@@ -23,12 +23,12 @@ function init(options: CliOptions) {
       },
     ]).then(({ copyFromSample }: { copyFromSample: boolean }) => {
       const core = getRegCore(options);
-      const { actualDir } = core.getDirectoryInfo(options.configFileName);
+      const { actualDir } = core.getDirectoryInfo().userDirs;
       core.logger.info("Initialization ended successfully \u2728");
       if (copyFromSample) {
         const fromDir = packageUtil.checkInstalled("reg-cli");
         if (fromDir) {
-          return Promise.all(["actual", "expected"].map(name => {
+          return Promise.all(["actual"].map(name => {
             const fromPath = path.join(fromDir, "report", "sample", name, "sample.png");
             const toPath = path.join(actualDir, "sample.png");
             return cpFile(fromPath, toPath).then(() => {

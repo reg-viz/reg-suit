@@ -9,11 +9,10 @@ function createPluginManager(pluginConfig: any) {
   const pm = new PluginManager(logger, false, {
     core: {
       actualDir: "",
-      expectedDir: "",
       workingDir: path.join(__dirname, ".."),
     },
     plugins: pluginConfig,
-  });
+  }, { actualDir: "", base: "", diffDir: "", expectedDir: "" });
   return pm;
 }
 

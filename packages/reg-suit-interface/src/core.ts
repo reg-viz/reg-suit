@@ -1,7 +1,14 @@
 export interface CoreConfig {
-  workingDir: string;
-  expectedDir: string;
   actualDir: string;
+  workingDir: string;
+  threshold?: number;
+}
+
+export interface WorkingDirectoryInfo {
+  base: string;
+  actualDir: string;
+  expectedDir: string;
+  diffDir: string;
 }
 
 export interface RegSuitConfiguration {
@@ -12,7 +19,6 @@ export interface RegSuitConfiguration {
 }
 
 export interface CreateQuestionsOptions {
-  configFileName?: string;
   pluginNames: string[];
 }
 

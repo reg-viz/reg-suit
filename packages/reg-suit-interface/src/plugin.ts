@@ -1,5 +1,5 @@
 import { Question } from "inquirer";
-import { CoreConfig, ComparisonResult } from "./core";
+import { CoreConfig, ComparisonResult, WorkingDirectoryInfo } from "./core";
 import { Logger } from "./logger";
 
 export type PluginLogger = Logger;
@@ -31,6 +31,7 @@ export interface Notifier {
 
 export interface PluginCreateOptions<T> {
   coreConfig: CoreConfig;
+  workingDirs: WorkingDirectoryInfo;
   logger: Logger;
   noEmit: boolean;
   options: T;
