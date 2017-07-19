@@ -12,7 +12,7 @@ const coreConf: CoreConfig = {
 function createManager() {
   const logger = createLogger();
   logger.setLevel("silent");
-  return new ConfigManager(logger, true);
+  return new ConfigManager({ logger, noEmit: true });
 }
 
 test("do nothing conf without plugins section", t => {
@@ -20,7 +20,8 @@ test("do nothing conf without plugins section", t => {
     core: coreConf,
   };
   const manager = createManager();
-  const actual = manager.replaceEnvValue(conf) as any;
+  manager._loadedConfig = conf;
+  const actual = manager.replaceEnvValue() as any;
   t.is(actual, conf);
 });
 
@@ -32,7 +33,8 @@ test("replace placeholders in config", t => {
     }
   };
   const manager = createManager();
-  const actual = manager.replaceEnvValue(conf) as any;
+  manager._loadedConfig = conf;
+  const actual = manager.replaceEnvValue() as any;
   t.is(actual.plugins["some-plugin"].xxx, process.env["HOGE_FOO"]);
   t.is(actual.plugins["some-plugin"].yyy, process.env["HOGE_FOO"]);
   t.is(actual.plugins["some-plugin"].zzz, "HOGE_FOO");
@@ -46,7 +48,8 @@ test("replace nested placeholders", t => {
     }
   };
   const manager = createManager();
-  const actual = manager.replaceEnvValue(conf) as any;
+  manager._loadedConfig = conf;
+  const actual = manager.replaceEnvValue() as any;
   t.is(actual.plugins["some-plugin"].xxx.yyy, process.env["HOGE_FOO"]);
 });
 
@@ -58,7 +61,8 @@ test("replace placeholders in array", t => {
     }
   };
   const manager = createManager();
-  const actual = manager.replaceEnvValue(conf) as any;
+  manager._loadedConfig = conf;
+  const actual = manager.replaceEnvValue() as any;
   t.is(actual.plugins["some-plugin"].xxx[0], process.env["HOGE_FOO"]);
 });
 
@@ -70,7 +74,8 @@ test("escape $$ to $", t => {
     }
   };
   const manager = createManager();
-  const actual = manager.replaceEnvValue(conf) as any;
+  manager._loadedConfig = conf;
+  const actual = manager.replaceEnvValue() as any;
   t.is(actual.plugins["some-plugin"].xxx, "$HOGE_FOO");
 });
 
@@ -82,7 +87,9 @@ test("replace only once", t => {
     }
   };
   const manager = createManager();
-  const actual = manager.replaceEnvValue(manager.replaceEnvValue(conf)) as any;
+  manager._loadedConfig = conf;
+  manager._loadedConfig = manager.replaceEnvValue();
+  const actual = manager.replaceEnvValue() as any;
   t.is(actual.plugins["some-plugin"].xxx, process.env["HOGE_FOO"]);
   t.is(actual.plugins["some-plugin"].yyy, "$HOGE_FOO");
 });

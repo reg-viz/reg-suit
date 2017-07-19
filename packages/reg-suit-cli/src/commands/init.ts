@@ -23,7 +23,7 @@ function init(options: CliOptions) {
       },
     ]).then(({ copyFromSample }: { copyFromSample: boolean }) => {
       const core = getRegCore(options);
-      const { actualDir } = core.getDirectoryInfo(options.configFileName).userDirs;
+      const { actualDir } = core.getDirectoryInfo().userDirs;
       core.logger.info("Initialization ended successfully \u2728");
       if (copyFromSample) {
         const fromDir = packageUtil.checkInstalled("reg-cli");

@@ -28,7 +28,7 @@ function prepare(options: CliOptions) {
       default: true,
     }
   ]).then(({ result } : { result: boolean }) => result);
-  const questions = core.createQuestions({ configFileName: options.configFileName, pluginNames });
+  const questions = core.createQuestions({ pluginNames });
   return questions.reduce((acc, qh) => {
     return acc.then(configs => {
       if (qh.questions.length) {

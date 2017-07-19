@@ -17,28 +17,37 @@ export class RegSuitCore {
   noEmit: boolean;
   logger: RegLogger;
   _pluginManager: PluginManager;
-  _config: RegSuitConfiguration;
+  _configFileName?: string;
   _configManager: ConfigManager;
 
-  constructor(opt?: {
+  constructor(opt: {
     logLevel?: LogLevel;
     noEmit?: boolean;
-  }) {
+    configFileName?: string;
+  } = { }) {
     this.logger = createLogger();
-    if (opt && opt.logLevel) {
+    if (opt.logLevel) {
       this.logger.setLevel(opt.logLevel);
     }
-    this.noEmit = !!(opt && opt.noEmit);
+    this.noEmit = !!(opt.noEmit);
+    this._configFileName = opt.configFileName;
+  }
+
+  /**
+   * @internal
+   **/
+  get _config() {
+    return this._configManager.config;
   }
 
   createQuestions(opt: CreateQuestionsOptions) {
-    this._configManager = new ConfigManager(this.logger, this.noEmit);
-    this._pluginManager = new PluginManager(this.logger, this.noEmit, this._loadConfig(opt.configFileName), this._getWorkingDirs());
+    this._configManager = new ConfigManager({ logger: this.logger, noEmit: this.noEmit });
+    this._pluginManager = new PluginManager(this.logger, this.noEmit, this._config, this._getWorkingDirs());
     return this._pluginManager.createQuestions(opt);
   }
 
   persistMergedConfig(opt: { core?: CoreConfig; pluginConfigs: { name: string; config: any }[] }, confirm: (newConfig: RegSuitConfiguration) => Promise<boolean>) {
-    const baseConfig = this._loadConfig();
+    const baseConfig = this._config;
     const mergedConfig = {
       core: opt.core ? { ...baseConfig.core, ...opt.core } : baseConfig.core,
       plugins: { ...baseConfig.plugins },
@@ -62,20 +71,19 @@ export class RegSuitCore {
   }
 
   createProcessor(configFileName?: string) {
-    this._configManager = new ConfigManager(this.logger, this.noEmit);
-    const rawConfig = this._loadConfig(configFileName);
-    const replacedConfig = this._configManager.replaceEnvValue(rawConfig);
-    this.logger.verbose("rawConfig: ", replacedConfig);
+    this._configManager = new ConfigManager({ configFileName, logger: this.logger, noEmit: this.noEmit });
+    const replacedConfig = this._configManager.replaceEnvValue();
+    this.logger.verbose("Config: ", replacedConfig);
     this._pluginManager = new PluginManager(this.logger, this.noEmit, replacedConfig, this._getWorkingDirs());
     this._pluginManager.loadPlugins();
     const keyGenerator = this._pluginManager.initKeyGenerator();
     const publisher = this._pluginManager.initPublisher();
     const notifiers = this._pluginManager.initNotifiers();
-    const directoryInfo = this.getDirectoryInfo(configFileName);
+    const directoryInfo = this.getDirectoryInfo();
     this.logger.verbose("userDirs: ", this._getUserDirs());
     this.logger.verbose("workingDirs: ", this._getWorkingDirs());
     return new RegProcessor({
-      coreConfig: this._config.core,
+      coreConfig: this._configManager.config.core,
       workingDirs: this._getWorkingDirs(),
       logger: this.logger,
       noEmit: this.noEmit,
@@ -88,20 +96,7 @@ export class RegSuitCore {
     });
   }
 
-  _loadConfig(configFileName?: string) {
-    if (!this._config) {
-      if (configFileName) {
-        this.logger.verbose(`config file: ${configFileName}`);
-      } else {
-        this.logger.verbose(`config file not specified, load from ${this._configManager.defaultConfigFileName}.`);
-      }
-      this._config = this._configManager.readConfig(configFileName).config;
-    }
-    return this._config;
-  }
-
-  getDirectoryInfo(configFileName?: string) {
-    this._loadConfig(configFileName);
+  getDirectoryInfo() {
     return {
       workingDirs: this._getWorkingDirs(),
       userDirs: this._getUserDirs(),

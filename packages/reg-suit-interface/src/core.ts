@@ -19,7 +19,6 @@ export interface RegSuitConfiguration {
 }
 
 export interface CreateQuestionsOptions {
-  configFileName?: string;
   pluginNames: string[];
 }
 
