@@ -1,6 +1,7 @@
 import * as path from "path";
 import {
   CoreConfig,
+  WorkingDirectoryInfo,
   PluginCreateOptions,
   KeyGeneratorPlugin,
   PublisherPlugin,
@@ -12,15 +13,15 @@ import {
 import { fsUtil } from "reg-suit-util";
 
 const compare = require("reg-cli");
+const rimraf = require("rimraf");
+const cpx = require("cpx");
 
 export interface ProcessorOptions {
   keyGenerator?: KeyGeneratorPlugin<any>;
   publisher?: PublisherPlugin<any>;
   notifiers: NotifierPlugin<any>[];
-  directoryInfo: {
-    workingDir: string;
+  userDirs: {
     actualDir: string;
-    expectedDir: string;
   };
 }
 
@@ -44,7 +45,12 @@ export class RegProcessor {
 
   private _logger: PluginLogger;
   private _config: CoreConfig;
-  private _directoryInfo: ProcessorOptions["directoryInfo"];
+  private _directoryInfo: {
+    workingDirs: WorkingDirectoryInfo;
+    userDirs: {
+      actualDir: string;
+    };
+  };
   private _keyGenerator?: KeyGeneratorPlugin<any>;
   private _publisher?: PublisherPlugin<any>;
   private _notifiers: NotifierPlugin<any>[];
@@ -54,7 +60,10 @@ export class RegProcessor {
   ) {
     this._logger = opt.logger;
     this._config = opt.coreConfig;
-    this._directoryInfo = opt.options.directoryInfo;
+    this._directoryInfo = {
+      workingDirs: opt.workingDirs,
+      userDirs: opt.options.userDirs,
+    };
     this._keyGenerator = opt.options.keyGenerator;
     this._publisher = opt.options.publisher;
     this._notifiers = opt.options.notifiers;
@@ -90,13 +99,17 @@ export class RegProcessor {
   }
 
   compare(ctx: StepResultAfterExpectedKey): Promise<StepResultAfterComparison> {
-    const { actualDir, expectedDir, workingDir } = this._directoryInfo;
+    const { actualDir, expectedDir, diffDir } = this._directoryInfo.workingDirs;
+    const json = path.join(this._directoryInfo.workingDirs.base, "out.json");
+    const report = path.join(this._directoryInfo.workingDirs.base, "index.html");
+    rimraf.sync(actualDir);
+    cpx.copySync(`${this._directoryInfo.userDirs.actualDir}/**/*.{png,jpg,jpeg,tiff,bmp,gif}`, actualDir);
     return (compare({
       actualDir,
       expectedDir,
-      diffDir: path.join(workingDir, "diff"),
-      json: path.join(workingDir, "out.json"),
-      report: path.join(workingDir, "index.html"),
+      diffDir,
+      json,
+      report,
       update: false,
       ignoreChange: true,
       urlPrefix: "",

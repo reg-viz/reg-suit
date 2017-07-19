@@ -3,6 +3,7 @@ import * as resolve from "resolve";
 import {
   Plugin,
   PluginPreparer,
+  WorkingDirectoryInfo,
   CreateQuestionsOptions,
   RegSuitConfiguration,
   KeyGeneratorPlugin,
@@ -38,7 +39,7 @@ export class PluginManager {
    **/
   _pluginHolders: PluginMetadata[] = [];
 
-  constructor(private _logger: RegLogger, private _noEmit: boolean, private _config: RegSuitConfiguration) {
+  constructor(private _logger: RegLogger, private _noEmit: boolean, private _config: RegSuitConfiguration, private _workingDirs: WorkingDirectoryInfo) {
   }
 
   loadPlugins() {
@@ -71,6 +72,7 @@ export class PluginManager {
         const questions = holder.preparer.inquire();
         const boundPrepare = (inquireResult: any) => holder.preparer.prepare({
           coreConfig: this._config.core,
+          workingDirs: this._workingDirs,
           logger: this._logger.fork(holder.name),
           options: inquireResult,
           noEmit: this._noEmit,
@@ -167,6 +169,7 @@ export class PluginManager {
     }
     targetPlugin.init({
       coreConfig: this._config.core,
+      workingDirs: this._workingDirs,
       logger: this._logger.fork(metadata.moduleId),
       options: pluginSpecifiedOption,
       noEmit: this._noEmit,

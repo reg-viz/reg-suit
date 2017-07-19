@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { CoreConfig, RegSuitConfiguration } from "reg-suit-interface";
-import { RegLogger } from "reg-suit-util";
+import { RegLogger, fsUtil } from "reg-suit-util";
 
 const DEFAULT_CONFIG_FILE_NAME = "regconfig.json";
 
@@ -51,16 +51,24 @@ export class ConfigManager {
 
   readConfig(configFileName: string = DEFAULT_CONFIG_FILE_NAME) {
     const defaultCoreConfig = {
-      workingDir: "reg",
-      actualDir: "actual",
-      expectedDir: "expected",
+      workingDir: ".reg",
+      actualDir: "directory_contains_actual_images",
+      threshold: 0,
     } as CoreConfig;
     let readResult: any, readJsonObj: any;
+    const configFilePath = this._getConfigPath(configFileName);
     try {
-      readResult = fs.readFileSync(this._getConfigPath(configFileName), "utf8");
+      readResult = fs.readFileSync(configFilePath, "utf8");
+    } catch (e) {
+      this._logger.warn(`Failed to load config file: ${this._logger.colors.magenta(configFilePath)}`);
+    }
+    try {
       readJsonObj = JSON.parse(readResult);
-    } catch(e) {
-      // TODO logging
+    } catch (e) {
+      const msg = `Failed to read ${configFileName} because it's invalid JSON file.`;
+      this._logger.error(msg);
+      this._logger.error(readResult);
+      throw new Error(msg);
     }
     if (readJsonObj) {
       return {
@@ -88,6 +96,6 @@ export class ConfigManager {
   }
 
   private _getConfigPath(configFileName: string) {
-    return path.resolve(process.cwd(), configFileName);
+    return path.resolve(fsUtil.prjRootDir(), configFileName);
   }
 }

@@ -33,7 +33,7 @@ export class RegSuitCore {
 
   createQuestions(opt: CreateQuestionsOptions) {
     this._configManager = new ConfigManager(this.logger, this.noEmit);
-    this._pluginManager = new PluginManager(this.logger, this.noEmit, this._loadConfig(opt.configFileName));
+    this._pluginManager = new PluginManager(this.logger, this.noEmit, this._loadConfig(opt.configFileName), this._getWorkingDirs());
     return this._pluginManager.createQuestions(opt);
   }
 
@@ -66,21 +66,24 @@ export class RegSuitCore {
     const rawConfig = this._loadConfig(configFileName);
     const replacedConfig = this._configManager.replaceEnvValue(rawConfig);
     this.logger.verbose("rawConfig: ", replacedConfig);
-    this._pluginManager = new PluginManager(this.logger, this.noEmit, replacedConfig);
+    this._pluginManager = new PluginManager(this.logger, this.noEmit, replacedConfig, this._getWorkingDirs());
     this._pluginManager.loadPlugins();
     const keyGenerator = this._pluginManager.initKeyGenerator();
     const publisher = this._pluginManager.initPublisher();
     const notifiers = this._pluginManager.initNotifiers();
     const directoryInfo = this.getDirectoryInfo(configFileName);
+    this.logger.verbose("userDirs: ", this._getUserDirs());
+    this.logger.verbose("workingDirs: ", this._getWorkingDirs());
     return new RegProcessor({
       coreConfig: this._config.core,
+      workingDirs: this._getWorkingDirs(),
       logger: this.logger,
       noEmit: this.noEmit,
       options: {
         keyGenerator,
         publisher,
         notifiers,
-        directoryInfo,
+        userDirs: this._getUserDirs(),
       },
     });
   }
@@ -99,9 +102,26 @@ export class RegSuitCore {
 
   getDirectoryInfo(configFileName?: string) {
     this._loadConfig(configFileName);
-    const workingDir = path.resolve(fsUtil.prjRootDir(), this._config.core.workingDir);
-    const actualDir = path.join(workingDir, this._config.core.actualDir);
-    const expectedDir = path.join(workingDir, this._config.core.expectedDir);
-    return { workingDir, actualDir, expectedDir };
+    return {
+      workingDirs: this._getWorkingDirs(),
+      userDirs: this._getUserDirs(),
+    };
+  }
+
+  _getWorkingDirs() {
+    const base = path.resolve(fsUtil.prjRootDir(), this._config.core.workingDir);
+    return {
+      base,
+      actualDir: path.join(base, "actual"),
+      expectedDir: path.join(base, "expected"),
+      diffDir: path.join(base, "diff"),
+    };
+  }
+
+  _getUserDirs() {
+    const actualDir = path.resolve(fsUtil.prjRootDir(), this._config.core.actualDir);
+    return {
+      actualDir,
+    };
   }
 }

@@ -6,7 +6,6 @@ import { ConfigManager } from "./config-manager";
 
 const coreConf: CoreConfig = {
   actualDir: "",
-  expectedDir: "",
   workingDir: "",
 };
 

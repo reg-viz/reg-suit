@@ -56,7 +56,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
   createList(): Promise<FileItem[]> {
     return new Promise<string[]>((resolve, reject) => {
       glob(this._pluginConfig.pattern, {
-        cwd: this._options.coreConfig.workingDir,
+        cwd: this._options.workingDirs.base,
       }, (err, list) => {
         if (err) {
           return reject(err);
@@ -68,7 +68,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
       return files.map(f => {
         return {
           path: f,
-          absPath: path.resolve(this._options.coreConfig.workingDir, f),
+          absPath: path.resolve(this._options.workingDirs.base, f),
           mimeType: lookup(f),
         };
       })
@@ -86,10 +86,11 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
 
   fetch(key: string): Promise<any> {
     if (this._noEmit) return Promise.resolve();
+    const actualPrefix = `${key}/${path.basename(this._options.workingDirs.actualDir)}`;
     return new Promise<S3.ListObjectsOutput>((resolve, reject) => {
       this._s3client.listObjects({
         Bucket: this._pluginConfig.bucketName,
-        Prefix: `${key}/${this._options.coreConfig.actualDir}`,
+        Prefix: actualPrefix,
         MaxKeys: 3000,
       }, (err, x) => {
         if (err) {
@@ -101,10 +102,10 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
     .then(result => result.Contents || [])
     .then(contents => {
       return contents.map(c => {
-        const suffix = c.Key ? c.Key.replace(new RegExp(`^${key}\/${this._options.coreConfig.actualDir}\/`), "") : "";
+        const suffix = c.Key ? c.Key.replace(new RegExp(`^${actualPrefix}\/`), "") : "";
         return {
           path: suffix,
-          absPath: path.join(path.resolve(this._options.coreConfig.workingDir, this._options.coreConfig.expectedDir), suffix),
+          absPath: path.join(this._options.workingDirs.expectedDir, suffix),
           mimeType: lookup(suffix),
         } as FileItem;
       });
@@ -163,7 +164,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
           ContentType: item.mimeType,
         }, (err, x) => {
           if (err) return reject(err);
-          this._logger.verbose(`Uploaded ${item.absPath}`);
+          this._logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`,);
           return resolve(item);
         });
       });
@@ -171,10 +172,11 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
   }
 
   private _fetchItem(key: string, item: FileItem): Promise<FileItem> {
+    const s3Key = `${key}/${path.basename(this._options.workingDirs.actualDir)}/${item.path}`;
     return new Promise((resolve, reject) => {
       this._s3client.getObject({
         Bucket: this._pluginConfig.bucketName,
-        Key: `${key}/${this._options.coreConfig.actualDir}/${item.path}`
+        Key: `${s3Key}`,
       }, (err, x) => {
         if (err) {
           return reject(err);
@@ -184,7 +186,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
           if (err) {
             return reject(err);
           }
-          this._logger.verbose(`Downloaded ${item.absPath}`);
+          this._logger.verbose(`Downloaded from ${s3Key} to ${item.absPath}`);
           resolve(item);
         });
       });
