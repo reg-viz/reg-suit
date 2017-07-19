@@ -17,7 +17,6 @@ export class RegSuitCore {
   noEmit: boolean;
   logger: RegLogger;
   _pluginManager: PluginManager;
-  _configFileName?: string;
   _configManager: ConfigManager;
 
   constructor(opt: {
@@ -30,24 +29,20 @@ export class RegSuitCore {
       this.logger.setLevel(opt.logLevel);
     }
     this.noEmit = !!(opt.noEmit);
-    this._configFileName = opt.configFileName;
+    this._configManager = new ConfigManager({ logger: this.logger, noEmit: this.noEmit, configFileName: opt.configFileName });
   }
 
-  /**
-   * @internal
-   **/
-  get _config() {
+  get config() {
     return this._configManager.config;
   }
 
   createQuestions(opt: CreateQuestionsOptions) {
-    this._configManager = new ConfigManager({ logger: this.logger, noEmit: this.noEmit });
-    this._pluginManager = new PluginManager(this.logger, this.noEmit, this._config, this._getWorkingDirs());
+    this._pluginManager = new PluginManager(this.logger, this.noEmit, this.config, this._getWorkingDirs());
     return this._pluginManager.createQuestions(opt);
   }
 
   persistMergedConfig(opt: { core?: CoreConfig; pluginConfigs: { name: string; config: any }[] }, confirm: (newConfig: RegSuitConfiguration) => Promise<boolean>) {
-    const baseConfig = this._config;
+    const baseConfig = this.config;
     const mergedConfig = {
       core: opt.core ? { ...baseConfig.core, ...opt.core } : baseConfig.core,
       plugins: { ...baseConfig.plugins },
@@ -70,8 +65,7 @@ export class RegSuitCore {
     });
   }
 
-  createProcessor(configFileName?: string) {
-    this._configManager = new ConfigManager({ configFileName, logger: this.logger, noEmit: this.noEmit });
+  createProcessor() {
     const replacedConfig = this._configManager.replaceEnvValue();
     this.logger.verbose("Config: ", replacedConfig);
     this._pluginManager = new PluginManager(this.logger, this.noEmit, replacedConfig, this._getWorkingDirs());
@@ -104,7 +98,7 @@ export class RegSuitCore {
   }
 
   _getWorkingDirs() {
-    const base = path.resolve(fsUtil.prjRootDir(), this._config.core.workingDir);
+    const base = path.resolve(fsUtil.prjRootDir(), this.config.core.workingDir);
     return {
       base,
       actualDir: path.join(base, "actual"),
@@ -114,7 +108,7 @@ export class RegSuitCore {
   }
 
   _getUserDirs() {
-    const actualDir = path.resolve(fsUtil.prjRootDir(), this._config.core.actualDir);
+    const actualDir = path.resolve(fsUtil.prjRootDir(), this.config.core.actualDir);
     return {
       actualDir,
     };

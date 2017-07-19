@@ -87,15 +87,17 @@ export class ConfigManager {
     try {
       readResult = fs.readFileSync(configFilePath, "utf8");
     } catch (e) {
-      this._logger.warn(`Failed to load config file: ${this._logger.colors.magenta(configFilePath)}`);
+      this._logger.verbose(`Failed to load config file: ${this._logger.colors.magenta(configFilePath)}`);
     }
-    try {
-      readJsonObj = JSON.parse(readResult);
-    } catch (e) {
-      const msg = `Failed to read ${this._configFileName} because it's invalid JSON file.`;
-      this._logger.error(msg);
-      this._logger.error(readResult);
-      throw new Error(msg);
+    if (readResult) {
+      try {
+        readJsonObj = JSON.parse(readResult);
+      } catch (e) {
+        const msg = `Failed to read ${this._configFileName} because it's invalid JSON file.`;
+        this._logger.error(msg);
+        this._logger.error(readResult);
+        throw new Error(msg);
+      }
     }
     if (readJsonObj) {
       return {
@@ -119,6 +121,7 @@ export class ConfigManager {
   }
 
   writeConfig(config: RegSuitConfiguration) {
+    this._loadedConfig = config;
     fs.writeFileSync(this._getConfigPath(), JSON.stringify(config, null, 2), "utf8");
   }
 

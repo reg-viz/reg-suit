@@ -13,7 +13,7 @@ type CpFile = (from: string, to: string) => Promise<void>;
 const cpFile = require("cp-file") as CpFile;
 
 function init(options: CliOptions) {
-  return install(options).then(() => prepare(options)).then(() => {
+  return install(options).then(() => prepare(options, true)).then(() => {
     return inquirer.prompt([
       {
         name: "copyFromSample",
