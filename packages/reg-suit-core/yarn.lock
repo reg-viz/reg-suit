@@ -950,6 +950,10 @@ decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
 
+decode-tiff@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/decode-tiff/-/decode-tiff-0.2.1.tgz#c18ca071b8decf5d49b0c732ead4f6bb061142cb"
+
 deep-equal@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
@@ -1398,11 +1402,13 @@ ignore-by-default@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ignore-by-default/-/ignore-by-default-1.0.1.tgz#48ca6d72f6c6a3af00a9ad4ae6876be3889e2b09"
 
-img-diff-js@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/img-diff-js/-/img-diff-js-0.2.0.tgz#4bd1fcc40b2f65111efbd45db5a40c9d25670b07"
+img-diff-js@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/img-diff-js/-/img-diff-js-0.3.2.tgz#de44efd37ab642d590b8b3a849e73692b5be6a6e"
   dependencies:
+    decode-tiff "^0.2.0"
     jpeg-js "^0.3.3"
+    mkdirp "^0.5.1"
     pixelmatch "^4.0.2"
     pngjs "^3.2.0"
 
@@ -2318,27 +2324,27 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-reg-cli@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.8.0.tgz#2b8f52b6e7f44239d18b5e17606f2d0dbb99ac0e"
+reg-cli@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.8.3.tgz#37f84fd11e1cdb981ab32b9d24c7408cd0ab92f8"
   dependencies:
     chalk "^2.0.0"
     cli-spinner "^0.2.6"
     glob "^7.1.1"
-    img-diff-js "^0.2.0"
+    img-diff-js "^0.3.2"
     lodash "^4.17.4"
     make-dir "^1.0.0"
     md5-file "^3.1.1"
     meow "^3.7.0"
     mustache "^2.3.0"
 
-reg-suit-interface@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/reg-suit-interface/-/reg-suit-interface-0.1.0.tgz#b93008b06b31f588150225f516883dabd96e3f03"
+reg-suit-interface@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/reg-suit-interface/-/reg-suit-interface-0.2.0.tgz#bb17b4f38534a7fa0f0abea6e85b76a854fee2f4"
 
-reg-suit-util@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/reg-suit-util/-/reg-suit-util-0.1.0.tgz#b82042bec4b7100cc0cedc9ec822ef94a5e62968"
+reg-suit-util@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/reg-suit-util/-/reg-suit-util-0.2.0.tgz#7792f9877f1749e6540a4860d80e9bccc3941b37"
   dependencies:
     chalk "^2.0.1"
 
