@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "glob": "^7.1.2",
+    "reg-cli": "^0.8.3",
     "tslint-eslint-rules": "^4.1.1"
   }
 }
