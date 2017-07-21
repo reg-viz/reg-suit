@@ -54,7 +54,7 @@ reg-suit calls installed plugins according to the following procedure:
 
 * Determine the key of snapshot which will be used as the expected images via installed key-generator plugin. This step will be skipped if key-generator plugin is not set.
 * Fetch the previous snapshot images as the expected snapshot via installed publisher plugin. This step will be skipped if publisher plugin is not set.
-* Compare images using [reg-cli](https://github.com/bokuweb/reg-cli) and create report.
+* Compare images using [reg-cli](https://github.com/reg-viz/reg-cli) and create report.
 * Determine the key of the current snapshot via installed key-generator plugin. If key-Generator is not set, time stamp is used.
 * Publish the current snapshot and report via installed publisher-plugin. This step will be skipped if publisher plugin is not set.
 * Notify result via installed notifier-plugin.
