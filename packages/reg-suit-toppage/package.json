@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "name": "reg-suit-toppage",
+  "version": "0.2.4",
+  "description": "",
+  "scripts": {
+    "test": "echo T.B.D.",
+    "watch": "node-sass public/styles/index.scss -w public/styles -r -o public/css",
+    "scss": "node-sass public/styles/index.scss -o public/css",
+    "build": "npm run scss && cpx \"public/**/*.{html,css,png,jpg,svg,js}\" dist",
+    "prepublish": "npm run build",
+    "start": "browser-sync start -c bs-config.js",
+    "deploy": "gh-pages -d dist"
+  },
+  "keywords": [
+    "reg"
+  ],
+  "author": {
+    "name": "Quramy",
+    "email": "yosuke.kurami@gmail.com"
+  },
+  "repository": "git+https://github.com/reg-viz/reg-suit.git",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "cpx": "^1.5.0",
+    "gh-pages": "^1.0.0",
+    "node-sass": "^4.5.3"
+  },
+  "dependencies": {}
+}
