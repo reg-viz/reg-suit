@@ -1,4 +1,4 @@
-const Nightmare = require("nightmare");		
+const Nightmare = require("nightmare");
 const nightmare = Nightmare({ show: false, width: 1500, height: 3400 });
 
 const mkdirp = require("mkdirp");

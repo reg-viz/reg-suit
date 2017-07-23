@@ -2,6 +2,8 @@ defaults: &defaults
   working_directory: ~/reg-suit
   docker:
     - image: quramy/node-nightmare
+      environment:
+        DISPLAY: ":99"
 
 version: 2
 jobs:
@@ -19,18 +21,17 @@ jobs:
           name: Lint
           command: yarn run lint
       - run:
-          name: start xvfb daemon
-          command: |
-            export DISPLAY=':99.0'
-            xvfbd start
-      - run:
           name: Test
           command: yarn run test
       - run:
           name: Screenshot
           command: |
             cd packages/reg-suit-toppage
+            xvfbd start
             npm run screenshot
+            ls screenshot
+            xvfbd stop
+
   patch_release:
     <<: *defaults
     steps:
@@ -62,6 +63,7 @@ jobs:
           name: Publish to npm
           command: |
             yarn run lerna publish -- --yes --cd-version="patch"
+
   minor_release:
     <<: *defaults
     steps:
