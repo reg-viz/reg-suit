@@ -12,7 +12,8 @@
     "watch": "node-sass public/styles/index.scss -w public/styles -r -o public/css",
     "start": "browser-sync start -c bs-config.js",
     "screenshot": "node capture.js && ls screenshot",
-    "regression": "reg-suit run -v",
+    "reg-suit": "node ./node_modules/reg-suit/lib/cli.js",
+    "regression": "npm run reg-suit -- run -v",
     "deploy": "gh-pages -d dist"
   },
   "keywords": [
@@ -33,8 +34,10 @@
     "nightmare": "^2.10.0",
     "node-sass": "^4.5.3",
     "postcss-cli": "^4.1.0",
+    "reg-keygen-git-hash-plugin": "^0.2.0",
     "reg-notify-github-plugin": "^0.2.2",
     "reg-publish-s3-plugin": "^0.2.3",
+    "reg-suit": "^0.2.4",
     "reg-suit-core": "^0.2.4"
   },
   "dependencies": {}

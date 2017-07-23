@@ -1,0 +1,19 @@
+{
+  "core": {
+    "workingDir": ".reg",
+    "actualDir": "screenshot",
+    "threshold": 0
+  },
+  "plugins": {
+    "reg-notify-github-plugin": {
+      "installationId": "40124",
+      "owner": "reg-viz",
+      "repository": "reg-suit",
+      "prComment": true
+    },
+    "reg-publish-s3-plugin": {
+      "bucketName": "reg-publish-bucket-b3c400ec-f334-4179-9bec-a75cdaa1b30f"
+    },
+    "reg-keygen-git-hash-plugin": {}
+  }
+}

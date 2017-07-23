@@ -24,13 +24,13 @@ jobs:
           name: Test
           command: yarn run test
       - run:
-          name: Screenshot
+          name: Regression using io toppage
           command: |
             cd packages/reg-suit-toppage
             xvfbd start
             npm run screenshot
-            ls screenshot
             xvfbd stop
+            npm run regression
 
   patch_release:
     <<: *defaults

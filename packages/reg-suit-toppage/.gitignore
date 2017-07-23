@@ -3,3 +3,4 @@ lib/
 dist/
 public/css/
 screenshot/
+.reg/
