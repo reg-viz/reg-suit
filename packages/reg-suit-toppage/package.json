@@ -4,7 +4,7 @@
   "version": "0.2.4",
   "description": "",
   "scripts": {
-    "screenshot": "node capture.js",
+    "screenshot": "node capture.js && ls screenshot",
     "test": "echo T.B.D.",
     "watch": "node-sass public/styles/index.scss -w public/styles -r -o public/css",
     "scss": "node-sass public/styles/index.scss -o public/css",
