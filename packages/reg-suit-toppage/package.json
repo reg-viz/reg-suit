@@ -4,14 +4,15 @@
   "version": "0.2.4",
   "description": "",
   "scripts": {
-    "screenshot": "node capture.js && ls screenshot",
     "test": "echo T.B.D.",
-    "watch": "node-sass public/styles/index.scss -w public/styles -r -o public/css",
     "scss": "node-sass public/styles/index.scss -o public/css",
     "postcss": "postcss public/css/*.css --use autoprefixer -d dist/css",
     "build": "npm run scss && npm run postcss && cpx \"public/**/*.{html,png,jpg,svg,js}\" dist",
     "prepublish": "npm run build",
+    "watch": "node-sass public/styles/index.scss -w public/styles -r -o public/css",
     "start": "browser-sync start -c bs-config.js",
+    "screenshot": "node capture.js && ls screenshot",
+    "regression": "reg-suit run -v",
     "deploy": "gh-pages -d dist"
   },
   "keywords": [
@@ -27,12 +28,14 @@
     "autoprefixer": "^7.1.2",
     "browser-sync": "^2.18.13",
     "cpx": "^1.5.0",
-    "express": "^4.15.3",
     "gh-pages": "^1.0.0",
     "mkdirp": "^0.5.1",
     "nightmare": "^2.10.0",
     "node-sass": "^4.5.3",
-    "postcss-cli": "^4.1.0"
+    "postcss-cli": "^4.1.0",
+    "reg-notify-github-plugin": "^0.2.2",
+    "reg-publish-s3-plugin": "^0.2.3",
+    "reg-suit-core": "^0.2.4"
   },
   "dependencies": {}
 }
