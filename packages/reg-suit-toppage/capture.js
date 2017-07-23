@@ -1,16 +1,22 @@
 const Nightmare = require("nightmare");
-const nightmare = Nightmare({ show: false, width: 1500, height: 3400 });
+const nightmare = Nightmare({ show: false, width: 1200, height: 300, webPreferences: {
+  nodeIntegration: true,
+  preload: `${__dirname}/preload.js`,
+}});
 
 const mkdirp = require("mkdirp");
 mkdirp.sync(`${__dirname}/screenshot`);
 
 nightmare
   .goto(`file://${__dirname}/dist/index.html`)
-  .then(() => console.log("Open top page."))
-  .then(() => nightmare.wait(100))
-  .then(() => nightmare.screenshot(`${__dirname}/screenshot/index.png`))
-  .then(() => console.log("Captured screenshot."))
-  .then(() => nightmare.end())
+  .wait(500)
+  .evaluate(() => win.setSize(1200, 3300))
+  .wait(100)
+  .screenshot(`${__dirname}/screenshot/index.png`)
+  .end()
+  .then(() => {
+    console.log("Captured screenshot")
+  })
   .catch(x => {
     console.error(x);
     process.exit(1);
