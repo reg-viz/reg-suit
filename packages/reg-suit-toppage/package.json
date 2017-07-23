@@ -7,7 +7,7 @@
     "test": "echo T.B.D.",
     "scss": "node-sass public/styles/index.scss -o public/css",
     "postcss": "postcss public/css/*.css --use autoprefixer -d dist/css",
-    "build": "npm run scss && npm run postcss && cpx \"public/**/*.{html,ico,png,jpg,svg,js}\" dist",
+    "build": "npm run scss && npm run postcss && cpx \"public/**/*.{html,ico,png,jpg,svg,js}\" dist && cpx circle.yml dist",
     "prepublish": "npm run build",
     "watch": "node-sass public/styles/index.scss -w public/styles -r -o public/css",
     "start": "browser-sync start -c bs-config.js",

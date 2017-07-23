@@ -88,8 +88,15 @@ body {
 
 .sep {
   margin: 60px auto 0;
+  padding: 0 32px;
   width: 960px;
-  border-bottom: 1px solid #DFDFDF;
+  &::before {
+    content: "";
+    display: block;
+    height: 0;
+    width: 100%;
+    border-bottom: 1px solid #DFDFDF;
+  }
 }
 
 .app-win {
@@ -231,6 +238,7 @@ body {
 .footer {
   background-color: #E7E7E7;
   margin-top: 60px;
+  min-width: 1024px;
   &__inner {
     @include base-wrapper;
     height: 200px;
