@@ -7,7 +7,8 @@
     "test": "echo T.B.D.",
     "watch": "node-sass public/styles/index.scss -w public/styles -r -o public/css",
     "scss": "node-sass public/styles/index.scss -o public/css",
-    "build": "npm run scss && cpx \"public/**/*.{html,css,png,jpg,svg,js}\" dist",
+    "postcss": "postcss public/css/*.css --use autoprefixer -d dist/css",
+    "build": "npm run scss && npm run postcss && cpx \"public/**/*.{html,png,jpg,svg,js}\" dist",
     "prepublish": "npm run build",
     "start": "browser-sync start -c bs-config.js",
     "deploy": "gh-pages -d dist"
@@ -22,10 +23,12 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
+    "autoprefixer": "^7.1.2",
     "browser-sync": "^2.18.13",
     "cpx": "^1.5.0",
     "gh-pages": "^1.0.0",
-    "node-sass": "^4.5.3"
+    "node-sass": "^4.5.3",
+    "postcss-cli": "^4.1.0"
   },
   "dependencies": {}
 }
