@@ -4,7 +4,8 @@
   "version": "0.2.4",
   "description": "",
   "scripts": {
-    "test": "node capture.js",
+    "screenshot": "node capture.js",
+    "test": "echo T.B.D.",
     "watch": "node-sass public/styles/index.scss -w public/styles -r -o public/css",
     "scss": "node-sass public/styles/index.scss -o public/css",
     "postcss": "postcss public/css/*.css --use autoprefixer -d dist/css",

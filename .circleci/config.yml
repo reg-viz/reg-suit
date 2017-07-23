@@ -26,6 +26,11 @@ jobs:
       - run:
           name: Test
           command: yarn run test
+      - run:
+          name: Screenshot
+          command: |
+            cd packages/reg-suit-toppage
+            npm run screenshot
   patch_release:
     <<: *defaults
     steps:
