@@ -4,7 +4,7 @@
   "version": "0.2.4",
   "description": "",
   "scripts": {
-    "test": "echo T.B.D.",
+    "test": "node capture.js",
     "watch": "node-sass public/styles/index.scss -w public/styles -r -o public/css",
     "scss": "node-sass public/styles/index.scss -o public/css",
     "postcss": "postcss public/css/*.css --use autoprefixer -d dist/css",
@@ -26,7 +26,10 @@
     "autoprefixer": "^7.1.2",
     "browser-sync": "^2.18.13",
     "cpx": "^1.5.0",
+    "express": "^4.15.3",
     "gh-pages": "^1.0.0",
+    "mkdirp": "^0.5.1",
+    "nightmare": "^2.10.0",
     "node-sass": "^4.5.3",
     "postcss-cli": "^4.1.0"
   },
