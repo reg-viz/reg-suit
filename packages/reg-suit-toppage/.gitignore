@@ -2,3 +2,5 @@ node_modules/
 lib/
 dist/
 public/css/
+screenshot/
+.reg/

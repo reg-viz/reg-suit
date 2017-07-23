@@ -1,7 +1,9 @@
 defaults: &defaults
   working_directory: ~/reg-suit
   docker:
-    - image: node:6
+    - image: quramy/node-nightmare
+      environment:
+        DISPLAY: ":99"
 
 version: 2
 jobs:
@@ -21,6 +23,15 @@ jobs:
       - run:
           name: Test
           command: yarn run test
+      - run:
+          name: Regression using io toppage
+          command: |
+            cd packages/reg-suit-toppage
+            xvfbd start
+            npm run screenshot
+            xvfbd stop
+            npm run regression
+
   patch_release:
     <<: *defaults
     steps:
@@ -52,6 +63,7 @@ jobs:
           name: Publish to npm
           command: |
             yarn run lerna publish -- --yes --cd-version="patch"
+
   minor_release:
     <<: *defaults
     steps:
