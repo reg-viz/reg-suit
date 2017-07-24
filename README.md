@@ -58,6 +58,38 @@ Configure the installed plugin(s). It's useful to configure reg-suit and plugins
 
 If you want more details, please exec `reg-suit -h` or `reg-suit <command> -h`.
 
+## Run with CI service
+A working demonstration is [here](https://github.com/reg-viz/reg-simple-demo).
+
+### *Workaround for Detached HEAD*
+
+reg-suit(git-hash-plugin) needs the current branch name to identify the base-commit hash. However, under some CI services' environment(e.g. TravisCI, WerckerCI), the HEAD is detached. So you should attach it explicitly. 
+
+For example:
+
+```yml
+# .travis.yml 
+
+script:
+  - git checkout $TRAVIS_BRANCH || git checkout -b $TRAVIS_BRANCH
+  - reg-suit run
+```
+
+```yml
+# wercker.yml
+
+build:
+  steps:
+    - script:
+      name: Attach HEAD
+      code: |
+        git checkout $WERCKER_GIT_BRANCH || git checkout -b $WERCKER_GIT_BRANCH
+    - script:
+      name: Run reg-suit
+      code: |
+        reg-suit run
+```
+
 ## How it works
 
 reg-suit calls installed plugins according to the following procedure:
