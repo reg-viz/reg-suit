@@ -2324,9 +2324,9 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-reg-cli@^0.8.3:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.8.3.tgz#37f84fd11e1cdb981ab32b9d24c7408cd0ab92f8"
+reg-cli@^0.8.5:
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.8.5.tgz#0d01b76c05399710a3b475b8e67e179b52e494da"
   dependencies:
     chalk "^2.0.0"
     cli-spinner "^0.2.6"
