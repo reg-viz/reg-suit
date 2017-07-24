@@ -3,11 +3,10 @@
 [![npm version](https://badge.fury.io/js/reg-suit.svg)](https://badge.fury.io/js/reg-suit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Tool for visual regression testing.
-
-* *Easy to setup*
-* *Easy to integrate your CI flow*
-* *Easy to extend*
+**reg-suit** is a command line interface for visual regression testing.
+- *Compare Images* - reg-suit is inspired by snapshot testing. It compares the current images with the previous images, creates an HTML report for their differences. All you need is to give images to assert.
+- *Store Snapshots* - reg-suit automatically stores snapshot images to external cloud storage(e.g. AWS S3). You can review result of comparison and differences at any time you want.
+- *Work Everywhere* - reg-suit is a just CLI. So it's easy to integrate with your project. It works at any CI services and even your local machine.
 
 ## Getting Started
 
