@@ -31,6 +31,10 @@ The following plugins are available:
 - [reg-notify-github-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-github-plugin) - *notifier plugin* - This plugin integrates reg-suit and it's [GitHub app](https://github.com/apps/reg). Installing these plugin and app, you can receive reg-suit result via GitHub commit status and PR comment.
 - [reg-notify-slack-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-slack-plugin) - *notifier plugin* - This plugin notifies reg-suit result to your Slack channel using incoming Webhook.
 
+For example, installing keygen-git-hash and publish-s3 plugins, you can get regression workflow according with GitHub as shown in the figure below.
+
+![GitHub workflow](https://raw.githubusercontent.com/Quramy/reg-suit/master/images/github_flow.png)
+
 ## CLI Usage
 
 ```sh
