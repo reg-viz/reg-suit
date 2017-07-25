@@ -1,6 +1,6 @@
 {
   "name": "reg-notify-slack-plugin",
-  "version": "0.2.0",
+  "version": "0.2.6",
   "description": "Notify reg-suit result to Slack channel.",
   "main": "lib/index.js",
   "scripts": {
