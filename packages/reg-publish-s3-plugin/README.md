@@ -1,10 +1,10 @@
 # reg-publish-s3-plugin
-This is a reg-suit plugin to fetch and publish snapshot images to AWS S3.
+reg-suit plugin to fetch and publish snapshot images to AWS S3.
 
 ## Install
 
 ```sh
-npm i reg-publish-s3-plugin
+npm i reg-publish-s3-plugin -D
 reg-suit prepare -p publish-s3
 ```
 
