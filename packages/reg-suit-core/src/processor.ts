@@ -71,7 +71,7 @@ export class RegProcessor {
 
   runAll() {
     return this.getExpectedKey()
-    .then(ctx => this.fetch(ctx))
+    .then(ctx => this.syncExpected(ctx))
     .then(ctx => this.compare(ctx))
     .then(ctx => this.getActualKey(ctx))
     .then(ctx => this.publish(ctx))
@@ -149,7 +149,7 @@ export class RegProcessor {
     }
   }
 
-  fetch(ctx: StepResultAfterExpectedKey): Promise<StepResultAfterExpectedKey> {
+  syncExpected(ctx: StepResultAfterExpectedKey): Promise<StepResultAfterExpectedKey> {
     const keyForExpected = ctx.expectedKey;
     if (this._publisher && keyForExpected) {
       return this._publisher.fetch(keyForExpected);

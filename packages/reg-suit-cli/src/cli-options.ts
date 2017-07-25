@@ -5,5 +5,6 @@ export interface CliOptions {
   noEmit: boolean;
   npmClient: "npm" | "yarn";
   plugins: string[];
+  notification: boolean;
   noInstallCore: boolean;
 }
