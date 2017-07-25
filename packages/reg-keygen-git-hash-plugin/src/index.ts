@@ -6,30 +6,30 @@ import {
 
 import { CommitExplorer } from "./commit-explorer";
 
-type ExpectedType = "revision" | "base-commit";
+type ExpectedType = "rev" | "base-commit";
 
 interface PluginOption {
   expectedType?: ExpectedType;
-  expectedRevision?: string;
+  expectedRev?: string;
 }
 
 class GitHashKeyGenPlugin implements KeyGeneratorPlugin<PluginOption> {
 
   private _explorer = new CommitExplorer();
   private _type: ExpectedType = "base-commit";
-  private _expectedRevision: string;
+  private _expectedRev: string;
 
   init(config: PluginCreateOptions<PluginOption>): void {
     if (config.options.expectedType) {
       this._type = config.options.expectedType;
-      if (this._type === "revision") {
-        const rev = config.options.expectedRevision;
+      if (this._type === "rev") {
+        const rev = config.options.expectedRev;
         if (!rev || rev === "") {
-          const msg = "Invalid configuration. 'expectedRevision' should be set when 'expectedType' is 'revision'.";
+          const msg = "Invalid configuration. 'expectedRev' should be set when 'expectedType' is 'rev'.";
           config.logger.error(msg);
           throw new Error(msg);
         }
-        this._expectedRevision = rev;
+        this._expectedRev = rev;
       }
     }
   }
@@ -37,8 +37,8 @@ class GitHashKeyGenPlugin implements KeyGeneratorPlugin<PluginOption> {
   getExpectedKey(): Promise<string> {
     let result: string | null = null;
     switch (this._type) {
-      case "revision":
-        result = this._explorer.getHashFromName(this._expectedRevision);
+      case "rev":
+        result = this._explorer.getHashFromName(this._expectedRev);
         break;
       case "base-commit":
       default:
