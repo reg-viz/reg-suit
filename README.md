@@ -104,14 +104,13 @@ The `core` section contains reg-suit core setting and the `plugins` section cont
 ### `plugins`
 Entries of `plugins` section are described as key-value pairs. Each key should be plugin name. If you want configurable value, see README.md under the each plugin package(e.g. [packages/reg-publish-s3-plugin/README.md](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-publish-s3-plugin/README.md)).
 
-*Embedding environment values*
-
+#### Embed environment values
 reg-suit replaces embedded placeholders in `plugins` section to environment values at runtime. For example:
 
 ```json
   "plugins": {
     "reg-publish-s3-plugin": {
-      "bucketName": "${S3_BUCKET_NAME}"
+      "bucketName": "$S3_BUCKET_NAME"
     }
   }
 ```
