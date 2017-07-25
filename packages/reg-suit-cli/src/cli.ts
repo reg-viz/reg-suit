@@ -8,6 +8,9 @@ import init from "./commands/init";
 import install from "./commands/install";
 import prepare from "./commands/prepare";
 import run from "./commands/run";
+import syncExpected from "./commands/sync-expected";
+import compare from "./commands/compare";
+import publish from "./commands/publish";
 import getRegCore from "./get-reg-core";
 
 const version = require(path.resolve(__dirname, "../package.json")).version as string;
@@ -26,9 +29,14 @@ function createOptions() {
     .command("init", "Install and set up reg-suit and plugins into your project.", {
       useYarn: { desc: "Whether to use yarn as npm client.", boolean: true, default: false },
     })
-    .command("run", "Run all procedure regression testing.")
     .command("prepare", "Configure installed plugin", {
       "p": { alias: "plugin", array: true, desc: "Plugin name(s) you want to set up(e.g. slack-notify)." },
+    })
+    .command("run", "Run all procedure regression testing.")
+    .command("sync-expected", "Fecth expected images into working directory.")
+    .command("compare", "Compare actual images with expected images and creates report.")
+    .command("publish", "Publish the latest comparison result in working directory.", {
+      "n": { alias: "notification", desc: "Send notifications with publishing", boolean: true, default: false },
     })
   ;
   const { config, verbose, quiet, test, useYarn, plugin, useDevCore  } = yargs.argv;
@@ -52,13 +60,19 @@ function cli(): Promise<any> {
   const options = createOptions();
   const core = getRegCore(options);
   core.logger.info(`${core.logger.colors.magenta("version")}: ${version}`);
-  if (options.command === "run") {
+  if (options.command === "run" || options.command === "run-all") {
     return run(options);
-  } else if(options.command === "install") {
+  } else if (options.command === "sync-expected") {
+    return syncExpected(options);
+  } else if (options.command === "compare") {
+    return compare(options);
+  } else if (options.command === "publish") {
+    return publish(options);
+  } else if (options.command === "install") {
     return install(options);
-  } else if(options.command === "prepare") {
+  } else if (options.command === "prepare") {
     return prepare(options);
-  } else if(options.command === "init") {
+  } else if (options.command === "init") {
     return init(options);
   } else {
     yargs.showHelp();
