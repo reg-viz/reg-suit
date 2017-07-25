@@ -17,6 +17,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 body {
+  background-color: #fff;
   font-family: 'Lato', sans-serif;
   color: $font-color-body;
 }
@@ -59,13 +60,13 @@ body {
 
 .heading-2 {
   text-align: center;
-  color: #4A4A4A;
+  color: $font-color-body;
   font-size: 36px;
 }
 
 .heading-3 {
-  margin-top: 45px;
-  color: #9B9B9B;
+  margin-top: $gutter-large;
+  color: $font-color-sub;
   font-size: 18px;
   &--center {
     width: 100%;
@@ -74,22 +75,22 @@ body {
 }
 
 .description {
-  margin-top: 30px;
+  margin-top: $gutter-midium;
   line-height: 22px;
   a:link {
     transition-property: color;
     border-bottom: 1px solid #FAFAFA;
   }
   a:hover {
-    color: #4C89C3;
+    color: $font-color-link;
     transition-duration: .2s;
   }
 }
 
 .sep {
-  margin: 60px auto 0;
-  padding: 0 32px;
-  width: 960px;
+  margin: $gutter-xlarge auto 0;
+  padding: 0 $side-padding;
+  width: $body-width-inner;
   &::before {
     content: "";
     display: block;
@@ -142,13 +143,13 @@ body {
 }
 
 @mixin base-wrapper {
-  width: 960px;
-  padding: 0 32px;
+  width: $body-width-inner;
+  padding: 0 $side-padding;
   margin: 0 auto;
 }
 
 .key-visual {
-  min-width: 1024px;
+  min-width: $body-width-outer;
   height: 720px;
   display: flex;
   flex-direction: column;
@@ -185,14 +186,14 @@ body {
 .points {
   @include base-wrapper;
   &__header {
-    margin-top: 60px;
+    margin-top: $gutter-xlarge;
   }
 }
 
 .getting-started {
   @include base-wrapper;
   &__header {
-    margin-top: 60px;
+    margin-top: $gutter-xlarge;
   }
 }
 
@@ -221,11 +222,11 @@ body {
 .features {
   @include base-wrapper;
   &__header {
-    margin-top: 60px;
+    margin-top: $gutter-xlarge;
   }
   &__body {
     &__img {
-      margin-top: 30px;
+      margin-top: $gutter-midium;
       text-align: center;
     }
   }
@@ -237,8 +238,8 @@ body {
 
 .footer {
   background-color: #E7E7E7;
-  margin-top: 60px;
-  min-width: 1024px;
+  margin-top: $gutter-midium;
+  min-width: $body-width-outer;
   &__inner {
     @include base-wrapper;
     height: 200px;
@@ -246,7 +247,7 @@ body {
     align-items: center;
     justify-content: center;
     &__body {
-      color: #9B9B9B;
+      color: $font-color-sub;
     }
   }
 }
