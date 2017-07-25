@@ -6,14 +6,45 @@ import {
 
 import { CommitExplorer } from "./commit-explorer";
 
-class GitHashKeyGenPlugin implements KeyGeneratorPlugin<null> {
+type ExpectedType = "revision" | "base-commit";
+
+interface PluginOption {
+  expectedType?: ExpectedType;
+  expectedRevision?: string;
+}
+
+class GitHashKeyGenPlugin implements KeyGeneratorPlugin<PluginOption> {
 
   private _explorer = new CommitExplorer();
+  private _type: ExpectedType = "base-commit";
+  private _expectedRevision: string;
 
-  init(config: PluginCreateOptions<null>): void { }
+  init(config: PluginCreateOptions<PluginOption>): void {
+    if (config.options.expectedType) {
+      this._type = config.options.expectedType;
+      if (this._type === "revision") {
+        const rev = config.options.expectedRevision;
+        if (!rev || rev === "") {
+          const msg = "Invalid configuration. 'expectedRevision' should be set when 'expectedType' is 'revision'.";
+          config.logger.error(msg);
+          throw new Error(msg);
+        }
+        this._expectedRevision = rev;
+      }
+    }
+  }
 
   getExpectedKey(): Promise<string> {
-    const result = this._explorer.getBaseCommitHash();
+    let result: string | null = null;
+    switch (this._type) {
+      case "revision":
+        result = this._explorer.getHashFromName(this._expectedRevision);
+        break;
+      case "base-commit":
+      default:
+        result = this._explorer.getBaseCommitHash();
+        break;
+    }
     if (result) {
       return Promise.resolve(result);
     } else {
