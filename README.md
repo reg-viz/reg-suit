@@ -55,12 +55,77 @@ Install and configure reg-suit and plugins into your project.
 
 Configure the installed plugin(s). It's useful to configure reg-suit and plugins.
 
-- `--plugin` : Specify plugin name(s) to be configured.
+- `-p`, `--plugin` : Specify plugin name(s) to be configured.
 
 ### Global options
-*T.B.D*
+
+- `-c`, `--config` : Configuration file path.
+- `-t`, `--test` : Perform a trial with no changes(Dry-run mode).
+- `-v`, `--verbose` : Display debug logging messages.
+- `-q`, `--quiet` : Suppress logging messages.
 
 If you want more details, please exec `reg-suit -h` or `reg-suit <command> -h`.
+
+## Configuration
+To configure reg-suit, put `regconfig.json` under the project root directory. `regconfig.json` should be JSON file such as:
+
+```json
+{
+  "core": {
+    "workingDir": ".reg",
+    "actualDir": "images",
+    "threshold": 0.05
+  },
+  "plugins": {
+    "reg-keygen-git-hash-plugin": {},
+    "reg-publish-s3-plugin": {
+      "bucketName": "your-aws-s3-bucket"
+    }
+  }
+}
+```
+
+The `core` section contains reg-suit core setting and the `plugins` section contains plugin specific options. 
+
+### `core`
+
+```ts
+{
+  actualDir: string;      
+  workingDir?: string;    // default ".reg"
+  threshold?: number;     // default 0
+}
+```
+
+- `actualDir` - *Required* - A directory which contains image files you want to test.
+- `workingDir` - *Optional* - A directory used by reg-suit puts temporary files. Ordinarily this dir is in listed at `.gitignore`.
+- `threshold` - *Optional* - Pixel matching threshold. It should be in ranges from `0` to `1`.
+
+### `plugins`
+Entries of `plugins` section are described as key-value pairs. Each key should be plugin name. If you want configurable value, see README.md under the each plugin package(e.g. [packages/reg-publish-s3-plugin/README.md](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-publish-s3-plugin/README.md)).
+
+*Embedding environment values*
+
+reg-suit replaces embedded placeholders in `plugins` section to environment values at runtime. For example:
+
+```json
+  "plugins": {
+    "reg-publish-s3-plugin": {
+      "bucketName": "${S3_BUCKET_NAME}"
+    }
+  }
+```
+
+```sh
+export S3_BUCKET_NAME="my-bucket"
+reg-suit run
+
+# reg-publish-s3-plugin is configured with the following value:
+#
+# {
+#   "bucketName": "my-bucket"
+# }
+```
 
 ## Run with CI service
 A working demonstration is [here](https://github.com/reg-viz/reg-simple-demo).
