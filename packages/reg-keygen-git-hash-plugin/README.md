@@ -9,10 +9,10 @@ npm i reg-keygen-git-hash-plugin -D
 reg-suit prepare -p keygen-git-hash
 ```
 
-## Detection expected hash
+## Detection expected commit
 This plugin detects automatically the parent's commit which is the source of the topic branch. And use the snapshot result of the detected commit as the expected result of regression testing.
 
-![](images/gh_flow.svg)
+![](images/gh_flow.png)
 
 And if your topic branch has the merge commit from the parent(i.e. `master`) branch, this plugin uses this merge commit hash as the expected snapshot key.
 
