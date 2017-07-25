@@ -1,7 +1,7 @@
 # reg-publish-s3-plugin
-reg-suit plugin to fetch and publish snapshot images to AWS S3.
+This is a reg-suit plugin to fetch and publish snapshot images to AWS S3.
 
-## Configure
+## Install
 
 ```sh
 npm i reg-publish-s3-plugin
@@ -27,3 +27,13 @@ Create a file at `~/.aws/credentials` and edit it. For example:
 aws_access_key_id = <your-access-key>
 aws_secret_access_key = <your-secret-key>
 ```
+
+## Configure
+
+```ts
+{
+  bucketName: string;
+}
+```
+
+- `bucketName` - *Required* - AWS S3 bucket name to publish the snapshot images to.
