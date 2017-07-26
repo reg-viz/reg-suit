@@ -50,7 +50,7 @@ export class RegLogger implements Logger {
 
   getSpinner(msg?: string): Spinner {
     if (this._level === "silent") return noopSpinner;
-    const spinner = new SpinnerConstructor();
+    const spinner = new SpinnerConstructor(msg);
     spinner.setSpinnerString(3);
     return spinner;
   }
