@@ -40,3 +40,27 @@ export function auth(installationId: string) {
     return body["token"] as string;
   }).catch(convertError);
 }
+
+export function authWidhCode(opt: { code: string, callbackUrl: string }) {
+  const clientId = process.env["APP_CLIENT_ID"];
+  const clientSecret = process.env["APP_CLIENT_SECRET"];
+  const options = {
+    url: "https://github.com/login/oauth/access_token",
+    method: "POST",
+    headers: {
+      "User-Agent": "simple-gh-pr-app-example",
+    },
+    body: {
+      code: opt.code,
+      client_id: clientId,
+      client_secret: clientSecret,
+      redirect_url: opt.callbackUrl,
+    },
+    json: true,
+  } as rp.OptionsWithUrl;
+  return rp(options).then(x => {
+    const token = x.access_token;
+    const error = x.error;
+    return { token, error };
+  });
+}

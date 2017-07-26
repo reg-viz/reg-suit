@@ -4,6 +4,7 @@ import { isGhError } from "./error";
 import { updateStatus, updateStatusFromWebhook } from "./status-client";
 import { commentToPR } from "./pr-comment-client";
 import { detectAction } from "./webhook-detect";
+import { authWidhCode } from "./auth";
 
 const BASE_RESPONSE = {
   statusCode: 200,
@@ -57,6 +58,11 @@ module.exports.ghWebhook = (event: any, context: any, callback: any) => {
     case "pullRequestReview":
       updateStatusFromWebhook(action.payload).then(normalResponse(callback)).catch(errorResponse(callback));
   }
+};
+
+module.exports.login = (event: any, context: any, callback: any) => {
+  const p = JSON.parse(event.body);
+  authWidhCode(p).then(normalResponse(callback)).catch(errorResponse(callback));
 };
 
 module.exports.updateStatus = (event: any, context: any, callback: any) => {

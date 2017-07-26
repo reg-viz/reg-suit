@@ -5,7 +5,7 @@
   "description": "",
   "main": "dist/handler.js",
   "scripts": {
-    "start": "export NODE_ENV=DEV; sls offline start",
+    "start": "export NODE_ENV=DEV; source keys/app_info_dev.sh; sls offline start",
     "test": "ava",
     "codegen": "apollo-codegen generate src/gql/*.graphql --target ts --output src/gql/_generated.ts --schema schema.json",
     "prepublish": "tsc -p src/tsconfig.build.json",
