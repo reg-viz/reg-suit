@@ -137,11 +137,22 @@ export class PluginManager {
     return notifiers;
   }
 
+  /**
+   * @internal
+   **/
+  _resolve(name: string, base: string) {
+    if (name.startsWith(".")) {
+      return require.resolve(path.resolve(base, name));
+    } else {
+      return require.resolve(path.resolve(base, "node_modules", name));
+    }
+  }
+
   private _loadPlugin(name: string) {
     let pluginFileName = null;
     const basedir = fsUtil.prjRootDir();
     try {
-      pluginFileName = require.resolve(path.resolve(basedir, name));
+      pluginFileName = this._resolve(name, basedir);
       this._logger.verbose(`Loaded plugin from ${this._logger.colors.magenta(pluginFileName)}`);
     } catch (e) {
       this._logger.error(`Failed to load plugin '${name}'`);

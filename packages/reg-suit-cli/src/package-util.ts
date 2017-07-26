@@ -39,7 +39,7 @@ export class PackageUtil {
   checkInstalled(pkgName: string): string | null {
     const prjDir = fsUtil.prjRootDir();
     try {
-      return require.resolve(path.join(prjDir, "node_modules", pkgName, "package.json"));
+      return path.dirname(require.resolve(path.join(prjDir, "node_modules", pkgName, "package.json")));
     } catch (e) {
       return null;
     }
