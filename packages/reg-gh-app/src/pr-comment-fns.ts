@@ -32,6 +32,10 @@ export function createCommentBody(eventBody: CommentToPrEventBody) {
   const lines: string[] = [];
   if (eventBody.failedItemsCount === 0 && eventBody.newItemsCount === 0 && eventBody.deletedItemsCount === 0) {
     lines.push(`:sparkles::sparkles: **That's perfect, there is no visual difference!** :sparkles::sparkles:`);
+    if (eventBody.reportUrl) {
+      lines.push("");
+      lines.push(`Report is [here](${eventBody.reportUrl}.)`);
+    }
   } else {
     lines.push("**reg-suit detected visual differences.**");
     lines.push("");
