@@ -196,15 +196,16 @@ export class RegProcessor {
       this._logger.info("Skipped to notify result because notifier plugins are not set up.");
     }
     this._logger.verbose("Notify parameters:", notifyParams);
-    return Promise.all(
-      this._notifiers.map((notifier) => {
-        return notifier.notify(notifyParams).catch((reason) => {
+    return this._notifiers.reduce((queue, notifier) => {
+      return queue
+        .then(() => notifier.notify(notifyParams))
+        .catch((reason) => {
           // Don't re-throw notifiers error because it's not fatal.
           this._logger.error("An error occurs during notify:");
           this._logger.error(reason);
           return Promise.resolve();
-        });
-      })
-    ).then(() => ctx);
+        })
+      ;
+    }, Promise.resolve()).then(() => ctx);
   }
 }
