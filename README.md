@@ -168,5 +168,24 @@ build:
         reg-suit run
 ```
 
+## Contribute
+PRs are welcome!
+
+### Bootstrap
+
+```sh
+git clone https://github.com/reg-viz/reg-suit.git; cd reg-suit
+yarn
+yarn run bootstrap
+```
+
+### Test
+
+```sh
+yarn run test
+```
+
+*Remarks* - `reg-publish-s3-plugin` testing access to AWS S3 and it needs AWS credentials.
+
 ## License
 MIT. See LICENSE.txt.

@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "clean": "rimraf packages/**/lib/**",
+    "bootstrap": "lerna bootstrap",
     "test": "lerna run test",
     "lint": "tslint packages/*/src/**/*.ts packages/*/test/**/*.ts",
     "deploy:app": "cd packages/reg-gh-app; npm run deploy",
