@@ -70,12 +70,15 @@ export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, Plug
         this._logger.info(`Skip to create S3 bucket ${bucketName} because noEmit option.`);
         return Promise.resolve({ bucketName });
       }
+      this._logger.info(`Create new S3 bucket: ${this._logger.colors.magenta(bucketName)}`);
+      const spinner = this._logger.getSpinner(`creating bucket...`);
+      spinner.start();
       return this._createBucket(bucketName)
         .then(bucketName => {
           return this._updatePolicy(bucketName);
         })
         .then(bucketName => {
-          this._logger.info(`Create new S3 bucket: ${this._logger.colors.magenta(bucketName)}`);
+          spinner.stop();
           return { bucketName };
         })
       ;

@@ -87,6 +87,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
   fetch(key: string): Promise<any> {
     if (this._noEmit) return Promise.resolve();
     const actualPrefix = `${key}/${path.basename(this._options.workingDirs.actualDir)}`;
+    const progress = this._logger.getProgressBar();
     return new Promise<S3.ListObjectsOutput>((resolve, reject) => {
       this._s3client.listObjects({
         Bucket: this._pluginConfig.bucketName,
@@ -101,6 +102,10 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
     })
     .then(result => result.Contents || [])
     .then(contents => {
+      if (contents.length) {
+        progress.start(contents.length, 0);
+        this._logger.info(`Download ${contents.length} files from ${this._logger.colors.magenta(this._pluginConfig.bucketName)}.`);
+      }
       return contents.map(c => {
         const suffix = c.Key ? c.Key.replace(new RegExp(`^${actualPrefix}\/`), "") : "";
         return {
@@ -115,23 +120,43 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
       return chunks.reduce((acc, chunk) => {
         return acc.then(list => {
           return Promise.all(chunk.map(item => {
-            return this._fetchItem(key, item);
+            return this._fetchItem(key, item).then(fi => {
+              progress.increment(1);
+              return fi;
+            });
           })).then(items => [...list, ...items]);
         });
       }, Promise.resolve([] as FileItem[]));
+    }).then(result => {
+      progress.stop();
+      return result;
     })
     ;
   }
 
   _publishInternal(key: string) {
+    const progress = this._logger.getProgressBar();
     return this.createList()
-      .then(list => _.chunk(list, CONCURRENCY_SIZE))
+      .then(list => {
+        if (list.length) {
+          progress.start(list.length, 0);
+          if (!this._noEmit) {
+            this._logger.info(`Upload ${list.length} files to ${this._logger.colors.magenta(this._pluginConfig.bucketName)}.`);
+          } else {
+            this._logger.info(`There are ${list.length} files to publish`);
+          }
+        }
+        return _.chunk(list, CONCURRENCY_SIZE);
+      })
       .then(chunks => {
         return chunks.reduce((acc, chunk) => {
           return acc.then(list => {
             return Promise.all(chunk.map(item => {
               if (this._noEmit) return Promise.resolve(item);
-              return this._publishItem(key, item);
+              return this._publishItem(key, item).then(fi => {
+                progress.increment(1);
+                return fi;
+              });
             })).then(items => [...list, ...items]);
           });
         }, Promise.resolve([] as FileItem[]));
@@ -141,6 +166,10 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
         // FIXME is this naming rule correct?
         const reportUrl = indexFile && `https://s3.amazonaws.com/${this._pluginConfig.bucketName}/${key}/${indexFile.path}`;
         return { reportUrl, items };
+      })
+      .then(result => {
+        progress.stop();
+        return result;
       })
     ;
   }
