@@ -16,12 +16,12 @@ function createPluginManager(pluginConfig: any) {
   return pm;
 }
 
-test("load plugin when non existing", t => {
+test("should throws error when attempting to load non installed plugin", t => {
   const pm = createPluginManager({ "non-existing-plugin": { } });
   t.throws(() => pm.loadPlugins());
 });
 
-test("load plugin when non existing", t => {
+test("should return pluginHolders", t => {
   const pm = createPluginManager({ "./lib/testing/dummy-plugin": { } });
   pm.loadPlugins();
   t.is(pm._pluginHolders.length, 1);
