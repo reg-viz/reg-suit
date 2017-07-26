@@ -1,8 +1,24 @@
 /* tslint:disable:no-console */
 import * as chalk from "chalk";
-import { Logger, Colors } from "reg-suit-interface";
+import { Logger, Colors, Spinner, ProgressBar } from "reg-suit-interface";
+
+const SpinnerConstructor = require("cli-spinner").Spinner;
+const progress = require("cli-progress");
+const ProgressBarConstructor = progress.Bar;
 
 export type LogLevel = "verbose" | "info" | "silent";
+
+const noopSpinner: Spinner = {
+  start: () => { },
+  stop: () => { },
+};
+
+const noopProgressBar: ProgressBar = {
+  start: (x: number, y?: number) => { },
+  update: (x: number) => { },
+  increment: (x: number) => { },
+  stop: () => { },
+};
 
 export class RegLogger implements Logger {
 
@@ -30,6 +46,20 @@ export class RegLogger implements Logger {
 
   set colors(v: Colors) {
     return;
+  }
+
+  getSpinner(msg?: string): Spinner {
+    if (this._level === "silent") return noopSpinner;
+    const spinner = new SpinnerConstructor(msg);
+    spinner.setSpinnerString(3);
+    spinner.stop = spinner.stop.bind(spinner, true);
+    return spinner;
+  }
+
+  getProgressBar(): ProgressBar {
+    if (this._level === "silent") return noopProgressBar;
+    const bar = new ProgressBarConstructor({ }, progress.Presets.rect);
+    return bar;
   }
 
   info(msg: string) {

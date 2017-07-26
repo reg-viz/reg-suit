@@ -1,9 +1,23 @@
 export interface Logger {
   colors: Colors;
+  getSpinner(msg?: string): Spinner;
+  getProgressBar(): ProgressBar;
   info(msg: string): void;
   warn(msg: string): void;
   error(msg: string | Error): void;
   verbose(msg: string, ...objects: any[]): void;
+}
+
+export interface Spinner {
+  start(): void;
+  stop(): void;
+}
+
+export interface ProgressBar {
+  start(total: number, start?: number): void;
+  update(current?: number): void;
+  increment(delta: number): void;
+  stop(): void;
 }
 
 // See https://www.npmjs.com/package/chalk#colors

@@ -120,6 +120,11 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     if (this._noEmit) {
       return Promise.resolve();
     }
-    return Promise.all(reqs.map(r => rp(r).catch(errorHandler(this._logger))));
+    const spinner = this._logger.getSpinner("sending notification to GitHub...");
+    spinner.start();
+    return Promise.all(reqs.map(r => rp(r).catch(errorHandler(this._logger))))
+      .then(() => spinner.stop())
+      .catch(() => spinner.stop())
+    ;
   }
 }

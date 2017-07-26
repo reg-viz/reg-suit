@@ -27,10 +27,12 @@ export class SlackNotifierPlugin implements NotifierPlugin<SlackNotiferPluginOpt
     this._logger.info(`Send to slack ${this._logger.colors.green(this._webhookUrl)}.`);
     this._logger.verbose("body to send to slack", body);
     if (this._noEmmit) return Promise.resolve();
-    return sendWebHook({
-      body,
-      webhookUrl: this._webhookUrl,
-    });
+    const spinner = this._logger.getSpinner("sending message to Slack...");
+    spinner.start();
+    return sendWebHook({ body, webhookUrl: this._webhookUrl })
+      .then(() => spinner.stop())
+      .catch(() => spinner.stop())
+    ;
   }
 
   createBody(params: NotifyParams) {
