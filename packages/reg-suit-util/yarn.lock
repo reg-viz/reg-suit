@@ -20,6 +20,16 @@ chalk@^2.0.1:
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
 
+cli-progress@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/cli-progress/-/cli-progress-1.4.1.tgz#998a726113e0da7be4f2cb4e0716e1b4c07abb0c"
+  dependencies:
+    colors "^1.1.2"
+
+cli-spinner@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/cli-spinner/-/cli-spinner-0.2.6.tgz#8a59703324e93a908f6e601e4e74f5b85b371e5c"
+
 color-convert@^1.0.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.0.tgz#1accf97dd739b983bf994d56fec8f95853641b7a"
@@ -30,6 +40,10 @@ color-name@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.2.tgz#5c8ab72b64bd2215d617ae9559ebb148475cf98d"
 
+colors@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
+
 escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
@@ -37,6 +51,10 @@ escape-string-regexp@^1.0.5:
 has-flag@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-2.0.0.tgz#e8207af1cc7b30d446cc70b734b5e8be18f88d51"
+
+reg-suit-interface@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/reg-suit-interface/-/reg-suit-interface-0.2.0.tgz#bb17b4f38534a7fa0f0abea6e85b76a854fee2f4"
 
 supports-color@^4.0.0:
   version "4.1.0"
