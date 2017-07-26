@@ -7,8 +7,10 @@ export type LogLevel = "verbose" | "info" | "silent";
 export class RegLogger implements Logger {
 
   _level: LogLevel;
+  _chalk: chalk.Chalk;
 
   constructor(private _category = "reg-suit") {
+    this._chalk = new chalk.constructor(({ level: 1 } as any));
     this._level = "info";
   }
 
@@ -23,7 +25,7 @@ export class RegLogger implements Logger {
   }
 
   get colors(): Colors {
-    return (<any>chalk) as Colors;
+    return (<any>this._chalk) as Colors;
   }
 
   set colors(v: Colors) {
