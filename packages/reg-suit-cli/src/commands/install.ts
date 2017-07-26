@@ -29,11 +29,13 @@ function install(options: CliOptions) {
       core.logger.info("This project does not have local installed reg-suit, so install it.");
     }
     if (options.noEmit) return Promise.resolve([]);
-    core.logger.info("Install dependencies to the local directory. This procedure takes some minutes, please wait...");
+    core.logger.info("Install dependencies to the local directory. This procedure takes some minutes, please wait.");
+    const spinner = core.logger.getSpinner(`installing dependencies with ${core.logger.colors.green(options.npmClient)}...`);
+    spinner.start();
     if (!isCliInstalled) {
       return packageUtil.installPluginAndCli(options.npmClient, pluginNamesToInstall)
       .then(packages => {
-        core.logger.info("Installation ended successfully.");
+        spinner.stop();
         core.logger.verbose(packages.join(", "));
         return packages;
       })
@@ -41,7 +43,7 @@ function install(options: CliOptions) {
     } else {
       return packageUtil.installPackages(options.npmClient, pluginNamesToInstall)
       .then(packages => {
-        core.logger.info("Installation ended successfully.");
+        spinner.stop();
         core.logger.verbose(packages.join(", "));
         return packages;
       })
