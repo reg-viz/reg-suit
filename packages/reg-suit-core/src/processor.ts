@@ -113,7 +113,7 @@ export class RegProcessor {
       update: false,
       ignoreChange: true,
       urlPrefix: "",
-      threshold: .5,
+      threshold: this._config.threshold,
     }) as Promise<ComparisonResult>)
     .then(result => {
       this._logger.verbose("Comparison result:", result);
