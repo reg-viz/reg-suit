@@ -1,7 +1,7 @@
 import * as child_process from "child_process";
 import * as fs from "fs";
 import * as path from "path";
-import * as resolve from "resolve";
+import { fsUtil } from "reg-suit-util";
 
 export const PLUGIN_NAME_REGEXP = /^reg-.*-plugin$/;
 const CLI_MODULE_ID = require(path.join(__dirname, "..", "package.json"))["name"] as string;
@@ -37,10 +37,9 @@ export class PackageUtil {
   }
 
   checkInstalled(pkgName: string): string | null {
+    const prjDir = fsUtil.prjRootDir();
     try {
-      return path.dirname(resolve.sync(`${pkgName}/package.json`, {
-        basedir: process.cwd(),
-      }));
+      return path.dirname(require.resolve(path.join(prjDir, "node_modules", pkgName, "package.json")));
     } catch (e) {
       return null;
     }
