@@ -10,7 +10,7 @@ export interface Logger {
 
 export interface Spinner {
   start(): void;
-  stop(clean?: boolean): void;
+  stop(): void;
 }
 
 export interface ProgressBar {

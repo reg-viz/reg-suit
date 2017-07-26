@@ -9,8 +9,8 @@ const ProgressBarConstructor = progress.Bar;
 export type LogLevel = "verbose" | "info" | "silent";
 
 const noopSpinner: Spinner = {
-  start: (x?: string) => { },
-  stop: (x: boolean) => { },
+  start: () => { },
+  stop: () => { },
 };
 
 const noopProgressBar: ProgressBar = {
@@ -52,6 +52,7 @@ export class RegLogger implements Logger {
     if (this._level === "silent") return noopSpinner;
     const spinner = new SpinnerConstructor(msg);
     spinner.setSpinnerString(3);
+    spinner.stop = spinner.stop.bind(spinner, true);
     return spinner;
   }
 
