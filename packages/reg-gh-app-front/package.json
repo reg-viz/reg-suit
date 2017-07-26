@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "name": "reg-gh-app-front",
+  "version": "0.3.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo T.B.D.",
+    "prepublish": "tsc -p src/tsconfig.build.json"
+  },
+  "keywords": [
+    "reg"
+  ],
+  "author": {
+    "name": "Quramy",
+    "email": "yosuke.kurami@gmail.com"
+  },
+  "repository": "git+https://github.com/reg-viz/reg-suit.git",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/lodash": "^4.14.71",
+    "@types/react": "^15.0.39",
+    "@types/react-dom": "^15.5.1",
+    "light-ts-loader": "^1.1.2",
+    "typescript": "^2.3.4",
+    "webpack": "^3.4.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "rxjs": "^5.4.2",
+    "whatwg-fetch": "^2.0.3"
+  }
+}

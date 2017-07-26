@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+<script type="text/javascript">
+(function getToken() {
+  var xhr;
+  if (location.search[0] !=="?") {
+    return;
+  }
+  var pairs = location.search.slice(1).split("&");
+  var qmap = { };
+  var redirectUrl = sessionStorage.redirectUrl || "/index.html";
+  pairs.forEach(function (p){
+    var kv = p.split("=");
+    qmap[kv[0]] = kv[1];
+  });
+  if (qmap.code) {
+    xhr = new XMLHttpRequest();
+    xhr.onload = function(x) {
+      if (xhr.status === 200) {
+        var result = JSON.parse(xhr.responseText);
+        if (result.error) {
+          console.error("oops", result.error);
+        } else if (result.token) {
+          localStorage.appToken = result.token;
+          sessionStorage.clear("redirectUrl");
+          location.href = redirectUrl;
+        }
+      }
+    };
+    // TODO parametarize URL
+    xhr.open("POST", "http://localhost:3000/api/login");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    // TODO parametarize URL
+    xhr.send(JSON.stringify({ code: qmap.code, callbackUrl: "http://localshot:4000/auth.html" }));
+  }
+})();
+</script>
+</body>
+</html>
