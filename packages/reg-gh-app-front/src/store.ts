@@ -32,8 +32,8 @@ export class Store {
             }
             return {
               ...i,
-              loadingState: "loding",
-            };
+              loadingState: "loading",
+            } as InstallationWithRepos;
           }),
         };
       } else if (action.type === "repositoriesRes") {
@@ -48,7 +48,7 @@ export class Store {
               ...i,
               loadingState: "done",
               repositories,
-            };
+            } as InstallationWithRepos;
           }),
         };
       }
