@@ -149,6 +149,8 @@ For example:
 # .travis.yml 
 
 script:
+  - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"  # This line is necessary to disable --single-branch option to fetch all remote branches on TravisCI.
+  - git fetch origin                                                      # Ditto
   - git checkout $TRAVIS_BRANCH || git checkout -b $TRAVIS_BRANCH
   - reg-suit run
 ```
