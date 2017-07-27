@@ -1,5 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   entry: {
@@ -28,6 +29,9 @@ module.exports = {
   plugins: [
     new webpack.LoaderOptionsPlugin({
       tsConfigPath: path.resolve(__dirname, "src/tsconfig.json"),
+    }),
+    new Dotenv({
+      path: "../../.env",
     }),
   ],
 }

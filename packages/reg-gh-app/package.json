@@ -5,7 +5,7 @@
   "description": "",
   "main": "dist/handler.js",
   "scripts": {
-    "start": "export NODE_ENV=DEV; source keys/app_info_dev.sh; sls offline start",
+    "start": "sls offline start",
     "test": "ava",
     "codegen": "apollo-codegen generate src/gql/*.graphql --target ts --output src/gql/_generated.ts --schema schema.json",
     "prepublish": "tsc -p src/tsconfig.build.json",
@@ -25,6 +25,7 @@
     "@types/request-promise": "^4.1.35",
     "apollo-codegen": "^0.13.2",
     "ava": "^0.20.0",
+    "dotenv-webpack": "^1.5.4",
     "graphql-tag": "^2.4.2",
     "light-ts-loader": "^1.1.2",
     "raw-loader": "^0.5.1",

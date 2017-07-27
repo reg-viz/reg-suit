@@ -6,7 +6,9 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo T.B.D.",
-    "prepublish": "tsc -p src/tsconfig.build.json"
+    "build": "source ../reg-gh-app/.endpoint; webpack --env=prod",
+    "prepublish": "tsc -p src/tsconfig.build.json && npm run webpack",
+    "start": "webpack-dev-server"
   },
   "keywords": [
     "reg"
@@ -21,9 +23,11 @@
     "@types/lodash": "^4.14.71",
     "@types/react": "^15.0.39",
     "@types/react-dom": "^15.5.1",
+    "dotenv-webpack": "^1.5.4",
     "light-ts-loader": "^1.1.2",
     "typescript": "^2.3.4",
-    "webpack": "^3.4.1"
+    "webpack": "^3.4.1",
+    "webpack-dev-server": "^2.6.1"
   },
   "dependencies": {
     "lodash": "^4.17.4",

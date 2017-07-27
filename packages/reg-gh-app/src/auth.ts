@@ -1,30 +1,36 @@
-// import * as fs from "fs";
-// import * as path from "path";
 import * as jwt from "jsonwebtoken";
 import * as rp from "request-promise";
+import * as zlib from "zlib";
 
 import { convertError } from "./error";
 
-// function pemPath() {
-//   if (process.env.NODE_ENV === "DEV") {
-//     return path.join(__dirname, "../../keys/private-key.pem");
-//   } else {
-//     return path.join(__dirname, "private-key.pem");
-//   }
-// }
+const appId = process.env["GH_APP_ID"];
+const appClientId = process.env["GH_APP_CLIENT_ID"];
+const appClientSecret = process.env["GH_APP_CLIENT_SECRET"];
+const appCallbackUrl = process.env["GH_APP_AUTH_CALLBACK_URL"];
+let pem: string;
 
-const PEM = require("../keys/private-key.pem") as string;
+function decodePEM() {
+  if (pem) return pem;
+  const encoded = process.env["GH_APP_PEM_ENCODED"];
+  if (!encoded) {
+    throw new Error("PEM file is not found.");
+  }
+  pem = zlib.inflateSync(new Buffer(encoded, "base64")).toString();
+  return pem;
+}
+
 
 export function auth(installationId: string) {
   // const pem = fs.readFileSync(pemPath(), "utf-8");
   const iat = ~~(new Date().getTime() / 1000) - 5;
   const exp = iat + 60 * 10;
   const payload = {
-    iss: 3180,
+    iss: appId,
     iat,
     exp,
   };
-  const token = jwt.sign(payload, PEM,  { algorithm: "RS256" });
+  const token = jwt.sign(payload, decodePEM(),  { algorithm: "RS256" });
   const options = {
     method: "POST",
     headers: {
@@ -41,9 +47,7 @@ export function auth(installationId: string) {
   }).catch(convertError);
 }
 
-export function authWidhCode(opt: { code: string, callbackUrl: string }) {
-  const clientId = process.env["APP_CLIENT_ID"];
-  const clientSecret = process.env["APP_CLIENT_SECRET"];
+export function authWidhCode({ code }: { code: string }) {
   const options = {
     url: "https://github.com/login/oauth/access_token",
     method: "POST",
@@ -51,10 +55,10 @@ export function authWidhCode(opt: { code: string, callbackUrl: string }) {
       "User-Agent": "simple-gh-pr-app-example",
     },
     body: {
-      code: opt.code,
-      client_id: clientId,
-      client_secret: clientSecret,
-      redirect_url: opt.callbackUrl,
+      code,
+      client_id: appClientId,
+      client_secret: appClientSecret,
+      redirect_url: appCallbackUrl,
     },
     json: true,
   } as rp.OptionsWithUrl;

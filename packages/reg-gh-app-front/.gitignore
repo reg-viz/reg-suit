@@ -1,3 +1,4 @@
 node_modules/
 lib/
-public/bundle.js
+public/*.js
+public/*.js.map
