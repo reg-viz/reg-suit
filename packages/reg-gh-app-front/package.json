@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo T.B.D.",
     "build": "source ../reg-gh-app/.endpoint; webpack --env=prod",
-    "prepublish": "tsc -p src/tsconfig.build.json && npm run webpack",
+    "prepublish": "tsc -p src/tsconfig.build.json && npm run build",
     "start": "webpack-dev-server"
   },
   "keywords": [
@@ -26,6 +26,7 @@
     "dotenv-webpack": "^1.5.4",
     "light-ts-loader": "^1.1.2",
     "typescript": "^2.3.4",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.6.1"
   },
