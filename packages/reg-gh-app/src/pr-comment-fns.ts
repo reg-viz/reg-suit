@@ -34,7 +34,7 @@ export function createCommentBody(eventBody: CommentToPrEventBody) {
     lines.push(`:sparkles::sparkles: **That's perfect, there is no visual difference!** :sparkles::sparkles:`);
     if (eventBody.reportUrl) {
       lines.push("");
-      lines.push(`Report is [here](${eventBody.reportUrl}.)`);
+      lines.push(`You can check the report out [here](${eventBody.reportUrl}).`);
     }
   } else {
     lines.push("**reg-suit detected visual differences.**");
