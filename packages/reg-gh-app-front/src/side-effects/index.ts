@@ -5,6 +5,8 @@ import { fetchRepositories } from "./fetch-repositories";
 
 type SideEffect = (action$: Observable<Action>) => Observable<Action>;
 
+// TODO remove later
+/* tslint:disable no-console */
 const logging = (action$: Observable<Action>) => action$.do(a => console.log(a));
 
 const effects = [
