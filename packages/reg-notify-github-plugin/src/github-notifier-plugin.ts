@@ -1,7 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
+import { inflateRawSync } from "zlib";
 import { execSync } from "child_process";
-import { CommentToPrBody, UpdateStatusBody } from "reg-gh-app-interface";
+import { BaseEventBody, CommentToPrBody, UpdateStatusBody } from "reg-gh-app-interface";
 import {
   NotifierPlugin,
   NotifyParams,
@@ -14,10 +15,11 @@ import { GitCmdClient } from "reg-keygen-git-hash-plugin/lib/git-cmd-client";
 import * as rp from "request-promise";
 
 export interface GitHubPluginOption {
-  installationId: string;
-  owner: string;
-  repository: string;
-  prComment: boolean;
+  clientId?: string;
+  installationId?: string;
+  owner?: string;
+  repository?: string;
+  prComment?: boolean;
   customEndpoint?: string;
 }
 
@@ -50,21 +52,31 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
 
   _logger: PluginLogger;
   _noEmit: boolean;
-  _installationId: string;
-  _repository: string;
-  _owner: string;
+  _apiOpt: BaseEventBody;
   _prComment: boolean;
 
   _apiPrefix: string;
   _commitExplorer: CommitExplorer;
 
+  _decodeClientId(clientId: string) {
+    const tmp = inflateRawSync(new Buffer(clientId, "base64")).toString().split("/");
+    if (tmp.length !== 4) {
+      this._logger.error(`Invalid client ID: ${this._logger.colors.red(clientId)}`);
+      throw new Error(`Invalid client ID: ${clientId}`);
+    }
+    const [_, repository, installationId, owner] = tmp;
+    return { repository, installationId, owner };
+  }
+
   init(config: PluginCreateOptions<GitHubPluginOption>) {
     this._noEmit = config.noEmit;
     this._logger = config.logger;
-    this._installationId = config.options.installationId;
-    this._owner = config.options.owner;
-    this._repository = config.options.repository;
-    this._prComment = config.options.prComment;
+    if (config.options.clientId) {
+      this._apiOpt = this._decodeClientId(config.options.clientId);
+    } else {
+      this._apiOpt = (config.options as BaseEventBody);
+    }
+    this._prComment = config.options.prComment !== false;
     this._apiPrefix = config.options.customEndpoint || defaultEndpoint;
     this._commitExplorer = new CommitExplorer();
     this._commitExplorer._gitCmdClient = new GitCmdClient();
@@ -80,9 +92,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     const description = state === "success" ? "Regression testing passed" : "Regression testing failed";
 
     const updateStatusBody: UpdateStatusBody = {
-      installationId: this._installationId,
-      owner: this._owner,
-      repository: this._repository,
+      ...this._apiOpt,
       sha1: this._commitExplorer.getCurrentCommitHash(),
       description,
       state,
@@ -100,9 +110,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
 
     if (this._prComment) {
       const prCommentBody: CommentToPrBody = {
-        installationId: this._installationId,
-        owner: this._owner,
-        repository: this._repository,
+        ...this._apiOpt,
         branchName: this._commitExplorer.getCurrentBranchName(),
         failedItemsCount, newItemsCount, deletedItemsCount, passedItemsCount,
       };
