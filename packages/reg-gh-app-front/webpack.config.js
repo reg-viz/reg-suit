@@ -9,7 +9,7 @@ module.exports = function(env) {
       tsConfigPath: path.resolve(__dirname, "src/tsconfig.build.json"),
     }),
     new Dotenv({
-      path: path.resolve(__dirname, "../../.env"),
+      path: path.resolve(__dirname, "../../.env.prod"),
       systemvars: true,
     }),
     new UglifyJSPlugin(),
