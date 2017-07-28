@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 import { BehaviorSubject } from "rxjs";
-import { Action, InitAction } from "./actions";
+import { Action, InitAction, ChangeSearchTextAction } from "./actions";
 
 export class ActionCreator {
 
@@ -13,8 +13,17 @@ export class ActionCreator {
     this._actions$.next({ type: "init" });
   }
 
+  changeSearchText(searchText: string) {
+    this._actions$.next({
+      type: "changeSearchText",
+      payload: {
+        searchText,
+      },
+    } as ChangeSearchTextAction);
+  }
+
   get actions$(): Observable<Action>  {
-    return this._actions$.asObservable();
+    return this._actions$;
   }
 }
 

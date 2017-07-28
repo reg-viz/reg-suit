@@ -10,7 +10,7 @@ export class InstallationItem extends React.Component<InstallationItemProps> {
 
   renderRepos() {
     const { repositories, id } = this.props.installation;
-    return repositories.map(r => {
+    return repositories.filter(r=> !r.hidden).map(r => {
       return (
         <RepositoryItem key={r.id} installationId={id} repository={r} />
       );

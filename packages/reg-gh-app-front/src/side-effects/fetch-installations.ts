@@ -6,6 +6,7 @@ import { ghClient } from "../util/gh-client";
 export function fetchInstallations(action$: Observable<Action>) {
   const fetchInstallations$ = action$
     .filter(a => a.type === "init")
+    .do(a => console.log(a))
     .switchMap(() => ghClient.fetchInstallations())
     .map(installations => {
       return {

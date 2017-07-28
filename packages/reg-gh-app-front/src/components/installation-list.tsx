@@ -7,13 +7,17 @@ export interface InstallationListProps {
 }
 
 export class InstallationList extends React.Component<InstallationListProps> {
+
   renderList() {
     const { installations } = this.props;
-    return installations.map(i => {
-      return (
-        <InstallationItem key={i.id} installation={i} />
-      );
-    });
+    return installations
+      .filter(i => !i.hidden)
+      .map(i => (
+        <InstallationItem
+          key={i.id}
+          installation={i}
+        />
+      ));
   }
 
   render() {

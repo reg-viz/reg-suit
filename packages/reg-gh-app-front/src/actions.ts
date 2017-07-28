@@ -1,9 +1,8 @@
 import { Installation, Repository } from "./types";
 
-export type HogeAction = {
-  type: "hoge";
-  payload: { }
-};
+export interface InitAction {
+  type: "init";
+}
 
 export type InstallationResAction = {
   type: "installationsRes";
@@ -25,12 +24,24 @@ export type RepositoriesResAction = {
   };
 };
 
-export interface InitAction {
-  type: "init";
+export interface ChangeSearchTextAction {
+  type: "changeSearchText";
+  payload: {
+    searchText: string;
+  };
+}
+
+export interface SearchRepositoriesAction {
+  type: "searchRepository";
+  payload: {
+    searchText: string;
+  };
 }
 
 export type Action =
   InitAction |
+  ChangeSearchTextAction |
+  SearchRepositoriesAction |
   InstallationResAction |
   RepositoriesReqAction |
   RepositoriesResAction

@@ -3,7 +3,8 @@ import { Subject } from "rxjs/Subject";
 import { Installation, AppState, InstallationWithRepos } from "./types";
 import { Action, InstallationResAction } from "./actions";
 
-const initialState = {
+const initialState: AppState  = {
+  searchText: "",
   isLoading: true,
   installations: [],
 };
@@ -15,6 +16,7 @@ export class Store {
       if (action.type === "installationsRes") {
         return {
           ...currentState,
+          isLoading: false,
           installations: action.payload.map(i => {
             return {
               ...i,
@@ -50,6 +52,28 @@ export class Store {
               repositories,
             } as InstallationWithRepos;
           }),
+        };
+      } else if (action.type === "changeSearchText") {
+        return {
+          ...currentState,
+          searchText: action.payload.searchText,
+        };
+      } else if (action.type === "searchRepository") {
+        const installations = currentState.installations.map(installation => {
+          const owner = installation.account.login;
+          const repos = installation.repositories.map(r => {
+            const hidden = r.fullName.indexOf(action.payload.searchText) === -1;
+            return { ...r, hidden };
+          });
+          return {
+            ...installation,
+            repositories: repos,
+            hidden: !repos.filter(r => !r.hidden).length,
+          };
+        });
+        return {
+          ...currentState,
+          installations,
         };
       }
       return currentState;
