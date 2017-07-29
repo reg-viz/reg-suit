@@ -1,32 +1,41 @@
 import * as React from "react";
+import { Message, Segment, Dimmer, Loader } from "semantic-ui-react";
 import { SearchForm } from "./search-form";
-import { InstallationList } from "./installation-list";
 import { store } from "../store";
 import { AppState } from "../types";
+import { heading2 } from "./app.css";
+import { RepositoryList } from "./repository-list";
+import { GotoInstall } from "./goto-install";
 
 export type AppProps = AppState;
 
-export function AppComponent(props: AppProps) {
-  const { isLoading, installations, searchText } = props;
-  if (isLoading) {
-    return (
-      <div>loading...</div>
-    );
-  }
-  if (installations.length) {
+function renderContents({ isLoading, installations, searchText, repositories }: AppProps) {
+  if (isLoading) return null;
+  if (!installations.length) {
     return (
       <div>
-        <SearchForm searchText={searchText} />
-        <InstallationList installations={installations} />
+        <h2 className={heading2}>Repositories integrated with reg-suit GitHub app</h2>
+        <SearchForm searchText={searchText} style={{ marginTop: 30 }} />
+        <RepositoryList repositories={repositories} style={{ marginTop: 30 }} />
       </div>
     );
   } else {
     return (
-      <div>
-        Install <a href="https://github.com/apps/reg-suit">GitHub app</a>
-      </div>
+      <GotoInstall />
     );
   }
+}
+
+export function AppComponent(props: AppProps) {
+  const { isLoading } = props;
+    return (
+      <div>
+        <Dimmer active={isLoading}>
+          <Loader />
+        </Dimmer>
+        {renderContents(props)}
+      </div>
+    );
 }
 
 export class AppContainer extends React.Component<{}, AppState> {

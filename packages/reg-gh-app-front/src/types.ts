@@ -18,6 +18,11 @@ export interface Repository {
   hidden?: boolean;
 }
 
+export interface RepositoryWithInstallation extends Repository {
+  installation: Installation;
+  clientId: string;
+}
+
 export interface InstallationWithRepos extends Installation {
   loadingState: "none" | "loading" | "done" | "failure";
   repositories: Repository[];
@@ -28,4 +33,5 @@ export interface AppState {
   searchText: string;
   isLoading: boolean;
   installations: InstallationWithRepos[];
+  repositories: RepositoryWithInstallation[];
 }

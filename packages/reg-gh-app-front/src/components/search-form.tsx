@@ -1,8 +1,11 @@
 import * as React from "react";
+import { Input } from "semantic-ui-react";
 import { actionCreator } from "../action-creator";
+import { help } from "./search-form.css";
 
 export interface SearchFormProps {
   searchText: string;
+  style?: {[key: string]: any};
 }
 
 export class SearchForm extends React.Component<SearchFormProps>{
@@ -17,8 +20,23 @@ export class SearchForm extends React.Component<SearchFormProps>{
 
   render() {
     return (
-      <div>
-        <input type="text" onChange={this.handleOnChange} value={this.props.searchText} />
+      <div style={this.props.style}>
+        <Input
+          icon="search"
+          iconPosition="left"
+          placeholder="Search on repository or owner"
+          onChange={this.handleOnChange}
+          fluid={true}
+          value={this.props.searchText}
+        />
+        <p className={help}>
+          Can't find your repository?&nbsp;
+          <a
+            className="text-link"
+            target="_blank"
+            href="https://github.com/apps/reg-suit"
+          >Configure your Installation.</a>
+        </p>
       </div>
     );
   }

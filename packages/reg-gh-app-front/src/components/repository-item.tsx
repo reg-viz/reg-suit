@@ -1,51 +1,27 @@
 import * as React from "react";
-import { Repository } from "../types";
-import { tokenize } from "../util/tokenize";
+import { Button } from "semantic-ui-react";
+import { RepositoryWithInstallation } from "../types";
+import { ClientIdModal } from "./client-id-modal";
+import { RoundButton } from "./round-button";
+import { avatar, root, main, loginName } from "./repository-item.css";
 
 export interface RepositoryItemProps {
-  installationId: number;
-  repository: Repository;
+  repository: RepositoryWithInstallation;
 }
 
 export class RepositoryItem extends React.Component<RepositoryItemProps> {
-
-  private _inputRef: HTMLInputElement;
-
-  constructor(props: RepositoryItemProps) {
-    super(props);
-    this.addRef = this.addRef.bind(this);
-    this.handleOnClick = this.handleOnClick.bind(this);
-  }
-
-  addRef(input: HTMLInputElement | null) {
-    if (input) {
-      this._inputRef = input;
-    }
-  }
-
-  handleOnClick() {
-    this._inputRef.focus();
-    this._inputRef.selectionStart = 0;
-    this._inputRef.selectionEnd = this._inputRef.value.length;
-    document.execCommand("copy");
-    this._inputRef.blur();
-  }
-
   render() {
-    const { name, owner, id } = this.props.repository;
-    const clientId = tokenize({
-      repositoryId: id,
-      installationId: this.props.installationId,
-      ownerName: owner.login,
-      repositoryName: name,
-    });
+    const { name, owner, id, installation, clientId } = this.props.repository;
     return (
-      <div>
-        {name}
-        <p>
-        <input type="text" readOnly={true} value={clientId} ref={this.addRef} />
-        <button onClick={this.handleOnClick}>copy to clipboard</button>
-        </p>
+      <div className={root}>
+        <img className={avatar} src={owner.avatarUrl} alt={owner.login} />
+        <div className={loginName}>{owner.login}</div>
+        <div className={main}>{name}</div>
+        <ClientIdModal
+          repositoryName={name}
+          clientId={clientId}
+          trigger={<RoundButton>Get client ID</RoundButton>}
+        />
       </div>
     );
   }

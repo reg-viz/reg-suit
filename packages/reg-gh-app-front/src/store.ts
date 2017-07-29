@@ -1,12 +1,14 @@
 import { Observable } from "rxjs";
 import { Subject } from "rxjs/Subject";
-import { Installation, AppState, InstallationWithRepos } from "./types";
+import { Installation, AppState, InstallationWithRepos, RepositoryWithInstallation } from "./types";
 import { Action, InstallationResAction } from "./actions";
+import { tokenize } from "./util/tokenize";
 
 const initialState: AppState  = {
   searchText: "",
   isLoading: true,
   installations: [],
+  repositories: [],
 };
 
 export class Store {
@@ -41,17 +43,22 @@ export class Store {
       } else if (action.type === "repositoriesRes") {
         return {
           ...currentState,
-          installations: currentState.installations.map(i => {
-            const { installationId, repositories } = action.payload;
-            if (i.id !== action.payload.installationId) {
-              return i;
-            }
-            return {
-              ...i,
-              loadingState: "done",
-              repositories,
-            } as InstallationWithRepos;
-          }),
+          repositories: [
+            ...currentState.repositories,
+            ...action.payload.repositories.map(r => {
+              const installation = currentState.installations.find(i => i.id === action.payload.installationId);
+              return {
+                ...r,
+                installation,
+                clientId: tokenize({
+                  installationId: action.payload.installationId,
+                  ownerName: r.owner.login,
+                  repositoryName: r.name,
+                  repositoryId: r.id,
+                }),
+              } as RepositoryWithInstallation;
+            })
+          ],
         };
       } else if (action.type === "changeSearchText") {
         return {
@@ -59,21 +66,13 @@ export class Store {
           searchText: action.payload.searchText,
         };
       } else if (action.type === "searchRepository") {
-        const installations = currentState.installations.map(installation => {
-          const owner = installation.account.login;
-          const repos = installation.repositories.map(r => {
-            const hidden = r.fullName.indexOf(action.payload.searchText) === -1;
-            return { ...r, hidden };
-          });
-          return {
-            ...installation,
-            repositories: repos,
-            hidden: !repos.filter(r => !r.hidden).length,
-          };
+        const repositories = currentState.repositories.map(r => {
+          const hidden = r.fullName.indexOf(action.payload.searchText) === -1;
+          return { ...r, hidden };
         });
         return {
           ...currentState,
-          installations,
+          repositories,
         };
       }
       return currentState;

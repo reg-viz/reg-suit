@@ -37,7 +37,7 @@ module.exports = function(env) {
     module: {
       rules: [
         { test: /\.tsx?$/, exclude: /node_modules/, loader: "light-ts-loader" },
-        { test: /\.graphql$/, loader: "raw-loader" },
+        { test: /\.css$/, loaders: ["style-loader", "css-loader?modules"] },
       ],
     },
     plugins,
