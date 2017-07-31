@@ -4,7 +4,6 @@
     "packages/*"
   ],
   "npmClient": "yarn",
-  "version": "0.4.1",
   "commands": {
     "publish": {}
   },
