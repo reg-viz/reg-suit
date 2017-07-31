@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "reg-suit-toppage",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "",
   "scripts": {
     "test": "echo T.B.D.",
@@ -35,10 +35,10 @@
     "nightmare": "^2.10.0",
     "node-sass": "^4.5.3",
     "postcss-cli": "^4.1.0",
-    "reg-keygen-git-hash-plugin": "^0.3.1",
-    "reg-notify-github-plugin": "^0.3.1",
-    "reg-publish-s3-plugin": "^0.3.1",
-    "reg-suit": "^0.3.1",
-    "reg-suit-core": "^0.3.1"
+    "reg-keygen-git-hash-plugin": "^0.4.0",
+    "reg-notify-github-plugin": "^0.4.0",
+    "reg-publish-s3-plugin": "^0.4.0",
+    "reg-suit": "^0.4.0",
+    "reg-suit-core": "^0.4.0"
   }
 }
