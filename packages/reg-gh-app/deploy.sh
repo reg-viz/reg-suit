@@ -1,6 +1,6 @@
 #!/bin/bash
 
-yarn run webpack -- --env="prod"
+yarn run webpack -- --config webpack.config.prod.js
 cp serverless.yml serverless.yml.bk
 cat serverless.yml.bk | sed "s/- serverless-webpack//" > serverless.yml
 yarn run sls -- deploy
