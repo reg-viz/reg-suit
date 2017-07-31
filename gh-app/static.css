@@ -50,7 +50,7 @@ button:focus {
 .app-wrapper {
   width: 960px;
   min-height: calc(100vh - 290px);
-  padding: 60px 32px;
+  padding: 60px 32px 30px;
   margin: 0 auto;
   background-color: #FFF;
 }
