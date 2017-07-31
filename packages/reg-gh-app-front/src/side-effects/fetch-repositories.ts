@@ -14,7 +14,7 @@ export function fetchRepositories(action$: Observable<Action>) {
     } as RepositoriesReqAction));
   const repo$ = installations$
     .flatMap((a :InstallationResAction) => Observable.from(a.payload.map(i => i.id)))
-    .switchMap(id => ghClient.fetchRepositories(id).then(repositories => {
+    .flatMap(id => ghClient.fetchRepositories(id).then(repositories => {
       return {
         type: "repositoriesRes",
         payload: {
