@@ -2,7 +2,7 @@
 
 import { isGhError } from "./error";
 import { updateStatus, updateStatusFromWebhook } from "./status-client";
-import { commentToPR } from "./pr-comment-client";
+import { commentToPR, commentToPRFromWebhook } from "./pr-comment-client";
 import { detectAction } from "./webhook-detect";
 import { authWidhCode } from "./auth";
 
@@ -55,8 +55,12 @@ module.exports.ghWebhook = (event: any, context: any, callback: any) => {
     return;
   }
   switch (action.type) {
+    case "pullRequestOpen":
+      commentToPRFromWebhook(action.payload).then(normalResponse(callback)).catch(errorResponse(callback));
+      break;
     case "pullRequestReview":
       updateStatusFromWebhook(action.payload).then(normalResponse(callback)).catch(errorResponse(callback));
+      break;
   }
 };
 

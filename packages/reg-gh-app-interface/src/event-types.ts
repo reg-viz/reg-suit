@@ -4,7 +4,14 @@ export interface BaseEventBody {
   repository: string;
 }
 
-export interface CommentToPrBody extends BaseEventBody {
+export interface ResultMetadata {
+  failedItemsCount: number;
+  newItemsCount: number;
+  deletedItemsCount: number;
+  passedItemsCount: number;
+}
+
+export interface CommentToPrBody extends BaseEventBody, ResultMetadata {
   branchName: string;
   failedItemsCount: number;
   newItemsCount: number;
@@ -18,5 +25,6 @@ export interface UpdateStatusBody extends BaseEventBody {
   sha1: string;
   description: string;
   state: "success" | "failure";
+  metadata?: ResultMetadata;
   reportUrl?: string;
 }
