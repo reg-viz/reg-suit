@@ -1,7 +1,8 @@
-import { UpdateStatusBody } from "reg-gh-app-interface";
+import { UpdateStatusBody, ResultMetadata } from "reg-gh-app-interface";
 import { NotInstallationError, DataValidationError } from "./error";
 import { UpdateStatusContextQuery, StatusDetailQuery, StatusDetailQueryVariables } from "./gql/_generated";
-import { PullRequestReviewPayload } from "./webhook-detect";
+import { PullRequestReviewPayload, PullRequestOpenPayload } from "./webhook-detect";
+import * as zlib from "zlib";
 
 export type UpdateStatusEventBody = UpdateStatusBody;
 
@@ -36,15 +37,27 @@ export function convert(result: UpdateStatusContextQuery, eventBody: UpdateStatu
     path,
     body: {
       state: eventBody.state,
-      target_url: eventBody.reportUrl,
+      target_url: embedMetadataIntoUrl(eventBody.reportUrl, eventBody.metadata),
       description: eventBody.description,
       context,
     },
   };
 }
 
-export function createStatusDetailQueryVariables(payload: PullRequestReviewPayload): StatusDetailQueryVariables | null {
-  if (payload.review.state !== "approved") return null;
+export function embedMetadataIntoUrl(url: string | undefined, metadata: ResultMetadata | undefined) {
+  if (!metadata)  return url;
+  const encoded = encodeURIComponent(encodeMetadata(metadata));
+  if (!url) return `https://reg-viz.github.io/reg-suit/?stat=${encoded}`;
+  if (/\?/.test(url)) {
+    url += `&stat=${encoded}`;
+  } else {
+    url += `?stat=${encoded}`;
+  }
+  return url;
+}
+
+export function createStatusDetailQueryVariables(payload: PullRequestOpenPayload | PullRequestReviewPayload): StatusDetailQueryVariables | null {
+  if (payload.review && payload.review.state !== "approved") return null;
   return {
     prNumber: payload.pull_request.number,
     owner: payload.repository.owner.login,
@@ -69,4 +82,12 @@ export function createSuccessStatusParams(detail: StatusDetailQuery, payload: Pu
       target_url: hit.commit.status.context.targetUrl,
     },
   };
+}
+
+export function encodeMetadata(metadata: ResultMetadata) {
+  return zlib.deflateRawSync(new Buffer(JSON.stringify(metadata))).toString("base64");
+}
+
+export function decodeMetadata(token: string): ResultMetadata {
+  return JSON.parse(zlib.inflateRawSync(new Buffer(token, "base64")).toString());
 }

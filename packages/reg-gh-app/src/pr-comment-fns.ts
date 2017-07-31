@@ -1,6 +1,8 @@
 import { NotInstallationError, DataValidationError } from "./error";
-import { UpdatePrCommentContextQuery, UpdatePrCommentContextQueryVariables } from "./gql/_generated";
+import { UpdatePrCommentContextQuery, UpdatePrCommentContextQueryVariables, StatusDetailQuery } from "./gql/_generated";
 import { CommentToPrBody } from "reg-gh-app-interface";
+import { PullRequestOpenPayload } from "./webhook-detect";
+import { decodeMetadata } from "./status-fns";
 
 export type CommentToPrEventBody  = CommentToPrBody;
 
@@ -28,7 +30,15 @@ export function validateEventBody(input: Partial<CommentToPrEventBody>) {
   return true;
 }
 
-export function createCommentBody(eventBody: CommentToPrEventBody) {
+export interface CommentSeed {
+  reportUrl?: string;
+  failedItemsCount: number;
+  newItemsCount: number;
+  deletedItemsCount: number;
+  passedItemsCount: number;
+}
+
+export function createCommentBody(eventBody: CommentSeed) {
   const lines: string[] = [];
   if (eventBody.failedItemsCount === 0 && eventBody.newItemsCount === 0 && eventBody.deletedItemsCount === 0) {
     lines.push(`:sparkles::sparkles: **That's perfect, there is no visual difference!** :sparkles::sparkles:`);
@@ -98,4 +108,23 @@ export function convert(context: UpdatePrCommentContextQuery, eventBody: Comment
       } as UpdateIssueCommentApiParams;
     }
   });
+}
+
+export function createCommentParams(data: StatusDetailQuery, payload: PullRequestOpenPayload): UpdateIssueCommentApiParams | undefined {
+  const repo = data.repository;
+  if (!repo || !repo.pullRequest || !repo.pullRequest.commits.nodes) return;
+  const commits = repo.pullRequest.commits.nodes;
+  const hit = commits.find(c => !!c.commit.status && !!c.commit.status.context && c.commit.oid === payload.pull_request.head.sha);
+  if (!hit || !hit.commit.status || !hit.commit.status.context) return;
+  const url = hit.commit.status.context.targetUrl;
+  if (!url) return;
+  const tmp = url.match(/(\?|&)stat=([^\?&=]+)/);
+  if (!tmp) return;
+  const [_, p, encoded] = tmp;
+  const metadata = decodeMetadata(decodeURIComponent(encoded));
+  return {
+    method: "POST",
+    path: `/repos/${payload.repository.owner.login}/${payload.repository.name}/issues/${payload.pull_request.number}/comments`,
+    body: { body: createCommentBody({ ...metadata, reportUrl: url }) },
+  } as UpdateIssueCommentApiParams;
 }
