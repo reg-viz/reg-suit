@@ -1,5 +1,6 @@
 import { Observable } from "rxjs";
 import { Action } from "../actions";
+import { logout } from "./logout";
 import { fetchInstallations } from "./fetch-installations";
 import { fetchRepositories } from "./fetch-repositories";
 import { searchRepositories } from "./search-repositories";
@@ -14,6 +15,7 @@ const effects = [
   fetchInstallations,
   fetchRepositories,
   searchRepositories,
+  logout,
   logging,
 ];
 

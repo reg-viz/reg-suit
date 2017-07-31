@@ -34,7 +34,7 @@ export class SearchForm extends React.Component<SearchFormProps>{
           <a
             className="text-link"
             target="_blank"
-            href="https://github.com/apps/reg-suit"
+            href="https://github.com/apps/reg-suit/installations/new"
           >Configure your Installation.</a>
         </p>
       </div>

@@ -13,6 +13,10 @@ export class ActionCreator {
     this._actions$.next({ type: "init" });
   }
 
+  logout() {
+    this._actions$.next({ type: "logout" });
+  }
+
   changeSearchText(searchText: string) {
     this._actions$.next({
       type: "changeSearchText",

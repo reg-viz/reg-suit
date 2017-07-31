@@ -6,6 +6,7 @@ import { AppState } from "../types";
 import { heading2 } from "./app.css";
 import { RepositoryList } from "./repository-list";
 import { GotoInstall } from "./goto-install";
+import { Logout } from "./logout";
 
 export type AppProps = AppState;
 
@@ -34,6 +35,7 @@ export function AppComponent(props: AppProps) {
           <Loader />
         </Dimmer>
         {renderContents(props)}
+        <Logout />
       </div>
     );
 }

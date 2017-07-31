@@ -4,6 +4,10 @@ export interface InitAction {
   type: "init";
 }
 
+export interface LogoutAction {
+  type: "logout";
+}
+
 export type InstallationResAction = {
   type: "installationsRes";
   payload: Installation[];
@@ -40,6 +44,7 @@ export interface SearchRepositoriesAction {
 
 export type Action =
   InitAction |
+  LogoutAction |
   ChangeSearchTextAction |
   SearchRepositoriesAction |
   InstallationResAction |
