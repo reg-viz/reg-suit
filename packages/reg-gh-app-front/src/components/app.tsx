@@ -11,7 +11,7 @@ export type AppProps = AppState;
 
 function renderContents({ isLoading, installations, searchText, repositories }: AppProps) {
   if (isLoading) return null;
-  if (!installations.length) {
+  if (installations.length) {
     return (
       <div>
         <h2 className={heading2}>Repositories integrated with reg-suit GitHub app</h2>
