@@ -1,6 +1,5 @@
 node_modules/
 dist/
 lib/
-keys/*.pem
 .serverless/
 response.capture.log

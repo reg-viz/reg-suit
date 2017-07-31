@@ -14,6 +14,7 @@
     "screenshot": "node capture.js && ls screenshot",
     "reg-suit": "node ./node_modules/reg-suit/lib/cli.js",
     "regression": "npm run reg-suit -- run -v",
+    "predeploy": "cpx \"../reg-gh-app-front/public/**/*\" dist/gh-app",
     "deploy": "gh-pages -d dist"
   },
   "keywords": [

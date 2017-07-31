@@ -45,6 +45,13 @@ functions:
           path: api/gh-webhook
           method: post
           cors: true
+  login:
+    handler: dist/handler.login
+    events:
+      - http:
+          path: api/login
+          method: post
+          cors: true
   status:
     handler: dist/handler.updateStatus
     events:
