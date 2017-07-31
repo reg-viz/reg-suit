@@ -98,6 +98,9 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
       state,
     };
     if (params.reportUrl) updateStatusBody.reportUrl = params.reportUrl;
+    if (this._prComment) {
+      updateStatusBody.metadata = { failedItemsCount, newItemsCount, deletedItemsCount, passedItemsCount };
+    }
     const statusReq: rp.OptionsWithUri = {
       uri: `${this._apiPrefix}/api/update-status`,
       method: "POST",
