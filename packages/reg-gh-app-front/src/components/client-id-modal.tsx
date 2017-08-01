@@ -45,7 +45,7 @@ export class ClientIdModal extends React.Component<ClientIdModalProps> {
       }
     }, null, 2);
     return (
-      <Modal trigger={trigger}>
+      <Modal className="client-id-modal" trigger={trigger}>
         <Modal.Header>Client ID for "{repositoryName}"</Modal.Header>
         <Modal.Content>
           <Input

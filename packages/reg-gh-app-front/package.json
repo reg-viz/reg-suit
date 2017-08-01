@@ -5,7 +5,9 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo T.B.D.",
+    "build:css:dev": "webpack",
+    "pretest": "cpx \"src/components/**/*.css\" \"lib/components\"",
+    "test": "avaron --renderer",
     "build": "source ../reg-gh-app/.endpoint; webpack --env=prod",
     "prepublish": "tsc -p src/tsconfig.build.json",
     "start": "webpack-dev-server"
@@ -53,8 +55,8 @@
     "renderer": true,
     "fixture": "fixture.html",
     "windowOptions": {
-      "width": 800,
-      "height": 600
+      "width": 1200,
+      "height": 900 
     },
     "require": [
       "css-modules-require-hook/preset"
