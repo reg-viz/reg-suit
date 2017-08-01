@@ -9,7 +9,7 @@
     "pretest": "cpx \"src/components/**/*.css\" \"lib/components\"",
     "test": "avaron --renderer",
     "build": "source ../reg-gh-app/.endpoint; webpack --env=prod",
-    "prepublish": "tsc -p src/tsconfig.build.json && build:css:dev",
+    "prepublish": "tsc -p src/tsconfig.build.json && npm run build:css:dev",
     "start": "webpack-dev-server"
   },
   "keywords": [
