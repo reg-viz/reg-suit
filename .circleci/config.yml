@@ -27,7 +27,7 @@ jobs:
             yarn run test
             xvfbd stop
       - run:
-          name: Regression using io toppage
+          name: Regression using gh-io components
           command: |
             cd packages/reg-suit-toppage
             npm run regression
