@@ -5,6 +5,7 @@ import { header, owner, repoName } from "./repository-list.css";
 
 export interface RepositoryListProps {
   repositories: RepositoryWithInstallation[];
+  className?: string;
   style: { [key: string]: any };
 }
 
@@ -14,7 +15,7 @@ function renderItems(repos: RepositoryWithInstallation[]) {
 
 export function RepositoryList(props: RepositoryListProps) {
   return (
-    <div style={props.style}>
+    <div style={props.style} className={props.className || ""}>
       <header className={header}>
         <div className={owner}>Owner</div>
         <div className={repoName}>Repository</div>

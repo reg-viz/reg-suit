@@ -4,7 +4,7 @@
   "version": "0.4.1",
   "description": "",
   "scripts": {
-    "test": "echo T.B.D.",
+    "test": "npm run screenshot",
     "scss": "node-sass public/styles/index.scss -o public/css",
     "postcss": "postcss public/css/*.css --use autoprefixer -d dist/css",
     "build": "npm run scss && npm run postcss && cpx \"public/**/*.{html,ico,png,jpg,svg,js}\" dist && cpx circle.yml dist",
@@ -13,6 +13,7 @@
     "start": "browser-sync start -c bs-config.js",
     "screenshot": "node capture.js && ls screenshot",
     "reg-suit": "node ./node_modules/reg-suit/lib/cli.js",
+    "preregression": "cpx \"../reg-gh-app-front/screenshot/**/*.png\" \"screenshot/gh-app-front\"",
     "regression": "npm run reg-suit -- run -v",
     "predeploy": "cpx \"../reg-gh-app-front/public/**/*\" dist/gh-app",
     "deploy": "gh-pages -d dist"

@@ -17,7 +17,7 @@ function renderContents({ isLoading, installations, searchText, repositories }: 
       <div>
         <h2 className={heading2}>Repositories integrated with reg-suit GitHub app</h2>
         <SearchForm searchText={searchText} style={{ marginTop: 30 }} />
-        <RepositoryList repositories={repositories} style={{ marginTop: 30 }} />
+        <RepositoryList className="repo-list" repositories={repositories} style={{ marginTop: 30 }} />
       </div>
     );
   } else {

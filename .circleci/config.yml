@@ -22,14 +22,14 @@ jobs:
           command: yarn run lint
       - run:
           name: Test
-          command: yarn run test
+          command: |
+            xvfbd start
+            yarn run test
+            xvfbd stop
       - run:
-          name: Regression using io toppage
+          name: Regression using gh-io components
           command: |
             cd packages/reg-suit-toppage
-            xvfbd start
-            npm run screenshot
-            xvfbd stop
             npm run regression
 
   patch_release:
