@@ -7,7 +7,7 @@
   "scripts": {
     "build:css:dev": "webpack",
     "pretest": "cpx \"src/components/**/*.css\" \"lib/components\"",
-    "test": "avaron --renderer",
+    "test": "avaron",
     "build": "source ../reg-gh-app/.endpoint; webpack --env=prod",
     "prepublish": "tsc -p src/tsconfig.build.json && npm run build:css:dev",
     "start": "webpack-dev-server"
@@ -26,9 +26,10 @@
     "@types/react": "^15.0.39",
     "@types/react-dom": "^15.5.1",
     "autoprefixer": "^7.1.2",
-    "avaron": "^0.0.10",
+    "avaron": "^0.0.11",
     "cpx": "^1.5.0",
     "css-loader": "^0.28.4",
+    "css-modules-require-hook": "^4.0.6",
     "dotenv-webpack": "^1.5.4",
     "extract-text-webpack-plugin": "^3.0.0",
     "light-ts-loader": "^1.1.2",
@@ -41,8 +42,6 @@
     "webpack-dev-server": "^2.6.1"
   },
   "dependencies": {
-    "css-modules-require-hook": "^4.0.6",
-    "electron": "^1.6.11",
     "lodash": "^4.17.4",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -56,7 +55,7 @@
     "fixture": "fixture.html",
     "windowOptions": {
       "width": 1200,
-      "height": 900 
+      "height": 900
     },
     "require": [
       "css-modules-require-hook/preset"
