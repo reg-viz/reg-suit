@@ -164,7 +164,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
       .then(items => {
         const indexFile = items.find(item => item.path.endsWith("index.html"));
         // FIXME is this naming rule correct?
-        const reportUrl = indexFile && `https://s3.amazonaws.com/${this._pluginConfig.bucketName}/${key}/${indexFile.path}`;
+        const reportUrl = indexFile && `${this._s3client.endpoint.href}${this._pluginConfig.bucketName}/${key}/${indexFile.path}`;
         return { reportUrl, items };
       })
       .then(result => {
