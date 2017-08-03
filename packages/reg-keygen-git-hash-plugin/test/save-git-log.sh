@@ -17,8 +17,11 @@ git branch | grep "^\*" | cut -b 3- > $FIXTURE_DIR/current-name.txt
 echo capture $FIXTURE_DIR/show-branch.txt
 git show-branch -a --sha1-name > $FIXTURE_DIR/show-branch.txt
 
+echo capture $FIXTURE_DIR/log.txt
+git log -n 1000 --oneline > $FIXTURE_DIR/log.txt
+
 echo capture $FIXTURE_DIR/log-first-parent.txt
-git log -n 1000 --oneline > $FIXTURE_DIR/log-first-parent.txt
+git log -n 1000 --first-parent --oneline > $FIXTURE_DIR/log-first-parent.txt
 
 echo capture $FIXTURE_DIR/log-graph.txt
 git log -n 1000 --graph --pretty=format:"%h %p" > $FIXTURE_DIR/log-graph.txt
