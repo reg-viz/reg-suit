@@ -1,5 +1,5 @@
-* [feature-x] Merge branch 'master' into feature-x
- ! [master] add d
+* [feat-x] Merge branch 'master' into feat-x
+ ! [master] master commit
 --
--  [7f2a3a8] Merge branch 'master' into feature-x
-*+ [a2af753] add d
+-  [eb05508] Merge branch 'master' into feat-x
+*+ [550ef55] master commit

@@ -50,8 +50,8 @@ test("2 commits after create new branch", t => {
 
 test("after catch up master merge", t => {
   const fixture = createFixture("after-catch-up-master");
-  t.not(fixture.getBaseCommitHash(), "04b2059edc53f25bf740090b7cec1f0f1988f63c");
-  t.is(fixture.getBaseCommitHash(), "a2af7530f86d1f6a952be8c971f14b2b1f0ccb33");
+  t.not(fixture.getBaseCommitHash(), "c5144860edb9f2ffb0e53ea8dc9a43927da34b77");
+  t.is(fixture.getBaseCommitHash(), "550ef5558d2495f208f0b5ba00d0aa72467038b4");
 });
 
 test("commits after catch up master merge", t => {
