@@ -25,18 +25,19 @@ export class CommitExplorer {
     return log.split("\n").filter(l => !!l.length).map((log: string) => log.split(" ")[0]);
   }
 
-  getBaseCommitHash(): string | null {
-    const shownBranches = this._gitCmdClient.showBranch().split(/\n/) as string[];
-    const separatorIndex = shownBranches.findIndex((b) => /^--/.test(b));
+  getBaseHash(candidateHashes: string[]): string {
+    const firstParents = this.getParentHashes(this._gitCmdClient.logFirstParent());
+    const baseHash = candidateHashes.filter(hash => firstParents.includes(hash))[0];
+    if (baseHash) return baseHash;
+    const allParents = this.getParentHashes(this._gitCmdClient.log());
+    return candidateHashes.filter(hash => allParents.includes(hash))[0];
+  }
+
+  getCandidateHashes(shownBranches: string[]): string[] {
     const branches: string[] = [];
     const current = this.getCurrentCommitHash();
-    const parentHashes = [
-      ...this.getParentHashes(this._gitCmdClient.logFirstParent()),
-      ...this.getParentHashes(this._gitCmdClient.log()),
-    ].filter((x, i, self) => self.indexOf(x) === i);
-
+    const separatorIndex = shownBranches.findIndex((b) => /^--/.test(b));
     let currentIndex: number;
-    let baseHash = "";
     shownBranches
       .slice(0, separatorIndex)
       .forEach((b, i) => {
@@ -45,7 +46,7 @@ export class CommitExplorer {
         if (b[i] === "*") currentIndex = i;
         branches.push(name);
       });
-    const candidateHashes = shownBranches
+    return shownBranches
       .slice(separatorIndex + 1, shownBranches.length - 1)
       .filter(b => {
         const [status, branch] = b.replace(/\].+/, "").split("[");
@@ -58,20 +59,19 @@ export class CommitExplorer {
             const name = branches[i];
             const hash = this._gitCmdClient.revParse(name).replace("\n", "");
             if (hash === current) return;
-            return true;
+             return true;
           })
           .filter(s => !!s).length;
       })
       .map(b => (b.replace(/\].+/, "").match(/\[(.+)/) as any)[1])
       .filter(hash => current.indexOf(hash)) as string[]
       ;
-    if (!candidateHashes.length) return null;
-    candidateHashes
-      .some(hash => {
-        if (!parentHashes.includes(hash)) return false;
-        baseHash = hash;
-        return true;
-      });
+  }
+
+  getBaseCommitHash(): string | null {
+    const shownBranches = this._gitCmdClient.showBranch().split(/\n/) as string[];
+    const candidateHashes = this.getCandidateHashes(shownBranches);
+    const baseHash = this.getBaseHash(candidateHashes);
     const parents = this._gitCmdClient.logGraph()
       .split("\n")
       .map((hashes: string) => (
