@@ -21,12 +21,20 @@ export class CommitExplorer {
     return this._gitCmdClient.revParse(currentName).replace("\n", "");
   }
 
+  getParentHashes(log: string): string[] {
+    return log.split("\n").filter(l => !!l.length).map((log: string) => log.split(" ")[0]);
+  }
+
   getBaseCommitHash(): string | null {
     const shownBranches = this._gitCmdClient.showBranch().split(/\n/) as string[];
     const separatorIndex = shownBranches.findIndex((b) => /^--/.test(b));
     const branches: string[] = [];
     const current = this.getCurrentCommitHash();
-    const firstParentHashes = this._gitCmdClient.logFirstParent().split("\n").filter(l => !!l.length).map((log: string) => log.split(" ")[0]);
+    const parentHashes = [
+      ...this.getParentHashes(this._gitCmdClient.logFirstParent()),
+      ...this.getParentHashes(this._gitCmdClient.log()),
+    ].filter((x, i, self) => self.indexOf(x) === i);
+
     let currentIndex: number;
     let baseHash = "";
     shownBranches
@@ -56,11 +64,11 @@ export class CommitExplorer {
       })
       .map(b => (b.replace(/\].+/, "").match(/\[(.+)/) as any)[1])
       .filter(hash => current.indexOf(hash)) as string[]
-    ;
+      ;
     if (!candidateHashes.length) return null;
     candidateHashes
       .some(hash => {
-        if (firstParentHashes.indexOf(hash) === -1) return false;
+        if (parentHashes.indexOf(hash) === -1) return false;
         baseHash = hash;
         return true;
       });
@@ -80,8 +88,8 @@ export class CommitExplorer {
         // FIXME?
         return false;
       }
-      const [target, ...parentHashes] = hits;
-      for (const h of parentHashes) {
+      const [target, ...hitParentsHashes] = hits;
+      for (const h of hitParentsHashes) {
         if (target === baseHash) return true;
         return traverseLog(h);
       }
