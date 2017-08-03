@@ -29,6 +29,10 @@ export class GitLogLoader extends GitCmdClient {
     return this._loadFile("log-first-parent.txt");
   }
 
+  log(): string {
+    return this._loadFile("log.txt");
+  }
+
   logGraph(): string {
     return this._loadFile("log-graph.txt");
   }
