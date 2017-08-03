@@ -58,3 +58,8 @@ test("commits after catch up master merge", t => {
   const fixture = createFixture("commit-after-merge");
   t.is(fixture.getBaseCommitHash(), "e8aadaf99ca505f4bb6d62bb930e215b5abd0295");
 });
+
+test("master to catch up branch", t => {
+  const fixture = createFixture("master-to-catch-up-branch");
+  t.is(fixture.getBaseCommitHash(), "4c2a76f08ec6122a29d74a04efddece1ff956863");
+});

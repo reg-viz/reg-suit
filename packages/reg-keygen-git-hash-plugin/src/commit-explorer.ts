@@ -68,7 +68,7 @@ export class CommitExplorer {
     if (!candidateHashes.length) return null;
     candidateHashes
       .some(hash => {
-        if (parentHashes.indexOf(hash) === -1) return false;
+        if (!parentHashes.includes(hash)) return false;
         baseHash = hash;
         return true;
       });
