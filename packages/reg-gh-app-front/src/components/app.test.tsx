@@ -26,7 +26,7 @@ test.serial("render without installations", async t => {
     searchText: "",
   };
   render(<AppComponent {...props} />);
-  await capture("screenshot/app_goto_install.png", 300);
+  await capture("screenshot/app_goto_install.png", 800);
   t.truthy(!document.querySelector(".repo-list"));
 });
 
@@ -38,6 +38,6 @@ test.serial("render with installations", async t => {
     searchText: "reg-su",
   };
   render(<AppComponent {...props} />);
-  await capture("screenshot/app_installations.png", 300);
+  await capture("screenshot/app_installations.png", 800);
   t.truthy(document.querySelector(".repo-list"));
 });

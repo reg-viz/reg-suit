@@ -15,5 +15,5 @@ test.serial("render", async t => {
   if (!btn) return t.fail();
   btn.click();
   t.truthy(document.querySelector(".client-id-modal"));
-  await capture("screenshot/client-id-modal.png", 500);
+  await capture("screenshot/client-id-modal.png", 800);
 });
