@@ -170,6 +170,20 @@ build:
         reg-suit run
 ```
 
+```yml
+# appveyor.yml
+
+environment:
+  nodejs_version: "8"
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - git checkout %APPVEYOR_REPO_BRANCH%
+
+test_script:
+  - reg-suit run
+```
+
 ## Contribute
 PRs are welcome!
 
