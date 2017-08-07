@@ -3,8 +3,6 @@
   "compilerOptions": {
     "paths": {
       "reg-gh-app-interface": ["./reg-gh-app-interface/src/index.ts"],
-      "reg-keygen-git-hash-plugin/lib/commit-explorer": ["./reg-keygen-git-hash-plugin/src/commit-explorer.ts"],
-      "reg-keygen-git-hash-plugin/lib/git-cmd-client": ["./reg-keygen-git-hash-plugin/src/git-cmd-client.ts"],
       "reg-suit-interface": ["./reg-suit-interface/src/index.ts"]
     }
   }

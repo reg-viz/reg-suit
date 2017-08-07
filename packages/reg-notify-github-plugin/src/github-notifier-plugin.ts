@@ -1,16 +1,16 @@
 import * as fs from "fs";
 import * as path from "path";
+import { Repository } from "tiny-commit-walker";
 import { inflateRawSync } from "zlib";
 import { execSync } from "child_process";
 import { BaseEventBody, CommentToPrBody, UpdateStatusBody } from "reg-gh-app-interface";
+import { fsUtil } from "reg-suit-util";
 import {
   NotifierPlugin,
   NotifyParams,
   PluginCreateOptions,
   PluginLogger,
 } from "reg-suit-interface";
-import { CommitExplorer } from "reg-keygen-git-hash-plugin/lib/commit-explorer";
-import { GitCmdClient } from "reg-keygen-git-hash-plugin/lib/git-cmd-client";
 
 import * as rp from "request-promise";
 
@@ -56,7 +56,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
   _prComment: boolean;
 
   _apiPrefix: string;
-  _commitExplorer: CommitExplorer;
+  _repo: Repository;
 
   _decodeClientId(clientId: string) {
     const tmp = inflateRawSync(new Buffer(clientId, "base64")).toString().split("/");
@@ -78,11 +78,11 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     }
     this._prComment = config.options.prComment !== false;
     this._apiPrefix = config.options.customEndpoint || defaultEndpoint;
-    this._commitExplorer = new CommitExplorer();
-    this._commitExplorer._gitCmdClient = new GitCmdClient();
+    this._repo = new Repository(path.join(fsUtil.prjRootDir(".git"), ".git"));
   }
 
   notify(params: NotifyParams): Promise<any> {
+    const head = this._repo.readHeadSync();
     const { failedItems, newItems, deletedItems, passedItems } = params.comparisonResult;
     const failedItemsCount = failedItems.length;
     const newItemsCount = newItems.length;
@@ -90,10 +90,20 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     const passedItemsCount = passedItems.length;
     const state = (failedItemsCount + newItemsCount + deletedItemsCount === 0) ? "success" : "failure";
     const description = state === "success" ? "Regression testing passed" : "Regression testing failed";
+    let sha1: string;
+
+    if (head.branch) {
+      sha1 = head.branch.commit.hash;
+    } else if (head.commit) {
+      sha1 = head.commit.hash;
+    } else {
+      this._logger.error("Can't detect HEAD branch or commit.");
+      return Promise.resolve();
+    }
 
     const updateStatusBody: UpdateStatusBody = {
       ...this._apiOpt,
-      sha1: this._commitExplorer.getCurrentCommitHash(),
+      sha1,
       description,
       state,
     };
@@ -112,21 +122,25 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     const reqs = [statusReq];
 
     if (this._prComment) {
-      const prCommentBody: CommentToPrBody = {
-        ...this._apiOpt,
-        branchName: this._commitExplorer.getCurrentBranchName(),
-        failedItemsCount, newItemsCount, deletedItemsCount, passedItemsCount,
-      };
-      if (params.reportUrl) prCommentBody.reportUrl = params.reportUrl;
-      const commentReq: rp.OptionsWithUri = {
-        uri: `${this._apiPrefix}/api/comment-to-pr`,
-        method: "POST",
-        body: prCommentBody,
-        json: true,
-      };
-      this._logger.info(`Comment to PR associated with ${this._logger.colors.green(prCommentBody.branchName)} .`);
-      this._logger.verbose("PR comment: ", commentReq);
-      reqs.push(commentReq);
+      if (head.type === "branch" && head.branch) {
+        const prCommentBody: CommentToPrBody = {
+          ...this._apiOpt,
+          branchName: head.branch.name,
+          failedItemsCount, newItemsCount, deletedItemsCount, passedItemsCount,
+        };
+        if (params.reportUrl) prCommentBody.reportUrl = params.reportUrl;
+        const commentReq: rp.OptionsWithUri = {
+          uri: `${this._apiPrefix}/api/comment-to-pr`,
+          method: "POST",
+          body: prCommentBody,
+          json: true,
+        };
+        this._logger.info(`Comment to PR associated with ${this._logger.colors.green(prCommentBody.branchName)} .`);
+        this._logger.verbose("PR comment: ", commentReq);
+        reqs.push(commentReq);
+      } else {
+        this._logger.warn(`HEAD is not attached into any branches.`);
+      }
     }
     if (this._noEmit) {
       return Promise.resolve();
