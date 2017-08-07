@@ -1,7 +1,10 @@
 {
   "name": "reg-keygen-git-hash-plugin",
   "version": "0.4.2",
-  "description": "Determine snapshot key with Git hash.",
+  "description": "Detect the snapshot key to be compare with using Git hash.",
+  "regSuitPlugin": {
+    "recommended": true
+  },
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "tsc -p src/tsconfig.build.json",

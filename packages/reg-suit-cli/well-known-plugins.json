@@ -1,22 +1,33 @@
 [
   {
     "name": "reg-keygen-git-hash-plugin",
-    "description": "Determine snapshot key with Git hash."
+    "description": "Detect the snapshot key to be compare with using Git hash.",
+    "metadata": {
+      "recommended": true
+    }
   },
   {
     "name": "reg-notify-github-plugin",
-    "description": "Notify reg-suit result to GitHub repository"
-  },
-  {
-    "name": "reg-notify-slack-plugin",
-    "description": "Notify reg-suit result to Slack channel."
+    "description": "Notify reg-suit result to GitHub repository",
+    "metadata": {
+      "recommended": true
+    }
   },
   {
     "name": "reg-publish-s3-plugin",
-    "description": "Fetch and publish snapshot images to AWS S3."
+    "description": "Fetch and publish snapshot images to AWS S3.",
+    "metadata": {
+      "recommended": true
+    }
+  },
+  {
+    "name": "reg-notify-slack-plugin",
+    "description": "Notify reg-suit result to Slack channel.",
+    "metadata": {}
   },
   {
     "name": "reg-simple-keygen-plugin",
-    "description": "Determin snapshot key with given values"
+    "description": "Determine snapshot key with given values",
+    "metadata": {}
   }
 ]

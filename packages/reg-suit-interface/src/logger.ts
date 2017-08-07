@@ -22,6 +22,7 @@ export interface ProgressBar {
 
 // See https://www.npmjs.com/package/chalk#colors
 export interface Colors {
+  bold: (s: string) => string;
   black: (s: string) => string;
   red: (s: string) => string;
   green: (s: string) => string;

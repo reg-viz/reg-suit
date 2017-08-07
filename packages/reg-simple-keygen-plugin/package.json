@@ -1,7 +1,7 @@
 {
   "name": "reg-simple-keygen-plugin",
   "version": "0.4.3",
-  "description": "Determin snapshot key with given values",
+  "description": "Determine snapshot key with given values",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo T.B.D.",

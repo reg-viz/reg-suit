@@ -2,6 +2,9 @@
   "name": "reg-notify-github-plugin",
   "version": "0.4.2",
   "description": "Notify reg-suit result to GitHub repository",
+  "regSuitPlugin": {
+    "recommended": true
+  },
   "main": "lib/index.js",
   "scripts": {
     "test": "ava",
