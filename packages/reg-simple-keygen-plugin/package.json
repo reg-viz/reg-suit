@@ -17,6 +17,7 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
+    "reg-suit-interface": "^0.4.0",
     "typescript": "2.3.4"
   },
   "dependencies": {
