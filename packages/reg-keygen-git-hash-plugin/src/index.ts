@@ -6,8 +6,6 @@ import {
 
 import { CommitExplorer } from "./commit-explorer";
 
-type ExpectedType = "rev" | "base-commit";
-
 class GitHashKeyGenPlugin implements KeyGeneratorPlugin<null> {
 
   private _explorer = new CommitExplorer();
