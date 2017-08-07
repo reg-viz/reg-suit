@@ -8,6 +8,9 @@ import getRegCore from "../get-reg-core";
 interface PluginDescriptor {
   name: string;
   description: string;
+  metadata: {
+    recommended?: boolean;
+  };
 }
 
 const WELL_KNOWN_PLUGINS = require(path.join(__dirname, "..", "..", "well-known-plugins.json")) as PluginDescriptor[];
@@ -18,8 +21,14 @@ function install(options: CliOptions) {
     {
       type: "checkbox",
       name: "pluginNamesToInstall",
-      message: "Plugin(s) to install",
-      choices: WELL_KNOWN_PLUGINS.map(d => ({ name: ` ${d.name} : ${d.description}`, value: d.name })),
+      message: "Plugin(s) to install (bold: recommended)",
+      choices: WELL_KNOWN_PLUGINS.map(d => {
+        return {
+          name: d.metadata.recommended ? core.logger.colors.bold(` ${d.name} : ${d.description}`) : ` ${d.name} : ${d.description}`,
+          value: d.name,
+        };
+      }),
+      default: WELL_KNOWN_PLUGINS.filter(d => !!d.metadata.recommended).map(d => d.name),
     }
   ])
   .then(({ pluginNamesToInstall }: { pluginNamesToInstall: string[] }) => pluginNamesToInstall)

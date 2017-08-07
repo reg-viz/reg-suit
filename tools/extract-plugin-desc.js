@@ -11,7 +11,10 @@ glob("packages/*-plugin/package.json", {
     return {
       name: json.name,
       description: json.description,
+      metadata: json.regSuitPlugin || {},
     };
   });
-  fs.writeFileSync(path.join(cwd, "packages/reg-suit-cli/well-known-plugins.json"), JSON.stringify(descs, null, 2), "utf8");
+  const recommendedPlugins = descs.filter(d => d.metadata.recommended);
+  const restPlugins = descs.filter(d => !d.metadata.recommended);
+  fs.writeFileSync(path.join(cwd, "packages/reg-suit-cli/well-known-plugins.json"), JSON.stringify([...recommendedPlugins, ...restPlugins], null, 2), "utf8");
 })

@@ -88,7 +88,7 @@ export class RegProcessor {
         })
         .catch(reason => {
           this._logger.warn("Failed to detect the previous snapshot key");
-          this._logger.error(reason);
+          if (reason) this._logger.error(reason);
           return Promise.resolve({ expectedKey: null });
         })
       ;
@@ -122,7 +122,7 @@ export class RegProcessor {
     .catch(reason => {
       // re-throw notifiers error because it's fatal.
       this._logger.error("An error occurs during compare images:");
-      this._logger.error(reason);
+      if (reason) this._logger.error(reason);
       return Promise.reject<StepResultAfterComparison>(reason);
     });
   }
@@ -139,7 +139,7 @@ export class RegProcessor {
         return { ...ctx, actualKey: key };
       }).catch(reason => {
         this._logger.warn("Failed to gerenate the current snapshot key.");
-        this._logger.error(reason);
+        if (reason) this._logger.error(reason);
         return Promise.resolve({ ...ctx, actualKey: fallbackFn() });
       });
     } else {
@@ -178,7 +178,7 @@ export class RegProcessor {
         .catch(reason => {
           // re-throw notifiers error because it's fatal.
           this._logger.error("An error occurs during publishing snapshot:");
-          this._logger.error(reason);
+          if (reason) this._logger.error(reason);
           return Promise.reject<StepResultAfterPublish>(reason);
         })
       ;

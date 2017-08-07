@@ -102,8 +102,4 @@ export class CommitExplorer {
     return result ? result : null;
   }
 
-  getHashFromName(revision: string) {
-    return this._gitCmdClient.revParse(revision).replace("\n", "");
-  }
-
 }
