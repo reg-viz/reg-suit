@@ -13,6 +13,12 @@ nightmare
   .evaluate(() => win.setSize(1200, 3300))
   .wait(100)
   .screenshot(`${__dirname}/screenshot/index.png`)
+  .evaluate(() => win.setSize(900, 3500))
+  .wait(100)
+  .screenshot(`${__dirname}/screenshot/index_mid.png`)
+  .evaluate(() => win.setSize(700, 3500))
+  .wait(100)
+  .screenshot(`${__dirname}/screenshot/index_sp.png`)
   .end()
   .then(() => {
     console.log("Captured screenshot")
