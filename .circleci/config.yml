@@ -113,7 +113,7 @@ jobs:
           command: yarn
       - run:
           name: Bootstrap packages
-          command: yarn run lerna -- bootstrap --scope="reg-gh-app" --scope="reg-toppage"
+          command: yarn run lerna -- bootstrap
       - run:
           name: Deploy services
           command: |
