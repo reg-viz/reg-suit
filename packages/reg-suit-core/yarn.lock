@@ -1265,7 +1265,7 @@ glob2base@^0.0.12:
   dependencies:
     find-index "^0.1.1"
 
-glob@^7.0.3, glob@^7.0.5, glob@^7.1.1:
+glob@^7.0.3, glob@^7.0.5, glob@^7.1.2:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.2.tgz#c19c9df9a028702d678612384a6552404c636d15"
   dependencies:
@@ -2324,13 +2324,13 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-reg-cli@^0.8.6:
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.8.6.tgz#5c385c4883a81f7331f9443cc15904ad41af1cab"
+reg-cli@^0.8.8:
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.8.8.tgz#a7a2086f375080bdb97f35dca94bcbe6e6906bff"
   dependencies:
     chalk "^2.0.0"
     cli-spinner "^0.2.6"
-    glob "^7.1.1"
+    glob "^7.1.2"
     img-diff-js "^0.3.2"
     lodash "^4.17.4"
     make-dir "^1.0.0"
@@ -2338,13 +2338,13 @@ reg-cli@^0.8.6:
     meow "^3.7.0"
     mustache "^2.3.0"
 
-reg-suit-interface@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/reg-suit-interface/-/reg-suit-interface-0.4.0.tgz#3b61a9469509b1b8c86973c24b4db376bcb39a86"
+reg-suit-interface@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/reg-suit-interface/-/reg-suit-interface-0.5.1.tgz#dce899fdf63a5f6001f0f1f75fe15d6f40a83160"
 
-reg-suit-util@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/reg-suit-util/-/reg-suit-util-0.4.0.tgz#57e0d2d3751808d934feb1cad81ca12d4721c884"
+reg-suit-util@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/reg-suit-util/-/reg-suit-util-0.5.1.tgz#50b362917b91071c5d3ff0f8e26269124ca14725"
   dependencies:
     chalk "^2.0.1"
     cli-progress "^1.4.1"
