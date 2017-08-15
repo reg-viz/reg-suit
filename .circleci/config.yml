@@ -91,7 +91,7 @@ jobs:
           name: Deploy services
           command: |
             cd packages/reg-gh-app
-            ./node_modules/.bin/sls config credentials --provider aws --key ${AWS_KEY} --secret ${AWS_SECRET} 
+            ./node_modules/.bin/sls config credentials --provider aws --key ${AWS_ACCESS_KEY_ID} --secret ${AWS_SECRET_ACCESS_KEY} 
             cd ../../
             yarn run deploy
       - run:
@@ -121,7 +121,7 @@ jobs:
           name: Deploy services
           command: |
             cd packages/reg-gh-app
-            ./node_modules/.bin/sls config credentials --provider aws --key ${AWS_KEY} --secret ${AWS_SECRET} 
+            ./node_modules/.bin/sls config credentials --provider aws --key ${AWS_ACCESS_KEY_ID} --secret ${AWS_SECRET_ACCESS_KEY} 
             cd ../../
             yarn run deploy
 
