@@ -11,26 +11,26 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-#     - run:
-#         name: Install dependencies
-#         command: yarn
-#     - run:
-#         name: Bootstrap packages
-#         command: yarn run lerna -- bootstrap
-#     - run:
-#         name: Lint
-#         command: yarn run lint
-#     - run:
-#         name: Test
-#         command: |
-#           xvfbd start
-#           yarn run test
-#           xvfbd stop
-#     - run:
-#         name: Regression using gh-io components
-#         command: |
-#           cd packages/reg-suit-toppage
-#           npm run regression
+      - run:
+          name: Install dependencies
+          command: yarn
+      - run:
+          name: Bootstrap packages
+          command: yarn run lerna -- bootstrap
+      - run:
+          name: Lint
+          command: yarn run lint
+      - run:
+          name: Test
+          command: |
+            xvfbd start
+            yarn run test
+            xvfbd stop
+      - run:
+          name: Regression using gh-io components
+          command: |
+            cd packages/reg-suit-toppage
+            npm run regression
 
   patch_release:
     <<: *defaults
@@ -90,6 +90,9 @@ jobs:
       - run:
           name: Deploy services
           command: |
+            cd packages/reg-gh-app
+            ./node_modules/.bin/sls config credentials --provider aws --key ${AWS_KEY} --secret ${AWS_SECRET} 
+            cd ../../
             yarn run deploy
       - run:
           name: Publish to npm
