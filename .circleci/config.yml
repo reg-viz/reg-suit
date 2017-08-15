@@ -90,11 +90,40 @@ jobs:
       - run:
           name: Deploy services
           command: |
+            cd packages/reg-gh-app
+            ./node_modules/.bin/sls config credentials --provider aws --key ${AWS_ACCESS_KEY_ID} --secret ${AWS_SECRET_ACCESS_KEY} 
+            cd ../../
             yarn run deploy
       - run:
           name: Publish to npm
           command: |
             yarn run lerna publish -- --yes --cd-version="minor"
+
+  deply_service:
+    <<: *defaults
+    steps:
+      - add-ssh-keys:
+          fingerprints:
+            - "9b:4a:d1:c6:ff:b7:49:b7:b7:bf:24:fb:b1:1e:bc:a6"
+      - run:
+          name: Setup git
+          command: |
+            git config --global user.email "yosuke.kurami@gmail.com"
+            git config --global user.name "Quramy"
+      - checkout
+      - run:
+          name: Install dependencies
+          command: yarn
+      - run:
+          name: Bootstrap packages
+          command: yarn run lerna -- bootstrap
+      - run:
+          name: Deploy services
+          command: |
+            cd packages/reg-gh-app
+            ./node_modules/.bin/sls config credentials --provider aws --key ${AWS_ACCESS_KEY_ID} --secret ${AWS_SECRET_ACCESS_KEY} 
+            cd ../../
+            yarn run deploy
 
 workflows:
   version: 2
@@ -115,6 +144,13 @@ workflows:
               only: master
           requires:
             - build
+      - confirm_deploy_services:
+          type: approval
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
       - patch_release:
           filters:
             branches:
@@ -127,3 +163,10 @@ workflows:
               only: master
           requires:
             - confirm_minor
+      - deply_service:
+          filters:
+            branches:
+              only: master
+          requires:
+            - confirm_deploy_services
+          
