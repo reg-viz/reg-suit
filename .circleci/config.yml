@@ -146,6 +146,11 @@ workflows:
             - build
       - confirm_deploy_services:
           type: approval
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
       - patch_release:
           filters:
             branches:
@@ -159,6 +164,9 @@ workflows:
           requires:
             - confirm_minor
       - deply_service:
+          filters:
+            branches:
+              only: master
           requires:
             - confirm_deploy_services
           
