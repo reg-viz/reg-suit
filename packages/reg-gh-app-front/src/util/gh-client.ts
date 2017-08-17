@@ -28,7 +28,7 @@ export class GitHubClient {
   }
 
   fetchInstallations() {
-    return fetch("https://api.github.com/user/installations", {
+    return fetch(`https://api.github.com/user/installations?seq=${this._seq()}`, {
       headers: this._createHeaders(),
     }).then(this._handleError)
       .then(r => r.json())
@@ -37,12 +37,16 @@ export class GitHubClient {
   }
 
   fetchRepositories(installationId: number) {
-    return fetch(`https://api.github.com/user/installations/${installationId}/repositories`, {
+    return fetch(`https://api.github.com/user/installations/${installationId}/repositories?seq=${this._seq()}`, {
       headers: this._createHeaders(),
     }).then(this._handleError)
       .then(r => r.json())
       .then(obj => camelize(obj.repositories) as Repository[])
     ;
+  }
+
+  private _seq() {
+    return Date.now() % 10000;
   }
 }
 
