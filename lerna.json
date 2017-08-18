@@ -5,6 +5,7 @@
     "packages/*"
   ],
   "npmClient": "yarn",
+  "useWorkspaces": true,
   "commands": {
     "publish": {}
   },
