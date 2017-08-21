@@ -7,7 +7,10 @@ export class CommitExplorer {
 
   getCurrentBranchName(): string {
     const currentName = this._gitCmdClient.currentName().replace("\n", "");
-    if (currentName.startsWith("(detached from") || (currentName.startsWith("[") && currentName.indexOf("detached") !== -1)) {
+    if (currentName.startsWith("(HEAD detached") ||
+      currentName.startsWith("(no branch") ||
+      currentName.startsWith("(detached from") ||
+      (currentName.startsWith("[") && currentName.indexOf("detached") !== -1)) {
       throw new Error("Can't detect branch name because HEAD is on detached commit node.");
     }
     return currentName;
@@ -15,7 +18,7 @@ export class CommitExplorer {
 
   getCurrentCommitHash(): string {
     const currentName = this.getCurrentBranchName();
-    if (!currentName.length) {
+    if (!currentName || !currentName.length) {
       throw new Error("Fail to detect the current branch.");
     }
     return this._gitCmdClient.revParse(currentName).replace("\n", "");
@@ -59,7 +62,7 @@ export class CommitExplorer {
             const name = branches[i];
             const hash = this._gitCmdClient.revParse(name).replace("\n", "");
             if (hash === current) return;
-             return true;
+            return true;
           })
           .filter(s => !!s).length;
       })
