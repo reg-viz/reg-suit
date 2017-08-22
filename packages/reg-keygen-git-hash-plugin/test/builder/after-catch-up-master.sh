@@ -16,6 +16,7 @@
 # * 30c203c second commit
 # * faed570 first commit
 
+
 cd test
 rm -rf fixtures/after-catch-up-master
 git init
