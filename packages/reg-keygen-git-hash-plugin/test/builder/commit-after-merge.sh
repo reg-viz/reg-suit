@@ -1,5 +1,5 @@
 cd test
-echo "commit after merge ----------------------------------------------"
+
 rm -rf fixtures/commit-after-merge
 git init
 git commit --allow-empty -m "first commit"

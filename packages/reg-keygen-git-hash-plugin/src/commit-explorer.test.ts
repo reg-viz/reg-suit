@@ -30,24 +30,41 @@ test.serial("detached head", t => {
 //   t.throws(() => new CommitExplorer().getCurrentCommitHash());
 // });
 
+/*
+* first commit
+*/
 test.serial("initial commit", t => {
   copyGitFiles("initial-commit");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   t.is(null, baseHash);
 });
 
+/*
+* (HEAD -> master) two commit
+* first commit
+*/
 test.serial("master two commits", t => {
   copyGitFiles("master-two-commits");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   t.is(null, baseHash);
 });
 
+
+/*
+* (HEAD -> feat-y, master) second commit
+* first commit
+*/
 test.serial("after create new branch", t => {
   copyGitFiles("after-create-new-branch");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   t.is(null, baseHash);
 });
 
+/*
+* (HEAD -> feat-y) y1
+* (tag: expected, master) second commit
+* first commit
+*/
 test.serial("commit after create new branch", t => {
   copyGitFiles("commit-new-branch");
   const baseHash = new CommitExplorer().getBaseCommitHash();
@@ -55,6 +72,12 @@ test.serial("commit after create new branch", t => {
   t.is(expected, baseHash);
 });
 
+/*
+* (HEAD -> feat-y) y2
+* y1
+* (tag: expected, master) second commit
+* first commit
+*/
 test.serial("two commits after create new branch", t => {
   copyGitFiles("two-commit-new-branch");
   const baseHash = new CommitExplorer().getBaseCommitHash();
@@ -62,6 +85,16 @@ test.serial("two commits after create new branch", t => {
   t.is(expected, baseHash);
 });
 
+/*
+*   (HEAD -> feat-x) merge master to feat-x
+|\
+| * (tag: expected, master) master1
+* | x2
+* | x1
+|/
+* second commit
+* first commit
+*/
 test.serial("after catch up master merge", t => {
   copyGitFiles("after-catch-up-master");
   const baseHash = new CommitExplorer().getBaseCommitHash();
@@ -69,7 +102,17 @@ test.serial("after catch up master merge", t => {
   t.is(expected, baseHash);
 });
 
-
+/*
+* (HEAD -> feat-x) x3
+*   merge master to feat-x
+|\
+| * (tag: expected, master) master1
+| * x2
+| * x1
+|/
+* second commit
+* first commit
+*/
 test.serial("commit after merge", t => {
   copyGitFiles("commit-after-merge");
   const baseHash = new CommitExplorer().getBaseCommitHash();
@@ -77,12 +120,16 @@ test.serial("commit after merge", t => {
   t.is(expected, baseHash);
 });
 
-test.serial("commit after catch up and merge", t => {
-  copyGitFiles("commit-after-catch-up-and-merge");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
-  const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
-  t.is(expected, baseHash);
-});
+/*
+*   (HEAD -> master2x) merge master to master2x
+|\
+| * (master) master2
+| * master1
+* | (tag: expected, feat-x) x2
+* | x1
+|/
+* first commit
+*/
 
 test.serial("master to catch up branch", t => {
   copyGitFiles("master-to-catch-up-branch");
@@ -91,3 +138,28 @@ test.serial("master to catch up branch", t => {
   t.is(expected, baseHash);
 });
 
+/*
+*
+* (HEAD -> feat-x) x3
+*   merge master to feat-x
+|\
+| * (master) master2
+* |   merge feat-y to feat-x
+|\ \
+| * \   (tag: expected, feat-y) merge master to feat-y
+| |\ \
+| | |/
+| | * master1
+* | | x2
+|/ /
+* | x1
+|/
+* first commit
+*/
+
+test.serial("commit after catch up and merge", t => {
+  copyGitFiles("commit-after-catch-up-and-merge");
+  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
+  t.is(expected, baseHash);
+});

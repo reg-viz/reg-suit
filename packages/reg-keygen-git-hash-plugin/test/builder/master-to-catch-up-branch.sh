@@ -25,7 +25,7 @@ sleep 1s
 git commit --allow-empty -m "master2"
 sleep 1s
 git checkout -b master2x feat-x
-git merge master -m "merge master to feat-x"
+git merge master -m "merge master to master2x"
 sleep 1s
 
 echo "==================== master-to-catch-up-branch ===================="
