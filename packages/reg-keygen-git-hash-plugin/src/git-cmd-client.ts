@@ -42,5 +42,4 @@ export class GitCmdClient {
   logGraph() {
     return execSync("git log -n 1000 --graph --pretty=format:\"%h %p\"", { encoding: "utf8" });
   }
-
 }
