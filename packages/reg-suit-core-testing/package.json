@@ -1,19 +1,19 @@
 {
   "name": "reg-suit-core-testing",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "private": true,
   "scripts": {
     "test": "echo \"T.B.D.\""
   },
   "dependencies": {
-    "reg-notify-github-plugin": "^0.5.2",
+    "reg-notify-github-plugin": "^0.5.3",
     "reg-notify-slack-plugin": "^0.5.1",
     "reg-publish-s3-plugin": "^0.5.1",
     "reg-simple-keygen-plugin": "^0.5.1",
     "reg-suit-core": "^0.5.2"
   },
   "devDependencies": {
-    "reg-keygen-git-hash-plugin": "^0.5.2",
+    "reg-keygen-git-hash-plugin": "^0.5.3",
     "reg-suit": "^0.5.2",
     "reg-suit-interface": "^0.5.1",
     "typescript": "2.3.4"
