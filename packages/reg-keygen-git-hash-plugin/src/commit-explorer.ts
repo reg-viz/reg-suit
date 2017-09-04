@@ -96,31 +96,23 @@ export class CommitExplorer {
    * If there is more than one hash of a child that satisfies all of the following, it is regarded as a branch hash.
    * 
    * 1. Whether the hash is included in the current branch.
-   * 2. The hash is the current hash, or is not a merged hash.
-   * 3. Child's branch number is larger than parent's branch number.
+   * 2. Child's branch number is larger than parent's branch number.
    * 
   */
-  isBranchHash(hash: string, currentHash: string): boolean {
+  isBranchHash(hash: string): boolean {
     const children = this.findChildren(hash);
     const branchNumOnTargetHash = this.getBranchNumOnHash(hash);
     const mergedHashes = this.getParentHashes(this._gitCmdClient.logMerges());
     return children.some(([childHash]) => {
       const branches = this.getBranchNamesOnHash(childHash);
       const hasCurrentBranch = branches.includes(this.getCurrentBranchName());
-      return hasCurrentBranch &&
-        (currentHash === childHash || !mergedHashes.includes(childHash)) &&
-        (branchNumOnTargetHash > branches.length);
+      return hasCurrentBranch && (branchNumOnTargetHash > branches.length);
     });
   }
 
-  getBranchHash(candidateHashes: string[]): string {
+  getBranchHash(candidateHashes: string[]): string | undefined {
     const firstParents = this.getParentHashes(this._gitCmdClient.logFirstParent());
-    const allParents = this.getParentHashes(this._gitCmdClient.log());
-    const current = allParents[0];
-    return firstParents.find((hash, i) => this.isBranchHash(hash, current)) ||
-      allParents.find((hash, i) => this.isBranchHash(hash, current)) ||
-      candidateHashes.filter(hash => firstParents.includes(hash))[0] ||
-      candidateHashes.filter(hash => allParents.includes(hash))[0];
+    return firstParents.find((hash, i) => this.isBranchHash(hash));
   }
 
   /*
@@ -188,6 +180,7 @@ export class CommitExplorer {
     const showBranchResult = this._gitCmdClient.showBranch().split(/\n/) as string[];
     const candidateHashes = this.getCandidateHashes(showBranchResult);
     const branchHash = this.getBranchHash(candidateHashes);
+    if (!branchHash) return null;
     const baseHash = this.findBaseCommitHash(candidateHashes);
     if (!baseHash) return null;
     const result = this._gitCmdClient.revParse(baseHash).replace("\n", "");

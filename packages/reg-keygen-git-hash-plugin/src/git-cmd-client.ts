@@ -16,11 +16,11 @@ export class GitCmdClient {
   }
 
   mergeBranches(hash: string) {
-    return execSync(`git branch --merged ${hash}`, { encoding: "utf8" });
+    return execSync(`git branch -a --merged ${hash}`, { encoding: "utf8" });
   }
 
   containedBranches(hash: string): string {
-    return execSync(`git branch --contains ${hash}`, { encoding: "utf8" });
+    return execSync(`git branch -a --contains ${hash}`, { encoding: "utf8" });
   }
 
   showBranch() {
@@ -28,7 +28,7 @@ export class GitCmdClient {
   }
 
   log() {
-    return execSync("git log -n 1000 --oneline --all", { encoding: "utf8" });
+    return execSync("git log -n 1000 --oneline", { encoding: "utf8" });
   }
 
   logMerges() {
