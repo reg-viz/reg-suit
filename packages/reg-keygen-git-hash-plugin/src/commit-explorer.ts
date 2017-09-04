@@ -107,9 +107,7 @@ export class CommitExplorer {
     return children.some(([childHash]) => {
       const branches = this.getBranchNamesOnHash(childHash);
       const hasCurrentBranch = branches.includes(this.getCurrentBranchName());
-      return hasCurrentBranch &&
-        (currentHash === childHash || !mergedHashes.includes(childHash)) &&
-        (branchNumOnTargetHash > branches.length);
+      return hasCurrentBranch && (branchNumOnTargetHash > branches.length);
     });
   }
 
