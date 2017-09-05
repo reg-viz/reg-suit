@@ -163,7 +163,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
       })
       .then(items => {
         const indexFile = items.find(item => item.path.endsWith("index.html"));
-        const reportUrl = indexFile && `${this._s3client.endpoint.href}${this._pluginConfig.bucketName}/${key}/${indexFile.path}`;
+        const reportUrl = indexFile && `https://${this._pluginConfig.bucketName}.s3.amazonaws.com/${key}/${indexFile.path}`;
         return { reportUrl, items };
       })
       .then(result => {
