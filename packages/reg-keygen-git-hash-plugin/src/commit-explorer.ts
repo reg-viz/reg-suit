@@ -7,6 +7,7 @@ export class CommitExplorer {
   private _gitCmdClient = new GitCmdClient();
   private _commitNodes: CommitNode[];
   private _branchName: string;
+  private _branchNameCache: { [hash: string]: string[] } = {};
 
   /*
    * e.g. return `[["a38df15", "8e1ac3a"], ["8e1ac3a", "7ba8507"]]`.
@@ -73,11 +74,14 @@ export class CommitExplorer {
    * e.g. `["master", "feat-x"]`.
   */
   getBranchNames(hash: string): string[] {
-    return this._gitCmdClient
+    if (this._branchNameCache[hash]) return this._branchNameCache[hash];
+    const names = this._gitCmdClient
       .containedBranches(hash)
       .split("\n")
       .filter(h => !!h)
       .map(branch => branch.replace("*", "").trim());
+    this._branchNameCache[hash] = names;
+    return names;
   }
 
   /*
@@ -106,13 +110,17 @@ export class CommitExplorer {
   }
 
   getCandidateHashes(): string[] {
-    const currentBranches = this.getBranchNames(this._commitNodes[0][0]);
+    const mergedBranches = this.getBranchNames(this._commitNodes[0][0])
+      .filter(b => !b.endsWith(this._branchName));
     return this._commitNodes
       .map((c) => c[0])
       .filter(c => {
         const branches = this.getBranchNames(c);
-        return !!currentBranches.some(c => !!branches.find(b => c === b)) &&
-          !!branches.filter(b => !currentBranches.some(c => b.endsWith(c))).length;
+        const hasCurrent = !!branches.find(b => this._branchName === b);
+        const others = branches.filter(b => {
+          return !(b.endsWith(this._branchName) || (mergedBranches.length && mergedBranches.some(c => b === c)));
+        });
+        return hasCurrent && !!others.length;
       });
   }
 
