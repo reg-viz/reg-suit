@@ -4,18 +4,20 @@ export type CommitNode = string[];
 
 export class CommitExplorer {
 
-  _gitCmdClient = new GitCmdClient();
+  private _gitCmdClient = new GitCmdClient();
+  private _commitNodes: CommitNode[];
+  private _branchName: string;
 
   /*
    * e.g. return `[["a38df15", "8e1ac3a"], ["8e1ac3a", "7ba8507"]]`.
    *      The first element of node means commit hash, rest elements means parent commit hashes.
   */
-  get commitNodes(): CommitNode[] {
+  getCommitNodes(): CommitNode[] {
     return this._gitCmdClient.logGraph()
       .split("\n")
       .map((hashes: string) => (
         hashes
-          .replace(/\*|\/|\||\\|/g, "")
+          .replace(/\*|\/|\||\\|_|/g, "")
           .split(" ")
           .filter(hash => !!hash)
       ))
@@ -40,7 +42,7 @@ export class CommitExplorer {
    * e.g. return `ede92258d154f1ba1e88dc109a83b9ba143d561e`.
   */
   getCurrentCommitHash(): string {
-    const currentName = this.getCurrentBranchName();
+    const currentName = this._branchName;
     if (!currentName || !currentName.length) {
       throw new Error("Fail to detect the current branch.");
     }
@@ -54,7 +56,7 @@ export class CommitExplorer {
   }
 
   findChildren(hash: string): CommitNode[] {
-    return this.commitNodes
+    return this._commitNodes
       .filter(([_, ...parent]) => !!parent.find(h => h === hash));
   }
 
@@ -62,27 +64,15 @@ export class CommitExplorer {
    * e.g. return `["a38df15", "8e1ac3a"]`.
   */
   findParentNode(parentHash: string): CommitNode | undefined {
-    return this.commitNodes
+    return this._commitNodes
       .find(([hash]: string[]) => hash === parentHash);
-  }
-
-
-  /*
-   * Return branch number including target hash.
-  */
-  getBranchNumOnHash(hash: string): number {
-    return this._gitCmdClient
-      .containedBranches(hash)
-      .split("\n")
-      .filter(h => !!h)
-      .length;
   }
 
   /*
    * Return branch name including target hash.
    * e.g. `["master", "feat-x"]`.
   */
-  getBranchNamesOnHash(hash: string): string[] {
+  getBranchNames(hash: string): string[] {
     return this._gitCmdClient
       .containedBranches(hash)
       .split("\n")
@@ -101,11 +91,11 @@ export class CommitExplorer {
   */
   isBranchHash(hash: string): boolean {
     const children = this.findChildren(hash);
-    const branchNumOnTargetHash = this.getBranchNumOnHash(hash);
+    const branchNumOnTargetHash = this.getBranchNames(hash).length;
     const mergedHashes = this.getParentHashes(this._gitCmdClient.logMerges());
     return children.some(([childHash]) => {
-      const branches = this.getBranchNamesOnHash(childHash);
-      const hasCurrentBranch = branches.includes(this.getCurrentBranchName());
+      const branches = this.getBranchNames(childHash);
+      const hasCurrentBranch = branches.includes(this._branchName);
       return hasCurrentBranch && (branchNumOnTargetHash > branches.length);
     });
   }
@@ -115,70 +105,22 @@ export class CommitExplorer {
     return firstParents.find((hash, i) => this.isBranchHash(hash));
   }
 
-  /*
-   * Return branch name from `git show-branch` command result.
-  */
-  getBranchNames(showBranchResult: string[]): { branchNames: string[], currentBranchIndex: number } {
-    const branchNames: string[] = [];
-    let index: number = 0;
-    showBranchResult
-      .forEach((b, i) => {
-        const name = (b.replace(/\].+/, "").match(/\[(.+)/) as any)[1];
-        if (!name) return;
-        if (b[i] === "*") index = i;
-        branchNames.push(name);
+  getCandidateHashes(): string[] {
+    const currentBranch = this._branchName;
+    return this._commitNodes
+      .map((c) => c[0])
+      .filter((c, i) => {
+        if (i === 0) return;
+        const branches = this.getBranchNames(c);
+        return !!branches.some(b => b === currentBranch) &&
+          !!branches.filter(b => !b.endsWith(currentBranch)).length;
       });
-    return { branchNames, currentBranchIndex: index };
-  }
-
-  /*
-   * Return candidate hashes from `git show-branch` command result.
-   * 
-   * ```
-   * ! [feat-x] merge master to feat-x
-   *  * [feat-y] y2
-   *   ! [master] second commit
-   * ---
-   *  *  [5862a76] y2
-   *  *  [bc93d6e] y1
-   * -   [4e2e108] merge master to feat-x
-   * +*+ [c78b074] second commit
-   * ```
-   * If `git show-branch` command output above result, return following array as candidate hashes.
-   *
-   * ```
-   *   [ 'c78b074' ]
-   * ```
-  */
-  getCandidateHashes(showBranchResult: string[]): string[] {
-    const current = this.getCurrentCommitHash();
-    const separatorIndex = showBranchResult.findIndex((b) => /^--/.test(b));
-    const { branchNames, currentBranchIndex } = this.getBranchNames(showBranchResult.slice(0, separatorIndex));
-    const markedNum = (status: string) => (
-      [...status].filter((s, i) => {
-        if (i === currentBranchIndex) return;
-        if (s === " ") return;
-        const name = branchNames[i];
-        const hash = this._gitCmdClient.revParse(name).replace("\n", "");
-        if (hash === current) return;
-        return true;
-      }).length
-    );
-    return showBranchResult
-      .slice(separatorIndex + 1, showBranchResult.length - 1)
-      .filter(b => {
-        const [status, branch] = b.replace(/\].+/, "").split("[");
-        const isCurrent = status[currentBranchIndex] === "*" || status[currentBranchIndex] === "-";
-        if (!isCurrent) return;
-        return markedNum(status);
-      })
-      .map(b => (b.replace(/\].+/, "").match(/\[(.+)/) as any)[1])
-      .filter(hash => current.indexOf(hash));
   }
 
   getBaseCommitHash(): string | null {
-    const showBranchResult = this._gitCmdClient.showBranch().split(/\n/) as string[];
-    const candidateHashes = this.getCandidateHashes(showBranchResult);
+    this._branchName = this.getCurrentBranchName();
+    this._commitNodes = this.getCommitNodes();
+    const candidateHashes = this.getCandidateHashes();
     const branchHash = this.getBranchHash(candidateHashes);
     if (!branchHash) return null;
     const baseHash = this.findBaseCommitHash(candidateHashes);

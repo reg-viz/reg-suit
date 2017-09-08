@@ -25,11 +25,3 @@ git show-branch -a --sha1-name
 
 mv .git fixtures/commit-new-branch
 rm -rf .git
-
-f3261f3 merge master to feat-x
-3e2fc83 y1
-054fbda x3
-83c2314 x2
-a85aa18 x1
-44f375e second commit
-657329b first commit
