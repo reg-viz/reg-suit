@@ -106,14 +106,13 @@ export class CommitExplorer {
   }
 
   getCandidateHashes(): string[] {
-    const currentBranch = this._branchName;
+    const currentBranches = this.getBranchNames(this._commitNodes[0][0]);
     return this._commitNodes
       .map((c) => c[0])
-      .filter((c, i) => {
-        if (i === 0) return;
+      .filter(c => {
         const branches = this.getBranchNames(c);
-        return !!branches.some(b => b === currentBranch) &&
-          !!branches.filter(b => !b.endsWith(currentBranch)).length;
+        return !!currentBranches.some(c => !!branches.find(b => c === b)) &&
+          !!branches.filter(b => !currentBranches.some(c => b.endsWith(c))).length;
       });
   }
 
