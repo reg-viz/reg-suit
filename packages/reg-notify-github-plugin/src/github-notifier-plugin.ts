@@ -106,6 +106,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
       sha1,
       description,
       state,
+      eventContextSuffix
     };
     if (params.reportUrl) updateStatusBody.reportUrl = params.reportUrl;
     if (this._prComment) {

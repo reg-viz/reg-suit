@@ -32,7 +32,7 @@ export function convert(result: UpdateStatusContextQuery, eventBody: UpdateStatu
     throw new NotInstallationError(eventBody.repository);
   }
   const path = `/repos/${repo.nameWithOwner}/statuses/${eventBody.sha1}`;
-  const context = "reg";
+  const context = ["reg", eventBody.eventContextSuffix].filter(c => c).join('-');
   return {
     path,
     body: {
