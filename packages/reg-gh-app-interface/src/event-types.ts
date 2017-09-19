@@ -2,6 +2,7 @@ export interface BaseEventBody {
   installationId: string;
   owner: string;
   repository: string;
+  eventContextSuffix?: string;
 }
 
 export interface ResultMetadata {
