@@ -16,7 +16,7 @@ jobs:
           command: yarn
       - run:
           name: Bootstrap packages
-          command: yarn run lerna -- bootstrap
+          command: yarn run bootstrap
       - run:
           name: Lint
           command: yarn run lint
@@ -44,7 +44,7 @@ jobs:
           command: yarn
       - run:
           name: Bootstrap packages
-          command: yarn run lerna -- bootstrap
+          command: yarn run bootstrap
       - run:
           name: Setup git
           command: |
@@ -76,7 +76,7 @@ jobs:
           command: yarn
       - run:
           name: Bootstrap packages
-          command: yarn run lerna -- bootstrap
+          command: yarn run bootstrap
       - run:
           name: Setup git
           command: |
@@ -116,7 +116,7 @@ jobs:
           command: yarn
       - run:
           name: Bootstrap packages
-          command: yarn run lerna -- bootstrap
+          command: yarn run bootstrap
       - run:
           name: Deploy services
           command: |
