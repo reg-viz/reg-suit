@@ -2,8 +2,9 @@
   "compilerOptions": {
     "baseUrl": "./packages",
     "declaration": true,
-    "target": "es2016",
+    "target": "es2015",
     "module": "commonjs",
+    "lib": ["ESNext", "DOM"],
     "moduleResolution": "node",
     "sourceMap": true,
     "stripInternal": true,
