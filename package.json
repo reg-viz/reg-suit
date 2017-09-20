@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "clean": "rimraf packages/**/lib/ node_modules/reg-*",
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap && lerna run prepublish",
     "test": "lerna run test",
     "lint": "tslint packages/*/src/**/*.ts packages/*/test/**/*.ts",
     "build:io": "cd packages/reg-gh-app-front; npm run build",
