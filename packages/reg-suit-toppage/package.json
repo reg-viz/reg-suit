@@ -12,7 +12,7 @@
     "watch": "node-sass public/styles/index.scss -w public/styles -r -o public/css",
     "start": "browser-sync start -c bs-config.js",
     "screenshot": "node capture.js && ls screenshot",
-    "reg-suit": "node ./node_modules/reg-suit/lib/cli.js",
+    "reg-suit": "node ../../node_modules/reg-suit/lib/cli.js",
     "preregression": "cpx \"../reg-gh-app-front/screenshot/**/*.png\" \"screenshot/gh-app-front\"",
     "regression": "npm run reg-suit -- run -v",
     "predeploy": "cpx \"../reg-gh-app-front/public/**/*\" dist/gh-app",
