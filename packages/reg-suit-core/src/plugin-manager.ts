@@ -144,7 +144,14 @@ export class PluginManager {
     if (name.startsWith(".")) {
       return require.resolve(path.resolve(base, name));
     } else {
-      return require.resolve(path.resolve(base, "node_modules", name));
+      for (let i = 0; i < 10; i++) {
+        try {
+          return require.resolve(path.resolve(base, "node_modules", name));
+        } catch (e) {
+          base = path.resolve(base, "..");
+        }
+      }
+      throw new Error("Cannot find module " + name);
     }
   }
 

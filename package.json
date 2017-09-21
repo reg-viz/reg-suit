@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "clean": "rimraf packages/**/lib/**",
-    "bootstrap": "lerna bootstrap",
+    "clean": "rimraf packages/**/lib/ node_modules/reg-*",
+    "bootstrap": "lerna bootstrap && lerna run prepublish",
     "test": "lerna run test",
     "lint": "tslint packages/*/src/**/*.ts packages/*/test/**/*.ts",
     "build:io": "cd packages/reg-gh-app-front; npm run build",
@@ -16,15 +16,18 @@
     "watch": "run-p watch:*"
   },
   "devDependencies": {
-    "@types/node": "^8.0.8",
+    "@types/node": "8.0.8",
     "lerna": "^2.0.0",
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.6.1",
     "tslint": "^5.4.3",
-    "typescript": "^2.3.4"
+    "typescript": "~2.3.4"
   },
   "dependencies": {
     "glob": "^7.1.2",
     "tslint-eslint-rules": "^4.1.1"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
