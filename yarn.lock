@@ -4273,9 +4273,9 @@ ignore-by-default@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ignore-by-default/-/ignore-by-default-1.0.1.tgz#48ca6d72f6c6a3af00a9ad4ae6876be3889e2b09"
 
-img-diff-js@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/img-diff-js/-/img-diff-js-0.3.2.tgz#de44efd37ab642d590b8b3a849e73692b5be6a6e"
+img-diff-js@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/img-diff-js/-/img-diff-js-0.4.0.tgz#eae1a6cacccc64a170ad7420e29a6dacaadad991"
   dependencies:
     decode-tiff "^0.2.0"
     jpeg-js "^0.3.3"
@@ -6964,16 +6964,16 @@ redux@^3.4.0:
     loose-envify "^1.1.0"
     symbol-observable "^1.0.3"
 
-reg-cli@^0.8.8:
-  version "0.8.15"
-  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.8.15.tgz#1d9cc1ae5bf1a32f293f69bc8b8a248d35f378b9"
+reg-cli@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.9.0.tgz#bfa13fa24fca175a24039c231b676f3593e49a34"
   dependencies:
     bluebird "^3.5.0"
     chalk "^2.0.0"
     cli-spinner "^0.2.6"
     cross-spawn "^5.1.0"
     glob "^7.1.2"
-    img-diff-js "^0.3.2"
+    img-diff-js "^0.4.0"
     lodash "^4.17.4"
     make-dir "^1.0.0"
     md5-file "^3.1.1"
