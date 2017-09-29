@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "reg-gh-app",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "",
   "main": "dist/handler.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "graphql-tag": "^2.4.2",
     "light-ts-loader": "^1.1.2",
     "raw-loader": "^0.5.1",
-    "reg-gh-app-interface": "^0.5.5",
+    "reg-gh-app-interface": "^0.5.6",
     "serverless": "^1.16.1",
     "serverless-offline": "^3.14.2",
     "serverless-webpack": "^2.0.0",
