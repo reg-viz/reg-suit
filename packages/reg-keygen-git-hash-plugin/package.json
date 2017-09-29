@@ -22,6 +22,9 @@
   },
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
+  "dependencies": {
+    "reg-suit-util": "^0.5.5"
+  },
   "devDependencies": {
     "ava": "^0.20.0",
     "glob": "^7.1.2",

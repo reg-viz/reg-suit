@@ -3,6 +3,7 @@ import {
   PluginCreateOptions,
   KeyGeneratorPluginFactory
 } from "reg-suit-interface";
+import { fsUtil } from "reg-suit-util";
 
 import { CommitExplorer } from "./commit-explorer";
 
@@ -10,21 +11,46 @@ class GitHashKeyGenPlugin implements KeyGeneratorPlugin<null> {
 
   private _explorer = new CommitExplorer();
   private _expectedRev: string;
+  private _conf: PluginCreateOptions<null>;
 
   init(config: PluginCreateOptions<null>): void {
+    this._conf = config;
   }
 
   getExpectedKey(): Promise<string> {
-    const result = this._explorer.getBaseCommitHash();
-    if (result) {
-      return Promise.resolve(result);
-    } else {
+    if (!this._checkAndMessage()) {
+      return Promise.reject<string>(null);
+    }
+    try {
+      const result = this._explorer.getBaseCommitHash();
+      if (result) {
+        return Promise.resolve(result);
+      } else {
+        return Promise.reject<string>(null);
+      }
+    } catch (e) {
+      this._conf.logger.error(this._conf.logger.colors.red(e.message));
       return Promise.reject<string>(null);
     }
   }
 
   getActualKey(): Promise<string> {
+    if (!this._checkAndMessage()) {
+      return Promise.reject<string>(new Error());
+    }
     return Promise.resolve(this._explorer.getCurrentCommitHash());
+  }
+
+  private _isInGitRepository() {
+    return !!fsUtil.lookup(".git", this._conf.workingDirs.base);
+  }
+
+  private _checkAndMessage() {
+    const result = this._isInGitRepository();
+    if (!result) {
+      this._conf.logger.error(this._conf.logger.colors.red("reg-keygen-git-hash-plugin does can't work outside Git repository. Please retry after `git init`."));
+    }
+    return result;
   }
 }
 
