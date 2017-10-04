@@ -50,16 +50,16 @@ export class CommitExplorer {
     return this._gitCmdClient.revParse(currentName).replace("\n", "");
   }
 
-  getParentHashes(log: string): string[] {
-    return log.split("\n")
-      .filter(l => !!l.length)
-      .map((log: string) => log.split(" ")[0]);
-  }
+  // getParentHashes(log: string): string[] {
+  //   return log.split("\n")
+  //     .filter(l => !!l.length)
+  //     .map((log: string) => log.split(" ")[0]);
+  // }
 
-  findChildren(hash: string): CommitNode[] {
-    return this._commitNodes
-      .filter(([_, ...parent]) => !!parent.find(h => h === hash));
-  }
+  // findChildren(hash: string): CommitNode[] {
+  //   return this._commitNodes
+  //     .filter(([_, ...parent]) => !!parent.find(h => h === hash));
+  // }
 
   /*
    * e.g. return `["a38df15", "8e1ac3a"]`.
@@ -93,7 +93,8 @@ export class CommitExplorer {
    * 2. Child's branch number is larger than parent's branch number.
    * 
   */
-  isBranchHash(hash: string , first: string ): boolean {
+  /*
+  isBranchHash(hash: string, first: string): boolean {
     const children = this.findChildren(hash);
     if (!children.length) return false;
     const branchNumOnTargetHash = this.getBranchNames(hash).length;
@@ -110,23 +111,39 @@ export class CommitExplorer {
         console.log((branchNumOnTargetHash > branches.length))
         console.log((mergedHashes.includes(childHash) && children.length > 1))
         console.log(children.length)
-                console.log(branchNumOnTargetHash);
-                console.log(children)
-                console.log(branches)
-        console.log(children.length <= branchNumOnTargetHash )
+        console.log(branchNumOnTargetHash);
+        console.log(children)
+        console.log(branches)
+        console.log(children.length <= branchNumOnTargetHash)
         console.log("--------------------------")
       }
       return hasCurrentBranch &&
         (branchNumOnTargetHash > branches.length) &&
-        (((mergedHashes.includes(childHash) ))
+        (((mergedHashes.includes(childHash)))
           ? children.length < branchNumOnTargetHash
           : true);
     });
   }
+  */
 
   getBranchHash(candidateHashes: string[]): string | undefined {
-    const firstParents = this.getParentHashes(this._gitCmdClient.logFirstParent());
-    return firstParents.find((hash, i) => this.isBranchHash(hash , firstParents[0] ));
+    const branches = this._gitCmdClient
+      .branches()
+      .split("\n")
+      .map(b => b.replace(/^\*/, "").trim().split(" ")[0])
+      .filter(b => !!b || b === this._branchName);
+    // console.log(branches)
+    const branch = branches.map(b => {
+      const hash = this._gitCmdClient.logBetweenOldest(b, this._branchName).split(" ")[0];
+      console.log("hash", hash)
+      const time = hash ? new Date(this._gitCmdClient.logTime(hash).trim()).getTime() : Number.MAX_SAFE_INTEGER;
+      // console.log("time", time)
+      return { hash, time };
+    }).sort((a, b) => a.time - b.time)[0];
+    console.log(branch.hash)
+    const hash = branch && branch.hash;
+    if (!hash) return;
+    return this._gitCmdClient.logParent(hash).trim().slice(0, 7);
   }
 
   getCandidateHashes(): string[] {
@@ -150,17 +167,15 @@ export class CommitExplorer {
     this._commitNodes = this.getCommitNodes();
     const candidateHashes = this.getCandidateHashes();
     const branchHash = this.getBranchHash(candidateHashes);
-    console.log(candidateHashes)
     console.log(branchHash)
     if (!branchHash) return null;
-    const baseHash = this.findBaseCommitHash(candidateHashes);
+    const baseHash = this.findBaseCommitHash(candidateHashes, branchHash);
     if (!baseHash) return null;
     const result = this._gitCmdClient.revParse(baseHash).replace("\n", "");
     return result ? result : null;
   }
 
-  findBaseCommitHash(candidateHashes: string[]): string | undefined {
-    const branchHash = this.getBranchHash(candidateHashes);
+  findBaseCommitHash(candidateHashes: string[], branchHash: string): string | undefined {
     const traverseLog = (candidateHash: string): boolean | undefined => {
       if (candidateHash === branchHash) return true;
       const hits = this.findParentNode(candidateHash);
