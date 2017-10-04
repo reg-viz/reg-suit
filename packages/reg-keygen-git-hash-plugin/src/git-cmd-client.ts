@@ -44,14 +44,18 @@ export class GitCmdClient {
   }
 
   logBetweenOldest(a: string, b: string) {
-    return execSync(`git log --oneline --reverse ${a}..${b}`, { encoding: "utf8" });
+    return execSync(`git log --oneline --reverse --no-merges ${a}..${b}`, { encoding: "utf8" });
   }
 
   logFirstParent() {
-    return execSync("git log -n 300 --oneline --first-parent", { encoding: "utf8" });
+    return execSync("git log -n 300 --oneline --first-parent --pretty=%h", { encoding: "utf8" });
   }
 
   logGraph() {
     return execSync("git log -n 300 --graph --pretty=format:\"%h %p\"", { encoding: "utf8" });
+  }
+
+  showBranch(a: string, b: string) {
+    return execSync(`git show-branch --sha1-name ${a} ${b}`, { encoding: "utf8" });
   }
 }

@@ -127,23 +127,50 @@ export class CommitExplorer {
   */
 
   getBranchHash(candidateHashes: string[]): string | undefined {
+    const firstParents = this._gitCmdClient.logFirstParent()
+      .split("\n")
+      .map(h => h.trim())
+      .filter(h => !!h);
+    console.log(firstParents)
     const branches = this._gitCmdClient
       .branches()
       .split("\n")
       .map(b => b.replace(/^\*/, "").trim().split(" ")[0])
-      .filter(b => !!b || b === this._branchName);
-    // console.log(branches)
+      .filter(b => (!!b || b === this._branchName));
+
+    // const showBranch = this._gitCmdClient
+    //   .showBranch()
+    //   .split("\n")
+    //   .map(b => b && b.match(/\[(.+)\]/)[1])
+    //   .filter(b => !!b);
+
+    console.log(branches)
     const branch = branches.map(b => {
-      const hash = this._gitCmdClient.logBetweenOldest(b, this._branchName).split(" ")[0];
-      console.log("hash", hash)
+      // const hash = this._gitCmdClient.logBetweenOldest(b, this._branchName).split(" ")[0];
+      const hashes = this._gitCmdClient
+        .showBranch(b, this._branchName)
+        .split("\n")
+        .map(b => {
+          const a = b && b.match(/\[(.+)\]/);
+          if (a) return a[1];
+        })
+        .filter(b => !!b);
+      const hash = hashes[hashes.length - 1];
       const time = hash ? new Date(this._gitCmdClient.logTime(hash).trim()).getTime() : Number.MAX_SAFE_INTEGER;
-      // console.log("time", time)
       return { hash, time };
-    }).sort((a, b) => a.time - b.time)[0];
-    console.log(branch.hash)
-    const hash = branch && branch.hash;
-    if (!hash) return;
-    return this._gitCmdClient.logParent(hash).trim().slice(0, 7);
+    }).filter(a => !!a.hash).sort((a, b) => a.time - b.time);
+    // console.log(branch);
+    const hash = branch && branch[0].hash;
+    return hash;
+    //if (!hash) return;
+    //return this._gitCmdClient.logParent(hash).trim().slice(0, 7);
+    // return hash;
+
+    // for (const b of branch) {
+    //   if (!b.hash) continue;
+    //   // const t = this._gitCmdClient.logParent(b.hash).trim().slice(0, 7);
+    //   if (firstParents.includes(b.hash)) return b.hash;
+    // }
   }
 
   getCandidateHashes(): string[] {
@@ -190,3 +217,14 @@ export class CommitExplorer {
     return target;
   }
 }
+
+/* master to catch up branch
+*   df4b012 (HEAD -> master2x) merge master to feat-x
+|\
+| * 4294771 (master) master2
+| * dcfb98e master1
+* | d09c580 (tag: expected, feat-x) x2
+* | 6026c9e x1
+|/
+* 6186c4a first commit
+*/
