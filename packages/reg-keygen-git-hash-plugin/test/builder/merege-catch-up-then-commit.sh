@@ -1,5 +1,5 @@
 cd test
-rm -rf fixtures/after-merge-catch-up
+rm -rf fixtures/merge-catch-up-then-commit
 git init
 git commit --allow-empty -m "first commit"
 sleep 1s
@@ -21,10 +21,11 @@ git checkout -b master2feat-x
 git merge master --no-ff -m "merge master to master2feat-x"
 git checkout feat-x
 git merge master2feat-x --no-ff -m "merge master2feat-x to feat-x"
+git commit --allow-empty -m "x3"
 
 echo "==================== after-merge-catch-up ===================="
 git show-branch -a --sha1-name
 
-mv .git fixtures/after-merge-catch-up
+mv .git fixtures/merge-catch-up-then-commit
 rm -rf .git
 

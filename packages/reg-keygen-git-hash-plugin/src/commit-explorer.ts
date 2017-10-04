@@ -93,25 +93,46 @@ export class CommitExplorer {
    * 2. Child's branch number is larger than parent's branch number.
    * 
   */
-  isBranchHash(hash: string): boolean {
+  isBranchHash(hash: string , first: string ): boolean {
     const children = this.findChildren(hash);
+    if (!children.length) return false;
     const branchNumOnTargetHash = this.getBranchNames(hash).length;
     const mergedHashes = this.getParentHashes(this._gitCmdClient.logMerges());
     return children.some(([childHash]) => {
       const branches = this.getBranchNames(childHash);
       const hasCurrentBranch = branches.includes(this._branchName);
-      return hasCurrentBranch && (branchNumOnTargetHash > branches.length);
+      if (childHash === "9fc8c13") {
+        console.log(branches);
+        console.log(childHash);
+        console.log(children);
+        console.log(hasCurrentBranch);
+        console.log("a")
+        console.log((branchNumOnTargetHash > branches.length))
+        console.log((mergedHashes.includes(childHash) && children.length > 1))
+        console.log(children.length)
+                console.log(branchNumOnTargetHash);
+                console.log(children)
+                console.log(branches)
+        console.log(children.length <= branchNumOnTargetHash )
+        console.log("--------------------------")
+      }
+      return hasCurrentBranch &&
+        (branchNumOnTargetHash > branches.length) &&
+        (((mergedHashes.includes(childHash) ))
+          ? children.length < branchNumOnTargetHash
+          : true);
     });
   }
 
   getBranchHash(candidateHashes: string[]): string | undefined {
     const firstParents = this.getParentHashes(this._gitCmdClient.logFirstParent());
-    return firstParents.find((hash, i) => this.isBranchHash(hash));
+    return firstParents.find((hash, i) => this.isBranchHash(hash , firstParents[0] ));
   }
 
   getCandidateHashes(): string[] {
+    const re = new RegExp(`^this._branchName$`);
     const mergedBranches = this.getBranchNames(this._commitNodes[0][0])
-      .filter(b => !b.endsWith(this._branchName));
+      .filter(b => !b.endsWith("/" + this._branchName) && !re.test(b));
     return this._commitNodes
       .map((c) => c[0])
       .filter(c => {
@@ -129,6 +150,8 @@ export class CommitExplorer {
     this._commitNodes = this.getCommitNodes();
     const candidateHashes = this.getCandidateHashes();
     const branchHash = this.getBranchHash(candidateHashes);
+    console.log(candidateHashes)
+    console.log(branchHash)
     if (!branchHash) return null;
     const baseHash = this.findBaseCommitHash(candidateHashes);
     if (!baseHash) return null;

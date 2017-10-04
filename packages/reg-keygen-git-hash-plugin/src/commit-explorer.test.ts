@@ -17,11 +17,6 @@ const copyGitFiles = (name: string) => {
   execSync(`cp -r ${path.resolve("fixtures", name)} ${path.resolve("./", ".git")}`);
 };
 
-test.serial("detached head", t => {
-  copyGitFiles("detached-head");
-  t.throws(() => new CommitExplorer().getCurrentBranchName());
-});
-
 // FIXME: This test failed on circleCI, because `reg-suit` repository is applied when there is no commit
 //        But this test passed in my local env(git 2.14.1)....
 //        This issue will be fixed in version using git-tiny-walker
@@ -29,6 +24,12 @@ test.serial("detached head", t => {
 //   copyGitFiles("no-commit");
 //   t.throws(() => new CommitExplorer().getCurrentCommitHash());
 // });
+
+
+test.serial("detached head", t => {
+  copyGitFiles("detached-head");
+  t.throws(() => new CommitExplorer().getCurrentBranchName());
+});
 
 /*
 * first commit
@@ -103,15 +104,15 @@ test.serial("after catch up master merge", t => {
 });
 
 /*
-* (HEAD -> feat-x) x3
-*   merge master to feat-x
+* 6c022a4 (HEAD -> feat-x) x3
+*   9fc8c13 merge master to feat-x
 |\
-| * (tag: expected, master) master1
-| * x2
-| * x1
+| * b146d8b (tag: expected, master) master1
+| * 9b5e521 x2
+| * b94224d x1
 |/
-* second commit
-* first commit
+* 686d0df second commit
+* 50d61fd first commit
 */
 test.serial("commit after merge", t => {
   copyGitFiles("commit-after-merge");
@@ -159,6 +160,44 @@ test.serial("master to catch up branch", t => {
 
 test.serial("commit after catch up and merge", t => {
   copyGitFiles("commit-after-catch-up-and-merge");
+  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
+  t.is(expected, baseHash);
+});
+
+// *   5b37e40 (HEAD -> feat-x) merge master2feat-x to feat-x
+// |\
+// | *   c2b59b9 (master2feat-x) merge master to master2feat-x
+// | |\
+// |/ /
+// | * d02bbf7 (master) master1
+// * | 2a17c81 x2
+// * | 163a2ae x1
+// |/
+// * ed8cf0f (tag: expected) second commit
+// * 32e04b9 first commit
+test.serial("after merge catch up", t => {
+  copyGitFiles("after-merge-catch-up");
+  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
+  t.is(expected, baseHash);
+});
+
+// * (HEAD -> feat-x) x3
+// *   merge master2feat-x to feat-x
+// |\
+// | *   (master2feat-x) merge master to master2feat-x
+// | |\
+// |/ /
+// | * (tag: expected) (master) master2
+// | * master1
+// * | x2
+// * | x1
+// |/
+// * second commit
+// * first commit
+test.serial("merge catch up and commit", t => {
+  copyGitFiles("merge-catch-up-then-commit");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
   t.is(expected, baseHash);
