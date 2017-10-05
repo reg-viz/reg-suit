@@ -23,10 +23,6 @@ export class GitCmdClient {
     return execSync(`git branch -a --contains ${hash}`, { encoding: "utf8" });
   }
 
-  logParent(hash: string) {
-    return execSync(`git log --pretty=%P -n 1 ${hash}`, { encoding: "utf8" });
-  }
-
   logTime(hash: string) {
     return execSync(`git log --pretty=%ci -n 1 ${hash}`, { encoding: "utf8" });
   }
@@ -39,11 +35,7 @@ export class GitCmdClient {
     return execSync("git log -n 300 --graph --pretty=format:\"%h %p\"", { encoding: "utf8" });
   }
 
-  showBranch(a: string, b: string) {
-    return execSync(`git show-branch --sha1-name ${a} ${b} | tail -1`, { encoding: "utf8" });
-  }
-
-  logMerges() {
-    return execSync("git log -n 300 --oneline --all --merges", { encoding: "utf8" });
+  mergeBase(a: string, b: string) {
+    return execSync(`git merge-base -a ${a} ${b}`, { encoding: "utf8" });
   }
 }

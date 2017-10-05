@@ -51,14 +51,6 @@ export class CommitExplorer {
   }
 
   /*
-   * e.g. return `["a38df15", "8e1ac3a"]`.
-  */
-  findParentNode(parentHash: string): CommitNode | undefined {
-    return this._commitNodes
-      .find(([hash]: string[]) => hash === parentHash);
-  }
-
-  /*
    * Return branch name including target hash.
    * e.g. `["master", "feat-x"]`.
   */
@@ -83,41 +75,9 @@ export class CommitExplorer {
   }
 
   getIntersection(hash: string): string | undefined {
-    const res = this._gitCmdClient.showBranch(hash, this._branchName);
-    const hit = res.match(/\[([0-9a-z]+)\]/);
-    if (hit) return hit[1];
-  }
-
-  findChildren(hash: string): CommitNode[] {
-    return this._commitNodes
-      .filter(([_, ...parent]) => !!parent.find(h => h === hash));
-  }
-
-  getParentHashes(log: string): string[] {
-    return log.split("\n")
-      .filter(l => !!l.length)
-      .map((log: string) => log.split(" ")[0]);
-  }
-
-  /*
-    * NOTE: Check if it is a branch hash
-    *
-    * If there is more than one hash of a child that satisfies all of the following, it is regarded as a branch hash.
-    * 
-    * 1. Whether the hash is included in the current branch.
-    * 2. Child's branch number is larger than parent's branch number.
-    * 
-   */
-  isBranchHash(hash: string): boolean {
-    if (!hash) false;
-    const children = this.findChildren(hash);
-    const branchNumOnTargetHash = this.getBranchNames(hash).length;
-    const mergedHashes = this.getParentHashes(this._gitCmdClient.logMerges());
-    return children.some(([childHash]) => {
-      const branches = this.getBranchNames(childHash);
-      const hasCurrentBranch = branches.includes(this._branchName);
-      return hasCurrentBranch && (branchNumOnTargetHash > branches.length);
-    });
+    try {
+      return this._gitCmdClient.mergeBase(hash, this._branchName).slice(0, 8);
+    } catch (e) { }
   }
 
   getBranchHash(candidateHashes: string[]): string | undefined {
@@ -129,8 +89,7 @@ export class CommitExplorer {
     })
       .filter(a => !!a.hash)
       .sort((a, b) => a.time - b.time)
-      .map(b => b.hash)
-      .find((h) => h ? this.isBranchHash(h) : false);
+      .map(b => b.hash)[0];
   }
 
   getCandidateHashes(): string[] {
