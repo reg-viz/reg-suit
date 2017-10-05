@@ -19,20 +19,8 @@ export class GitCmdClient {
     return execSync("git branch -a", { encoding: "utf8" });
   }
 
-  mergeBranches(hash: string) {
-    return execSync(`git branch -a --merged ${hash}`, { encoding: "utf8" });
-  }
-
   containedBranches(hash: string): string {
     return execSync(`git branch -a --contains ${hash}`, { encoding: "utf8" });
-  }
-
-  log() {
-    return execSync("git log -n 300 --oneline", { encoding: "utf8" });
-  }
-
-  logMerges() {
-    return execSync("git log -n 300 --oneline --all --merges", { encoding: "utf8" });
   }
 
   logParent(hash: string) {
@@ -45,10 +33,6 @@ export class GitCmdClient {
 
   logBetweenOldest(a: string, b: string) {
     return execSync(`git log --oneline --reverse --no-merges ${a}..${b}`, { encoding: "utf8" });
-  }
-
-  logFirstParent() {
-    return execSync("git log -n 300 --oneline --first-parent --pretty=%h", { encoding: "utf8" });
   }
 
   logGraph() {

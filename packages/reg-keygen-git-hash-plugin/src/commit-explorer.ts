@@ -50,17 +50,6 @@ export class CommitExplorer {
     return this._gitCmdClient.revParse(currentName).replace("\n", "");
   }
 
-  // getParentHashes(log: string): string[] {
-  //   return log.split("\n")
-  //     .filter(l => !!l.length)
-  //     .map((log: string) => log.split(" ")[0]);
-  // }
-
-  // findChildren(hash: string): CommitNode[] {
-  //   return this._commitNodes
-  //     .filter(([_, ...parent]) => !!parent.find(h => h === hash));
-  // }
-
   /*
    * e.g. return `["a38df15", "8e1ac3a"]`.
   */
@@ -84,93 +73,35 @@ export class CommitExplorer {
     return names;
   }
 
-  /*
-   * NOTE: Check if it is a branch hash
-   *
-   * If there is more than one hash of a child that satisfies all of the following, it is regarded as a branch hash.
-   * 
-   * 1. Whether the hash is included in the current branch.
-   * 2. Child's branch number is larger than parent's branch number.
-   * 
-  */
-  /*
-  isBranchHash(hash: string, first: string): boolean {
-    const children = this.findChildren(hash);
-    if (!children.length) return false;
-    const branchNumOnTargetHash = this.getBranchNames(hash).length;
-    const mergedHashes = this.getParentHashes(this._gitCmdClient.logMerges());
-    return children.some(([childHash]) => {
-      const branches = this.getBranchNames(childHash);
-      const hasCurrentBranch = branches.includes(this._branchName);
-      if (childHash === "9fc8c13") {
-        console.log(branches);
-        console.log(childHash);
-        console.log(children);
-        console.log(hasCurrentBranch);
-        console.log("a")
-        console.log((branchNumOnTargetHash > branches.length))
-        console.log((mergedHashes.includes(childHash) && children.length > 1))
-        console.log(children.length)
-        console.log(branchNumOnTargetHash);
-        console.log(children)
-        console.log(branches)
-        console.log(children.length <= branchNumOnTargetHash)
-        console.log("--------------------------")
-      }
-      return hasCurrentBranch &&
-        (branchNumOnTargetHash > branches.length) &&
-        (((mergedHashes.includes(childHash)))
-          ? children.length < branchNumOnTargetHash
-          : true);
-    });
-  }
-  */
-
-  getBranchHash(candidateHashes: string[]): string | undefined {
-    const firstParents = this._gitCmdClient.logFirstParent()
-      .split("\n")
-      .map(h => h.trim())
-      .filter(h => !!h);
-    console.log(firstParents)
-    const branches = this._gitCmdClient
+  getAllBranchNames(): string[] {
+    return this._gitCmdClient
       .branches()
       .split("\n")
       .map(b => b.replace(/^\*/, "").trim().split(" ")[0])
       .filter(b => (!!b || b === this._branchName));
+  }
 
-    // const showBranch = this._gitCmdClient
-    //   .showBranch()
-    //   .split("\n")
-    //   .map(b => b && b.match(/\[(.+)\]/)[1])
-    //   .filter(b => !!b);
+  getIntersection(hash: string): string | undefined {
+    const hashes = this._gitCmdClient
+      .showBranch(hash, this._branchName)
+      .split("\n")
+      .map(b => {
+        const a = b && b.match(/\[(.+)\]/);
+        if (a) return a[1];
+      })
+      .filter(b => !!b);
+    return hashes[hashes.length - 1];
+  }
 
-    console.log(branches)
+  getBranchHash(candidateHashes: string[]): string | undefined {
+    const branches = this.getAllBranchNames();
     const branch = branches.map(b => {
-      // const hash = this._gitCmdClient.logBetweenOldest(b, this._branchName).split(" ")[0];
-      const hashes = this._gitCmdClient
-        .showBranch(b, this._branchName)
-        .split("\n")
-        .map(b => {
-          const a = b && b.match(/\[(.+)\]/);
-          if (a) return a[1];
-        })
-        .filter(b => !!b);
-      const hash = hashes[hashes.length - 1];
+      const hash = this.getIntersection(b);
       const time = hash ? new Date(this._gitCmdClient.logTime(hash).trim()).getTime() : Number.MAX_SAFE_INTEGER;
       return { hash, time };
     }).filter(a => !!a.hash).sort((a, b) => a.time - b.time);
-    // console.log(branch);
     const hash = branch && branch[0].hash;
     return hash;
-    //if (!hash) return;
-    //return this._gitCmdClient.logParent(hash).trim().slice(0, 7);
-    // return hash;
-
-    // for (const b of branch) {
-    //   if (!b.hash) continue;
-    //   // const t = this._gitCmdClient.logParent(b.hash).trim().slice(0, 7);
-    //   if (firstParents.includes(b.hash)) return b.hash;
-    // }
   }
 
   getCandidateHashes(): string[] {
@@ -194,7 +125,6 @@ export class CommitExplorer {
     this._commitNodes = this.getCommitNodes();
     const candidateHashes = this.getCandidateHashes();
     const branchHash = this.getBranchHash(candidateHashes);
-    console.log(branchHash)
     if (!branchHash) return null;
     const baseHash = this.findBaseCommitHash(candidateHashes, branchHash);
     if (!baseHash) return null;
@@ -217,14 +147,3 @@ export class CommitExplorer {
     return target;
   }
 }
-
-/* master to catch up branch
-*   df4b012 (HEAD -> master2x) merge master to feat-x
-|\
-| * 4294771 (master) master2
-| * dcfb98e master1
-* | d09c580 (tag: expected, feat-x) x2
-* | 6026c9e x1
-|/
-* 6186c4a first commit
-*/
