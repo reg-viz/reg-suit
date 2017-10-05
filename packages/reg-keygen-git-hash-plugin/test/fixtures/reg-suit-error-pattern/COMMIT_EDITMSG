@@ -1,0 +1,14 @@
+Fix up
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch fix-after-merge-catch-up-branch
+# Your branch is ahead of 'origin/master' by 6 commits.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	modified:   packages/reg-keygen-git-hash-plugin/src/commit-explorer.test.ts
+#	modified:   packages/reg-keygen-git-hash-plugin/src/commit-explorer.ts
+#	modified:   packages/reg-keygen-git-hash-plugin/src/git-cmd-client.ts
+#

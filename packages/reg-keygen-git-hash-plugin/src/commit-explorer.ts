@@ -83,7 +83,7 @@ export class CommitExplorer {
   }
 
   getIntersection(hash: string): string | undefined {
-    const res = this._gitCmdClient.showBranch(hash, this._branchName);
+    const res = this._gitCmdClient.showBranch(hash);
     const hit = res.match(/\[([0-9a-z]+)\]/);
     if (hit) return hit[1];
   }
@@ -116,6 +116,15 @@ export class CommitExplorer {
       });
   }
 
+  findBaseCommitHash(candidateHashes: string[], branchHash: string): string | undefined {
+    const traverseLog = (candidateHash: string): boolean | undefined => {
+      if (candidateHash === branchHash) return true;
+      return !this._gitCmdClient.logBetween(candidateHash, branchHash).trim();
+    };
+    const target = candidateHashes.find((hash) => !!traverseLog(hash));
+    return target;
+  }
+
   getBaseCommitHash(): string | null {
     this._branchName = this.getCurrentBranchName();
     this._commitNodes = this.getCommitNodes();
@@ -126,14 +135,5 @@ export class CommitExplorer {
     if (!baseHash) return null;
     const result = this._gitCmdClient.revParse(baseHash).replace("\n", "");
     return result ? result : null;
-  }
-
-  findBaseCommitHash(candidateHashes: string[], branchHash: string): string | undefined {
-    const traverseLog = (candidateHash: string): boolean | undefined => {
-      if (candidateHash === branchHash) return true;
-      return !this._gitCmdClient.logBetween(candidateHash, branchHash).trim();
-    };
-    const target = candidateHashes.find((hash) => !!traverseLog(hash));
-    return target;
   }
 }
