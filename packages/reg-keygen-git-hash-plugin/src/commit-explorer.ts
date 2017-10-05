@@ -83,21 +83,54 @@ export class CommitExplorer {
   }
 
   getIntersection(hash: string): string | undefined {
-    const res = this._gitCmdClient.showBranch(hash);
+    const res = this._gitCmdClient.showBranch(hash, this._branchName);
     const hit = res.match(/\[([0-9a-z]+)\]/);
     if (hit) return hit[1];
   }
 
+  findChildren(hash: string): CommitNode[] {
+    return this._commitNodes
+      .filter(([_, ...parent]) => !!parent.find(h => h === hash));
+  }
+
+  getParentHashes(log: string): string[] {
+    return log.split("\n")
+      .filter(l => !!l.length)
+      .map((log: string) => log.split(" ")[0]);
+  }
+
+  /*
+    * NOTE: Check if it is a branch hash
+    *
+    * If there is more than one hash of a child that satisfies all of the following, it is regarded as a branch hash.
+    * 
+    * 1. Whether the hash is included in the current branch.
+    * 2. Child's branch number is larger than parent's branch number.
+    * 
+   */
+  isBranchHash(hash: string): boolean {
+    if (!hash) false;
+    const children = this.findChildren(hash);
+    const branchNumOnTargetHash = this.getBranchNames(hash).length;
+    const mergedHashes = this.getParentHashes(this._gitCmdClient.logMerges());
+    return children.some(([childHash]) => {
+      const branches = this.getBranchNames(childHash);
+      const hasCurrentBranch = branches.includes(this._branchName);
+      return hasCurrentBranch && (branchNumOnTargetHash > branches.length);
+    });
+  }
+
   getBranchHash(candidateHashes: string[]): string | undefined {
     const branches = this.getAllBranchNames();
-    const branch = branches.map(b => {
+    return branches.map(b => {
       const hash = this.getIntersection(b);
       const time = hash ? new Date(this._gitCmdClient.logTime(hash).trim()).getTime() : Number.MAX_SAFE_INTEGER;
       return { hash, time };
     })
       .filter(a => !!a.hash)
-      .sort((a, b) => a.time - b.time);
-    return branch && branch[0].hash;
+      .sort((a, b) => a.time - b.time)
+      .map(b => b.hash)
+      .find((h) => h ? this.isBranchHash(h) : false);
   }
 
   getCandidateHashes(): string[] {
@@ -116,10 +149,15 @@ export class CommitExplorer {
       });
   }
 
+  isReachable(a: string, b: string) {
+    const between = this._gitCmdClient.logBetween(a, b).trim();
+    return !between;
+  }
+
   findBaseCommitHash(candidateHashes: string[], branchHash: string): string | undefined {
     const traverseLog = (candidateHash: string): boolean | undefined => {
       if (candidateHash === branchHash) return true;
-      return !this._gitCmdClient.logBetween(candidateHash, branchHash).trim();
+      return this.isReachable(candidateHash, branchHash);
     };
     const target = candidateHashes.find((hash) => !!traverseLog(hash));
     return target;

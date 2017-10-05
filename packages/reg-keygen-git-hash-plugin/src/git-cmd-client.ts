@@ -39,7 +39,11 @@ export class GitCmdClient {
     return execSync("git log -n 300 --graph --pretty=format:\"%h %p\"", { encoding: "utf8" });
   }
 
-  showBranch(a: string) {
-    return execSync(`git show-branch --sha1-name ${a} | tail -1`, { encoding: "utf8" });
+  showBranch(a: string, b: string) {
+    return execSync(`git show-branch --sha1-name ${a} ${b} | tail -1`, { encoding: "utf8" });
+  }
+
+  logMerges() {
+    return execSync("git log -n 300 --oneline --all --merges", { encoding: "utf8" });
   }
 }
