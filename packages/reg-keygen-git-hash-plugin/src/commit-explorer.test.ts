@@ -104,15 +104,15 @@ test.serial("after catch up master merge", t => {
 });
 
 /*
-* 6c022a4 (HEAD -> feat-x) x3
-*   9fc8c13 merge master to feat-x
+* (HEAD -> feat-x) x3
+*   merge master to feat-x
 |\
-| * b146d8b (tag: expected, master) master1
-| * 9b5e521 x2
-| * b94224d x1
+| * (tag: expected, master) master1
+| * x2
+| * x1
 |/
-* 686d0df second commit
-* 50d61fd first commit
+* second commit
+* first commit
 */
 test.serial("commit after merge", t => {
   copyGitFiles("commit-after-merge");
@@ -165,17 +165,17 @@ test.serial("commit after catch up and merge", t => {
   t.is(expected, baseHash);
 });
 
-// *   5b37e40 (HEAD -> feat-x) merge master2feat-x to feat-x
+// *   (HEAD -> feat-x) merge master2feat-x to feat-x
 // |\
-// | *   c2b59b9 (master2feat-x) merge master to master2feat-x
+// | *   (master2feat-x) merge master to master2feat-x
 // | |\
 // |/ /
-// | * d02bbf7 (master) master1
-// * | 2a17c81 x2
-// * | 163a2ae x1
+// | * (master) master1
+// * | x2
+// * | x1
 // |/
-// * ed8cf0f (tag: expected) second commit
-// * 32e04b9 first commit
+// * (tag: expected) second commit
+// * first commit
 test.serial("after merge catch up", t => {
   copyGitFiles("after-merge-catch-up");
   const baseHash = new CommitExplorer().getBaseCommitHash();
@@ -202,3 +202,4 @@ test.serial("merge catch up and commit", t => {
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
   t.is(expected, baseHash);
 });
+

@@ -78,19 +78,14 @@ export class CommitExplorer {
       .branches()
       .split("\n")
       .map(b => b.replace(/^\*/, "").trim().split(" ")[0])
-      .filter(b => (!!b || b === this._branchName));
+      .filter(b => (!!b || b === this._branchName))
+      .filter((x, i, self) => self.indexOf(x) === i);
   }
 
   getIntersection(hash: string): string | undefined {
-    const hashes = this._gitCmdClient
-      .showBranch(hash, this._branchName)
-      .split("\n")
-      .map(b => {
-        const a = b && b.match(/\[(.+)\]/);
-        if (a) return a[1];
-      })
-      .filter(b => !!b);
-    return hashes[hashes.length - 1];
+    const res = this._gitCmdClient.showBranch(hash, this._branchName);
+    const hit = res.match(/\[([0-9a-z]+)\]/);
+    if (hit) return hit[1];
   }
 
   getBranchHash(candidateHashes: string[]): string | undefined {
@@ -99,9 +94,10 @@ export class CommitExplorer {
       const hash = this.getIntersection(b);
       const time = hash ? new Date(this._gitCmdClient.logTime(hash).trim()).getTime() : Number.MAX_SAFE_INTEGER;
       return { hash, time };
-    }).filter(a => !!a.hash).sort((a, b) => a.time - b.time);
-    const hash = branch && branch[0].hash;
-    return hash;
+    })
+      .filter(a => !!a.hash)
+      .sort((a, b) => a.time - b.time);
+    return branch && branch[0].hash;
   }
 
   getCandidateHashes(): string[] {

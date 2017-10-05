@@ -40,6 +40,6 @@ export class GitCmdClient {
   }
 
   showBranch(a: string, b: string) {
-    return execSync(`git show-branch --sha1-name ${a} ${b}`, { encoding: "utf8" });
+    return execSync(`git show-branch --sha1-name ${a} ${b} | tail -1`, { encoding: "utf8" });
   }
 }
