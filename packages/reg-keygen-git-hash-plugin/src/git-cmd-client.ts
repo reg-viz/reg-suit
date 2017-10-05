@@ -31,8 +31,8 @@ export class GitCmdClient {
     return execSync(`git log --pretty=%ci -n 1 ${hash}`, { encoding: "utf8" });
   }
 
-  logBetweenOldest(a: string, b: string) {
-    return execSync(`git log --oneline --reverse --no-merges ${a}..${b}`, { encoding: "utf8" });
+  logBetween(a: string, b: string) {
+    return execSync(`git log --oneline ${a}..${b}`, { encoding: "utf8" });
   }
 
   logGraph() {

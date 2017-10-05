@@ -135,13 +135,7 @@ export class CommitExplorer {
   findBaseCommitHash(candidateHashes: string[], branchHash: string): string | undefined {
     const traverseLog = (candidateHash: string): boolean | undefined => {
       if (candidateHash === branchHash) return true;
-      const hits = this.findParentNode(candidateHash);
-      if (!hits || !hits.length) return false;
-      const [target, ...hitParentsHashes] = hits;
-      for (const h of hitParentsHashes) {
-        if (target === branchHash) return true;
-        return traverseLog(h);
-      }
+      return !this._gitCmdClient.logBetween(candidateHash, branchHash).trim();
     };
     const target = candidateHashes.find((hash) => !!traverseLog(hash));
     return target;
