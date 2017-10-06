@@ -1,0 +1,6 @@
+49d38a929ae3675a1c79216709c35884f0b78900		branch 'master' of https://github.com/reg-viz/reg-suit
+6e4644378000455b4aecb63e5576681ea3d1e5d7	not-for-merge	branch 'fix-after-merge-catch-up-branch' of https://github.com/reg-viz/reg-suit
+f9a2c41f76fc76c0c43437e6e36d6daa7bca2737	not-for-merge	branch 'fix-keygen-git-hash-plugin' of https://github.com/reg-viz/reg-suit
+a64bc05a83964cde91f60c274ea10130eec21892	not-for-merge	branch 'gh-pages' of https://github.com/reg-viz/reg-suit
+6ff630c19ff69336afe92d9afe7fb31631212538	not-for-merge	branch 'rewrite-ghplugin-with-tiny-commit-walker' of https://github.com/reg-viz/reg-suit
+9fb6c80b30633460dbf2235b06e8697f1126712f	not-for-merge	branch 'separate-rev-plugin' of https://github.com/reg-viz/reg-suit

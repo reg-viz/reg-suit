@@ -15,27 +15,27 @@ export class GitCmdClient {
     return this._revParseHash[currentName];
   }
 
-  mergeBranches(hash: string) {
-    return execSync(`git branch -a --merged ${hash}`, { encoding: "utf8" });
+  branches() {
+    return execSync("git branch -a", { encoding: "utf8" });
   }
 
   containedBranches(hash: string): string {
     return execSync(`git branch -a --contains ${hash}`, { encoding: "utf8" });
   }
 
-  log() {
-    return execSync("git log -n 300 --oneline", { encoding: "utf8" });
+  logTime(hash: string) {
+    return execSync(`git log --pretty=%ci -n 1 ${hash}`, { encoding: "utf8" });
   }
 
-  logMerges() {
-    return execSync("git log -n 300 --oneline --all --merges", { encoding: "utf8" });
-  }
-
-  logFirstParent() {
-    return execSync("git log -n 300 --oneline --first-parent", { encoding: "utf8" });
+  logBetween(a: string, b: string) {
+    return execSync(`git log --oneline ${a}..${b}`, { encoding: "utf8" });
   }
 
   logGraph() {
     return execSync("git log -n 300 --graph --pretty=format:\"%h %p\"", { encoding: "utf8" });
+  }
+
+  mergeBase(a: string, b: string) {
+    return execSync(`git merge-base -a ${a} ${b}`, { encoding: "utf8" });
   }
 }

@@ -1,0 +1,16 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://github.com/reg-viz/reg-suit.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[branch "fix-after-merge-catch-up-branch"]
+	remote = origin
+	merge = refs/heads/master

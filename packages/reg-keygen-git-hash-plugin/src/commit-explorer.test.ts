@@ -17,11 +17,6 @@ const copyGitFiles = (name: string) => {
   execSync(`cp -r ${path.resolve("fixtures", name)} ${path.resolve("./", ".git")}`);
 };
 
-test.serial("detached head", t => {
-  copyGitFiles("detached-head");
-  t.throws(() => new CommitExplorer().getCurrentBranchName());
-});
-
 // FIXME: This test failed on circleCI, because `reg-suit` repository is applied when there is no commit
 //        But this test passed in my local env(git 2.14.1)....
 //        This issue will be fixed in version using git-tiny-walker
@@ -29,6 +24,12 @@ test.serial("detached head", t => {
 //   copyGitFiles("no-commit");
 //   t.throws(() => new CommitExplorer().getCurrentCommitHash());
 // });
+
+
+test.serial("detached head", t => {
+  copyGitFiles("detached-head");
+  t.throws(() => new CommitExplorer().getCurrentBranchName());
+});
 
 /*
 * first commit
@@ -161,5 +162,50 @@ test.serial("commit after catch up and merge", t => {
   copyGitFiles("commit-after-catch-up-and-merge");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
+  t.is(expected, baseHash);
+});
+
+// *   (HEAD -> feat-x) merge master2feat-x to feat-x
+// |\
+// | *   (master2feat-x) merge master to master2feat-x
+// | |\
+// |/ /
+// | * (master) master1
+// * | x2
+// * | x1
+// |/
+// * (tag: expected) second commit
+// * first commit
+test.serial("after merge catch up", t => {
+  copyGitFiles("after-merge-catch-up");
+  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
+  t.is(expected, baseHash);
+});
+
+// * (HEAD -> feat-x) x3
+// *   merge master2feat-x to feat-x
+// |\
+// | *   (master2feat-x) merge master to master2feat-x
+// | |\
+// |/ /
+// | * (tag: expected) (master) master2
+// | * master1
+// * | x2
+// * | x1
+// |/
+// * second commit
+// * first commit
+test.serial("merge catch up and commit", t => {
+  copyGitFiles("merge-catch-up-then-commit");
+  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
+  t.is(expected, baseHash);
+});
+
+test.serial("error patter found in reg-suit repository", t => {
+  copyGitFiles("reg-suit-error-pattern");
+  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const expected = "49d38a929ae3675a1c79216709c35884f0b78900";
   t.is(expected, baseHash);
 });
