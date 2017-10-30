@@ -38,7 +38,7 @@ export interface StepResultAfterActualKey extends StepResultAfterComparison {
 }
 
 export interface StepResultAfterPublish extends StepResultAfterActualKey {
-  reportUrl: string | null;
+  reportUrl?: string;
 }
 
 export class RegProcessor {

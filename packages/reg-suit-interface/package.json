@@ -17,6 +17,6 @@
   "license": "MIT",
   "devDependencies": {
     "@types/inquirer": "^0.0.35",
-    "typescript": "2.3.4"
+    "typescript": "~2.5.3"
   }
 }

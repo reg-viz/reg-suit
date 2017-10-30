@@ -56,7 +56,7 @@ export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, Plug
     const ir = config.options;
     if (!ir.createBucket) {
       return Promise.resolve({
-        bucketName: ir.bucketName,
+        bucketName: ir.bucketName as string,
       });
     } else  {
       const id = uuid();

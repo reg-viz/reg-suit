@@ -23,7 +23,7 @@
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.6.1",
     "tslint": "^5.4.3",
-    "typescript": "~2.3.4"
+    "typescript": "~2.5.2"
   },
   "dependencies": {
     "glob": "^7.1.2",
