@@ -43,7 +43,7 @@ export class RegSuitCore {
 
   persistMergedConfig(opt: { core?: CoreConfig; pluginConfigs: { name: string; config: any }[] }, confirm: (newConfig: RegSuitConfiguration) => Promise<boolean>) {
     const baseConfig = this.config;
-    const mergedConfig = {
+    const mergedConfig: RegSuitConfiguration & { plugins: any } = {
       core: opt.core ? { ...baseConfig.core, ...opt.core } : baseConfig.core,
       plugins: { ...baseConfig.plugins },
     };

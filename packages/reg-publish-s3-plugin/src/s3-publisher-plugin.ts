@@ -66,10 +66,11 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
     })
     .then(files => {
       return files.map(f => {
+        const mimeType = lookup(f) || "unknown";
         return {
           path: f,
           absPath: path.resolve(this._options.workingDirs.base, f),
-          mimeType: lookup(f),
+          mimeType,
         };
       })
       .filter(item => !!item.mimeType)

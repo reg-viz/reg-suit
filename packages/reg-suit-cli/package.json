@@ -34,6 +34,6 @@
     "@types/inquirer": "^0.0.35",
     "@types/yargs": "^8.0.0",
     "reg-suit-interface": "^0.5.5",
-    "typescript": "2.3.4"
+    "typescript": "~2.5.2"
   }
 }

@@ -10,7 +10,7 @@ export interface KeyGenerator {
 }
 
 export interface PublishResult {
-  reportUrl: string;
+  reportUrl?: string;
 }
 
 export interface Publisher {
@@ -21,7 +21,7 @@ export interface Publisher {
 export interface NotifyParams {
   expectedKey: string | null;
   actualKey: string;
-  reportUrl: string | null;
+  reportUrl?: string;
   comparisonResult: ComparisonResult;
 }
 
@@ -68,6 +68,6 @@ export interface NotifierPluginHolder<S, T> {
   notifier: NotifierPlugin<T>;
 }
 
-export type KeyGeneratorPluginFactory = <S, T>() => KeyGeneratorPluginHolder<S, T>;
-export type PublisherPluginFactory = <S, T>() => PublisherPluginHolder<S, T>;
-export type NotifierPluginFactory = <S, T>() => NotifierPluginHolder<S, T>;
+export type KeyGeneratorPluginFactory = () => KeyGeneratorPluginHolder<any, any>;
+export type PublisherPluginFactory = () => PublisherPluginHolder<any, any>;
+export type NotifierPluginFactory = () => NotifierPluginHolder<any, any>;

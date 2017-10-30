@@ -38,6 +38,6 @@
     "reg-suit-interface": "^0.5.5",
     "reg-suit-util": "^0.5.5",
     "rimraf": "^2.6.1",
-    "typescript": "~2.3.4"
+    "typescript": "~2.5.2"
   }
 }

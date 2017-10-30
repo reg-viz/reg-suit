@@ -19,6 +19,6 @@
   "license": "MIT",
   "devDependencies": {
     "reg-suit-interface": "^0.5.5",
-    "typescript": "2.3.4"
+    "typescript": "~2.5.2"
   }
 }
