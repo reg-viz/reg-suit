@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "reg-gh-app-front",
-  "version": "0.5.6",
+  "version": "0.5.9",
   "description": "",
   "main": "lib/index.js",
   "scripts": {

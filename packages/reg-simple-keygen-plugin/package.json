@@ -1,6 +1,6 @@
 {
   "name": "reg-simple-keygen-plugin",
-  "version": "0.5.5",
+  "version": "0.5.9",
   "description": "Determine snapshot key with given values",
   "main": "lib/index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "reg-suit-interface": "^0.5.5",
+    "reg-suit-interface": "^0.5.9",
     "typescript": "~2.5.2"
   }
 }
