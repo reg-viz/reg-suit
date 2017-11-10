@@ -39,7 +39,7 @@ function createOptions() {
       "n": { alias: "notification", desc: "Send notifications with publishing", boolean: true, default: false },
     })
   ;
-  const { config, verbose, quiet, test, useYarn, plugin, useDevCore  } = yargs.argv;
+  const { config, verbose, quiet, test, useYarn, plugin, useDevCore, notification } = yargs.argv;
   const command = yargs.argv._[0];
   const logLevel = verbose ? "verbose" : (quiet ? "silent" : "info");
   const npmClient = useYarn ? "yarn" : "npm";
@@ -53,6 +53,7 @@ function createOptions() {
     npmClient,
     plugins,
     noInstallCore,
+    notification,
   } as CliOptions;
 }
 
