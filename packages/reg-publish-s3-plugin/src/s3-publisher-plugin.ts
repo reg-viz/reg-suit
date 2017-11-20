@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as zlib from "zlib";
 import { S3, config as awsConfig } from "aws-sdk";
 import * as glob from "glob";
 import * as _ from "lodash";
@@ -25,7 +26,7 @@ export interface FileItem {
   mimeType: string;
 }
 
-const DEFAULT_PATTERN = "**/*.{html,png,json,jpeg,jpg,tiff,bmp,gif}";
+const DEFAULT_PATTERN = "**/*.{html,js,wasm,png,json,jpeg,jpg,tiff,bmp,gif}";
 const CONCURRENCY_SIZE = 50;
 
 export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
@@ -184,18 +185,22 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
 
   private _publishItem(key: string, item: FileItem): Promise<FileItem> {
     return new Promise((resolve, reject) => {
-      fs.readFile(item.absPath, (err, data) => {
+      fs.readFile(item.absPath, (err, content) => {
         if (err) return reject(err);
-        this._s3client.putObject({
-          Bucket: this._pluginConfig.bucketName,
-          Key: `${key}/${item.path}`,
-          Body: data,
-          ContentType: item.mimeType,
-          ACL: "public-read",
-        }, (err, x) => {
+        zlib.gzip(content, (err, data) => {
           if (err) return reject(err);
-          this._logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`,);
-          return resolve(item);
+          this._s3client.putObject({
+            Bucket: this._pluginConfig.bucketName,
+            Key: `${key}/${item.path}`,
+            Body: data,
+            ContentType: item.mimeType,
+            ContentEncoding: "gzip",
+            ACL: "public-read",
+          }, (err, x) => {
+            if (err) return reject(err);
+            this._logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`,);
+            return resolve(item);
+          });
         });
       });
     });
@@ -212,14 +217,26 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
           return reject(err);
         }
         mkdirp.sync(path.dirname(item.absPath));
-        fs.writeFile(item.absPath, x.Body, (err) => {
-          if (err) {
-            return reject(err);
-          }
-          this._logger.verbose(`Downloaded from ${s3Key} to ${item.absPath}`);
-          resolve(item);
+        this._gunzipIfNeed(x, (err, content) => {
+          fs.writeFile(item.absPath, content, (err) => {
+            if (err) {
+              return reject(err);
+            }
+            this._logger.verbose(`Downloaded from ${s3Key} to ${item.absPath}`);
+            resolve(item);
+          });
         });
       });
     });
+  }
+
+  private _gunzipIfNeed(output: S3.GetObjectOutput, cb: (err: any, data: Buffer) => any) {
+    if (output.ContentEncoding === "gzip") {
+      zlib.gunzip(output.Body as Buffer, (err, content) => {
+        cb(err, content);
+      });
+    } else {
+      cb(null, output.Body as Buffer);
+    }
   }
 }
