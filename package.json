@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "glob": "^7.1.2",
-    "reg-cli": "0.10.1",
     "tslint-eslint-rules": "^4.1.1"
   },
   "workspaces": [
