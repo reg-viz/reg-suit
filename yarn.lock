@@ -6964,9 +6964,9 @@ redux@^3.4.0:
     loose-envify "^1.1.0"
     symbol-observable "^1.0.3"
 
-reg-cli@^0.10.5:
-  version "0.10.5"
-  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.10.5.tgz#a77f83154a4b7de96088b5f462caebe92c3a96ab"
+reg-cli@^0.10.6:
+  version "0.10.6"
+  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.10.6.tgz#24cb16d7b41c4b1c895fa0fb8c3a082260291360"
   dependencies:
     bluebird "^3.5.0"
     chalk "^2.1.0"
@@ -6979,7 +6979,7 @@ reg-cli@^0.10.5:
     md5-file "^3.1.1"
     meow "^3.7.0"
     mustache "^2.3.0"
-    x-img-diff-js "^0.1.4"
+    x-img-diff-js "^0.2.1"
 
 regenerate@^1.2.1:
   version "1.3.3"
@@ -8946,9 +8946,9 @@ wtf-8@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/wtf-8/-/wtf-8-1.0.0.tgz#392d8ba2d0f1c34d1ee2d630f15d0efb68e1048a"
 
-x-img-diff-js@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/x-img-diff-js/-/x-img-diff-js-0.1.4.tgz#d956bd098d95c8d11788ce35a399cf199e6e428c"
+x-img-diff-js@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/x-img-diff-js/-/x-img-diff-js-0.2.1.tgz#c22354b1d25cae48213568a75eaac1d017d4e482"
 
 xdg-basedir@^3.0.0:
   version "3.0.0"
