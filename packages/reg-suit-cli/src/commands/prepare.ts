@@ -23,7 +23,9 @@ function prepareCore(core: RegSuitCore) {
     return q;
   })).then((conf: any) => {
     // inquirer input returns string, but threshold should be type as number, so cast it.
-    return { ...conf, threshold: +conf.threshold } as CoreConfig;
+    return { ...conf, threshold: +conf.threshold, ximgdiff: {
+      invocationType: "client",
+    } } as CoreConfig;
   })
   ;
 }

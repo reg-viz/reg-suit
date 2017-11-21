@@ -105,12 +105,17 @@ The `core` section contains reg-suit core setting and the `plugins` section cont
   actualDir: string;      
   workingDir?: string;    // default ".reg"
   threshold?: number;     // default 0
+  ximgdiff?: {
+    invocationType: "none" | "client";  // default "client" 
+  };
 }
 ```
 
 - `actualDir` - *Required* - A directory which contains image files you want to test.
 - `workingDir` - *Optional* - A directory used by reg-suit puts temporary files. Ordinarily this dir is in listed at `.gitignore`.
 - `threshold` - *Optional* - Pixel matching threshold. It should be in ranges from `0` to `1`.
+- `ximgdiff` - *Optional* - An option to display more detailed difference information to report html.
+- `ximgdiff.invocationType` - If set `"cli"`, reg-suit runs x-img-diff-js and detects differences (CLI). If set `"client"`, x-img-diff-js be invoked only with browsers. See [smart differences detection](#smart-difference-detection) section.
 
 ### `plugins`
 Entries of `plugins` section are described as key-value pairs. Each key should be plugin name. If you want configurable value, see README.md under the each plugin package(e.g. [packages/reg-publish-s3-plugin/README.md](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-publish-s3-plugin/README.md)).
@@ -136,6 +141,14 @@ reg-suit run
 #   "bucketName": "my-bucket"
 # }
 ```
+
+### Smart difference detection
+If you turn `core.ximgdiff` option on in `regconfig.json`, reg-suit outputs a report with x-img-diff-js.
+
+[x-img-diff-js](https://reg-viz.github.io/x-img-diff-js) is a difference detection engine which calculates more structural information than naive pixel based comparison result.
+reg-suit use this to display which parts of testing image were inserted or moved.
+
+If `invocationType` is set to `"client"`, x-img-diff-js works on your web browser (It uses Web Assembly and Web Workers, so you need "modern" browser).
 
 ## Run with CI service
 A working demonstration is [here](https://github.com/reg-viz/reg-simple-demo).

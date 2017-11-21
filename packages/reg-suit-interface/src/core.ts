@@ -1,7 +1,12 @@
+export type AdditionalDetectionInvocationType = "none" | "cli" | "client";
+
 export interface CoreConfig {
   actualDir: string;
   workingDir: string;
   threshold?: number;
+  ximgdiff?: {
+    invocationType: AdditionalDetectionInvocationType;
+  };
 }
 
 export interface WorkingDirectoryInfo {

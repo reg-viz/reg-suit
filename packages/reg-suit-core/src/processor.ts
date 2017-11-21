@@ -11,6 +11,7 @@ import {
   ComparisonResult,
 } from "reg-suit-interface";
 import { fsUtil } from "reg-suit-util";
+import { EventEmitter } from "events";
 
 const compare = require("reg-cli");
 const rimraf = require("rimraf");
@@ -102,9 +103,10 @@ export class RegProcessor {
     const { actualDir, expectedDir, diffDir } = this._directoryInfo.workingDirs;
     const json = path.join(this._directoryInfo.workingDirs.base, "out.json");
     const report = path.join(this._directoryInfo.workingDirs.base, "index.html");
+    const ximgdiffConf = this._config.ximgdiff || { invocationType: "cli" };
     rimraf.sync(actualDir);
     cpx.copySync(`${this._directoryInfo.userDirs.actualDir}/**/*.{png,jpg,jpeg,tiff,bmp,gif}`, actualDir);
-    return (compare({
+    const emitter = compare({
       actualDir,
       expectedDir,
       diffDir,
@@ -114,17 +116,32 @@ export class RegProcessor {
       ignoreChange: true,
       urlPrefix: "",
       threshold: this._config.threshold,
-    }) as Promise<ComparisonResult>)
-    .then(result => {
-      this._logger.verbose("Comparison result:", result);
-      return { ...ctx, comparisonResult: result };
-    })
-    .catch(reason => {
-      // re-throw notifiers error because it's fatal.
-      this._logger.error("An error occurs during compare images:");
-      if (reason) this._logger.error(reason);
-      return Promise.reject<StepResultAfterComparison>(reason);
+      enableCliAdditionalDetection: ximgdiffConf.invocationType === "cli",
+      enableClientAdditionalDetection: ximgdiffConf.invocationType !== "none",
+    }) as EventEmitter;
+    emitter.on("compare", (compareItem: { type: string, path: string }) => {
+      this._logger.verbose(`${this._logger.colors.red(compareItem.type)}: ${this._logger.colors.magenta(compareItem.path)}`);
     });
+    const comparisonResult = new Promise<ComparisonResult>((resolve, reject) => {
+      emitter.once("complete", (result: ComparisonResult) => resolve(result));
+      emitter.once("error", (reason: any) => reject(reason));
+    });
+    return comparisonResult
+      .then(result => {
+        this._logger.info("Comparison Complete");
+        this._logger.info(this._logger.colors.red("   Changed items: " + result.failedItems.length));
+        this._logger.info(this._logger.colors.cyan("   New items: " + result.newItems.length));
+        this._logger.info(this._logger.colors.redBright("   Deleted items: " + result.deletedItems.length));
+        this._logger.info(this._logger.colors.green("   Passed items: " + result.passedItems.length));
+        this._logger.verbose("Comparison details:", result);
+        return { ...ctx, comparisonResult: result };
+      })
+      .catch(reason => {
+        // re-throw notifiers error because it's fatal.
+        this._logger.error("An error occurs during compare images:");
+        if (reason) this._logger.error(reason);
+        return Promise.reject<StepResultAfterComparison>(reason);
+      });
   }
 
   getActualKey(ctx: StepResultAfterComparison): Promise<StepResultAfterActualKey> {
