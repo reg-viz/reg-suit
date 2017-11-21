@@ -114,8 +114,8 @@ The `core` section contains reg-suit core setting and the `plugins` section cont
 - `actualDir` - *Required* - A directory which contains image files you want to test.
 - `workingDir` - *Optional* - A directory used by reg-suit puts temporary files. Ordinarily this dir is in listed at `.gitignore`.
 - `threshold` - *Optional* - Pixel matching threshold. It should be in ranges from `0` to `1`.
-- `ximgdiffConfig` - *Optional* - An option to display more detailed difference information to report html.
-- `ximgdiffConfig.invocationType` - If set `"cli"`, reg-suit runs x-img-diff-js and detects differences (CLI). If set `"client"`, x-img-diff-js be invoked only with browsers. See [smart differences detection](#smart-difference-detection) section.
+- `ximgdiff` - *Optional* - An option to display more detailed difference information to report html.
+- `ximgdiff.invocationType` - If set `"cli"`, reg-suit runs x-img-diff-js and detects differences (CLI). If set `"client"`, x-img-diff-js be invoked only with browsers. See [smart differences detection](#smart-difference-detection) section.
 
 ### `plugins`
 Entries of `plugins` section are described as key-value pairs. Each key should be plugin name. If you want configurable value, see README.md under the each plugin package(e.g. [packages/reg-publish-s3-plugin/README.md](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-publish-s3-plugin/README.md)).
