@@ -196,7 +196,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
             Body: data,
             ContentType: item.mimeType,
             ContentEncoding: "gzip",
-            ACL: this.pluginConfig.acl || "public-read",
+            ACL: this._pluginConfig.acl || "public-read",
           }, (err, x) => {
             if (err) return reject(err);
             this._logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`,);
