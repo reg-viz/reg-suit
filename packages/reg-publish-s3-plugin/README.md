@@ -33,7 +33,9 @@ aws_secret_access_key = <your-secret-key>
 ```ts
 {
   bucketName: string;
+  acl?: string;
 }
 ```
 
 - `bucketName` - *Required* - AWS S3 bucket name to publish the snapshot images to.
+- `acl` - *Optional* - Specify ACL property. By default, `public-read`.
