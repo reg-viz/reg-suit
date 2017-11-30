@@ -14,6 +14,7 @@ import { PublisherPlugin,
 export interface PluginConfig {
   bucketName: string;
   pattern?: string;
+  acl?: string;
 }
 
 interface PluginConfigInternal extends PluginConfig {
@@ -195,7 +196,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
             Body: data,
             ContentType: item.mimeType,
             ContentEncoding: "gzip",
-            ACL: "public-read",
+            ACL: this.pluginConfig.acl || "public-read",
           }, (err, x) => {
             if (err) return reject(err);
             this._logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`,);
