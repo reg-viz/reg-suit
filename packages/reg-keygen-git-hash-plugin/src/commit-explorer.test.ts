@@ -203,6 +203,24 @@ test.serial("merge catch up and commit", t => {
   t.is(expected, baseHash);
 });
 
+// *---.   merge branch11 branch2 branch3 to master 
+// |\ \ \
+// | | | * branch3 commit
+// | |_|/
+// |/| |
+// | | * branch2 commit
+// | |/
+// |/|
+// | * branch1 commit
+// |/
+// * (tag: expected) init import
+test.serial("merge multipe commit three", t => {
+    copyGitFiles("merge-multipe-commit-three");
+    const baseHash = new CommitExplorer().getBaseCommitHash();
+    const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
+    t.is(expected, baseHash);
+});
+
 test.serial("error patter found in reg-suit repository", t => {
   copyGitFiles("reg-suit-error-pattern");
   const baseHash = new CommitExplorer().getBaseCommitHash();

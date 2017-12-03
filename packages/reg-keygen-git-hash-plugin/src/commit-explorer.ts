@@ -18,7 +18,7 @@ export class CommitExplorer {
       .split("\n")
       .map((hashes: string) => (
         hashes
-          .replace(/\*|\/|\||\\|_|/g, "")
+          .replace(/\*|\/|\||\\|_|-+\.|/g, "")
           .split(" ")
           .filter(hash => !!hash)
       ))
