@@ -21,6 +21,8 @@ $ reg-suit init
 $ reg-suit run
 ```
 
+If you want more details, [this sample repository](https://github.com/reg-viz/reg-puppeteer-demo) may help you.
+
 ## Plugins
 reg-suit has it's own plugin system. Plugins integrate various functions and services into your project.
 
@@ -197,6 +199,17 @@ install:
 test_script:
   - reg-suit run
 ```
+
+## Examples
+The following repositories using reg-suit. These repos can help you to introduce visual snapshot testing.
+
+- [reg-viz/reg-puppeteer-demo](https://github.com/reg-viz/reg-puppeteer-demo): Simple HTML project using Puppeteer for capturing screenshot.
+- [bokuweb/react-avaron-reg-sample](https://github.com/bokuweb/react-avaron-reg-sample): React project using avaron(= Ava + Electron) for capturing screenshot.
+- [quramy/angular-puppeteer-demo](https://github.com/Quramy/angular-puppeteer-demo): Angular project using Puppeteer for capturing screenshot.
+- [tadashi-aikawa/owlora](https://github.com/tadashi-aikawa/owlora): React project using storybook and LOKI for capturing screenshot.
+- [tsuchikazu/vue-reg-suit-demo](https://github.com/tsuchikazu/vue-reg-suit-demo): Vue.js project using karma-nightmare for capturing screenshot.
+
+If you use reg-suit, let us know your repository. We'll list it at the above :)
 
 ## Contribute
 PRs are welcome!
