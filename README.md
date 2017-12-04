@@ -203,6 +203,7 @@ test_script:
 ## Examples
 The following repositories using reg-suit. These repos can help you to introduce visual snapshot testing.
 
+- [reg-viz/reg-simple-demo](https://github.com/reg-viz/reg-simple-demo): Simple image files project includes various CI services' script.
 - [reg-viz/reg-puppeteer-demo](https://github.com/reg-viz/reg-puppeteer-demo): Simple HTML project using Puppeteer for capturing screenshot.
 - [bokuweb/react-avaron-reg-sample](https://github.com/bokuweb/react-avaron-reg-sample): React project using avaron(= Ava + Electron) for capturing screenshot.
 - [quramy/angular-puppeteer-demo](https://github.com/Quramy/angular-puppeteer-demo): Angular project using Puppeteer for capturing screenshot.
