@@ -26,7 +26,7 @@ export class RegLogger implements Logger {
   _chalk: chalk.Chalk;
 
   constructor(private _category = "reg-suit") {
-    this._chalk = new chalk.constructor(({ level: 1 } as any));
+    this._chalk = chalk.constructor(({ level: 1 } as any));
     this._level = "info";
   }
 
