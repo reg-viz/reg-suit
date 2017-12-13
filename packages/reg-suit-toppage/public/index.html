@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-60677971-2"></script>
+    <script>
+      (function() {
+        if (/localhost/.test(location.href)) return;
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-60677971-2');
+      })();
+    </script>
     <title>reg-suit</title>
     <meta charset="UTF-8" />
     <meta name="description" content="Visual Regression Testing Suit" />
