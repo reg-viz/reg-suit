@@ -1,3 +1,5 @@
+import * as path from "path";
+import * as fs from "fs";
 import * as inquirer from "inquirer";
 
 import { RegSuitCore } from "reg-suit-core";
@@ -6,23 +8,68 @@ import { CliOptions } from "../cli-options";
 import packageUtil, { PLUGIN_NAME_REGEXP } from "../package-util";
 import getRegCore from "../get-reg-core";
 
-function prepareCore(core: RegSuitCore) {
-  const coreConf = core.config.core;
-  const pairs: { name: keyof typeof coreConf; message: string }[] = [
-    { name: "workingDir", message: "Working directory of reg-suit." },
-    { name: "actualDir", message: "Directory contains actual images." },
-    { name: "threshold", message: "Threshold, ranges from 0 to 1. Smaller value makes the comparison more sensitive." },
-  ];
-  return inquirer.prompt(pairs.map(({ name, message }) => {
-    const q: inquirer.Question = {
-      name, message,
-      type: "input",
-      default: coreConf[name] + "",
-      validate: (x: string) => !!x.length,
-    };
-    return q;
-  })).then((conf: any) => {
-    // inquirer input returns string, but threshold should be type as number, so cast it.
+import ignore = require("ignore");
+
+function hasGitignore(dir: string) {
+  return fs.existsSync(path.resolve(dir, ".gitignore"));
+}
+
+function loadGitignore(dir: string) {
+  const gi = fs.readFileSync(path.resolve(dir, ".gitignore"), "utf8");
+  const ig = ignore();
+  gi.split("\n").forEach(l => {
+    if (!l.trim().startsWith("#")) {
+      ig.add(l);
+    }
+  });
+  return ig;
+}
+
+function appendGitignore(dir: string, name: string) {
+  fs.appendFileSync(path.resolve(dir, ".gitignore"), name + "\n", "utf-8");
+}
+
+export function prepareCore(coreConf: CoreConfig, confDir: string) {
+  return inquirer.prompt([
+    {
+      name: "workingDir",
+      message: "Working directory of reg-suit.",
+      default: coreConf.workingDir,
+      validate(x: string) {
+        return !!x.length;
+      }
+    },
+    {
+      name: "addIgnore",
+      type: "confirm",
+      message: function({ workingDir }: { workingDir: string }) {
+        return `Append "${workingDir}" entry to yout .gitignore file.`;
+      },
+      when({ workingDir }: { workingDir: string }) {
+        return hasGitignore(confDir) && !loadGitignore(confDir).ignores(workingDir);
+      },
+      default: true,
+    },
+    {
+      name: "actualDir",
+      message: "Directory contains actual images.",
+      default: coreConf.actualDir,
+      validate(x: string) {
+        return !!x.length;
+      }
+    },
+    {
+      name: "threshold",
+      message: "Threshold, ranges from 0 to 1. Smaller value makes the comparison more sensitive.",
+      default: coreConf.threshold || "0",
+      validate(x: string) {
+        return !!x.length;
+      }
+    },
+  ]).then((conf: any) => {
+    if (conf.addIgnore) {
+      appendGitignore(confDir, conf.workingDir);
+    }
     return { ...conf, threshold: +conf.threshold, ximgdiff: {
       invocationType: "client",
     } } as CoreConfig;
@@ -55,7 +102,7 @@ function prepare(options: CliOptions, willPrepareCore = false) {
       default: true,
     }
   ]).then(({ result } : { result: boolean }) => result);
-  return (willPrepareCore ? prepareCore(core) : Promise.resolve(core.config.core)).then(coreConfig => {
+  return (willPrepareCore ? prepareCore(core.config.core, core.getDirectoryInfo().prjDir) : Promise.resolve(core.config.core)).then(coreConfig => {
     const questions = core.createQuestions({ pluginNames });
     return questions.reduce((acc, qh) => {
       return acc.then(configs => {

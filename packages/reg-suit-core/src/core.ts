@@ -92,9 +92,14 @@ export class RegSuitCore {
 
   getDirectoryInfo() {
     return {
+      prjDir: this._getPrjDir(),
       workingDirs: this._getWorkingDirs(),
       userDirs: this._getUserDirs(),
     };
+  }
+
+  _getPrjDir() {
+    return fsUtil.prjRootDir();
   }
 
   _getWorkingDirs() {
