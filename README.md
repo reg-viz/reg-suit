@@ -87,7 +87,7 @@ To configure reg-suit, put `regconfig.json` under the project root directory. `r
   "core": {
     "workingDir": ".reg",
     "actualDir": "images",
-    "threshold": 0.05
+    "thresholdRate": 0.05
   },
   "plugins": {
     "reg-keygen-git-hash-plugin": {},
