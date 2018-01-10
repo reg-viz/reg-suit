@@ -59,9 +59,9 @@ export function prepareCore(coreConf: CoreConfig, confDir: string) {
       }
     },
     {
-      name: "threshold",
+      name: "thresholdRate",
       message: "Threshold, ranges from 0 to 1. Smaller value makes the comparison more sensitive.",
-      default: coreConf.threshold || "0",
+      default: coreConf.thresholdRate || coreConf.threshold || "0",
       validate(x: string) {
         return !!x.length;
       }
@@ -70,7 +70,7 @@ export function prepareCore(coreConf: CoreConfig, confDir: string) {
     if (conf.addIgnore) {
       appendGitignore(confDir, conf.workingDir);
     }
-    return { ...conf, threshold: +conf.threshold, ximgdiff: {
+    return { ...conf, thresholdRate: +conf.thresholdRate, ximgdiff: {
       invocationType: "client",
     } } as CoreConfig;
   })

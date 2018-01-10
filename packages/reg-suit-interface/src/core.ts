@@ -4,6 +4,8 @@ export interface CoreConfig {
   actualDir: string;
   workingDir: string;
   threshold?: number;
+  thresholdPixel?: number;
+  thresholdRate?: number;
   ximgdiff?: {
     invocationType: AdditionalDetectionInvocationType;
   };
