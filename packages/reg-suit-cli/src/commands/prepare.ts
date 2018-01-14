@@ -43,7 +43,7 @@ export function prepareCore(coreConf: CoreConfig, confDir: string) {
       name: "addIgnore",
       type: "confirm",
       message: function({ workingDir }: { workingDir: string }) {
-        return `Append "${workingDir}" entry to yout .gitignore file.`;
+        return `Append "${workingDir}" entry to your .gitignore file.`;
       },
       when({ workingDir }: { workingDir: string }) {
         return hasGitignore(confDir) && !loadGitignore(confDir).ignores(workingDir);
