@@ -213,6 +213,7 @@ The following repositories using reg-suit. These repos can help you to introduce
 - [tsuchikazu/vue-reg-suit-demo](https://github.com/tsuchikazu/vue-reg-suit-demo): Vue.js project using karma-nightmare for capturing screenshot.
 - [reg-viz/preview-sketch-demo](https://github.com/reg-viz/preview-sketch-demo): Sketch file project. reg-suit compares their preview images.
 - [quramy/angular-sss-demo](https://github.com/Quramy/angular-sss-demo): Angular project using Storybook and storybook-chrome-screenshot.
+- [tsuyoshiwada/scs-with-reg-viz](https://github.com/tsuyoshiwada/scs-with-reg-viz): React project using Storybook and storybook-chrome-screenshot.
 
 If you use reg-suit, let us know your repository. We'll list it at the above :)
 
