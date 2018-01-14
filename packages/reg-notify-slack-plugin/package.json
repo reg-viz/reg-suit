@@ -4,6 +4,7 @@
   "description": "Notify reg-suit result to Slack channel.",
   "main": "lib/index.js",
   "scripts": {
+    "test": "echo T.B.D.",
     "prepublish": "tsc -p src/tsconfig.build.json"
   },
   "keywords": [

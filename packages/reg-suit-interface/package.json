@@ -4,6 +4,7 @@
   "description": "",
   "typings": "lib/index.d.ts",
   "scripts": {
+    "test": "echo T.B.D.",
     "prepublish": "tsc -p src/tsconfig.build.json"
   },
   "keywords": [
