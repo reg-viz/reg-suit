@@ -16,8 +16,10 @@
   },
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
+  "dependencies": {
+    "@types/inquirer": "^0.0.35"
+  },
   "devDependencies": {
-    "@types/inquirer": "^0.0.35",
     "typescript": "~2.5.3"
   }
 }
