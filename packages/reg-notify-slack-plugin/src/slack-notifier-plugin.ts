@@ -63,11 +63,11 @@ export class SlackNotifierPlugin implements NotifierPlugin<SlackNotiferPluginOpt
     const { failedItems, newItems, deletedItems } = params.comparisonResult;
 
     if (failedItems.length) {
-      return 'danger';
+      return "danger";
     }
     if (newItems.length || deletedItems.length) {
-      return 'warning';
+      return "warning";
     }
-    return 'good'
+    return "good";
   }
 }
