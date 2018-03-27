@@ -24,12 +24,13 @@ export class SlackNotifierPlugin implements NotifierPlugin<SlackNotiferPluginOpt
 
   notify(params: NotifyParams): Promise<any> {
     const body = this.createBody(params);
+    const color = this.createColor(params);
     this._logger.info(`Send to slack ${this._logger.colors.green(this._webhookUrl)}.`);
     this._logger.verbose("body to send to slack", body);
     if (this._noEmmit) return Promise.resolve();
     const spinner = this._logger.getSpinner("sending message to Slack...");
     spinner.start();
-    return sendWebHook({ body, webhookUrl: this._webhookUrl })
+    return sendWebHook({ body, color, webhookUrl: this._webhookUrl })
       .then(() => spinner.stop())
       .catch(() => spinner.stop())
     ;
@@ -56,5 +57,17 @@ export class SlackNotifierPlugin implements NotifierPlugin<SlackNotiferPluginOpt
       lines.push(`Report URL: ${params.reportUrl}`);
     }
     return lines.join("\n");
+  }
+
+  createColor(params: NotifyParams) {
+    const { failedItems, newItems, deletedItems } = params.comparisonResult;
+
+    if (failedItems.length) {
+      return 'danger';
+    }
+    if (newItems.length || deletedItems.length) {
+      return 'warning';
+    }
+    return 'good'
   }
 }
