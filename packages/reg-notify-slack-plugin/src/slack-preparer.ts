@@ -34,7 +34,7 @@ export class SlackPreparer implements PluginPreparer<QuestionResult, SlackNotife
       return Promise.resolve({ webhookUrl: "your_incoming_webhook_url" });
     }
     if (sendTestMessage) {
-      return sendWebHook({ webhookUrl, body: "test message" }).then(() => {
+      return sendWebHook({ webhookUrl, body: "test message", color: 'good' }).then(() => {
         logger.info("Send test message successfully.");
         return { webhookUrl };
       }).catch(reason => {
