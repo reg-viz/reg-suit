@@ -62,6 +62,7 @@ jobs:
       - run:
           name: Publish to npm
           command: |
+            yarn run lerna run prepublish
             yarn run lerna publish -- --yes --cd-version="patch"
 
   minor_release:
@@ -97,6 +98,7 @@ jobs:
       - run:
           name: Publish to npm
           command: |
+            yarn run lerna run prepublish
             yarn run lerna publish -- --yes --cd-version="minor"
 
   deply_service:
