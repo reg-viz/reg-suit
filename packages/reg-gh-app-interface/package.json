@@ -1,6 +1,6 @@
 {
   "name": "reg-gh-app-interface",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "",
   "typings": "lib/index.d.ts",
   "scripts": {
