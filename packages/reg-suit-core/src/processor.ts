@@ -197,6 +197,10 @@ export class RegProcessor {
         .catch(reason => {
           // re-throw notifiers error because it's fatal.
           this._logger.error("An error occurs during publishing snapshot:");
+          if (reason.code === "CredentialsError") {
+            this._logger.error("Failed to read AWS credentials.");
+            this._logger.error(`Create ${this._logger.colors.magenta("~/.aws/credentials")} or export ${this._logger.colors.green("$AWS_ACCESS_KEY_ID")} and ${this._logger.colors.green("$AWS_SECRET_ACCESS_KEY")}.`);
+          }
           if (reason) this._logger.error(reason);
           return Promise.reject<StepResultAfterPublish>(reason);
         })
