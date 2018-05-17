@@ -106,9 +106,11 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
         try {
           result = await this._listObjectsPromise(nextMarker, actualPrefix)
           let curContents = result.Contents || []
-          nextMarker = curContents[curContents.length - 1].Key || ''
+          if (curContents.length > 0) {
+            nextMarker = curContents[curContents.length - 1].Key || ''
+            Array.prototype.push.apply(contents, curContents)
+          }
           isTruncated = result.IsTruncated || false;
-          Array.prototype.push.apply(contents, curContents)
         } catch(e) {
           reject(e)
         }
