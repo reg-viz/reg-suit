@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-core-testing",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "private": true,
   "scripts": {
     "test": "echo \"T.B.D.\""
@@ -8,7 +8,7 @@
   "dependencies": {
     "reg-notify-github-plugin": "^0.7.2",
     "reg-notify-slack-plugin": "^0.7.1",
-    "reg-publish-s3-plugin": "^0.7.2",
+    "reg-publish-s3-plugin": "^0.7.3",
     "reg-simple-keygen-plugin": "^0.7.1",
     "reg-suit-core": "^0.7.2"
   },
