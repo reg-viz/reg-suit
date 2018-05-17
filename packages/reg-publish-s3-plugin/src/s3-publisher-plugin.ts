@@ -21,6 +21,10 @@ interface PluginConfigInternal extends PluginConfig {
   pattern: string;
 }
 
+interface S3ListObjectContent {
+  Key?: string;
+}
+
 export interface FileItem {
   path: string;
   absPath: string;
@@ -90,19 +94,30 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
     if (this._noEmit) return Promise.resolve();
     const actualPrefix = `${key}/${path.basename(this._options.workingDirs.actualDir)}`;
     const progress = this._logger.getProgressBar();
-    return new Promise<S3.ListObjectsOutput>((resolve, reject) => {
-      this._s3client.listObjects({
-        Bucket: this._pluginConfig.bucketName,
-        Prefix: actualPrefix,
-        MaxKeys: 3000,
-      }, (err, x) => {
-        if (err) {
-          return reject(err);
+    return new Promise<S3ListObjectContent []>(async (resolve, reject) => {
+      let contents: S3ListObjectContent [] = []
+      let isTruncated: boolean = true
+      let nextMarker: string = ''
+
+      const maxLoop = 3
+      let loop = 0
+      while (isTruncated && loop < maxLoop) {
+        let result: S3.ListObjectsOutput;
+        try {
+          result = await this._listObjectsPromise(nextMarker, actualPrefix)
+          let curContents = result.Contents || []
+          if (curContents.length > 0) {
+            nextMarker = curContents[curContents.length - 1].Key || ''
+            Array.prototype.push.apply(contents, curContents)
+          }
+          isTruncated = result.IsTruncated || false;
+        } catch(e) {
+          reject(e)
         }
-        resolve(x);
-      });
+        loop += 1
+      }
+      resolve(contents)
     })
-    .then(result => result.Contents || [])
     .then(contents => {
       if (contents.length) {
         progress.start(contents.length, 0);
@@ -230,5 +245,31 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
     } else {
       cb(null, output.Body as Buffer);
     }
+  }
+
+  private _listObjectsPromise(lastKey: string, prefix: string): Promise<S3.ListObjectsOutput> {
+    interface S3ListObjectsOptions {
+      Bucket: string;
+      Prefix: string;
+      MaxKeys: number;
+      Marker?: string;
+    }
+    let options: S3ListObjectsOptions = {
+      Bucket: this._pluginConfig.bucketName,
+      Prefix: prefix,
+      MaxKeys: 1000,
+    }
+    if (lastKey) {
+        options.Marker = lastKey
+    }
+
+    return new Promise<S3.ListObjectsOutput>((resolve, reject) => {
+      this._s3client.listObjects(options, async (err, result: S3.ListObjectsOutput) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(result)
+      })
+    })
   }
 }
