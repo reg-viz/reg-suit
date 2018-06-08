@@ -21,6 +21,8 @@ $ reg-suit init
 $ reg-suit run
 ```
 
+[![asciicast](https://asciinema.org/a/ueyQbqEjZujRSrag2wLig1PPu.png)](https://asciinema.org/a/ueyQbqEjZujRSrag2wLig1PPu)
+
 If you want more details, [this sample repository](https://github.com/reg-viz/reg-puppeteer-demo) may help you.
 
 ## Plugins
