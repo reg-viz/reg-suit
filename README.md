@@ -202,6 +202,15 @@ test_script:
   - reg-suit run
 ```
 
+```yml
+# .gitlab-ci.yml
+
+test:
+  script:
+    - git checkout $CI_COMMIT_REF_NAME || git checkout -b $CI_COMMIT_REF_NAME && git pull
+    - reg-suit run
+```
+
 ## Examples
 The following repositories using reg-suit. These repos can help you to introduce visual snapshot testing.
 
