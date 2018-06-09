@@ -55,7 +55,7 @@ export class ClientIdModal extends React.Component<ClientIdModalProps> {
             value={clientId}
             action={{ color: "teal", labelPosition: "right", icon: "copy", content: "Copy to clipboard", onClick: this.handleOnClick }}
           />
-          Then open regconfig.json in your editor and append the follwoing:
+          Then open regconfig.json in your editor and append the following:
           <pre className={consoleBox}>{conf}</pre>
           Learn more? Read <a
             className="text-link"
