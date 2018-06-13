@@ -8,7 +8,6 @@ import { S3 } from "aws-sdk";
 
 const preparer = new S3BucketPreparer();
 
-const plugin = new S3PublisherPlugin();
 const logger = createLogger();
 logger.setLevel("verbose");
 const baseConf = {
@@ -31,35 +30,8 @@ const dirsB = {
   diffDir: "",
 };
 
-let bn: string;
-preparer.prepare({ ...baseConf, options: { createBucket: true, }, workingDirs: dirsA })
-.then(({ bucketName }) => {
-  bn = bucketName || "";
-  plugin.init({
-    ...baseConf,
-    options: {
-      bucketName: bn,
-    },
-    workingDirs: dirsA,
-  });
-  return plugin.publish("abcdef12345");
-})
-.then(() => {
-  plugin.init({
-    ...baseConf,
-    options: {
-      bucketName: bn,
-    },
-    workingDirs: dirsB,
-  });
-  return plugin.fetch("abcdef12345");
-})
-.then(() => {
-  const list = glob.sync("dir_b/sample01.png", { cwd: dirsB.base });
-  assert.equal(list[0], "dir_b/sample01.png");
-})
-.then(() => {
-  return new Promise(resolve => {
+async function after(bn: string) {
+  await new Promise(resolve => {
     new S3().listObjects({
       Bucket: bn,
     }, (err, result) => {
@@ -71,18 +43,80 @@ preparer.prepare({ ...baseConf, options: { createBucket: true, }, workingDirs: d
       }
     });
   });
-})
-.then(() => {
-  new S3().deleteBucket({
-    Bucket: bn,
-  }, () => {
+  
+  await new Promise(resolve => new S3().deleteBucket({ Bucket: bn }, resolve));
+}
+
+async function case1() {
+  const { bucketName } = await preparer.prepare({ ...baseConf, options: { createBucket: true, }, workingDirs: dirsA });
+  const plugin = new S3PublisherPlugin();
+  plugin.init({
+    ...baseConf,
+    options: {
+      bucketName,
+    },
+    workingDirs: dirsA,
+  });
+  await plugin.publish("abcdef12345");
+
+  plugin.init({
+    ...baseConf,
+    options: {
+      bucketName,
+    },
+    workingDirs: dirsB,
+  });
+  await plugin.fetch("abcdef12345");
+
+  const list = glob.sync("dir_b/sample01.png", { cwd: dirsB.base });
+  assert.equal(list[0], "dir_b/sample01.png");
+
+  await after(bucketName);
+}
+
+async function case2() {
+  const { bucketName } = await preparer.prepare({ ...baseConf, options: { createBucket: true, }, workingDirs: dirsA });
+  const plugin = new S3PublisherPlugin();
+  plugin.init({
+    ...baseConf,
+    options: {
+      bucketName,
+      pathPrefix: "artifacts",
+      sse: true,
+    },
+    workingDirs: dirsA,
+  });
+  await plugin.publish("abcdef12345");
+  plugin.init({
+    ...baseConf,
+    options: {
+      bucketName,
+      pathPrefix: "artifacts",
+      sse: true,
+    },
+    workingDirs: dirsB,
+  });
+  await plugin.fetch("abcdef12345");
+
+  const list = glob.sync("dir_b/sample01.png", { cwd: dirsB.base });
+  assert.equal(list[0], "dir_b/sample01.png");
+
+  await after(bucketName);
+}
+
+async function main() {
+  try {
+
+    await case1();
+    await case2();
+
     console.log(" 🌟  Test was ended successfully! 🌟 ");
     process.exit(0);
-  });
-})
-.catch(err => {
-  console.error(err);
-  process.exit(1);
-})
-;
 
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+}
+
+main();
