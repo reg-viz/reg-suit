@@ -15,6 +15,7 @@ export interface PluginConfig {
   bucketName: string;
   pattern?: string;
   acl?: string;
+  sse?: boolean | string;
 }
 
 interface PluginConfigInternal extends PluginConfig {
@@ -196,14 +197,19 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
         if (err) return reject(err);
         zlib.gzip(content, (err, data) => {
           if (err) return reject(err);
-          this._s3client.putObject({
+          const req = {
             Bucket: this._pluginConfig.bucketName,
             Key: `${key}/${item.path}`,
             Body: data,
             ContentType: item.mimeType,
             ContentEncoding: "gzip",
             ACL: this._pluginConfig.acl || "public-read",
-          }, (err, x) => {
+          } as S3.Types.PutObjectRequest;
+          if (this._pluginConfig.sse) {
+            const sseVal = this._pluginConfig.sse;
+            req.ServerSideEncryption = typeof sseVal === "string" ? sseVal : "AES256";
+          }
+          this._s3client.putObject(req, (err, x) => {
             if (err) return reject(err);
             this._logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`,);
             return resolve(item);
