@@ -16,6 +16,7 @@ export interface PluginConfig {
   pattern?: string;
   acl?: string;
   sse?: boolean | string;
+  pathPrefix?: string;
 }
 
 interface PluginConfigInternal extends PluginConfig {
@@ -93,7 +94,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
 
   fetch(key: string): Promise<any> {
     if (this._noEmit) return Promise.resolve();
-    const actualPrefix = `${key}/${path.basename(this._options.workingDirs.actualDir)}`;
+    const actualPrefix = `${this._getPrefix(key)}/${path.basename(this._options.workingDirs.actualDir)}`;
     const progress = this._logger.getProgressBar();
     return new Promise<S3ListObjectContent []>(async (resolve, reject) => {
       let contents: S3ListObjectContent [] = []
@@ -138,7 +139,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
       return chunks.reduce((acc, chunk) => {
         return acc.then(list => {
           return Promise.all(chunk.map(item => {
-            return this._fetchItem(key, item).then(fi => {
+            return this._fetchItem(this._getPrefix(key), item).then(fi => {
               progress.increment(1);
               return fi;
             });
@@ -171,7 +172,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
           return acc.then(list => {
             return Promise.all(chunk.map(item => {
               if (this._noEmit) return Promise.resolve(item);
-              return this._publishItem(key, item).then(fi => {
+              return this._publishItem(this._getPrefix(key), item).then(fi => {
                 progress.increment(1);
                 return fi;
               });
@@ -181,7 +182,7 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
       })
       .then(items => {
         const indexFile = items.find(item => item.path.endsWith("index.html"));
-        const reportUrl = indexFile && `https://${this._pluginConfig.bucketName}.s3.amazonaws.com/${key}/${indexFile.path}`;
+        const reportUrl = indexFile && `https://${this._pluginConfig.bucketName}.s3.amazonaws.com/${this._getPrefix(key)}/${indexFile.path}`;
         return { reportUrl, items };
       })
       .then(result => {
@@ -189,6 +190,14 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
         return result;
       })
     ;
+  }
+
+  private _getPrefix(key: string) {
+    if (this._pluginConfig.pathPrefix && this._pluginConfig.pathPrefix.length) {
+      return this._pluginConfig.pathPrefix + "/" + key;
+    } else {
+      return key;
+    }
   }
 
   private _publishItem(key: string, item: FileItem): Promise<FileItem> {

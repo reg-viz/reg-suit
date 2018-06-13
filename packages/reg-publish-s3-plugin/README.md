@@ -35,9 +35,11 @@ aws_secret_access_key = <your-secret-key>
   bucketName: string;
   acl?: string;
   sse?: boolean | string;
+  pathPrefix?: string;
 }
 ```
 
 - `bucketName` - *Required* - AWS S3 bucket name to publish the snapshot images to.
 - `acl` - *Optional* - Specify ACL property. By default, `public-read`.
 - `sse` - *Optional* - Specify server-side encryption property. Default `false`. If you set `true`, this plugin send with `--sse="AES256`.
+- `pathPrefix` - *Optional* - Specify paths. For example if you set `some_dir`, the report is published with URL such as `https://your-backet-name.s3.amazonaws.com/some_dir/xxxxxxxxx/index.html`.
