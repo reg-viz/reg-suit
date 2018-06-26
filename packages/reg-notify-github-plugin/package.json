@@ -26,14 +26,15 @@
     "ava": "^0.20.0",
     "reg-gh-app-interface": "^0.7.2",
     "reg-suit-interface": "^0.7.1",
-    "typescript": "~2.5.2"
+    "typescript": "2.6.2"
   },
   "dependencies": {
     "open": "^0.0.5",
     "reg-suit-util": "^0.7.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
-    "tiny-commit-walker": "^1.1.2"
+    "tiny-commit-walker": "^1.1.2",
+    "typescript": "2.6.2"
   },
   "ava": {
     "files": "lib/**/*.test.js"

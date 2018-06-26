@@ -22,12 +22,13 @@
     "cpx": "^1.5.0",
     "reg-cli": "^0.11.0",
     "reg-suit-util": "^0.7.1",
-    "rimraf": "^2.6.1"
+    "rimraf": "^2.6.1",
+    "typescript": "2.6.2"
   },
   "devDependencies": {
     "ava": "^0.20.0",
     "reg-suit-interface": "^0.7.1",
-    "typescript": "~2.5.2"
+    "typescript": "2.6.2"
   },
   "ava": {
     "files": "lib/**/*.test.js"

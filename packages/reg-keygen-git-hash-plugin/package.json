@@ -23,14 +23,15 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "dependencies": {
-    "reg-suit-util": "^0.7.1"
+    "reg-suit-util": "^0.7.1",
+    "typescript": "2.6.2"
   },
   "devDependencies": {
     "ava": "^0.20.0",
     "glob": "^7.1.2",
     "reg-suit-interface": "^0.7.1",
     "rimraf": "^2.6.1",
-    "typescript": "~2.5.2"
+    "typescript": "2.6.2"
   },
   "ava": {
     "files": [

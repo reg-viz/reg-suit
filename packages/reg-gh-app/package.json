@@ -33,13 +33,14 @@
     "serverless": "^1.16.1",
     "serverless-offline": "^3.14.2",
     "serverless-webpack": "^2.0.0",
-    "typescript": "~2.5.2",
+    "typescript": "2.6.2",
     "webpack": "^3.0.0"
   },
   "dependencies": {
     "jsonwebtoken": "^7.4.1",
     "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "request-promise": "^4.2.1",
+    "typescript": "2.6.2"
   },
   "ava": {
     "files": "lib/**/*.test.js"

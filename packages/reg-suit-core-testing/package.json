@@ -10,12 +10,13 @@
     "reg-notify-slack-plugin": "^0.7.1",
     "reg-publish-s3-plugin": "^0.7.4",
     "reg-simple-keygen-plugin": "^0.7.1",
-    "reg-suit-core": "^0.7.2"
+    "reg-suit-core": "^0.7.2",
+    "typescript": "2.6.2"
   },
   "devDependencies": {
     "reg-keygen-git-hash-plugin": "^0.7.1",
     "reg-suit": "^0.7.2",
     "reg-suit-interface": "^0.7.1",
-    "typescript": "~2.5.2"
+    "typescript": "2.6.2"
   }
 }

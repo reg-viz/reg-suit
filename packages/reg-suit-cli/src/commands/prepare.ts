@@ -42,10 +42,10 @@ export function prepareCore(coreConf: CoreConfig, confDir: string) {
     {
       name: "addIgnore",
       type: "confirm",
-      message: function({ workingDir }: { workingDir: string }) {
+      message: function({ workingDir }: { [key: string]: string }) {
         return `Append "${workingDir}" entry to your .gitignore file.`;
       },
-      when({ workingDir }: { workingDir: string }) {
+      when({ workingDir }: { [key: string]: string }) {
         return hasGitignore(confDir) && !loadGitignore(confDir).ignores(workingDir);
       },
       default: true,
@@ -101,10 +101,10 @@ function prepare(options: CliOptions, willPrepareCore = false) {
       type: "confirm",
       default: true,
     }
-  ]).then(({ result } : { result: boolean }) => result);
+  ]).then(({ result } : { [key: string]: boolean }) => result);
   return (willPrepareCore ? prepareCore(core.config.core, core.getDirectoryInfo().prjDir) : Promise.resolve(core.config.core)).then(coreConfig => {
     const questions = core.createQuestions({ pluginNames });
-    return questions.reduce((acc, qh) => {
+    return questions.reduce((acc: Promise<{ name: string, config: any }[]>, qh) => {
       return acc.then(configs => {
         if (qh.questions.length) {
           core.logger.info(`Set up ${qh.name}:`);
@@ -126,7 +126,7 @@ function prepare(options: CliOptions, willPrepareCore = false) {
           .then((c: any) => [...configs, { name: qh.name, config: c }])
         ;
       });
-    }, Promise.resolve([])).then(pluginConfigs => ({ core: coreConfig, pluginConfigs }));
+    }, Promise.resolve([])).then((pluginConfigs: any) => ({ core: coreConfig, pluginConfigs }));
   })
   .then(newConf => core.persistMergedConfig(newConf, confirmUpdateConfig))
   ;

@@ -21,7 +21,7 @@ function init(options: CliOptions) {
         type: "confirm",
         default: true,
       },
-    ]).then(({ copyFromSample }: { copyFromSample: boolean }) => {
+    ]).then(({ copyFromSample }: { [key: string]: boolean }) => {
       const core = getRegCore(options);
       const { actualDir } = core.getDirectoryInfo().userDirs;
       core.logger.info("Initialization ended successfully \u2728");

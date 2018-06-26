@@ -46,7 +46,7 @@ export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, Plug
         name: "bucketName",
         type: "input",
         message: "Existing bucket name",
-        when: (ctx: { createBucket: boolean }) => !ctx.createBucket,
+        when: (ctx: any) => !(ctx as { createBucket: boolean }).createBucket,
       },
     ];
   }

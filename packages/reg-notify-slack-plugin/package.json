@@ -19,12 +19,13 @@
   "license": "MIT",
   "dependencies": {
     "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "request-promise": "^4.2.1",
+    "typescript": "2.6.2"
   },
   "devDependencies": {
     "@types/request-promise": "^4.1.35",
     "reg-gh-app-interface": "^0.5.9",
     "reg-suit-interface": "^0.7.1",
-    "typescript": "~2.5.2"
+    "typescript": "2.6.2"
   }
 }
