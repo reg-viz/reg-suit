@@ -43,6 +43,7 @@ export function AppComponent(props: AppProps) {
 export class AppContainer extends React.Component<{}, AppState> {
 
   componentDidMount() {
+    if (!store.state$) return;
     store.state$.subscribe(state => {
       this.setState(state);
     });

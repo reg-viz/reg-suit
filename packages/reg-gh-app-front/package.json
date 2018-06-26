@@ -35,7 +35,7 @@
     "postcss-loader": "^2.0.6",
     "style-loader": "^0.18.2",
     "typed-css-modules": "^0.3.0",
-    "typescript": "2.6.2",
+    "typescript": "2.8.1",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.6.1"
