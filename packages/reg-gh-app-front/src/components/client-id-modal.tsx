@@ -10,7 +10,7 @@ export interface ClientIdModalProps {
 
 export class ClientIdModal extends React.Component<ClientIdModalProps> {
 
-  inputRef: HTMLInputElement | null;
+  inputRef: HTMLInputElement | null = null;
 
   constructor(props: ClientIdModalProps) {
     super(props);

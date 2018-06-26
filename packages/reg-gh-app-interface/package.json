@@ -17,6 +17,6 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "~2.5.2"
+    "typescript": "2.8.1"
   }
 }

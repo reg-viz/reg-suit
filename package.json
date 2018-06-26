@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "clean": "rimraf packages/**/lib/ node_modules/reg-*",
+    "postinstall": "rm -rf node_modules/@types/react-dom/node_modules",
     "bootstrap": "lerna bootstrap && lerna run prepublish",
     "test": "lerna run test",
     "lint": "tslint packages/*/src/**/*.ts packages/*/test/**/*.ts",
@@ -19,11 +20,11 @@
     "@types/node": "8.0.8",
     "avaron": "^0.0.11",
     "electron": "^1.8.4",
-    "lerna": "^2.8",
+    "lerna": "2.11.0",
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.6.1",
     "tslint": "^5.4.3",
-    "typescript": "~2.5.2"
+    "typescript": "2.8.1"
   },
   "dependencies": {
     "glob": "^7.1.2",

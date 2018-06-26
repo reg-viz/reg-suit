@@ -27,7 +27,7 @@ export class GitHubPreparer implements PluginPreparer<GitHubPreparerOption, GitH
         type: "input",
         message: "This repositoriy's client ID of reg-suit GitHub app",
         name: "clientId",
-        when: ({ openApp }: { openApp: boolean }) => {
+        when: ({ openApp }: any) => {
           openApp && open("https://reg-viz.github.io/reg-suit/gh-app/");
           return true;
         },

@@ -5,8 +5,8 @@ export type CommitNode = string[];
 export class CommitExplorer {
 
   private _gitCmdClient = new GitCmdClient();
-  private _commitNodes: CommitNode[];
-  private _branchName: string;
+  private _commitNodes!: CommitNode[];
+  private _branchName!: string;
   private _branchNameCache: { [hash: string]: string[] } = {};
 
   /*

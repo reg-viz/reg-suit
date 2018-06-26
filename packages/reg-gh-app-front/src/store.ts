@@ -12,7 +12,7 @@ const initialState: AppState  = {
 };
 
 export class Store {
-  _state$: Observable<AppState>;
+  _state$: Observable<AppState> | null = null;
   setActions$(actions$: Observable<Action>) {
     this._state$ = actions$.scan((currentState: AppState, action: Action) => {
       if (action.type === "installationsRes") {

@@ -31,7 +31,7 @@ function install(options: CliOptions) {
       default: WELL_KNOWN_PLUGINS.filter(d => !!d.metadata.recommended).map(d => d.name),
     }
   ])
-  .then(({ pluginNamesToInstall }: { pluginNamesToInstall: string[] }) => pluginNamesToInstall)
+  .then(({ pluginNamesToInstall }: { [key: string]: string[] }) => pluginNamesToInstall)
   .then(pluginNamesToInstall => {
     const isCliInstalled = packageUtil.checkInstalledLocalCli();
     if (!isCliInstalled) {

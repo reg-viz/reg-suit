@@ -50,13 +50,13 @@ const defaultEndpoint = require("../.endpoint.json").endpoint as string;
 
 export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> {
 
-  _logger: PluginLogger;
-  _noEmit: boolean;
-  _apiOpt: BaseEventBody;
-  _prComment: boolean;
+  _logger!: PluginLogger;
+  _noEmit!: boolean;
+  _apiOpt!: BaseEventBody;
+  _prComment!: boolean;
 
-  _apiPrefix: string;
-  _repo: Repository;
+  _apiPrefix!: string;
+  _repo!: Repository;
 
   _decodeClientId(clientId: string) {
     const tmp = inflateRawSync(new Buffer(clientId, "base64")).toString().split("/");

@@ -40,6 +40,7 @@
     "reg-notify-github-plugin": "^0.7.2",
     "reg-publish-s3-plugin": "^0.7.4",
     "reg-suit": "^0.7.2",
-    "reg-suit-core": "^0.7.2"
+    "reg-suit-core": "^0.7.2",
+    "typescript": "2.8.1"
   }
 }

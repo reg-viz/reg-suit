@@ -12,9 +12,9 @@ export interface SlackNotiferPluginOptions {
 }
 
 export class SlackNotifierPlugin implements NotifierPlugin<SlackNotiferPluginOptions> {
-  _logger: PluginLogger;
-  _webhookUrl: string;
-  _noEmmit: boolean;
+  _logger!: PluginLogger;
+  _webhookUrl!: string;
+  _noEmmit!: boolean;
 
   init(config: PluginCreateOptions<SlackNotiferPluginOptions>): void {
     this._logger = config.logger;

@@ -40,11 +40,11 @@ export class S3PublisherPlugin implements PublisherPlugin<PluginConfig> {
 
   name = "reg-publish-s3-plugin";
 
-  _noEmit: boolean;
-  private _logger: PluginLogger;
-  private _options: PluginCreateOptions<any>;
-  private _pluginConfig: PluginConfigInternal;
-  private _s3client: S3;
+  _noEmit!: boolean;
+  private _logger!: PluginLogger;
+  private _options!: PluginCreateOptions<any>;
+  private _pluginConfig!: PluginConfigInternal;
+  private _s3client!: S3;
 
   constructor() {
   }

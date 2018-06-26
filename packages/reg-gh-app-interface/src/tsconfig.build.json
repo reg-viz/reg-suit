@@ -3,5 +3,6 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "../lib"
-  }
+  },
+  "ignore": ["../node_modules"]
 }
