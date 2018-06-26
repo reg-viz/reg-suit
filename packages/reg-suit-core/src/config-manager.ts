@@ -47,7 +47,7 @@ export class ConfigManager {
   /**
    * @internal
    **/
-  _loadedConfig: RegSuitConfiguration;
+  _loadedConfig!: RegSuitConfiguration;
 
   private _configFileName?: string;
   private _logger: RegLogger;

@@ -33,8 +33,7 @@
     "reg-suit-util": "^0.7.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
-    "tiny-commit-walker": "^1.1.2",
-    "typescript": "2.6.2"
+    "tiny-commit-walker": "^1.1.2"
   },
   "ava": {
     "files": "lib/**/*.test.js"

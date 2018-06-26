@@ -19,8 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "request": "^2.81.0",
-    "request-promise": "^4.2.1",
-    "typescript": "2.6.2"
+    "request-promise": "^4.2.1"
   },
   "devDependencies": {
     "@types/request-promise": "^4.1.35",

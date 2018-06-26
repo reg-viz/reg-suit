@@ -27,7 +27,6 @@
     "lodash": "^4.17.4",
     "mime-types": "^2.1.15",
     "mkdirp": "^0.5.1",
-    "typescript": "2.6.2",
     "uuid": "^3.1.0"
   },
   "devDependencies": {

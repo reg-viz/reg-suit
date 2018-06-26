@@ -29,7 +29,6 @@
     "inquirer": "^3.1.1",
     "reg-suit-core": "^0.7.2",
     "reg-suit-util": "^0.7.1",
-    "typescript": "2.6.2",
     "yargs": "^8.0.2"
   },
   "devDependencies": {

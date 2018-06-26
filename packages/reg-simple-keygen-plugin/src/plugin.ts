@@ -6,8 +6,8 @@ export interface PluginConfig {
 }
 
 export class SimpleKeygenPlugin implements KeyGeneratorPlugin<PluginConfig> {
-  _logger: PluginLogger;
-  _options: PluginConfig;
+  _logger!: PluginLogger;
+  _options!: PluginConfig;
   init(config: PluginCreateOptions<PluginConfig>): void {
     this._logger = config.logger;
     this._options = config.options;

@@ -39,8 +39,7 @@
   "dependencies": {
     "jsonwebtoken": "^7.4.1",
     "request": "^2.81.0",
-    "request-promise": "^4.2.1",
-    "typescript": "2.6.2"
+    "request-promise": "^4.2.1"
   },
   "ava": {
     "files": "lib/**/*.test.js"

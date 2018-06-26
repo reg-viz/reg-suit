@@ -10,8 +10,8 @@ import { CommitExplorer } from "./commit-explorer";
 class GitHashKeyGenPlugin implements KeyGeneratorPlugin<{ }> {
 
   private _explorer = new CommitExplorer();
-  private _expectedRev: string;
-  private _conf: PluginCreateOptions<{ }>;
+  private _expectedRev!: string;
+  private _conf!: PluginCreateOptions<{ }>;
 
   init(config: PluginCreateOptions<{ }>): void {
     this._conf = config;

@@ -32,7 +32,7 @@ const BUCKET_PREFIX = "reg-publish-bucket";
 
 export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, PluginConfig> {
   private _s3client = new S3();
-  _logger: PluginLogger;
+  _logger!: PluginLogger;
 
   inquire() {
     return [

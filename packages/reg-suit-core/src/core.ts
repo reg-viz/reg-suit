@@ -16,8 +16,8 @@ export class RegSuitCore {
 
   noEmit: boolean;
   logger: RegLogger;
-  _pluginManager: PluginManager;
   _configManager: ConfigManager;
+  _pluginManager!: PluginManager;
 
   constructor(opt: {
     logLevel?: LogLevel;

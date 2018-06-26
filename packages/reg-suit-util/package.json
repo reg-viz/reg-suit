@@ -25,7 +25,6 @@
   "dependencies": {
     "chalk": "^2.0.1",
     "cli-progress": "^1.4.1",
-    "cli-spinner": "^0.2.6",
-    "typescript": "2.6.2"
+    "cli-spinner": "^0.2.6"
   }
 }

@@ -42,8 +42,5 @@
     "reg-suit": "^0.7.2",
     "reg-suit-core": "^0.7.2",
     "typescript": "2.8.1"
-  },
-  "dependencies": {
-    "typescript": "2.6.2"
   }
 }
