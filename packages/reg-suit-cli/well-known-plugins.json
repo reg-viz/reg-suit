@@ -26,6 +26,11 @@
     "metadata": {}
   },
   {
+    "name": "reg-publish-gcs-plugin",
+    "description": "",
+    "metadata": {}
+  },
+  {
     "name": "reg-simple-keygen-plugin",
     "description": "Determine snapshot key with given values",
     "metadata": {}
