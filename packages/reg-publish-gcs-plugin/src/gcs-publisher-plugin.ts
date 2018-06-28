@@ -14,7 +14,6 @@ import {
 } from "reg-suit-interface";
 
 export interface PluginConfig {
-  projectId: string;
   bucketName: string;
   pattern?: string;
   acl?: string;
@@ -47,7 +46,7 @@ export class GcsPublisherPlugin implements PublisherPlugin<PluginConfig> {
   private _logger!: PluginLogger;
   private _options!: PluginCreateOptions<any>;
   private _pluginConfig!: PluginConfigInternal;
-  private _s3client!: Gcs.Storage;
+  private _gcsClient!: Gcs.Storage;
 
   constructor() {
   }
@@ -58,8 +57,8 @@ export class GcsPublisherPlugin implements PublisherPlugin<PluginConfig> {
       pattern: DEFAULT_PATTERN,
       ...config.options,
     };
-    this._s3client = Gcs({
-      projectId: this._pluginConfig.projectId,
+    this._gcsClient = Gcs({
+      // projectId: this._pluginConfig.projectId,
     });
     this._noEmit = config.noEmit;
     this._logger = config.logger;
@@ -111,7 +110,7 @@ export class GcsPublisherPlugin implements PublisherPlugin<PluginConfig> {
       while (isTruncated && loop < maxLoop) {
         let result: S3.ListObjectsOutput;
         try {
-          result = await this._listObjectsPromise(nextMarker, actualPrefix)
+          result = await this._listObjectsPromise(nextMarker, actualPrefix);
           let curContents = result.Contents || []
           if (curContents.length > 0) {
             nextMarker = curContents[curContents.length - 1].Key || ''
@@ -206,77 +205,23 @@ export class GcsPublisherPlugin implements PublisherPlugin<PluginConfig> {
   }
 
   private _publishItem(key: string, item: FileItem): Promise<FileItem> {
-    return this._s3client.bucket(this._pluginConfig.bucketName).upload(item.absPath, {
+    return this._gcsClient.bucket(this._pluginConfig.bucketName).upload(item.absPath, {
       destination: `${key}/${item.path}`,
       gzip: true,
     }).then(() => item);
-    // return new Promise((resolve, reject) => {
-    //   fs.readFile(item.absPath, (err, content) => {
-    //     if (err) return reject(err);
-    //     zlib.gzip(content, (err, data) => {
-    //       if (err) return reject(err);
-    //       // const req = {
-    //       //   Bucket: this._pluginConfig.bucketName,
-    //       //   Key: `${key}/${item.path}`,
-    //       //   Body: data,
-    //       //   ContentType: item.mimeType,
-    //       //   ContentEncoding: "gzip",
-    //       //   ACL: this._pluginConfig.acl || "public-read",
-    //       // } as S3.Types.PutObjectRequest;
-    //       // if (this._pluginConfig.sse) {
-    //       //   const sseVal = this._pluginConfig.sse;
-    //       //   req.ServerSideEncryption = typeof sseVal === "string" ? sseVal : "AES256";
-    //       // }
-    //       // this._s3client.putObject(req, (err, x) => {
-    //       //   if (err) return reject(err);
-    //       //   this._logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`,);
-    //       //   return resolve(item);
-    //       // });
-    //     });
-    //   });
-    // });
   }
 
   private _fetchItem(key: string, item: FileItem): Promise<FileItem> {
     mkdirp.sync(path.dirname(item.absPath));
     const s3Key = `${key}/${path.basename(this._options.workingDirs.actualDir)}/${item.path}`;
-    return this._s3client.bucket(this._pluginConfig.bucketName).file(s3Key).download({
+    return this._gcsClient.bucket(this._pluginConfig.bucketName).file(s3Key).download({
       destination: item.absPath,
+      validation: false,
     }).then(() => item);
-    // return new Promise((resolve, reject) => {
-    //   this._s3client.getObject({
-    //     Bucket: this._pluginConfig.bucketName,
-    //     Key: `${s3Key}`,
-    //   }, (err, x) => {
-    //     if (err) {
-    //       return reject(err);
-    //     }
-    //     mkdirp.sync(path.dirname(item.absPath));
-    //     this._gunzipIfNeed(x, (err, content) => {
-    //       fs.writeFile(item.absPath, content, (err) => {
-    //         if (err) {
-    //           return reject(err);
-    //         }
-    //         this._logger.verbose(`Downloaded from ${s3Key} to ${item.absPath}`);
-    //         resolve(item);
-    //       });
-    //     });
-    //   });
-    // });
   }
 
-  // private _gunzipIfNeed(output: S3.GetObjectOutput, cb: (err: any, data: Buffer) => any) {
-  //   if (output.ContentEncoding === "gzip") {
-  //     zlib.gunzip(output.Body as Buffer, (err, content) => {
-  //       cb(err, content);
-  //     });
-  //   } else {
-  //     cb(null, output.Body as Buffer);
-  //   }
-  // }
-
   private _listObjectsPromise(lastKey: string, prefix: string): Promise<S3.ListObjectsOutput> {
-    return this._s3client.bucket(this._pluginConfig.bucketName).getFiles({
+    return this._gcsClient.bucket(this._pluginConfig.bucketName).getFiles({
       prefix,
       maxResults: 1000,
       pageToken: lastKey,
@@ -290,28 +235,5 @@ export class GcsPublisherPlugin implements PublisherPlugin<PluginConfig> {
         })
       } as S3.ListObjectsOutput
     });
-    // interface S3ListObjectsOptions {
-    //   Bucket: string;
-    //   Prefix: string;
-    //   MaxKeys: number;
-    //   Marker?: string;
-    // }
-    // let options: S3ListObjectsOptions = {
-    //   Bucket: this._pluginConfig.bucketName,
-    //   Prefix: prefix,
-    //   MaxKeys: 1000,
-    // }
-    // if (lastKey) {
-    //     options.Marker = lastKey
-    // }
-
-    // return new Promise<S3.ListObjectsOutput>((resolve, reject) => {
-    //   this._s3client.listObjects(options, async (err, result: S3.ListObjectsOutput) => {
-    //     if (err) {
-    //       reject(err)
-    //     }
-    //     resolve(result)
-    //   })
-    // })
   }
 }
