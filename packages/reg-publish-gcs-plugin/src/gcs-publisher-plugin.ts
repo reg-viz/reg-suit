@@ -16,8 +16,8 @@ import {
 export interface PluginConfig {
   bucketName: string;
   pattern?: string;
-  acl?: string;
-  sse?: boolean | string;
+  // acl?: string;
+  // sse?: boolean | string;
   pathPrefix?: string;
 }
 
