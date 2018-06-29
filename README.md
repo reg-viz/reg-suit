@@ -5,7 +5,7 @@
 
 **reg-suit** is a command line interface for visual regression testing.
 - *Compare Images* - reg-suit is inspired by snapshot testing. It compares the current images with the previous images, creates an HTML report for their differences. All you need is to give images to assert.
-- *Store Snapshots* - reg-suit automatically stores snapshot images to external cloud storage(e.g. AWS S3). You can review result of comparison and differences at any time you want.
+- *Store Snapshots* - reg-suit automatically stores snapshot images to external cloud storage(e.g. AWS S3, Google Cloud Storage). You can review result of comparison and differences at any time you want.
 - *Work Everywhere* - reg-suit is a just CLI. So it's easy to integrate with your project. It works at any CI services and even your local machine.
 
 ## Getting Started
@@ -33,6 +33,7 @@ The following plugins are available:
 - [reg-keygen-git-hash-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-keygen-git-hash-plugin/README.md) - *key-generator plugin* - This plugin provides functions to identify "what commit hash should I compare to" walking git branch graph.
 - [reg-simple-keygen-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-simple-keygen-plugin/README.md) - *key-generator plugin* - This plugin allows to use arbitrary string as the snapshot key.
 - [reg-publish-s3-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-publish-s3-plugin/README.md) - *publisher plugin* - This plugin fetches the previous snapshot images from S3 bucket and these fetched snapshots are used as expected images in comparison. After the comparison, this plugin pushes the current(the actual) snapshot images and the report of the comparison result.
+- [reg-publish-gcs-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-publish-gcs-plugin/README.md) - *publisher plugin* - An alternative publisher plugin. It's so similar to S3 plugin but this uses Google Cloud Storage instead of S3.
 - [reg-notify-github-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-github-plugin/README.md) - *notifier plugin* - This plugin integrates reg-suit and it's [GitHub app](https://github.com/apps/reg-suit). Installing these plugin and app, you can receive reg-suit result via GitHub commit status and PR comment.
 - [reg-notify-slack-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-slack-plugin/README.md) - *notifier plugin* - This plugin notifies reg-suit result to your Slack channel using incoming Webhook.
 

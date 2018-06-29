@@ -4,6 +4,7 @@ defaults: &defaults
     - image: quramy/node-nightmare
       environment:
         DISPLAY: ":99"
+        GOOGLE_APPLICATION_CREDENTIALS: "/root/gcloud-service-key.json"
 
 version: 2
 jobs:
@@ -12,8 +13,19 @@ jobs:
     steps:
       - checkout
       - run:
+          name: setup GCP
+          command: echo $GCLOUD_SERVICE_KEY > /root/gcloud-service-key.json
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
+      - run:
           name: Install dependencies
-          command: yarn
+          command: yarn --pure-lockfile
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
       - run:
           name: Bootstrap packages
           command: yarn run bootstrap
@@ -39,9 +51,13 @@ jobs:
           fingerprints:
             - "9b:4a:d1:c6:ff:b7:49:b7:b7:bf:24:fb:b1:1e:bc:a6"
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
       - run:
           name: Install dependencies
-          command: yarn
+          command: yarn --pure-lockfile
       - run:
           name: Bootstrap packages
           command: yarn run bootstrap
@@ -72,9 +88,13 @@ jobs:
           fingerprints:
             - "9b:4a:d1:c6:ff:b7:49:b7:b7:bf:24:fb:b1:1e:bc:a6"
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
       - run:
           name: Install dependencies
-          command: yarn
+          command: yarn --pure-lockfile
       - run:
           name: Bootstrap packages
           command: yarn run bootstrap
@@ -113,9 +133,13 @@ jobs:
             git config --global user.email "yosuke.kurami@gmail.com"
             git config --global user.name "Quramy"
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
       - run:
           name: Install dependencies
-          command: yarn
+          command: yarn --pure-lockfile
       - run:
           name: Bootstrap packages
           command: yarn run bootstrap
