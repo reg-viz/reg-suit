@@ -4,7 +4,7 @@ defaults: &defaults
     - image: quramy/node-nightmare
       environment:
         DISPLAY: ":99"
-        GOOGLE_APPLICATION_CREDENTIALS: "${HOME}/gcloud-service-key.json"
+        GOOGLE_APPLICATION_CREDENTIALS: "/root/gcloud-service-key.json"
 
 version: 2
 jobs:
@@ -14,9 +14,7 @@ jobs:
       - checkout
       - run:
           name: setup GCP
-          command: |
-            echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
-            ls -l ${HOME}
+          command: echo $GCLOUD_SERVICE_KEY > /root/gcloud-service-key.json
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "yarn.lock" }}
