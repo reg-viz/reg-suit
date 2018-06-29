@@ -1,6 +1,6 @@
 {
   "name": "reg-notify-github-plugin",
-  "version": "0.7.2",
+  "version": "0.7.5",
   "description": "Notify reg-suit result to GitHub repository",
   "regSuitPlugin": {
     "recommended": true
@@ -24,13 +24,13 @@
   "devDependencies": {
     "@types/request-promise": "^4.1.35",
     "ava": "^0.20.0",
-    "reg-gh-app-interface": "^0.7.2",
-    "reg-suit-interface": "^0.7.1",
+    "reg-gh-app-interface": "^0.7.5",
+    "reg-suit-interface": "^0.7.5",
     "typescript": "2.8.1"
   },
   "dependencies": {
     "open": "^0.0.5",
-    "reg-suit-util": "^0.7.1",
+    "reg-suit-util": "^0.7.5",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "tiny-commit-walker": "^1.1.2"

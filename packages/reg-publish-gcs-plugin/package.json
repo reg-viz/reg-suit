@@ -32,8 +32,8 @@
     "@types/mime-types": "^2.1.0",
     "@types/mkdirp": "^0.3.29",
     "@types/uuid": "^3.0.0",
-    "reg-suit-interface": "^0.7.1",
-    "reg-suit-util": "^0.7.1",
+    "reg-suit-interface": "^0.7.5",
+    "reg-suit-util": "^0.7.5",
     "typescript": "2.8.1"
   }
 }

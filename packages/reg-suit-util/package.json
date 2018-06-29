@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-util",
-  "version": "0.7.1",
+  "version": "0.7.5",
   "description": "",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/chalk": "^0.4.31",
-    "reg-suit-interface": "^0.7.1",
+    "reg-suit-interface": "^0.7.5",
     "typescript": "2.8.1"
   },
   "dependencies": {
