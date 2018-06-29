@@ -27,7 +27,7 @@
   },
   {
     "name": "reg-publish-gcs-plugin",
-    "description": "",
+    "description": "Fetch and publish snapshot images to Google Cloud Storage.",
     "metadata": {}
   },
   {
