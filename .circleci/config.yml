@@ -14,7 +14,9 @@ jobs:
       - checkout
       - run:
           name: setup GCP
-          command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+          command: |
+            echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+            ls -l ${HOME}
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "yarn.lock" }}
