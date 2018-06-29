@@ -16,9 +16,9 @@ jobs:
           name: setup GCP
           command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
       - restore_cache:
-        keys:
-          - v1-dependencies-{{ checksum "yarn.lock" }}
-          - v1-dependencies-
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
       - run:
           name: Install dependencies
           command: yarn --pure-lockfile
@@ -52,9 +52,9 @@ jobs:
             - "9b:4a:d1:c6:ff:b7:49:b7:b7:bf:24:fb:b1:1e:bc:a6"
       - checkout
       - restore_cache:
-        keys:
-          - v1-dependencies-{{ checksum "yarn.lock" }}
-          - v1-dependencies-
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
       - run:
           name: Install dependencies
           command: yarn --pure-lockfile
@@ -89,9 +89,9 @@ jobs:
             - "9b:4a:d1:c6:ff:b7:49:b7:b7:bf:24:fb:b1:1e:bc:a6"
       - checkout
       - restore_cache:
-        keys:
-          - v1-dependencies-{{ checksum "yarn.lock" }}
-          - v1-dependencies-
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
       - run:
           name: Install dependencies
           command: yarn --pure-lockfile
@@ -134,9 +134,9 @@ jobs:
             git config --global user.name "Quramy"
       - checkout
       - restore_cache:
-        keys:
-          - v1-dependencies-{{ checksum "yarn.lock" }}
-          - v1-dependencies-
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
       - run:
           name: Install dependencies
           command: yarn --pure-lockfile
