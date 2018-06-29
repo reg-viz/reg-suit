@@ -47,7 +47,10 @@ async function case1() {
       },
       workingDirs: dirsA,
     });
-    await plugin.publish("abcdef12345");
+    const { reportUrl } = await plugin.publish("abcdef12345");
+    if (!reportUrl) {
+      throw new Error("no report url");
+    }
 
     plugin.init({
       ...baseConf,
@@ -60,7 +63,8 @@ async function case1() {
 
     const list = glob.sync("dir_b/sample01.png", { cwd: dirsB.base });
     assert.equal(list[0], "dir_b/sample01.png");
-    // await after(bucketName);
+    logger.info(reportUrl);
+    await after(bucketName);
   } catch (e) {
     await after(bucketName);
     throw e;

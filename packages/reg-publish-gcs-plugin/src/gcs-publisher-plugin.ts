@@ -186,7 +186,7 @@ export class GcsPublisherPlugin implements PublisherPlugin<PluginConfig> {
       })
       .then(items => {
         const indexFile = items.find(item => item.path.endsWith("index.html"));
-        const reportUrl = indexFile && `https://${this._pluginConfig.bucketName}.s3.amazonaws.com/${this._getPrefix(key)}/${indexFile.path}`;
+        const reportUrl = indexFile && `https://storage.googleapis.com/${this._pluginConfig.bucketName}/${this._getPrefix(key)}/${indexFile.path}`;
         return { reportUrl, items };
       })
       .then(result => {

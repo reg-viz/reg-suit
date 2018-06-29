@@ -12,6 +12,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: setup GCP
+          command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+      - run:
           name: Install dependencies
           command: yarn
       - run:

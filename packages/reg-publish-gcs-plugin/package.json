@@ -1,7 +1,7 @@
 {
   "name": "reg-publish-gcs-plugin",
-  "version": "0.7.4",
-  "description": "",
+  "version": "0.7.5",
+  "description": "Fetch and publish snapshot images to Google Cloud Storage.",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "tsc -p src/tsconfig.build.json",

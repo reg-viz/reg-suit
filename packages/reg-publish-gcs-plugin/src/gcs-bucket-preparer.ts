@@ -60,9 +60,9 @@ export class GcsBucketPreparer implements PluginPreparer<SetupInquireResult, Plu
       const spinner = this._logger.getSpinner(`creating bucket...`);
       spinner.start();
       return this._createBucket(bucketName)
-        .then(bucketName => {
+        .then(bucket => {
           spinner.stop();
-          return { bucketName };
+          return { bucketName: bucket.name };
         })
       ;
     }
@@ -70,14 +70,14 @@ export class GcsBucketPreparer implements PluginPreparer<SetupInquireResult, Plu
 
   async _createBucket(bucketName: string) {
     const bucket = Gcs().bucket(bucketName);
-    await bucket.create();
-    // await bucket.iam.setPolicy({
-    //   bindings: [{
-    //     members: ["allUsers"],
-    //     role: "roles/storage.objectViewer",
-    //   }]
-    // });
-    return bucketName;
+    await bucket.create({
+      coldline: true,
+    });
+    await bucket.acl.default.add({
+      entity: "allUsers",
+      role: "READER",
+    });
+    return bucket;
   }
 
 }
