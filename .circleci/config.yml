@@ -4,6 +4,7 @@ defaults: &defaults
     - image: quramy/node-nightmare
       environment:
         DISPLAY: ":99"
+        GOOGLE_APPLICATION_CREDENTIALS: "${HOME}/gcloud-service-key.json"
 
 version: 2
 jobs:
