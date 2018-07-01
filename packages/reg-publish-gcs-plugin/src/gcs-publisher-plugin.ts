@@ -32,14 +32,13 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
     this._gcsClient = Gcs();
   }
 
-  publish(key: string) {
-    return this.publishInteral(key).then(({ indexFile }) => {
-      const reportUrl = indexFile && `https://storage.googleapis.com/${this.getBucketName()}/${this.resolveInBucket(key)}/${indexFile.path}`;
-      return { reportUrl };
-    });
+  async publish(key: string) {
+    const { indexFile } = await this.publishInteral(key);
+    const reportUrl = indexFile && `https://storage.googleapis.com/${this.getBucketName()}/${this.resolveInBucket(key)}/${indexFile.path}`;
+    return { reportUrl };
   }
 
-  fetch(key: string) {
+  async fetch(key: string) {
     return this.fetchInternal(key);
   }
 
@@ -64,6 +63,7 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
       destination: `${key}/${item.path}`,
       gzip: true,
     });
+    this.logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`,);
     return item;
   }
 
@@ -73,6 +73,7 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
       destination: item.absPath,
       validation: false,
     });
+    this.logger.verbose(`Downloaded from ${remotePath} to ${item.absPath}`);
     return item;
   }
 

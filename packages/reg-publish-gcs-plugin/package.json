@@ -24,17 +24,15 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/storage": "^1.7.0",
+    "mkdirp": "^0.5.1",
     "reg-suit-util": "^0.7.5",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
     "@types/google-cloud__storage": "^1.1.7",
-    "@types/lodash": "^4.14.66",
-    "@types/mime-types": "^2.1.0",
     "@types/mkdirp": "^0.3.29",
     "@types/uuid": "^3.0.0",
     "glob": "^7.1.2",
-    "mkdirp": "^0.5.1",
     "reg-suit-interface": "^0.7.5",
     "typescript": "2.8.1"
   }
