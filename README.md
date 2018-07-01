@@ -246,7 +246,11 @@ yarn run bootstrap
 yarn run test
 ```
 
-*Remarks* - `reg-publish-s3-plugin` testing access to AWS S3 and it needs AWS credentials.
+*Remarks*
+
+- `reg-publish-s3-plugin` testing access to AWS S3 and it needs AWS credentials.
+- `reg-publish-gcs-plugin` testing access to Google Cloud Platform. You should `gcloud auth login` before testing it.
+
 
 ## License
 MIT. See LICENSE.txt.
