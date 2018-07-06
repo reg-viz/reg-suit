@@ -21,12 +21,16 @@ npm i reg-simple-keygen-plugin -D
 
 ## Example
 ### Using environment values
-Using reg-suit's [replacing environment values feature](https://github.com/reg-viz/reg-suit/blob/master/README.md#embed-environment-values), you can use Git commit sha1 hashes provided with CI service. The following example allows reg-suit to compare HEAD of the master branch with the PR's commit.
+Using reg-suit's [replacing environment values feature](https://github.com/reg-viz/reg-suit/blob/master/README.md#embed-environment-values), you can use Git commit sha1 hashes provided with CI service. The following example allows reg-suit to compare against the merge-base point on the master branch.
 
 ```yml
 # .travis.yml
 script:
-  - export EXPECTED_KEY=$(git rev-parse origin/master)
+  # Find the merge-base commit between the master branch and the parent of the
+  # current commit. That way it will find the correct commit to compare against
+  # both when on a branch, or when running this on master itself (in which case
+  # it will use the commit's parent commit).
+  - export EXPECTED_KEY=$(git merge-base origin/master HEAD^1)
   - export ACTUAL_KEY=$TRAVIS_COMMIT # set by TravisCI
   - reg-suit run
 ```
