@@ -3,6 +3,7 @@ lib/**/*.test.js
 lib/**/*.spec.js
 lib/**/*.test.d.ts
 lib/**/*.spec.d.ts
+lib/testing/**/*
 src/
 test/
 e2e/
