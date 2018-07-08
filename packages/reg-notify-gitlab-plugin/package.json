@@ -1,0 +1,24 @@
+{
+  "name": "reg-notify-gitlab-plugin",
+  "version": "0.7.5",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo T.B.D.",
+    "prepublish": "tsc -p src/tsconfig.build.json"
+  },
+  "keywords": [
+    "reg"
+  ],
+  "author": {
+    "name": "Quramy",
+    "email": "yosuke.kurami@gmail.com"
+  },
+  "repository": "git+https://github.com/reg-viz/reg-suit.git",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "2.8.1"
+  },
+  "dependencies": {
+  }
+}
