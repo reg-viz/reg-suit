@@ -10,9 +10,10 @@ const projectId = process.env["GITLAB_PROJECT_ID"] as string;
 const token = process.env["GITLAB_ACCESS_TOKEN"] as string;
 
 function showUsage() {
+  // tslint:disable:no-console
   console.log(`
   Usage:
-  ${process.argv[1]} <fixture_name> <merge_request_id> 
+  ${process.argv[1]} <fixture_name> <merge_request_id>
   or
   ${process.argv[1]} <fixture_name> <merge_request_id> true
 
@@ -41,6 +42,7 @@ function write<T>(data: T , methodName: string) {
 
 async function main() {
   if (!projectId || !token) {
+    // tslint:disable:no-console
     console.error("set env value GITLAB_PROJECT_ID and GITLAB_ACCESS_TOKEN.");
     process.exit(1);
     return;
