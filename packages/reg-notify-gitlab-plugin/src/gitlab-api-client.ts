@@ -61,7 +61,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
   getMergeRequests(params: GetMergeRequestsParams): Promise<MergeRequestResource[]> {
     const reqParam: rp.OptionsWithUrl = {
       method: "GET",
-      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests`,
+      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests?state=opened`,
       json: true,
       headers: {
         "Private-Token": this._token,
