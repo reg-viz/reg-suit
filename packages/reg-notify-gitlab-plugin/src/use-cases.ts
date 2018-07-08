@@ -32,7 +32,7 @@ export async function commentToMergeRequests({ noEmit, logger, client, notifyPar
     const commitsList = await Promise.all(
       mrList.map(
         async mr => {
-          const commits = await client.getMergeRequestCommits({ project_id: +projectId, merge_request_iid: mr.id });
+          const commits = await client.getMergeRequestCommits({ project_id: +projectId, merge_request_iid: mr.iid });
           return { mr, commits };
         }
       )
@@ -45,7 +45,7 @@ export async function commentToMergeRequests({ noEmit, logger, client, notifyPar
     }
 
     await Promise.all(targetMrs.map(async ({ mr, commits }) => {
-      const notes = await client.getMergeRequestNotes({ project_id: +projectId, merge_request_iid: mr.id });
+      const notes = await client.getMergeRequestNotes({ project_id: +projectId, merge_request_iid: mr.iid });
       const commentedNote = notes.find(note => note.body.startsWith(COMMENT_MARK));
       const spinner = logger.getSpinner("commenting merge request" + logger.colors.magenta(mr.web_url));
       spinner.start();
@@ -54,7 +54,7 @@ export async function commentToMergeRequests({ noEmit, logger, client, notifyPar
           if (!noEmit) {
             await client.postMergeRequestNote({
               project_id: +projectId,
-              merge_request_iid: mr.id,
+              merge_request_iid: mr.iid,
               body: createNoteBody(notifyParams),
             });
           }
@@ -62,7 +62,7 @@ export async function commentToMergeRequests({ noEmit, logger, client, notifyPar
           if (!noEmit) {
             await client.putMergeRequestNote({
               project_id: +projectId,
-              merge_request_iid: mr.id,
+              merge_request_iid: mr.iid,
               note_id: commentedNote.id,
               body: createNoteBody(notifyParams),
             });

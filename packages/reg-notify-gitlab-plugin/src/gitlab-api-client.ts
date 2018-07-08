@@ -4,7 +4,7 @@ export type NoteIdType = number;
 import * as rp from "request-promise";
 
 export type MergeRequestResource = {
-  id: MergeResuestIidType;
+  iid: MergeResuestIidType;
   web_url: string;
 };
 

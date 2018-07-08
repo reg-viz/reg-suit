@@ -45,6 +45,7 @@ test("add comment to MR when the MR does not have this notifiers comment", async
   const client = new GitLabFixtureClient("base-no-marked-comment");
   const logger = new RegLogger();
   const getMergeRequestsSpy = sinon.spy(client, "getMergeRequests");
+  const getMergeRequestCommitsSpy = sinon.spy(client, "getMergeRequestCommits");
   const postMergeRequestNoteSpy = sinon.spy(client, "postMergeRequestNote");
   const putMergeRequestNoteSpy = sinon.spy(client, "putMergeRequestNote");
   await commentToMergeRequests({
@@ -58,6 +59,7 @@ test("add comment to MR when the MR does not have this notifiers comment", async
     },
   });
   t.truthy(getMergeRequestsSpy.called);
+  t.deepEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
   t.truthy(postMergeRequestNoteSpy.called);
   t.falsy(putMergeRequestNoteSpy.called);
 });
@@ -66,6 +68,7 @@ test("add comment to MR when the MR already has note this notifiers comment", as
   const client = new GitLabFixtureClient("base-fulfilled");
   const logger = new RegLogger();
   const getMergeRequestsSpy = sinon.spy(client, "getMergeRequests");
+  const getMergeRequestCommitsSpy = sinon.spy(client, "getMergeRequestCommits");
   const postMergeRequestNoteSpy = sinon.spy(client, "postMergeRequestNote");
   const putMergeRequestNoteSpy = sinon.spy(client, "putMergeRequestNote");
   await commentToMergeRequests({
@@ -79,6 +82,7 @@ test("add comment to MR when the MR already has note this notifiers comment", as
     },
   });
   t.truthy(getMergeRequestsSpy.called);
+  t.deepEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
   t.falsy(postMergeRequestNoteSpy.called);
   t.truthy(putMergeRequestNoteSpy.called);
 });
