@@ -21,6 +21,11 @@
     }
   },
   {
+    "name": "reg-notify-gitlab-plugin",
+    "description": "Notify reg-suit result to GitLab repository",
+    "metadata": {}
+  },
+  {
     "name": "reg-notify-slack-plugin",
     "description": "Notify reg-suit result to Slack channel.",
     "metadata": {}

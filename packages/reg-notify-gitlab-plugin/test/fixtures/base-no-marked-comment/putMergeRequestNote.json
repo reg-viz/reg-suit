@@ -1,0 +1,21 @@
+{
+  "id": 86700010,
+  "type": null,
+  "body": "<!-- reg-notify-gitlab-plugin posted -->\nupdated",
+  "attachment": null,
+  "author": {
+    "id": 1839429,
+    "name": "Yosuke Kurami",
+    "username": "Quramy",
+    "state": "active",
+    "avatar_url": "https://secure.gravatar.com/avatar/893f54413c2bd9ba41d11d753aacaf2c?s=80&d=identicon",
+    "web_url": "https://gitlab.com/Quramy"
+  },
+  "created_at": "2018-07-08T13:52:09.417Z",
+  "updated_at": "2018-07-08T13:52:10.540Z",
+  "system": false,
+  "noteable_id": 13813091,
+  "noteable_type": "MergeRequest",
+  "resolvable": false,
+  "noteable_iid": 1
+}

@@ -7,7 +7,7 @@
     "test": "echo \"T.B.D.\""
   },
   "dependencies": {
-    "reg-notify-github-plugin": "^0.7.5",
+    "reg-notify-gitlab-plugin": "^0.7.5",
     "reg-notify-slack-plugin": "^0.7.5",
     "reg-publish-gcs-plugin": "^0.7.5",
     "reg-simple-keygen-plugin": "^0.7.5",
