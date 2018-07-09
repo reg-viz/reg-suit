@@ -15,13 +15,13 @@ reg-suit prepare -p notify-gitlab
 ```ts
 {
   projectId: string;
-  privateToekn: string;
+  privateToken: string;
   gitlabUrl?: string;
 }
 ```
 
 - `projectId` - *Required* - Your GitLab project id. You can get this id via `https://gitlab.com/<your-name>/<your-project-name/edit>` page.
-- `privateToekn` - *Required* - Your GitLab API token. If you want more detail, see [Personal access tokens doc](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
+- `privateToken` - *Required* - Your GitLab API token. If you want more detail, see [Personal access tokens doc](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
 - `gitlabUrl` - *Optional* - Set if you host your GitLab instance. Default: `https://gitlab.com`
 
 ### Auto complete on GitLab CI
