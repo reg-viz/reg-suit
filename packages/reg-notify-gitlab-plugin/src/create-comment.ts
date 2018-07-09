@@ -24,10 +24,10 @@ export function createCommentBody(eventBody: CommentSeed) {
       lines.push(`Check [this report](${eventBody.reportUrl}), and review them.`);
       lines.push("");
     }
-    lines.push(new Array(eventBody.failedItemsCount + 1).join(":red_circle:"));
-    lines.push(new Array(eventBody.newItemsCount + 1).join(":white_circle:"));
-    lines.push(new Array(eventBody.deletedItemsCount + 1).join(":black_circle:"));
-    lines.push(new Array(eventBody.passedItemsCount + 1).join(":large_blue_circle:"));
+    lines.push(new Array(eventBody.failedItemsCount + 1).join(":red_circle: "));
+    lines.push(new Array(eventBody.newItemsCount + 1).join(":white_circle: "));
+    lines.push(new Array(eventBody.deletedItemsCount + 1).join(":black_circle: "));
+    lines.push(new Array(eventBody.passedItemsCount + 1).join(":large_blue_circle: "));
     lines.push("");
     lines.push(`<details>
                   <summary>What balls mean?</summary>
