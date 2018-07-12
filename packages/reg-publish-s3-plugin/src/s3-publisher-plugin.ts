@@ -12,6 +12,7 @@ export interface PluginConfig {
   pattern?: string;
   acl?: string;
   sse?: boolean | string;
+  customDomain?: string;
   pathPrefix?: string;
 }
 
@@ -38,13 +39,21 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
 
   publish(key: string) {
     return this.publishInteral(key).then(({ indexFile }) => {
-      const reportUrl = indexFile && `https://${this._pluginConfig.bucketName}.s3.amazonaws.com/${this.resolveInBucket(key)}/${indexFile.path}`;
+      const reportUrl = indexFile && `https://${this.getBucketDomain()}/${this.resolveInBucket(key)}/${indexFile.path}`;
       return { reportUrl };
     });
   }
 
   fetch(key: string): Promise<any> {
     return this.fetchInternal(key);
+  }
+
+  protected getBucketDomain() {
+    if (this._pluginConfig.customDomain) {
+      return this._pluginConfig.customDomain;
+    } else {
+      return `${this._pluginConfig.bucketName}.s3.amazonaws.com`;
+    }
   }
 
   protected getBucketRootDir(): string | undefined {
