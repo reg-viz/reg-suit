@@ -5,6 +5,7 @@ import * as rp from "request-promise";
 
 export type MergeRequestResource = {
   iid: MergeResuestIidType;
+  description: string;
   web_url: string;
 };
 
@@ -20,6 +21,12 @@ export type NoteResouce = {
 export type GetMergeRequestsParams = {
   project_id: ProjectIdType;
 }
+
+export type PutMergeRequestParams = {
+  project_id: ProjectIdType;
+  iid: MergeResuestIidType;
+  description?: string;
+};
 
 export type GetMergeRequestCommitsParams = {
   project_id: ProjectIdType;
@@ -46,6 +53,7 @@ export type PutMergeRequestNoteParams = {
 
 export interface GitLabApiClient {
   getMergeRequests(params: GetMergeRequestsParams): Promise<MergeRequestResource[]>;
+  putMergeRequest(params: PutMergeRequestParams): Promise<MergeRequestResource>;
   getMergeRequestCommits(params: GetMergeRequestCommitsParams): Promise<CommitResource[]>;
   getMergeRequestNotes(params: GetMergeRequestNotesParams): Promise<NoteResouce[]>;
   postMergeRequestNote(params: PostMergeRequestNoteParams): Promise<NoteResouce>;
@@ -68,6 +76,19 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
       }
     };
     return (rp(reqParam) as any) as Promise<MergeRequestResource[]>;
+  }
+
+  putMergeRequest(params: PutMergeRequestParams): Promise<MergeRequestResource> {
+    const reqParam: rp.OptionsWithUrl = {
+      method: "PUT",
+      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_request/${params.iid}`,
+      json: true,
+      headers: {
+        "Private-Token": this._token,
+      },
+      body: params,
+    };
+    return (rp(reqParam) as any) as Promise<MergeRequestResource>;
   }
 
   getMergeRequestCommits(params: GetMergeRequestCommitsParams): Promise<CommitResource[]> {

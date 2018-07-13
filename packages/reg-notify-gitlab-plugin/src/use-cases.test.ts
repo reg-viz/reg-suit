@@ -3,7 +3,8 @@ import * as sinon from "sinon";
 import { ComparisonResult } from "reg-suit-interface";
 import { RegLogger } from "reg-suit-util";
 import { GitLabFixtureClient } from "./testing/gitlab-fixture-client";
-import { commentToMergeRequests } from "./use-cases";
+import { commentToMergeRequests, appendOrUpdateMergerequestsBody, DESC_BODY_START_MARK, DESC_BODY_END_MARK } from "./use-cases";
+import { PutMergeRequestParams } from "./gitlab-api-client";
 
 function createComparisonResult() {
   return { 
@@ -86,3 +87,29 @@ test("add comment to MR when the MR already has note this notifiers comment", as
   t.falsy(postMergeRequestNoteSpy.called);
   t.truthy(putMergeRequestNoteSpy.called);
 });
+
+test("modify description of MR", async t => {
+  const client = new GitLabFixtureClient("base-fulfilled");
+  const logger = new RegLogger();
+  const getMergeRequestsSpy = sinon.spy(client, "getMergeRequests");
+  const putMergeRequestSpy = sinon.spy(client, "putMergeRequest");
+  await appendOrUpdateMergerequestsBody({
+    noEmit: false,
+    client, logger,
+    projectId: "1234",
+    notifyParams: {
+      actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
+      expectedKey: "EXPECTED",
+      comparisonResult: createComparisonResult(),
+    },
+  });
+  t.truthy(getMergeRequestsSpy.called);
+  t.truthy(putMergeRequestSpy.called);
+  const { description } = putMergeRequestSpy.firstCall.args[0] as PutMergeRequestParams
+  if (!description) {
+    t.fail();
+    return
+  }
+  t.truthy(description.indexOf(DESC_BODY_START_MARK) !== -1)
+  t.truthy(description.indexOf(DESC_BODY_END_MARK) !== -1)
+})
