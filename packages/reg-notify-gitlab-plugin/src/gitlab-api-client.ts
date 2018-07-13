@@ -81,7 +81,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
   putMergeRequest(params: PutMergeRequestParams): Promise<MergeRequestResource> {
     const reqParam: rp.OptionsWithUrl = {
       method: "PUT",
-      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_request/${params.iid}`,
+      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.iid}`,
       json: true,
       headers: {
         "Private-Token": this._token,
