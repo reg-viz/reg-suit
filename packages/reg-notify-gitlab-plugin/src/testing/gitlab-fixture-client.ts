@@ -19,6 +19,9 @@ export class GitLabFixtureClient implements GitLabApiClient {
   getMergeRequests(params: { project_id: number; }): Promise<MergeRequestResource[]> {
     return this.loadFixtue<MergeRequestResource[]>("getMergeRequests");
   }
+  putMergeRequest(params: { project_id: number; iid: number; }): Promise<MergeRequestResource> {
+    return this.loadFixtue<MergeRequestResource>("putMergeRequest");
+  }
   getMergeRequestCommits(params: { project_id: number; merge_request_iid: number; }): Promise<CommitResource[]> {
     return this.loadFixtue<CommitResource[]>("getMergeRequestCommits");
   }

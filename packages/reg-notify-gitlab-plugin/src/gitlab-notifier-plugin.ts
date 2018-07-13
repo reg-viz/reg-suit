@@ -5,13 +5,14 @@ import {
   PluginLogger,
 } from "reg-suit-interface";
 import { parse } from "url";
-import { commentToMergeRequests } from "./use-cases";
+import { commentToMergeRequests, appendOrUpdateMergerequestsBody } from "./use-cases";
 import { DefaultGitLabApiClient } from "./gitlab-api-client";
 
 export interface GitLabPluginOption {
   gitlabUrl?: string;
   projectId?: string;
   privateToken: string;
+  commentTo?: "note" | "description";
 }
 
 export class GitLabNotifierPlugin implements NotifierPlugin<GitLabPluginOption> {
@@ -22,11 +23,13 @@ export class GitLabNotifierPlugin implements NotifierPlugin<GitLabPluginOption> 
   private _gitlabUrl!: string;
   private _projectId!: string | undefined;
   private _token!: string | undefined;
+  private _commentTo: "note" | "description" = "note";
 
   init(config: PluginCreateOptions<GitLabPluginOption>) {
     this._noEmit = config.noEmit;
     this._logger = config.logger;
     this._token = config.options.privateToken;
+    this._commentTo = config.options.commentTo || "note";
 
     const ciProjectUrl = process.env["CI_PROJECT_URL"];
     if (ciProjectUrl && !config.options.gitlabUrl) {
@@ -57,12 +60,22 @@ export class GitLabNotifierPlugin implements NotifierPlugin<GitLabPluginOption> 
       return;
     }
     const client = new DefaultGitLabApiClient(this._gitlabUrl, this._token);
-    await commentToMergeRequests({
-      noEmit: this._noEmit,
-      logger: this._logger,
-      client,
-      notifyParams: params,
-      projectId: this._projectId,
-    });
+    if (this._commentTo === "description") {
+      await appendOrUpdateMergerequestsBody({
+        noEmit: this._noEmit,
+        logger: this._logger,
+        client,
+        notifyParams: params,
+        projectId: this._projectId,
+      });
+    } else {
+      await commentToMergeRequests({
+        noEmit: this._noEmit,
+        logger: this._logger,
+        client,
+        notifyParams: params,
+        projectId: this._projectId,
+      });
+    }
   }
 }
