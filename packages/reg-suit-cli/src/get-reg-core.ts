@@ -15,11 +15,13 @@ function getRegCore(options: CliOptions, ignoreCache = false) {
     core = new CoreFactory({
       logLevel: options.logLevel,
       noEmit: options.noEmit,
+      configFileName: options.configFileName,
     });
   } else {
     core = new RegSuitCore({
       logLevel: options.logLevel,
       noEmit: options.noEmit,
+      configFileName: options.configFileName,
     });
   }
   _coreInstanceForCache = core;
