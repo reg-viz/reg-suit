@@ -173,10 +173,10 @@ export class RegProcessor {
     if (this._publisher && keyForExpected) {
       return this._publisher.fetch(keyForExpected);
     } else if (!keyForExpected) {
-      this._logger.info("Skipped to fetch the expeceted data because expected key is null.");
+      this._logger.info("Skipped to fetch the expected data because expected key is null.");
       return Promise.resolve(ctx);
     } else if (!this._publisher) {
-      this._logger.info("Skipped to fetch the expeceted data because publisher plugin is not set up.");
+      this._logger.info("Skipped to fetch the expected data because publisher plugin is not set up.");
       return Promise.resolve(ctx);
     } else {
       return Promise.resolve(ctx);
