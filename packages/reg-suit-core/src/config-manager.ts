@@ -78,7 +78,7 @@ export class ConfigManager {
     const defaultCoreConfig = {
       workingDir: ".reg",
       actualDir: "directory_contains_actual_images",
-      threshold: 0,
+      thresholdRate: 0,
     } as CoreConfig;
     let readResult: any, readJsonObj: any;
     const configFilePath = this._getConfigPath();
