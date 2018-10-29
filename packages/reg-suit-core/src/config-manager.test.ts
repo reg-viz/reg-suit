@@ -15,19 +15,9 @@ function createManager() {
   return new ConfigManager({ logger, noEmit: true });
 }
 
-test("do nothing conf without plugins section", t => {
-  const conf = {
-    core: coreConf,
-  };
-  const manager = createManager();
-  manager._loadedConfig = conf;
-  const actual = manager.replaceEnvValue() as any;
-  t.is(actual, conf);
-});
-
 test("replace placeholders in config", t => {
   const conf = {
-    core: coreConf,
+    core: { actualDir: "$HOGE_FOO", workingDir: "HOGE_FOO" },
     plugins: {
       "some-plugin": { "xxx": "$HOGE_FOO", "yyy": "${HOGE_FOO}", "zzz": "HOGE_FOO" }
     }
@@ -38,6 +28,8 @@ test("replace placeholders in config", t => {
   t.is(actual.plugins["some-plugin"].xxx, process.env["HOGE_FOO"]);
   t.is(actual.plugins["some-plugin"].yyy, process.env["HOGE_FOO"]);
   t.is(actual.plugins["some-plugin"].zzz, "HOGE_FOO");
+  t.is(actual.core.actualDir, process.env["HOGE_FOO"]);
+  t.is(actual.core.workingDir, "HOGE_FOO");
 });
 
 test("replace nested placeholders", t => {

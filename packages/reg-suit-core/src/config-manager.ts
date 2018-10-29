@@ -61,12 +61,10 @@ export class ConfigManager {
 
   replaceEnvValue(): RegSuitConfiguration {
     const rawConfig = this.config;
-    if (!rawConfig.plugins) return rawConfig;
-    const plugins = { ...rawConfig.plugins };
     if (!!((<any>rawConfig)["__replaced__"])) return rawConfig;
-    expandPlaceholders(plugins);
+    expandPlaceholders(rawConfig);
     (<any>rawConfig)["__replaced__"] = true;
-    return { ...rawConfig, plugins };
+    return rawConfig;
   }
 
   get config() {
