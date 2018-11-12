@@ -6,6 +6,7 @@ export interface CoreConfig {
   threshold?: number;
   thresholdPixel?: number;
   thresholdRate?: number;
+  matchingThreshold?: number;
   ximgdiff?: {
     invocationType: AdditionalDetectionInvocationType;
   };
