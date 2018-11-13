@@ -118,6 +118,7 @@ export class RegProcessor {
       threshold: this._config.threshold,
       thresholdPixel: this._config.thresholdPixel,
       thresholdRate: this._config.thresholdRate,
+      matchingThreshold: this._config.matchingThreshold,
       enableCliAdditionalDetection: ximgdiffConf.invocationType === "cli",
       enableClientAdditionalDetection: ximgdiffConf.invocationType !== "none",
     }) as EventEmitter;
