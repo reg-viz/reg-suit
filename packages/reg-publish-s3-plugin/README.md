@@ -37,6 +37,7 @@ aws_secret_access_key = <your-secret-key>
   sse?: boolean | string;
   customDomain?: string;
   pathPrefix?: string;
+  sdkOptions?: S3.Types.ClientConfiguration;
 }
 ```
 
@@ -45,3 +46,4 @@ aws_secret_access_key = <your-secret-key>
 - `sse` - *Optional* - Specify server-side encryption property. Default `false`. If you set `true`, this plugin send with `--sse="AES256`.
 - `customDomain` - *Optional* - Set if you have your domain and host S3 on it. If set, the HTML report will be published with this custom domain(e.g. `https://your-sub.example.com/...`).
 - `pathPrefix` - *Optional* - Specify paths. For example if you set `some_dir`, the report is published with URL such as `https://your-backet-name.s3.amazonaws.com/some_dir/xxxxxxxxx/index.html`.
+- `sdkOptions` - *Optional* - Specify SDK options to pass to the S3 client. For details about the options, refer to the [AWS JavaScript SDK docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor_details).

@@ -14,6 +14,7 @@ export interface PluginConfig {
   sse?: boolean | string;
   customDomain?: string;
   pathPrefix?: string;
+  sdkOptions?: S3.Types.ClientConfiguration;
 }
 
 export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlugin<PluginConfig> {
@@ -34,7 +35,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
     this._pluginConfig = {
       ...config.options,
     };
-    this._s3client = new S3();
+    this._s3client = new S3(this._pluginConfig.sdkOptions);
   }
 
   publish(key: string) {
