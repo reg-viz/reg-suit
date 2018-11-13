@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-core",
-  "version": "0.7.16",
+  "version": "0.7.17",
   "description": "",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
