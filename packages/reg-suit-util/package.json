@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-util",
-  "version": "0.7.6",
+  "version": "0.7.16",
   "description": "",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -24,7 +24,7 @@
     "@types/lodash": "^4.14.66",
     "@types/mime-types": "^2.1.0",
     "@types/mkdirp": "^0.3.29",
-    "reg-suit-interface": "^0.7.5",
+    "reg-suit-interface": "^0.7.16",
     "typescript": "2.8.1"
   },
   "dependencies": {
