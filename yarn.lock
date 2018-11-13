@@ -7864,9 +7864,9 @@ redux@^3.4.0:
     loose-envify "^1.1.0"
     symbol-observable "^1.0.3"
 
-reg-cli@^0.12.1:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.12.1.tgz#a9fefbc6f3a039db7affe2bdf1c399852fab36e3"
+reg-cli@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.13.0.tgz#4f6d902103270083b8006cb821010f07b1f27c6d"
   dependencies:
     bluebird "^3.5.1"
     chalk "^2.3.0"
