@@ -20,6 +20,7 @@ export interface GitHubPluginOption {
   owner?: string;
   repository?: string;
   prComment?: boolean;
+  setCommitStatus?: boolean;
   customEndpoint?: string;
 }
 
@@ -54,6 +55,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
   _noEmit!: boolean;
   _apiOpt!: BaseEventBody;
   _prComment!: boolean;
+  _setCommitStatus!: boolean;
 
   _apiPrefix!: string;
   _repo!: Repository;
@@ -77,6 +79,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
       this._apiOpt = (config.options as BaseEventBody);
     }
     this._prComment = config.options.prComment !== false;
+    this._setCommitStatus = config.options.setCommitStatus !== false;
     this._apiPrefix = config.options.customEndpoint || defaultEndpoint;
     this._repo = new Repository(path.join(fsUtil.prjRootDir(".git"), ".git"));
   }
@@ -111,15 +114,20 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     if (this._prComment) {
       updateStatusBody.metadata = { failedItemsCount, newItemsCount, deletedItemsCount, passedItemsCount };
     }
-    const statusReq: rp.OptionsWithUri = {
-      uri: `${this._apiPrefix}/api/update-status`,
-      method: "POST",
-      body: updateStatusBody,
-      json: true,
-    };
-    this._logger.info(`Update status for ${this._logger.colors.green(updateStatusBody.sha1)} .`);
-    this._logger.verbose("update-status: ", statusReq);
-    const reqs = [statusReq];
+
+    const reqs = [];
+
+    if (this._setCommitStatus) {
+      const statusReq: rp.OptionsWithUri = {
+        uri: `${this._apiPrefix}/api/update-status`,
+        method: "POST",
+        body: updateStatusBody,
+        json: true,
+      };
+      this._logger.info(`Update status for ${this._logger.colors.green(updateStatusBody.sha1)} .`);
+      this._logger.verbose("update-status: ", statusReq);
+      reqs.push(statusReq);
+    }
 
     if (this._prComment) {
       if (head.type === "branch" && head.branch) {
