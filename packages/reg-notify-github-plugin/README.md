@@ -33,9 +33,10 @@ If reg-suit detects visual differences, it set the commit status failure. Someti
 {
   clientId: string;
   prComment?: boolean;
+  setCommitStatus?: boolean;
 }
 ```
 
 - `clientId` - *Required* - Client ID for reg-suit GitHub app. You can get it visiting [here](https://reg-viz.github.io/reg-suit/gh-app/) and click the **Get client ID** button.
 - `prComment` - *Optional* - Whether to allow reg-suit to comment to pull request. Default: `true`.
-
+- `setCommitStatus` - *Optional* - Whether to allow reg-suit to set commit status to fail if any visual differences are detected. Default: `true`.
