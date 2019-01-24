@@ -44,7 +44,7 @@ export function createCommentBody(eventBody: CommentSeed) {
     lines.push(`:sparkles::sparkles: **That's perfect, there is no visual difference!** :sparkles::sparkles:`);
     if (eventBody.reportUrl) {
       lines.push("");
-      lines.push(`You can check the report out [here](${eventBody.reportUrl}).`);
+      lines.push(`Check out the report [here](${eventBody.reportUrl}).`);
     }
   } else {
     lines.push("**reg-suit detected visual differences.**");
@@ -60,8 +60,8 @@ export function createCommentBody(eventBody: CommentSeed) {
     lines.push(new Array(eventBody.passedItemsCount + 1).join(":large_blue_circle:"));
     lines.push("");
     lines.push(`<details>
-                  <summary>What balls mean?</summary>
-                  The number of balls represents the number of images change detected. <br />
+                  <summary>What do the circles mean?</summary>
+                  The number of circles represent the number of changed images. <br />
                   :red_circle: : Changed items,
                   :white_circle: : New items,
                   :black_circle: : Deleted items, and
@@ -70,7 +70,7 @@ export function createCommentBody(eventBody: CommentSeed) {
                </details><br />`);
     lines.push(`<details>
                   <summary>How can I change the check status?</summary>
-                  If reviewers accepts this differences, the reg context status will be green automatically.
+                  If reviewers approve this PR, the reg context status will be green automatically.
                   <br />
                </details><br />`);
   }
