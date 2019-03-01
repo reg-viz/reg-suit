@@ -29,7 +29,7 @@
     "typescript": "2.8.1"
   },
   "dependencies": {
-    "open": "^0.0.5",
+    "opn": "^5.4.0",
     "reg-suit-util": "^0.7.16",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
