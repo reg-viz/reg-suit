@@ -8,7 +8,7 @@ import {
 
 import { GitHubPluginOption } from "./github-notifier-plugin";
 
-const open = require("open") as (url: string) => void;
+const opn = require("opn");
 
 export interface GitHubPreparerOption {
   clientId: string;
@@ -28,7 +28,7 @@ export class GitHubPreparer implements PluginPreparer<GitHubPreparerOption, GitH
         message: "This repositoriy's client ID of reg-suit GitHub app",
         name: "clientId",
         when: ({ openApp }: any) => {
-          openApp && open("https://reg-viz.github.io/reg-suit/gh-app/");
+          openApp && opn("https://reg-viz.github.io/reg-suit/gh-app/");
           return true;
         },
       },
