@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "reg-suit-toppage",
-  "version": "0.7.21",
+  "version": "0.7.22",
   "description": "",
   "scripts": {
     "test": "npm run screenshot",
@@ -39,7 +39,7 @@
     "reg-keygen-git-hash-plugin": "^0.7.16",
     "reg-notify-github-plugin": "^0.7.21",
     "reg-notify-slack-plugin": "^0.7.16",
-    "reg-publish-s3-plugin": "^0.7.18",
+    "reg-publish-s3-plugin": "^0.7.22",
     "reg-suit": "^0.7.17",
     "reg-suit-core": "^0.7.17",
     "typescript": "2.8.1"
