@@ -17,7 +17,7 @@
     "watch": "run-p watch:*"
   },
   "devDependencies": {
-    "@types/node": "8.0.8",
+    "@types/node": "8.10.0",
     "avaron": "^0.0.11",
     "electron": "^1.8.4",
     "lerna": "2.11.0",

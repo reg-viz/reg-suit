@@ -4,7 +4,7 @@ import { GcsPublisherPlugin } from "../lib/gcs-publisher-plugin";
 import { GcsBucketPreparer } from "../lib/gcs-bucket-preparer";
 import * as glob from "glob";
 import * as assert from "assert";
-import Gcs from "@google-cloud/storage";
+import { Storage } from "@google-cloud/storage";
 
 const preparer = new GcsBucketPreparer();
 
@@ -31,7 +31,7 @@ const dirsB = {
 };
 
 async function after(bn: string) {
-  const bucket = await Gcs().bucket(bn);
+  const bucket = await (new Storage()).bucket(bn);
   await bucket.deleteFiles();
   await bucket.delete();
 }

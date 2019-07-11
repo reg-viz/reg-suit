@@ -1,6 +1,6 @@
 import path from "path";
 import * as mkdirp from "mkdirp";
-import Gcs from "@google-cloud/storage"
+import { Storage, GetFilesOptions } from "@google-cloud/storage"
 
 import { WorkingDirectoryInfo, PublisherPlugin, PluginCreateOptions, PluginLogger } from "reg-suit-interface";
 import { AbstractPublisher, RemoteFileItem, FileItem, ObjectListResult } from "reg-suit-util";
@@ -16,7 +16,7 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
 
   private _options!: PluginCreateOptions<any>;
   private _pluginConfig!: PluginConfig;
-  private _gcsClient!: Gcs.Storage;
+  private _gcsClient!: Storage;
 
   constructor() {
     super();
@@ -29,7 +29,7 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
     this._pluginConfig = {
       ...config.options,
     };
-    this._gcsClient = Gcs();
+    this._gcsClient = new Storage();
   }
 
   async publish(key: string) {
@@ -78,14 +78,24 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
   }
 
   protected async listItems(lastKey: string, prefix: string): Promise<ObjectListResult> {
-    const files = await this._gcsClient.bucket(this._pluginConfig.bucketName).getFiles({
-      prefix,
-      maxResults: 1000,
-      pageToken: lastKey,
-    });
-    return {
-      isTruncated: files[0].length >= 1000,
-      contents: files[0].map(f => ({ key: f.name })),
-    };
+    return new Promise<ObjectListResult>((resolve, reject) => {
+      this._gcsClient.bucket(this._pluginConfig.bucketName).getFiles({
+        prefix,
+        maxResults: 1000,
+        pageToken: lastKey,
+      }, (err, files, nextQuery) => {
+        if (err) {
+          reject(err)
+        }
+
+        const nextMarker = nextQuery && (nextQuery as GetFilesOptions).pageToken
+
+        resolve({
+          isTruncated: nextMarker != null,
+          contents: !files ? [] : files.map(f => ({ key: f.name })),
+          nextMarker: nextMarker,
+        } as ObjectListResult)
+      })
+    })
   }
 }
