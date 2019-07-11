@@ -25,6 +25,7 @@ export type ObjectMetadata = {
 export type ObjectListResult = {
   isTruncated: boolean;
   contents: ObjectMetadata[];
+  nextMarker?: string;
 };
 
 const CONCURRENCY_SIZE = 50;
@@ -94,9 +95,10 @@ export abstract class AbstractPublisher {
           result = await this.listItems(nextMarker, actualPrefix);
           let curContents = result.contents || []
           if (curContents.length > 0) {
-            // FIXME
-            nextMarker = curContents[curContents.length - 1].key || ''
             Array.prototype.push.apply(contents, curContents)
+          }
+          if (result.nextMarker) {
+            nextMarker = result.nextMarker
           }
           isTruncated = result.isTruncated || false;
         } catch(e) {

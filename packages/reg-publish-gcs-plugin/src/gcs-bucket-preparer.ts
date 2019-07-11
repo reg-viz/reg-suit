@@ -6,7 +6,7 @@ import { PluginPreparer,
   PluginLogger
 } from "reg-suit-interface";
 import { PluginConfig } from "./gcs-publisher-plugin";
-import Gcs from "@google-cloud/storage";
+import { Storage } from "@google-cloud/storage";
 
 export interface SetupInquireResult {
   // projectId: string;
@@ -69,7 +69,7 @@ export class GcsBucketPreparer implements PluginPreparer<SetupInquireResult, Plu
   }
 
   async _createBucket(bucketName: string) {
-    const bucket = Gcs().bucket(bucketName);
+    const bucket = (new Storage()).bucket(bucketName);
     await bucket.create({
       coldline: true,
     });

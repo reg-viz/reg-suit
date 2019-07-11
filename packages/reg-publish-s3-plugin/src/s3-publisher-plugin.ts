@@ -146,9 +146,16 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
         if (err) {
           reject(err)
         }
+
+        let nextMarker: string | undefined
+        if (result.Contents && result.Contents.length > 0 && result.IsTruncated) {
+          nextMarker = result.Contents[result.Contents.length - 1].Key
+        }
+
         resolve({
           isTruncated: result.IsTruncated,
           contents: !result.Contents ? [] : result.Contents.map(f => ({ key: f.Key })),
+          nextMarker,
         } as ObjectListResult);
       })
     })
