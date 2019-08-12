@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "opn": "^5.4.0",
-    "reg-gh-app-interface": "^1.0.0",
+    "reg-gh-app-interface": "^1.0.1",
     "reg-suit-util": "^0.7.23",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
