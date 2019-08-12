@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-core-testing",
-  "version": "0.7.23",
+  "version": "0.7.24",
   "private": true,
   "scripts": {
     "reg-suit-debug": "node ../reg-suit-cli/lib/cli.js",
@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "reg-notify-gitlab-plugin": "^0.7.23",
-    "reg-notify-slack-plugin": "^0.7.16",
+    "reg-notify-slack-plugin": "^0.7.24",
     "reg-publish-gcs-plugin": "^0.7.23",
     "reg-simple-keygen-plugin": "^0.7.16",
     "reg-suit-core": "^0.7.23"

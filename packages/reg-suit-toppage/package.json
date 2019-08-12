@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "reg-suit-toppage",
-  "version": "0.7.23",
+  "version": "0.7.24",
   "description": "",
   "scripts": {
     "test": "npm run screenshot",
@@ -35,8 +35,8 @@
     "node-sass": "^4.5.3",
     "postcss-cli": "^4.1.0",
     "reg-keygen-git-hash-plugin": "^0.7.23",
-    "reg-notify-github-plugin": "^0.7.23",
-    "reg-notify-slack-plugin": "^0.7.16",
+    "reg-notify-github-plugin": "^0.7.24",
+    "reg-notify-slack-plugin": "^0.7.24",
     "reg-publish-s3-plugin": "^0.7.23",
     "reg-suit": "^0.7.23",
     "reg-suit-core": "^0.7.23",
