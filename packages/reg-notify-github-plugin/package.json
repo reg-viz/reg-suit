@@ -24,7 +24,6 @@
   "devDependencies": {
     "@types/request-promise": "^4.1.35",
     "ava": "^0.20.0",
-    "reg-gh-app-interface": "^0.7.5",
     "reg-suit-interface": "^0.7.16",
     "typescript": "2.8.1"
   },
