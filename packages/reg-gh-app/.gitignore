@@ -1,5 +1,0 @@
-node_modules/
-dist/
-lib/
-.serverless/
-response.capture.log

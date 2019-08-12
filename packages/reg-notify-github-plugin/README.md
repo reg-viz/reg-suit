@@ -20,7 +20,7 @@ To configure notify-github plugin, a client ID of your repository is needed. You
 1. Open https://github.com/apps/reg-suit and click "Install" button.  
 ![](images/capt_install_app.png)
 1. Select repositories to integrate with reg-suit.
-1. After installation app, visit [here](https://reg-viz.github.io/reg-suit/gh-app/) and click the **Get client ID** button of the repository you want to integrate.  
+1. After installation app, visit [here](https://reg-viz.github.io/gh-app/) and click the **Get client ID** button of the repository you want to integrate.  
 ![](images/capt_client_id.png)
 
 
@@ -37,6 +37,6 @@ If reg-suit detects visual differences, it set the commit status failure. Someti
 }
 ```
 
-- `clientId` - *Required* - Client ID for reg-suit GitHub app. You can get it visiting [here](https://reg-viz.github.io/reg-suit/gh-app/) and click the **Get client ID** button.
+- `clientId` - *Required* - Client ID for reg-suit GitHub app. You can get it visiting [here](https://reg-viz.github.io/gh-app/) and click the **Get client ID** button.
 - `prComment` - *Optional* - Whether to allow reg-suit to comment to pull request. Default: `true`.
 - `setCommitStatus` - *Optional* - Whether to allow reg-suit to set commit status to fail if any visual differences are detected. Default: `true`.
