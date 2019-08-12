@@ -72,6 +72,10 @@ jobs:
             echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
             npm whoami
       - run:
+          name: Deploy
+          command: |
+            yarn run Deploy
+      - run:
           name: Publish to npm
           command: |
             yarn run lerna run prepublish
@@ -104,6 +108,10 @@ jobs:
           command: |
             echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
             npm whoami
+      - run:
+          name: Deploy
+          command: |
+            yarn run Deploy
       - run:
           name: Publish to npm
           command: |
