@@ -1,5 +1,0 @@
-query UpdateStatusContext($owner: String!, $repository: String!) {
-  repository(owner: $owner, name: $repository) {
-    nameWithOwner
-  }
-}

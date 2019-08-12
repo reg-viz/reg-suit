@@ -3,7 +3,7 @@ import * as path from "path";
 import { Repository } from "tiny-commit-walker";
 import { inflateRawSync } from "zlib";
 import { execSync } from "child_process";
-import { BaseEventBody, CommentToPrBody, UpdateStatusBody } from "reg-gh-app-interface";
+import { getGhAppInfo, BaseEventBody, CommentToPrBody, UpdateStatusBody } from "reg-gh-app-interface";
 import { fsUtil } from "reg-suit-util";
 import {
   NotifierPlugin,
@@ -47,8 +47,6 @@ const errorHandler = (logger: PluginLogger) => {
   };
 };
 
-const defaultEndpoint = require("../.endpoint.json").endpoint as string;
-
 export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> {
 
   _logger!: PluginLogger;
@@ -80,7 +78,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     }
     this._prComment = config.options.prComment !== false;
     this._setCommitStatus = config.options.setCommitStatus !== false;
-    this._apiPrefix = config.options.customEndpoint || defaultEndpoint;
+    this._apiPrefix = config.options.customEndpoint || getGhAppInfo().endpoint;
     this._repo = new Repository(path.join(fsUtil.prjRootDir(".git"), ".git"));
   }
 
