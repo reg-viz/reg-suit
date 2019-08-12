@@ -141,13 +141,6 @@ workflows:
               only: master
           requires:
             - build
-      - confirm_deploy_services:
-          type: approval
-          filters:
-            branches:
-              only: master
-          requires:
-            - build
       - patch_release:
           filters:
             branches:
