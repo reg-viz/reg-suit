@@ -74,7 +74,7 @@ jobs:
       - run:
           name: Deploy
           command: |
-            yarn run Deploy
+            yarn run deploy
       - run:
           name: Publish to npm
           command: |
@@ -111,7 +111,7 @@ jobs:
       - run:
           name: Deploy
           command: |
-            yarn run Deploy
+            yarn run deploy
       - run:
           name: Publish to npm
           command: |
