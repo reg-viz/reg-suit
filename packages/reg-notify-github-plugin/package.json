@@ -25,7 +25,7 @@
     "@types/request-promise": "^4.1.35",
     "ava": "^0.20.0",
     "reg-suit-interface": "^0.7.16",
-    "typescript": "2.8.1"
+    "typescript": "^3.5.3"
   },
   "dependencies": {
     "opn": "^5.4.0",

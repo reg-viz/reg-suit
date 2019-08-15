@@ -30,7 +30,7 @@
     "glob": "^7.1.2",
     "reg-suit-interface": "^0.7.16",
     "rimraf": "^2.6.1",
-    "typescript": "2.8.1"
+    "typescript": "^3.5.3"
   },
   "ava": {
     "files": [
