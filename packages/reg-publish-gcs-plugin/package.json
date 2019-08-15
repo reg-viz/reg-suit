@@ -24,6 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/storage": "^3.0.2",
+    "form-data": "^2.5.0",
     "mkdirp": "^0.5.1",
     "reg-suit-util": "^0.7.23",
     "uuid": "^3.1.0"
