@@ -35,7 +35,7 @@ cat << JSON > $PKG_DIR/package.json
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "2.8.1"
+    "typescript": "^3.5.3"
   },
   "dependencies": {
   }
