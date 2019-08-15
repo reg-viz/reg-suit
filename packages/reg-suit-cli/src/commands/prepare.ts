@@ -8,7 +8,7 @@ import { CliOptions } from "../cli-options";
 import packageUtil, { PLUGIN_NAME_REGEXP } from "../package-util";
 import getRegCore from "../get-reg-core";
 
-import ignore = require("ignore");
+import ignore from "ignore";
 
 function hasGitignore(dir: string) {
   return fs.existsSync(path.resolve(dir, ".gitignore"));
