@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "cpx": "^1.5.0",
-    "reg-cli": "^0.13.0",
+    "reg-cli": "^0.15.2",
     "reg-suit-util": "^0.7.25",
     "rimraf": "^2.6.1"
   },
