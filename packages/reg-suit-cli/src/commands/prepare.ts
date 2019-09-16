@@ -8,15 +8,13 @@ import { CliOptions } from "../cli-options";
 import packageUtil, { PLUGIN_NAME_REGEXP } from "../package-util";
 import getRegCore from "../get-reg-core";
 
-import ignore from "ignore";
-
 function hasGitignore(dir: string) {
   return fs.existsSync(path.resolve(dir, ".gitignore"));
 }
 
 function loadGitignore(dir: string) {
   const gi = fs.readFileSync(path.resolve(dir, ".gitignore"), "utf8");
-  const ig = ignore();
+  const ig = (require("ignore") as unknown as typeof import("ignore").default)();
   gi.split("\n").forEach(l => {
     if (!l.trim().startsWith("#")) {
       ig.add(l);
