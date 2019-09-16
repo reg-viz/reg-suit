@@ -1290,7 +1290,7 @@ bluebird@^3.0.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.0.tgz#791420d7f551eea2897453a8a77653f96606d67c"
 
-bluebird@^3.5.0, bluebird@^3.5.1:
+bluebird@^3.5.0, bluebird@^3.5.3:
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
   integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
@@ -1568,7 +1568,7 @@ chalk@^1.0.0, chalk@^1.1.1, chalk@^1.1.3:
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
 
-chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0, chalk@^2.4.1:
+chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0, chalk@^2.4.1, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
   integrity sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==
@@ -1660,7 +1660,7 @@ cli-progress@^1.4.1:
   dependencies:
     colors "^1.1.2"
 
-cli-spinner@^0.2.6, cli-spinner@^0.2.7:
+cli-spinner@^0.2.6, cli-spinner@^0.2.8:
   version "0.2.10"
   resolved "https://registry.yarnpkg.com/cli-spinner/-/cli-spinner-0.2.10.tgz#f7d617a36f5c47a7bc6353c697fc9338ff782a47"
   integrity sha512-U0sSQ+JJvSLi1pAYuJykwiA8Dsr15uHEy85iCJ6A+0DjVxivr3d+N2Wjvodeg89uP5K6TswFkKBfAD7B3YSn/Q==
@@ -3689,7 +3689,7 @@ ignore@^3.3.7:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
   integrity sha512-Pgs951kaMm5GXP7MOvxERINe3gsaVjUWFm+UZPSq9xYriQAksyhg0csnS0KXSNRD5NmNdapXEpjxG49+AKh/ug==
 
-img-diff-js@^0.4.0:
+img-diff-js@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/img-diff-js/-/img-diff-js-0.4.1.tgz#d103e246f4fc1380127f85ecfac5068b2942f167"
   integrity sha1-0QPiRvT8E4ASf4Xs+sUGiylC8Wc=
@@ -4614,7 +4614,7 @@ lru-cache@^5.0.0:
   dependencies:
     yallist "^3.0.2"
 
-make-dir@^1.0.0, make-dir@^1.1.0:
+make-dir@^1.0.0, make-dir@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-1.3.0.tgz#79c1033b80515bd6d24ec9933e860ca75ee27f0c"
   integrity sha512-2w31R7SJtieJJnQtGc7RVL2StM2vGYVfqUOvUDxH6bC6aJTxPxTF0GnIgCyu7tjockiUWAYQRbxa7vKn34s5sQ==
@@ -4905,10 +4905,10 @@ multimatch@^2.1.0:
     arrify "^1.0.0"
     minimatch "^3.0.0"
 
-mustache@^2.3.0:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/mustache/-/mustache-2.3.2.tgz#a6d4d9c3f91d13359ab889a812954f9230a3d0c5"
-  integrity sha512-KpMNwdQsYz3O/SBS1qJ/o3sqUJ5wSb8gb0pul8CO0S56b9Y2ALm8zCfsjPXsqGFfoNBkDwZuZIAjhsZI03gYVQ==
+mustache@^3.0.1:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/mustache/-/mustache-3.1.0.tgz#9fba26e7aefc5709f07ff585abb7e0abced6c372"
+  integrity sha512-3Bxq1R5LBZp7fbFPZzFe5WN4s0q3+gxZaZuZVY+QctYJiCiVgXHOTIC0/HgZuOPFt/6BQcx5u0H2CUOxT/RoGQ==
 
 mute-stream@0.0.7:
   version "0.0.7"
@@ -6008,23 +6008,23 @@ redent@^2.0.0:
     indent-string "^3.0.0"
     strip-indent "^2.0.0"
 
-reg-cli@^0.13.0:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.13.1.tgz#4bfbf83433b86c584c82804b862acc86a1b18141"
-  integrity sha512-HKnlHeHqoxmINysED3PW+ELyx8ZnmeUjtFihinKmENOgYqAY7N/cMFySV0XbkM0OuEPKZdz5mRrHwf49pn7+ZQ==
+reg-cli@^0.15.2:
+  version "0.15.2"
+  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.15.2.tgz#54e68ce9fee31f8262f782970ddd484852268fa9"
+  integrity sha512-eaMhSiWXxBIQHeYknjLfiAhi0ideWKyGzQoW29Deu16HfsCJpvVuzbxytzDQnIGpgUCRB59wE38+IiS4hvjMrQ==
   dependencies:
-    bluebird "^3.5.1"
-    chalk "^2.3.0"
-    cli-spinner "^0.2.7"
+    bluebird "^3.5.3"
+    chalk "^2.4.2"
+    cli-spinner "^0.2.8"
     cross-spawn "^6.0.0"
     del "^3.0.0"
-    glob "^7.1.2"
-    img-diff-js "^0.4.0"
-    lodash "^4.17.4"
-    make-dir "^1.1.0"
+    glob "^7.1.3"
+    img-diff-js "^0.4.1"
+    lodash "^4.17.11"
+    make-dir "^1.3.0"
     md5-file "^4.0.0"
     meow "^3.7.0"
-    mustache "^2.3.0"
+    mustache "^3.0.1"
     x-img-diff-js "0.3.5"
 
 reg-gh-app-interface@^1.0.1:
