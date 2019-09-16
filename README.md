@@ -169,13 +169,37 @@ reg-suit(git-hash-plugin) needs the current branch name to identify the base-com
 For example:
 
 ```yml
+# .github/workflows/reg.yml
+
+on: [push]
+
+jobs:
+  build:
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js v10
+      uses: actions/setup-node@v1
+      with:
+        node-version: "10.x"
+    - name: npm install, build, and test
+      run: |
+        npm i
+    - name: workaround for detached HEAD
+      run: |
+        git checkout ${GITHUB_REF#refs/heads/} || git checkout -b ${GITHUB_REF#refs/heads/} && git pull
+    - name: run reg-suit
+      run: |
+        npx reg-suit run
+```
+
+```yml
 # .travis.yml 
 
 script:
   - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"  # This line is necessary to disable --single-branch option to fetch all remote branches on TravisCI.
   - git fetch origin                                                      # Ditto
   - git checkout $TRAVIS_BRANCH || git checkout -b $TRAVIS_BRANCH
-  - reg-suit run
+  - npx reg-suit run
 ```
 
 ```yml
@@ -190,7 +214,7 @@ build:
     - script:
       name: Run reg-suit
       code: |
-        reg-suit run
+        npx reg-suit run
 ```
 
 ```yml
@@ -204,7 +228,7 @@ install:
   - git checkout %APPVEYOR_REPO_BRANCH%
 
 test_script:
-  - reg-suit run
+  - npx reg-suit run
 ```
 
 ```yml
@@ -213,7 +237,7 @@ test_script:
 test:
   script:
     - git checkout $CI_COMMIT_REF_NAME || git checkout -b $CI_COMMIT_REF_NAME && git pull
-    - reg-suit run
+    - npx reg-suit run
 ```
 
 ## Examples
