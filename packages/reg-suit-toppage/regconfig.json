@@ -6,7 +6,7 @@
   },
   "plugins": {
     "reg-notify-slack-plugin": {
-      "webhookUrl": "https://hooks.slack.com/services/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"
+      "webhookUrl": "https://hooks.slack.com/services/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"
     },
     "reg-notify-github-plugin": {
       "clientId": "szQ1sTA0NbHUL0pN1y0uzSzRNzEwNDIBc8syqwA="
