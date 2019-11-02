@@ -5,16 +5,11 @@
   "description": "",
   "scripts": {
     "test": "npm run screenshot",
-    "scss": "node-sass public/styles/index.scss -o public/css",
-    "postcss": "postcss public/css/*.css --use autoprefixer -d dist/css",
-    "build": "npm run scss && npm run postcss && cpx \"public/**/*.{html,ico,png,jpg,svg,js}\" dist && cpx circle.yml dist",
-    "prepublish": "npm run build",
-    "watch": "node-sass public/styles/index.scss -w public/styles -r -o public/css",
-    "start": "browser-sync start -c bs-config.js",
+    "build": "bash scripts/build.sh v1.0.0",
     "screenshot": "node capture.js && ls screenshot",
     "reg-suit": "node ../../node_modules/reg-suit/lib/cli.js",
     "regression": "npm run reg-suit -- run -v",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d landing-page/public"
   },
   "keywords": [
     "reg"
@@ -26,14 +21,9 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "autoprefixer": "^7.1.2",
-    "browser-sync": "^2.18.13",
-    "cpx": "^1.5.0",
     "gh-pages": "^1.0.0",
     "mkdirp": "^0.5.1",
-    "nightmare": "^2.10.0",
-    "node-sass": "^4.5.3",
-    "postcss-cli": "^4.1.0",
+    "puppeteer": "^2.0.0",
     "reg-keygen-git-hash-plugin": "^0.7.25",
     "reg-notify-github-plugin": "^0.7.26",
     "reg-notify-slack-plugin": "^0.7.25",
