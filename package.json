@@ -17,8 +17,6 @@
   },
   "devDependencies": {
     "@types/node": "8.10.0",
-    "avaron": "^0.2.0",
-    "electron": "^1.8.4",
     "lerna": "2.11.0",
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.6.1",

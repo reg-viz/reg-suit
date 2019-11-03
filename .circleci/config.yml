@@ -1,9 +1,8 @@
 defaults: &defaults
   working_directory: ~/reg-suit
   docker:
-    - image: quramy/node-nightmare
+    - image: regviz/node-xcb
       environment:
-        DISPLAY: ":99"
         GOOGLE_APPLICATION_CREDENTIALS: "/root/gcloud-service-key.json"
 
 version: 2
@@ -35,9 +34,7 @@ jobs:
       - run:
           name: Test
           command: |
-            xvfbd start
             yarn run test
-            xvfbd stop
       - run:
           name: Regression using gh-io components
           command: |

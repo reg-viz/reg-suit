@@ -1,4 +1,4 @@
-# ![reg-suit](https://raw.githubusercontent.com/Quramy/reg-suit/master/logo/regsuitlogo.png)
+# reg-suit
 [![CircleCI](https://circleci.com/gh/reg-viz/reg-suit.svg?style=svg)](https://circleci.com/gh/reg-viz/reg-suit)
 [![npm version](https://badge.fury.io/js/reg-suit.svg)](https://badge.fury.io/js/reg-suit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -280,3 +280,6 @@ yarn run test
 
 ## License
 MIT. See LICENSE.txt.
+
+![reg-viz](https://raw.githubusercontent.com/reg-viz/artwork/master/repository/footer.png)
+

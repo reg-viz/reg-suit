@@ -13,7 +13,7 @@ export function sendWebHook(opt: SendOption): Promise<any> {
     json: true,
     body: {
       "username": "Reg suit",
-      "icon_url": "https://raw.githubusercontent.com/Quramy/reg-suit/master/logo/reglogo_64.png",
+      "icon_url": "https://raw.githubusercontent.com/reg-viz/artwork/master/logo/reg-viz-transparent_64.png",
       "attachments": [
         {
           "color": opt.color,

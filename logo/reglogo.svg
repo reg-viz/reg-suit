@@ -1,19 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
-    <title>reglogo</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="reglogo">
-            <g id="Group" transform="translate(116.000000, 18.000000)">
-                <polygon id="Path-2" fill="#4C89C3" points="140.5 239.20354 0 239.20354 281 477"></polygon>
-                <polygon id="Path-2" fill="#4990E2" points="0 239.20354 0 477 140.5 239.20354"></polygon>
-                <path d="M70.25,239.20354 L0,239.20354 L93.6666667,318.469027 L140.5,239.20354 L70.25,239.20354 Z" id="Combined-Shape" fill="#D5E8FA"></path>
-                <polygon id="Path-2" fill="#4990E2" points="0 7.10542736e-14 0 239.20354 70.25 119.60177"></polygon>
-                <polygon id="Path-2" fill="#D5E8FA" points="0 8.52651283e-14 70.25 118.89823 210.75 118.89823"></polygon>
-                <polygon id="Path-2" fill="#4C89C3" points="0 239.20354 70.25 118.89823 210.75 118.89823"></polygon>
-            </g>
-        </g>
-    </g>
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M24.3622 35.4076L24.3939 35.3522H24.3306L24.3622 35.4076Z" fill="#FF4438"/>
+<path d="M7.98352 35.3522L16.1887 49.5642L17.098 47.9907L9.79957 35.3522H7.98352Z" fill="#FF4438"/>
+<path d="M18.914 44.8436L13.4343 35.3522H11.6156L18.0047 46.4171L18.914 44.8436Z" fill="#FF4438"/>
+<path d="M20.7301 41.6991L17.0664 35.3522H15.2504L19.8208 43.2727L20.7301 41.6991Z" fill="#FF4438"/>
+<path d="M22.5463 38.552L20.6986 35.3522H18.8826L21.637 40.1255L22.5463 38.552Z" fill="#FF4438"/>
+<path d="M24.3621 35.4075L24.3305 35.3522H22.5144L23.4527 36.9811L24.3621 35.4075Z" fill="#FF4438"/>
+<path d="M38.8668 13.76L17.7622 50.3129H34.8789L55.9835 13.76H38.8668Z" fill="#FF4438"/>
 </svg>
