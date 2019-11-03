@@ -1,167 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-60677971-2"></script>
-    <script>
-      (function() {
-        if (/localhost/.test(location.href)) return;
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-60677971-2');
-      })();
-    </script>
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/websaite#">
+    <meta charset="UTF-8">
     <title>reg-suit</title>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Visual Regression Testing Suit" />
-    <meta name="keywords" content="image,test,testing,regression,visual test" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="reg-suit" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://reg-viz.github.io/reg-suit/" />
-    <meta property="og:image" content="https://reg-viz.github.io/reg-suit/assets/ogp.jpg" />
-    <meta property="og:site_name" content="https://reg-viz.github.io/reg-suit/" />
-    <meta property="og:description" content="reg-suit is a tool suit for visual regression testing." />
-    <meta property="fb:app_id" content="1471400112903032" />
-    <meta property="twitter:cart" content="summary_large_image" />
-    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+    <meta name="description" content="CLI for visual regression testing">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="reg-suit">
+    <meta property="og:site_name" content="reg-suit">
+    <meta property="og:description" content="CLI for visual regression testing">
+    <meta property="og:url" content="https://reg-viz.github.io/reg-suit/">
+    <meta property="og:image" content="https://raw.githubusercontent.com/reg-viz/artwork/master/logo/horizontal-dark.png">
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:500,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
     <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" href="css/index.css">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   </head>
   <body>
-    <section class="key-visual main-bg">
-      <header class="key-visual__header">
-        <div class="key-visual__header__inner">
-          <div class="branding">
-            <a href="index.html">
-              <img src="assets/branding.png" alt="reg-suit">
-            </a>
-          </div>
-          <a href="https://github.com/reg-viz/reg-suit">
-            <span class="fa fa-github"></span>
-          </a>
+    <main>
+      <header class="header">
+        <div class="inner">
+          <img src="images/branding_logo.svg" alt="reg-viz brand logo" />
+          <nav>
+            <a class="gh-icon" href="https://github.com/reg-viz/reg-suit">GitHub Repository</a>
+          </nav>
         </div>
       </header>
-      <div class="key-visual__body">
-        <div class="key-visual__body__title">
-          <h2 class="heading-2" id="visual_regression_testing_suit">Visual Regression Testing Suit</h2>
+      <section class="hero">
+        <div class="inner two-up">
+          <div>
+            <h1>VISUAL<br /><strong>REG</strong>RESSION<br/>TESTING<br /><strong>SUIT</strong></h1>
+            <p class="mt-2">reg-viz provides regression testing tools.</p>
+            <a class="mt-5 ghost-button white large" href="https://github.com/reg-viz/reg-suit#getting-started">Getting Started</a>
+          </div>
+          <div>
+            <picture>
+              <source media="(max-width: 425px)" srcset="images/chrome_mobile@3x.png 3x, images/chrome_mobile@2x.png 2x, images/chrome_mobile.png" />
+              <source srcset="images/chrome_desktop@3x.png 3x, images/chrome_desktop@2x.png 2x, images/chrome_desktop.png" />
+              <img src="images/chrome_desktop.png" alt="report UI">
+            </picture>
+          </div>
         </div>
-        <div class="key-visual__body__inner">
-          <div class="grid">
-            <div class="grid__col--3"></div>
-            <div class="grid__col--6">
-              <div class="app-win">
-                <header class="app-win__header">
-                  <div class="app-win__header__close"></div>
-                  <div class="app-win__header__close"></div>
-                  <div class="app-win__header__close"></div>
-                </header>
-                <div class="app-win__body">
-                  <img src="assets/capt_diff.png" alt="">
-                </div>
+      </section>
+  
+      <section class="what">
+        <div class="inner">
+          <h2>WHAT REG-SUIT DOES</h2>
+          <ul>
+            <li>
+              <img src="images/compare_images_bg.svg" alt="compare images">
+              <div>
+                <h3>Compare Images</h3>
+                <p>reg-suit is inspired by snapshot testing. It compares the current images with the previous images, creates an HTML report for their differences. All you need is to give images to assert. </p>
               </div>
-            </div>
-            <div class="grid__col--3"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="points">
-      <div class="points__header">
-        <h2 class="heading-2" id="what_reg-suit_does">What reg-suit does</h2>
-      </div>
-      <div class="points__body">
-        <div class="grid">
-          <div class="grid__col--4">
-            <h3 class="heading-3 heading-3--center" id="compare_images">Compare Images</h3>
-            <p class="description">reg-suit is inspired by snapshot testing. It compares the current images with the previous images, creates an HTML report for their differences. All you need is to give images to assert.</p>
-          </div>
-          <div class="grid__col--4">
-            <h3 class="heading-3 heading-3--center" id="store_snapshot">Store Snapshot</h3>
-            <p class="description">reg-suit automatically stores snapshot images to external cloud storage(e.g. AWS S3). You can review result of comparison and differences at any time you want.</p>
-          </div>
-          <div class="grid__col--4">
-            <h3 class="heading-3 heading-3--center" id="work_everywhere">Work Everywhere</h3>
-            <p class="description">reg-suit is a just command line interface so is easy to integrate with your project.  It works at any CI services and even your local machine.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div class="sep"></div>
-    <section class="getting-started">
-      <div class="getting-started__header">
-        <h2 class="heading-2" id="getting_started">Getting Started</h2>
-      </div>
-      <div class="getting-started__body description grid">
-        <div class="grid__col--2"></div>
-        <div class="grid__col--8">
-          <div class="app-win">
-            <header class="app-win__header">
-              <div class="app-win__header__close"></div>
-              <div class="app-win__header__close"></div>
-              <div class="app-win__header__close"></div>
-            </header>
-            <div class="app-win__body">
-              <div class="console">
-                <p class="console__line console__line--main">cd your-project</p>
-                <p class="console__line console__line--main">npm install -g reg-suit</p>
-                <p class="console__line console__line--main">reg-suit init</p>
-                <p class="console__line">Answer some questions...</p>
-                <p class="console__line console__line--main">touch actual/your-image-to-test.png</p>
-                <p class="console__line console__line--main">reg-suit run</p>
+            </li>
+            <li>
+              <img src="images/store_snapshot_bg.svg" alt="store snapshot">
+              <div>
+                <h3>Store Snapshot</h3>
+                <p>reg-suit automatically stores snapshot images to external cloud storage(e.g. AWS S3, GCS).<br />You can review result of comparison and differences at any time you want.</p>
               </div>
+            </li>
+            <li>
+              <img src="images/work_everywhere_bg.svg" alt="work everywhere">
+              <div>
+                <h3>Work Everywhere</h3>
+                <p>reg-suit is a just command line interface so is easy to integrate with your project. It works at any CI services and even your local machine.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+  
+      <section class="features">
+        <div class="inner">
+          <h2>FEATURES</h2>
+        </div>
+        <div class="feat-identify">
+          <div class="inner">
+            <img src="images/branches.svg" alt="git branches">
+            <div class="description">
+              <h3>Automatic Identification</h3>
+              <p>reg-suit supports GitHub flow. reg-suit detects automatically the parent's commit which is the source of the topic branch. And use the snapshot result of the detected commit as the expected result of regression testing.</p>
             </div>
           </div>
-          <p class="description"><a href="https://github.com/reg-viz/reg-suit#getting-started">Read the installation guide.</a></p>
         </div>
-        <div class="grid__col--2"></div>
-      </div>
-    </section>
-    <div class="sep"></div>
-    <section class="features">
-      <header class="features__header">
-        <h2 class="heading-2" id="features">Features</h2>
-      </header>
-      <div class="features__body">
-        <h3 class="heading-3" id="automatic_identification">Automatic Identification</h3>
-        <p class="description">reg-suit supports GitHub flow. reg-suit detects automatically the parent's commit which is the source of the topic branch. And use the snapshot result of the detected commit as the expected result of regression testing.</p>
-        <div class="features__body__img">
-          <img src="assets/gh_flow.svg" alt="GitHub flow">
-        </div>
-        <h3 class="heading-3" id="github_integration">GitHub Integration</h3>
-        <p class="description">Installing the reg-suit <a href="https://github.com/apps/reg-suit">GitHub app</a>, you can receive the result of the comparison as a comment on the pull request associated with the regression testing. Your contributors and reviewers can recognize the differences at a glance.</p>
-        <div class="features__body__img">
-          <div class="grid">
-            <div class="grid__col--3"></div>
-            <div class="grid__col--6">
-              <div class="app-win">
-                <header class="app-win__header">
-                  <div class="app-win__header__close"></div>
-                  <div class="app-win__header__close"></div>
-                  <div class="app-win__header__close"></div>
-                </header>
-                <div class="app-win__body">
-                  <img src="assets/capt_pr_comment.png" alt="PR comment">
-                </div>
-              </div>
+        <div class="feat-github">
+          <div class="inner">
+            <img src="images/github_pr_comment.svg" alt="GitHub PR comment">
+            <div class="description">
+              <h3>GitHub Integrations</h3>
+              <p>Installing the reg-suit <a class="text-link" href="https://github.com/apps/reg-suit">GitHub app</a>, you can receive the result of the comparison as a comment on the pull request associated with the regression testing. Your contributors and reviewers can recognize the differences at a glance.</p>
+              <a href="https://github.com/apps/reg-suit" class="round-button secondary">GitHub App Configure</a>
             </div>
-            <div class="grid__col--3"></div>
           </div>
         </div>
-        <h3 class="heading-3" id="plugins">Plugins</h3>
-        <p class="description">In addition to the above, there are plugins with various functions. Check them out <a href="https://github.com/reg-viz/reg-suit#plugins">here</a>.</p>
-      </div>
-    </section>
-    <!--
-    <div class="sep"></div>
-    <section class="share-buttons"></section>
-    -->
-    <footer class="footer">
-      <div class="footer__inner">
-        <p class="footer__inner__body">&copy; 2017 reg-viz</p>
-      </div>
-    </footer>
+        <div class="feat-plugins">
+          <div class="inner">
+            <div class="circle">
+              <img srcset="images/plugins@3x.png 3x,images/plugins@2x.png 2x,images/plugins.png" src="images/plugins.png" alt="plugins">
+            </div>
+            <div class="description">
+              <h3>Plugins</h3>
+              <p>In addition to the above, there are plugins with various functions. Check them out <a class="text-link" href="https://github.com/reg-viz/reg-suit#plugins">here</a>.</p>
+              <a href="https://github.com/reg-viz/reg-suit#plugins" class="round-button secondary">See plugins</a>
+            </div>
+          </div>
+        </div>
+      </section>
+  
+      <section class="getting-started">
+        <div class="inner">
+          <h2>GETTING STARTED</h2>
+          <p>You can start using reg-suit in a few simple steps.</p>
+          <ul class="console">
+            <li>cd your-project</li>
+            <li>npm install -g reg-suit</li>
+            <li class="with-comment">reg-suit init</li>
+            <li>touch actual/your-image-to-test.png</li>
+            <li>reg-suit run</li>
+          </ul>
+          <a href="https://github.com/reg-viz/reg-suit#getting-started" class="round-button primary">Read the installation guide</a>
+        </div>
+      </section>
+  
+      <section class="examples">
+        <div class="inner">
+          <div class="description">
+            <h2>EXAMPLES</h2>
+            <p>The following repositories using reg-suit.<br />These repos can help you to introduce visual snapshot testing.</p>
+          </div>
+          <div>
+            <ul>
+              <li><a href="https://github.com/reg-viz/reg-simple-demo"><span class="title">reg-viz/reg-simple-demo</span><span class="detail">Simple image files project includes various CI services' script.</span></a></li>
+              <li><a href="https://github.com/reg-viz/reg-puppeteer-demo"><span class="title">reg-viz/reg-puppeteer-demo</span><span class="detail">Simple HTML project using Puppeteer for capturing screenshot.</span></a></li>
+              <li><a href="https://github.com/bokuweb/react-avaron-reg-sample"><span class="title">bokuweb/react-avaron-reg-sample</span><span class="detail">React project using avaron(= Ava + Electron) for capturing screenshot.</span></a></li>
+              <li><a href="https://github.com/Quramy/angular-puppeteer-demo"><span class="title">quramy/angular-puppeteer-demo</span><span class="detail">Angular project using Puppeteer for capturing screenshot.</span></a></li>
+              <li><a href="https://github.com/tadashi-aikawa/owlora"><span class="title">tadashi-aikawa/owlora</span><span class="detail">React project using storybook and LOKI for capturing screenshot.</span></a></li>
+              <li><a href="https://github.com/tsuchikazu/vue-reg-suit-demo"><span class="title">tsuchikazu/vue-reg-suit-demo</span><span class="detail">Vue.js project using karma-nightmare for capturing screenshot.</span></a></li>
+              <li><a href="https://github.com/reg-viz/preview-sketch-demo"><span class="title">reg-viz/preview-sketch-demo</span><span class="detail">Sketch file project. reg-suit compares their preview images.</span></a></li>
+              <li><a href="https://github.com/Quramy/angular-sss-demo"><span class="title">quramy/angular-sss-demo</span><span class="detail">Angular project using Storybook and storybook-chrome-screenshot.</span></a></li>
+              <li><a href="https://github.com/tsuyoshiwada/scs-with-reg-viz"><span class="title">tsuyoshiwada/scs-with-reg-viz</span><span class="detail">React project using Storybook and storybook-chrome-screenshot.</span></a></li>
+            </ul>
+            <p>If you use reg-suit, let us know your repository. We'll list it at the above :)</p>
+          </div>
+        </div>
+      </section>
+  
+      <footer>
+        <address>&copy; 2019 reg-viz</address>
+      </footer>
+    </main>
+
   </body>
 </html>
