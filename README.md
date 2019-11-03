@@ -1,4 +1,5 @@
-# reg-suit
+![reg-suit](./images/reg-suit.jpg)
+
 [![CircleCI](https://circleci.com/gh/reg-viz/reg-suit.svg?style=svg)](https://circleci.com/gh/reg-viz/reg-suit)
 [![npm version](https://badge.fury.io/js/reg-suit.svg)](https://badge.fury.io/js/reg-suit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
