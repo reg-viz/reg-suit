@@ -33,7 +33,7 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
   }
 
   async publish(key: string) {
-    const { indexFile } = await this.publishInteral(key);
+    const { indexFile } = await this.publishInternal(key);
     const reportUrl = indexFile && `https://storage.googleapis.com/${this.getBucketName()}/${this.resolveInBucket(key)}/${indexFile.path}`;
     return { reportUrl };
   }
