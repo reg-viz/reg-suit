@@ -143,7 +143,7 @@ export abstract class AbstractPublisher {
     ;
   }
 
-  protected publishInteral(key: string) {
+  protected publishInternal(key: string) {
     const progress = this.logger.getProgressBar();
     return this.createList()
       .then(list => {

@@ -39,7 +39,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
   }
 
   publish(key: string) {
-    return this.publishInteral(key).then(({ indexFile }) => {
+    return this.publishInternal(key).then(({ indexFile }) => {
       const reportUrl = indexFile && `https://${this.getBucketDomain()}/${this.resolveInBucket(key)}/${indexFile.path}`;
       return { reportUrl };
     });
