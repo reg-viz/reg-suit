@@ -48,6 +48,7 @@ export abstract class AbstractPublisher {
     return new Promise<string[]>((resolve, reject) => {
       glob(this.getLocalGlobPattern() || DEFAULT_PATTERN, {
         cwd: this.getWorkingDirs().base,
+        nodir: true,
       }, (err, list) => {
         if (err) {
           return reject(err);
