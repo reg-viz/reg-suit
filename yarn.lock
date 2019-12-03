@@ -4872,10 +4872,10 @@ redent@^2.0.0:
     indent-string "^3.0.0"
     strip-indent "^2.0.0"
 
-reg-cli@^0.15.12:
-  version "0.15.12"
-  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.15.12.tgz#96e18b86ab081adde721442bd172071ff9fca620"
-  integrity sha512-H1JCUdIZ2RT69cdig5WRyz7RpIOkNh1J1QgCYxEDfsOsb3Es6MDMSxvoG/DG7fKEdNW8ZRmrZPvRDnHXSlIFoA==
+reg-cli@^0.15.13:
+  version "0.15.13"
+  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.15.13.tgz#6397bec7ad626792bd1b1f839ef8048ae77998cf"
+  integrity sha512-2qfJEG15DybbT/AAHf2AttoVAnfCrfybN0JQa1057CmQ72aN9oOjmbhtTxFQeGjxLEx1epkmrZcu1EhOm/HLhw==
   dependencies:
     bluebird "3.5.5"
     chalk "2.4.2"
