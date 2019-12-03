@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-core-testing",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "private": true,
   "scripts": {
     "reg-suit-debug": "node ../reg-suit-cli/lib/cli.js",
@@ -11,11 +11,11 @@
     "reg-notify-slack-plugin": "^0.8.4",
     "reg-publish-gcs-plugin": "^0.8.5",
     "reg-simple-keygen-plugin": "^0.7.25",
-    "reg-suit-core": "^0.8.5"
+    "reg-suit-core": "^0.8.6"
   },
   "devDependencies": {
     "reg-keygen-git-hash-plugin": "^0.8.5",
-    "reg-suit": "^0.8.5",
+    "reg-suit": "^0.8.6",
     "reg-suit-interface": "^0.7.25",
     "typescript": "^3.5.3"
   }
