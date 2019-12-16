@@ -47,3 +47,17 @@ aws_secret_access_key = <your-secret-key>
 - `customDomain` - *Optional* - Set if you have your domain and host S3 on it. If set, the HTML report will be published with this custom domain(e.g. `https://your-sub.example.com/...`).
 - `pathPrefix` - *Optional* - Specify paths. For example if you set `some_dir`, the report is published with URL such as `https://your-backet-name.s3.amazonaws.com/some_dir/xxxxxxxxx/index.html`.
 - `sdkOptions` - *Optional* - Specify SDK options to pass to the S3 client. For details about the options, refer to the [AWS JavaScript SDK docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor_details).
+
+## IAM Role Policy
+
+This plugin needs follwings role policy.
+
+```
+      "Action": [
+        "s3:DeleteObject",
+        "s3:GetObject",
+        "s3:GetObjectAcl",
+        "s3:PutObject",
+        "s3:ListBucket"
+      ]
+```
