@@ -8,6 +8,7 @@ import { AbstractPublisher, RemoteFileItem, FileItem, ObjectListResult } from "r
 export interface PluginConfig {
   bucketName: string;
   pattern?: string;
+  customUri?: string;
   pathPrefix?: string;
 }
 
@@ -34,12 +35,21 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
 
   async publish(key: string) {
     const { indexFile } = await this.publishInternal(key);
-    const reportUrl = indexFile && `https://storage.googleapis.com/${this.getBucketName()}/${this.resolveInBucket(key)}/${indexFile.path}`;
+    const reportUrl = indexFile && `${this.getUriPrefix()}/${this.resolveInBucket(key)}/${indexFile.path}`;
     return { reportUrl };
   }
 
   async fetch(key: string) {
     return this.fetchInternal(key);
+  }
+
+  protected getUriPrefix() {
+    const { customUri } = this._pluginConfig;
+    if (customUri) {
+      return customUri.endsWith('/') ? customUri.slice(0, customUri.length - 1) : customUri;
+    } else {
+      return `https://storage.googleapis.com/${this.getBucketName()}`;
+    }
   }
 
   protected getBucketRootDir(): string | undefined {

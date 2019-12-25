@@ -19,9 +19,11 @@ If you run this plugin in your CI service, it to be recommended to create an Ser
 ```ts
 {
   bucketName: string;
+  customUri?: string;
   pathPrefix?: string;
 }
 ```
 
 - `bucketName` - *Required* - GCS bucket name to publish the snapshot images to.
+- `customUri` - *Optional* - Custom URI prefix. Default value is `https://storage.googleapis.com/${bucketName}`. It's useful if you request report HTML over some HTTP proxy servers.
 - `pathPrefix` - *Optional* - Specify paths. For example if you set `some_dir`, the report is published with URL such as `https://storage.googleapis.com/your-bucket/some_dir/xxxxxxxxxindex.html`.
