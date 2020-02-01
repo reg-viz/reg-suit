@@ -1,6 +1,6 @@
 {
   "name": "reg-suit",
-  "version": "0.8.6",
+  "version": "0.9.1",
   "description": "",
   "bin": {
     "reg-suit": "lib/cli.js"

@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-core-testing",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "private": true,
   "scripts": {
     "reg-suit-debug": "node ../reg-suit-cli/lib/cli.js",
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "reg-keygen-git-hash-plugin": "^0.8.5",
-    "reg-suit": "^0.8.6",
+    "reg-suit": "^0.9.1",
     "reg-suit-interface": "^0.7.25",
     "typescript": "^3.5.3"
   }
