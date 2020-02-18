@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "reg-suit-toppage",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "",
   "scripts": {
     "build": "bash scripts/build.sh v1.0.0",
@@ -30,7 +30,7 @@
     "reg-notify-github-plugin": "^0.8.5",
     "reg-notify-slack-plugin": "^0.8.4",
     "reg-publish-s3-plugin": "^0.9.0",
-    "reg-suit": "^0.9.1",
+    "reg-suit": "^0.10.0",
     "reg-suit-core": "^0.8.6",
     "typescript": "^3.5.3"
   }
