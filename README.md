@@ -37,6 +37,7 @@ The following plugins are available:
 - [reg-publish-gcs-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-publish-gcs-plugin/README.md) - *publisher plugin* - An alternative publisher plugin. It's so similar to S3 plugin but this uses Google Cloud Storage instead of S3.
 - [reg-notify-github-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-github-plugin/README.md) - *notifier plugin* - This plugin integrates reg-suit and it's [GitHub app](https://github.com/apps/reg-suit). Installing these plugin and app, you can receive reg-suit result via GitHub commit status and PR comment.
 - [reg-notify-gitlab-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-gitlab-plugin/README.md) - *notifier plugin* - This plugin notifies reg-suit result to your GitLab projects' merge requests comment.
+- [reg-notify-github-with-api-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-github-with-api-plugin/README.md) - *notifier plugin* - This plugin notifies reg-suit result to your GHE repositories PR comment.
 - [reg-notify-slack-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-slack-plugin/README.md) - *notifier plugin* - This plugin notifies reg-suit result to your Slack channel using incoming Webhook.
 
 For example, installing keygen-git-hash and publish-s3 plugins, you can get regression testing workflow according with GitHub flow as shown in the figure below.
