@@ -9,9 +9,9 @@ reg-suit prepare -p publish-gcs
 ```
 
 ## Authorizing GCP
-This plugin to be authorized using GCP's [Application Default Credentials](https://cloud.google.com/docs/authentication/production).
+This plugin has to be authorized using GCP's [Application Default Credentials](https://cloud.google.com/docs/authentication/production).
 
-If you run this plugin in your CI service, it to be recommended to create an Service Account. Visit https://cloud.google.com/iam/docs/creating-managing-service-accounts to see more details.
+If you run this plugin in your CI service, it's recommended to create a Service Account. Visit https://cloud.google.com/iam/docs/creating-managing-service-accounts to see more details.
 
 
 ## Configure
