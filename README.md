@@ -177,6 +177,7 @@ on: [push]
 
 jobs:
   build:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js v10
