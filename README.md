@@ -249,7 +249,7 @@ The following repositories using reg-suit. These repos can help you to introduce
 - [reg-viz/reg-puppeteer-demo](https://github.com/reg-viz/reg-puppeteer-demo): Simple HTML project using Puppeteer for capturing screenshot.
 - [bokuweb/react-avaron-reg-sample](https://github.com/bokuweb/react-avaron-reg-sample): React project using avaron(= Ava + Electron) for capturing screenshot.
 - [quramy/angular-puppeteer-demo](https://github.com/Quramy/angular-puppeteer-demo): Angular project using Puppeteer for capturing screenshot.
-- [tadashi-aikawa/owlora](https://github.com/tadashi-aikawa/owlora): React project using storybook and LOKI for capturing screenshot.
+- [tadashi-aikawa/owlora](https://github.com/tadashi-aikawa/owlora): React project using storybook and Puppeteer for capturing screenshot.
 - [tsuchikazu/vue-reg-suit-demo](https://github.com/tsuchikazu/vue-reg-suit-demo): Vue.js project using karma-nightmare for capturing screenshot.
 - [reg-viz/preview-sketch-demo](https://github.com/reg-viz/preview-sketch-demo): Sketch file project. reg-suit compares their preview images.
 - [quramy/angular-sss-demo](https://github.com/Quramy/angular-sss-demo): Angular project using Storybook and storybook-chrome-screenshot.
