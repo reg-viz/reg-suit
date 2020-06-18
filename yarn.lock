@@ -5013,10 +5013,10 @@ redent@^2.0.0:
     indent-string "^3.0.0"
     strip-indent "^2.0.0"
 
-reg-cli@^0.15.13:
-  version "0.15.13"
-  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.15.13.tgz#6397bec7ad626792bd1b1f839ef8048ae77998cf"
-  integrity sha512-2qfJEG15DybbT/AAHf2AttoVAnfCrfybN0JQa1057CmQ72aN9oOjmbhtTxFQeGjxLEx1epkmrZcu1EhOm/HLhw==
+reg-cli@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.16.1.tgz#4f1d447742c4120d110783e84e2f85ee9dc18247"
+  integrity sha512-e9Afa1ajOCKrmdDuQye6nzt8L6pfxD+hGQ/acHPyzoLKfXHaFfDPgq8iJNjf/chJ5CBKA7w5M4YTNH02pzjkSw==
   dependencies:
     bluebird "3.5.5"
     chalk "2.4.2"
