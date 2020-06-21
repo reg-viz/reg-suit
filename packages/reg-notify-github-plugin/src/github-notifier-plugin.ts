@@ -132,7 +132,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     }
 
     if (this._prComment) {
-      if (head.type === "branch" && (head.branch || this._apiOpt.branchName)) {
+      if ((head.type === "branch" && head.branch) || this._apiOpt.branchName) {
         const prCommentBody: CommentToPrBody = {
           ...this._apiOpt,
           failedItemsCount, newItemsCount, deletedItemsCount, passedItemsCount,
