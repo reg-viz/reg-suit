@@ -75,7 +75,10 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     if (config.options.clientId) {
       this._apiOpt = this._decodeClientId(config.options.clientId);
     } else {
-      this._apiOpt = (config.options as BaseEventBody);
+      this._apiOpt = (config.options || {} as BaseEventBody);
+    }
+    if (config.options.branchName) {
+        (this._apiOpt as any).branchName = config.options.branchName;
     }
     this._prComment = config.options.prComment !== false;
     this._setCommitStatus = config.options.setCommitStatus !== false;
