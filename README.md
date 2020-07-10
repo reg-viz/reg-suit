@@ -7,7 +7,7 @@
 **reg-suit** is a command line interface for visual regression testing.
 - *Compare Images* - reg-suit is inspired by snapshot testing. It compares the current images with the previous images, creates an HTML report for their differences. All you need is to give images to assert.
 - *Store Snapshots* - reg-suit automatically stores snapshot images to external cloud storage(e.g. AWS S3, Google Cloud Storage). You can review result of comparison and differences at any time you want.
-- *Work Everywhere* - reg-suit is a just CLI. So it's easy to integrate with your project. It works at any CI services and even your local machine.
+- *Work Everywhere* - reg-suit is just a CLI. So it's easy to integrate with your project. It works at any CI services and even your local machine.
 
 ## Getting Started
 
