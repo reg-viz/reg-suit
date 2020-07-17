@@ -1,0 +1,42 @@
+{
+  "name": "reg-keygen-git-strategy-plugin",
+  "version": "0.0.1",
+  "description": "Detect the snapshot key across branches to be compare with Git hash.",
+  "regSuitPlugin": {
+    "recommended": true
+  },
+  "scripts": {
+    "test": "ava",
+    "gen:fixtures": "find test/builder -type f -name *.sh -exec sh {} \\;",
+    "watch:test": "ava --watch"
+  },
+  "keywords": [
+    "reg",
+    "reg-suit-plugin"
+  ],
+  "author": {
+    "name": "Adolfo",
+    "email": "adolfo.panizo@gmail.com"
+  },
+  "repository": "git+https://github.com/reg-viz/reg-suit.git",
+  "license": "MIT",
+  "dependencies": {
+    "reg-suit-interface": "^0.7.25"
+  },
+  "devDependencies": {
+    "ava": "^3.10.1",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "ava": {
+    "files": [
+      "src/**/*.test.ts"
+    ],
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  }
+}
