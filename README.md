@@ -114,6 +114,7 @@ The `core` section contains reg-suit core setting and the `plugins` section cont
   workingDir?: string;        // default ".reg"
   thresholdRate?: number;    // default 0
   thresholdPixel?: number;    // default 0
+  enableAntialias?: boolean;    // default false
   ximgdiff?: {
     invocationType: "none" | "client";  // default "client" 
   };
@@ -125,6 +126,7 @@ The `core` section contains reg-suit core setting and the `plugins` section cont
 - `thresholdRate` - *Optional* - Threshold of the ratio of the number of pixels where the difference occurred to the whole. It should be in ranges from `0` to `1`.
 - `thresholdPixel` - *Optional* - Alternative threshold. The absolute number of pixels where difference occurred.
 - `matchingThreshold` - *Optional* - Matching threshold for YUV color distance between two pixels. It should be in ranges from 0 to 1. Smaller values make the comparison more sensitive.
+- `enableAntialias` - *Optional* - Enable antialias, so that anti-aliased pixels are detected and ignoring when comparing images.
 - `ximgdiff` - *Optional* - An option to display more detailed difference information to report html.
 - `ximgdiff.invocationType` - If set `"client"`, x-img-diff-js be invoked only with browsers. See [smart differences detection](#smart-difference-detection) section.
 

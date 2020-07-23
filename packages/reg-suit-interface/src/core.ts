@@ -7,6 +7,7 @@ export interface CoreConfig {
   thresholdPixel?: number;
   thresholdRate?: number;
   matchingThreshold?: number;
+  enableAntialias?: boolean;
   ximgdiff?: {
     invocationType: AdditionalDetectionInvocationType;
   };
