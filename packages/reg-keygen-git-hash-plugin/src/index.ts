@@ -48,7 +48,7 @@ class GitHashKeyGenPlugin implements KeyGeneratorPlugin<{ }> {
   private _checkAndMessage() {
     const result = this._isInGitRepository();
     if (!result) {
-      this._conf.logger.error(this._conf.logger.colors.red("reg-keygen-git-hash-plugin does can't work outside Git repository. Please retry after `git init`."));
+      this._conf.logger.error(this._conf.logger.colors.red("reg-keygen-git-hash-plugin does not work outside of a Git repository. Please retry after running `git init`."));
     }
     return result;
   }
