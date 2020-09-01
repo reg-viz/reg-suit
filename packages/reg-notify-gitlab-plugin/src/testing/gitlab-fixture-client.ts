@@ -5,6 +5,7 @@ import {
   MergeRequestResource,
   CommitResource,
   NoteResouce,
+  DiscussionResource,
 } from "../gitlab-api-client";
 
 export class GitLabFixtureClient implements GitLabApiClient {
@@ -33,5 +34,8 @@ export class GitLabFixtureClient implements GitLabApiClient {
   }
   putMergeRequestNote(params: { project_id: number; merge_request_iid: number; note_id: number; body: string; }): Promise<NoteResouce> {
     return this.loadFixtue<NoteResouce>("putMergeRequestNote");
+  }
+  postMergeRequestDiscussion(params: { project_id: number; merge_request_iid: number; body: string; }): Promise<DiscussionResource> {
+    return this.loadFixtue<DiscussionResource>("postMergeRequestDiscussion");
   }
 }

@@ -1,6 +1,7 @@
 export type ProjectIdType = number;
 export type MergeResuestIidType = number;
 export type NoteIdType = number;
+export type DiscussionIdType = number;
 import * as rp from "request-promise";
 
 export type MergeRequestResource = {
@@ -16,6 +17,11 @@ export type CommitResource = {
 export type NoteResouce = {
   id: NoteIdType;
   body: string;
+};
+
+export type DiscussionResource = {
+  id: DiscussionIdType;
+  notes: NoteResouce[];
 };
 
 export type GetMergeRequestsParams = {
@@ -51,6 +57,12 @@ export type PutMergeRequestNoteParams = {
   body: string;
 };
 
+export type PostMergeRequestDiscussionParams = {
+  project_id: ProjectIdType;
+  merge_request_iid: MergeResuestIidType;
+  body: string;
+};
+
 export interface GitLabApiClient {
   getMergeRequests(params: GetMergeRequestsParams): Promise<MergeRequestResource[]>;
   putMergeRequest(params: PutMergeRequestParams): Promise<MergeRequestResource>;
@@ -58,6 +70,7 @@ export interface GitLabApiClient {
   getMergeRequestNotes(params: GetMergeRequestNotesParams): Promise<NoteResouce[]>;
   postMergeRequestNote(params: PostMergeRequestNoteParams): Promise<NoteResouce>;
   putMergeRequestNote(params: PutMergeRequestNoteParams): Promise<NoteResouce>;
+  postMergeRequestDiscussion(params: PostMergeRequestDiscussionParams): Promise<DiscussionResource>;
 }
 
 export class DefaultGitLabApiClient implements GitLabApiClient {
@@ -145,4 +158,18 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
     return (rp(reqParam) as any) as Promise<NoteResouce>;
   }
 
+  postMergeRequestDiscussion(params: PostMergeRequestDiscussionParams): Promise<DiscussionResource> {
+    const reqParam: rp.OptionsWithUrl = {
+      method: "POST",
+      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.merge_request_iid}/discussions`,
+      json: true,
+      headers: {
+        "Private-Token": this._token,
+      },
+      body: {
+        "body": params.body,
+      },
+    };
+    return (rp(reqParam) as any) as Promise<DiscussionResource>;
+  }
 }
