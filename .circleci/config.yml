@@ -41,7 +41,7 @@ jobs:
             cd packages/reg-suit-toppage
             npm run regression
 
-  patch_release:
+  deploy:
     <<: *defaults
     steps:
       - add-ssh-keys:
@@ -69,51 +69,13 @@ jobs:
             echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
             npm whoami
       - run:
-          name: Deploy
+          name: Build LP
           command: |
-            yarn run deploy
-      - run:
-          name: Publish to npm
-          command: |
-            yarn run lerna run prepublish
-            yarn run lerna publish -- --yes --cd-version="patch"
-
-  minor_release:
-    <<: *defaults
-    steps:
-      - add-ssh-keys:
-          fingerprints:
-            - "9b:4a:d1:c6:ff:b7:49:b7:b7:bf:24:fb:b1:1e:bc:a6"
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "yarn.lock" }}
-            - v1-dependencies-
-      - run:
-          name: Install dependencies
-          command: yarn --pure-lockfile
-      - run:
-          name: Bootstrap packages
-          command: yarn run bootstrap
-      - run:
-          name: Setup git
-          command: |
-            git config --global user.email "yosuke.kurami@gmail.com"
-            git config --global user.name "Quramy"
-      - run:
-          name: Login npm
-          command: |
-            echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
-            npm whoami
+            yarn run build:io
       - run:
           name: Deploy
           command: |
             yarn run deploy
-      - run:
-          name: Publish to npm
-          command: |
-            yarn run lerna run prepublish
-            yarn run lerna publish -- --yes --cd-version="minor"
 
 workflows:
   version: 2
@@ -124,29 +86,9 @@ workflows:
             branches:
               ignore:
                 - gh-pages
-      - confirm_patch:
-          type: approval
+      - deploy:
           filters:
+            tags:
+              only: /^v.*/
             branches:
-              only: master
-          requires:
-            - build
-      - confirm_minor:
-          type: approval
-          filters:
-            branches:
-              only: master
-          requires:
-            - build
-      - patch_release:
-          filters:
-            branches:
-              only: master
-          requires:
-            - confirm_patch
-      - minor_release:
-          filters:
-            branches:
-              only: master
-          requires:
-            - confirm_minor
+              ignore: /.*/

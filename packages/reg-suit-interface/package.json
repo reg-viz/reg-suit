@@ -20,6 +20,6 @@
     "@types/inquirer": "^0.0.35"
   },
   "devDependencies": {
-    "typescript": "^3.5.3"
+    "typescript": "3.9.4"
   }
 }

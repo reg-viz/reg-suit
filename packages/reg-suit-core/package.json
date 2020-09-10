@@ -27,7 +27,7 @@
   "devDependencies": {
     "ava": "^0.20.0",
     "reg-suit-interface": "^0.7.25",
-    "typescript": "^3.5.3"
+    "typescript": "3.9.4"
   },
   "ava": {
     "files": "lib/**/*.test.js"

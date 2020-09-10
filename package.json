@@ -8,7 +8,8 @@
     "lint": "tslint packages/*/src/**/*.ts packages/*/test/**/*.ts",
     "build:io": "cd packages/reg-suit-toppage; npm run build",
     "deploy:io": "cd packages/reg-suit-toppage; npm run deploy",
-    "deploy": "npm run build:io && npm run deploy:io",
+    "deploy:packages": "lerna run clean && yarn build && lerna publish --yes from-package",
+    "deploy": "run-s deploy:*",
     "watch:interface": "tsc -w -p packages/reg-suit-interface/src/tsconfig.build.json",
     "watch:core": "tsc -w -p packages/reg-suit-core/src/tsconfig.build.json",
     "watch:cli": "tsc -w -p packages/reg-suit-cli/src/tsconfig.build.json",
@@ -16,12 +17,12 @@
     "watch": "run-p watch:*"
   },
   "devDependencies": {
-    "@types/node": "8.10.0",
-    "lerna": "2.11.0",
+    "@types/node": "^14.6.4",
+    "lerna": "^3.22.1",
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.6.1",
     "tslint": "^5.4.3",
-    "typescript": "^3.5.3"
+    "typescript": "^3.9.7"
   },
   "dependencies": {
     "glob": "^7.1.2",
