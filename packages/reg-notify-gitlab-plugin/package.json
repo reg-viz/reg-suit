@@ -1,6 +1,6 @@
 {
   "name": "reg-notify-gitlab-plugin",
-  "version": "0.8.5",
+  "version": "0.10.3",
   "description": "Notify reg-suit result to GitLab repository",
   "main": "lib/index.js",
   "scripts": {
@@ -22,12 +22,12 @@
     "@types/request-promise": "^4.1.35",
     "@types/sinon": "^5.0.1",
     "ava": "^0.20.0",
-    "reg-suit-interface": "^0.7.25",
+    "reg-suit-interface": "^0.10.3",
     "sinon": "^6.1.3",
     "typescript": "^3.5.3"
   },
   "dependencies": {
-    "reg-suit-util": "^0.8.5",
+    "reg-suit-util": "^0.10.3",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
   },

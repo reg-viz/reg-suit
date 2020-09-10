@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-interface",
-  "version": "0.7.25",
+  "version": "0.10.3",
   "description": "",
   "typings": "lib/index.d.ts",
   "scripts": {

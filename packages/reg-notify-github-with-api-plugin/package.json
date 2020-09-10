@@ -1,6 +1,6 @@
 {
   "name": "reg-notify-github-with-api-plugin",
-  "version": "0.10.1",
+  "version": "0.10.3",
   "description": "Notify reg-suit result to GHE repository using API",
   "main": "lib/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node-fetch": "^2.5.4",
-    "reg-suit-interface": "^0.7.25",
+    "reg-suit-interface": "^0.10.3",
     "typescript": "^3.5.3"
   },
   "dependencies": {
@@ -30,7 +30,7 @@
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "node-fetch": "^2.6.0",
-    "reg-suit-util": "^0.8.5",
+    "reg-suit-util": "^0.10.3",
     "tiny-commit-walker": "^1.2.1"
   }
 }
