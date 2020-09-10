@@ -8,7 +8,7 @@
     "lint": "tslint packages/*/src/**/*.ts packages/*/test/**/*.ts",
     "build:io": "cd packages/reg-suit-toppage; npm run build",
     "deploy:io": "cd packages/reg-suit-toppage; npm run deploy",
-    "deploy:packages": "lerna run clean && yarn build && lerna publish --yes from-package",
+    "deploy:packages": "lerna publish --yes from-package",
     "deploy": "run-s deploy:*",
     "watch:interface": "tsc -w -p packages/reg-suit-interface/src/tsconfig.build.json",
     "watch:core": "tsc -w -p packages/reg-suit-core/src/tsconfig.build.json",
