@@ -1,4 +1,3 @@
-import * as fs from "fs";
 import * as path from "path";
 import {
   NotifierPlugin,
@@ -16,6 +15,7 @@ export interface GhApiPluginOption {
   repository: string;
   privateToken: string;
   githubUrl?: string;
+  shortDescription?: boolean;
 }
 
 export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
@@ -27,6 +27,7 @@ export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
   private _githubUrl!: string;
   private _token?: string;
   private _repo!: Repository;
+  private _shortDescription!: boolean;
 
   init(config: PluginCreateOptions<GhApiPluginOption>) {
     this._logger = config.logger;
@@ -35,6 +36,7 @@ export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
     this._githubUrl = config.options.githubUrl || "https://github.com";
     this._token = config.options.privateToken;
     this._repo = new Repository(path.join(fsUtil.prjRootDir(".git"), ".git"));
+    this._shortDescription = config.options.shortDescription || false;
   }
 
   async notify(params: NotifyParams) {
@@ -57,6 +59,7 @@ export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
       failedItemsCount: params.comparisonResult.diffItems.length,
       newItemsCount: params.comparisonResult.newItems.length,
       deletedItemsCount: params.comparisonResult.deletedItems.length,
+      shortDescription: this._shortDescription,
     });
     const client = new GhGqlClient(this._token, this._githubUrl);
     if (head.type !== "branch" || !head.branch) {
