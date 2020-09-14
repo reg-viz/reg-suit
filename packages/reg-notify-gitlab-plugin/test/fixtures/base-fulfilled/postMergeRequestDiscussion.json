@@ -1,0 +1,29 @@
+{
+  "id": "2301bd5907e55d703162ea8dd565ab51ca84781f",
+  "individual_note": false,
+  "notes": [
+    {
+      "id": 86702361,
+      "type": "DiscussionNote",
+      "body": "<!-- reg-notify-gitlab-plugin posted -->\nupdated",
+      "attachment": null,
+      "author": {
+        "id": 1839429,
+        "name": "Yosuke Kurami",
+        "username": "Quramy",
+        "state": "active",
+        "avatar_url": "https://secure.gravatar.com/avatar/893f54413c2bd9ba41d11d753aacaf2c?s=80&d=identicon",
+        "web_url": "https://gitlab.com/Quramy"
+      },
+      "created_at": "2018-07-08T14:34:11.890Z",
+      "updated_at": "2018-07-08T14:34:12.986Z",
+      "system": false,
+      "noteable_id": 13813091,
+      "noteable_type": "MergeRequest",
+      "resolvable": true,
+      "resolved": false,
+      "resolved_by": null,
+      "noteable_iid": 1
+    }
+  ]
+}

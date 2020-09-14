@@ -17,14 +17,14 @@ reg-suit prepare -p notify-gitlab
   projectId: string;
   privateToken: string;
   gitlabUrl?: string;
-  commentTo?: "note" | "description";
+  commentTo?: "note" | "description" | "discussion";
 }
 ```
 
 - `projectId` - *Required* - Your GitLab project id. You can get this id via `https://gitlab.com/<your-name>/<your-project-name/edit>` page.
 - `privateToken` - *Required* - Your GitLab API token. If you want more detail, see [Personal access tokens doc](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
 - `gitlabUrl` - *Optional* - Set if you host your GitLab instance. Default: `https://gitlab.com`
-- `commentTo` - *Optional* - How this plugin comments to MR. If `"note"`, it posts or puts the comment as a MR's note. if `"description"`, your MR's description gets updated. Default: `"note"`.
+- `commentTo` - *Optional* - How this plugin comments to MR. If `"note"`, it posts or puts the comment as a MR's note. if `"description"`, your MR's description gets updated. If `"discussion"`, it posts or puts the comment as a MR's *resolvable* note. Default: `"note"`.
 
 ### Auto complete on GitLab CI
 
