@@ -22,12 +22,12 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^26.0.13",
-    "@types/open": "^6.2.1",
-    "@types/request-promise": "^4.1.46",
-    "jest": "^26.4.2",
+    "@types/jest": "26.0.13",
+    "@types/open": "6.2.1",
+    "@types/request-promise": "4.1.46",
+    "jest": "26.4.2",
     "reg-suit-interface": "^0.10.6",
-    "ts-jest": "^26.3.0",
+    "ts-jest": "26.3.0",
     "typescript": "4.0.2"
   },
   "dependencies": {
