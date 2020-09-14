@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
+    "incremental": true,
     "baseUrl": "./packages",
     "declaration": true,
     "target": "es2015",
     "module": "commonjs",
+    "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "moduleResolution": "node",
     "sourceMap": true,

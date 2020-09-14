@@ -1,7 +1,7 @@
 #!/bin/env node
 
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 import { DefaultGitLabApiClient } from "../gitlab-api-client";
 import { sync } from "mkdirp";
 import { COMMENT_MARK } from "../use-cases";

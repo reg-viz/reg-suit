@@ -5,9 +5,9 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "test": "export HOGE_FOO=hoge; ava",
-    "watch:test": "export HOGE_FOO=hoge; ava --watch",
-    "prepublish": "tsc -p src/tsconfig.build.json"
+    "test": "export HOGE_FOO=hoge; jest",
+    "watch:test": "export HOGE_FOO=hoge; jest --watch",
+    "prepublish": "tsc -p tsconfig.build.json"
   },
   "keywords": [
     "reg"
@@ -25,11 +25,10 @@
     "rimraf": "^2.6.1"
   },
   "devDependencies": {
-    "ava": "^0.20.0",
+    "@types/jest": "^26.0.13",
+    "jest": "^26.4.2",
     "reg-suit-interface": "^0.10.3",
+    "ts-jest": "^26.3.0",
     "typescript": "3.9.4"
-  },
-  "ava": {
-    "files": "lib/**/*.test.js"
   }
 }

@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo T.B.D.",
-    "prepublish": "tsc -p src/tsconfig.build.json"
+    "prepublish": "tsc -p tsconfig.build.json"
   },
   "keywords": [
     "reg",
@@ -24,6 +24,6 @@
   "devDependencies": {
     "@types/request-promise": "^4.1.35",
     "reg-suit-interface": "^0.10.3",
-    "typescript": "^3.5.3"
+    "typescript": "3.9.4"
   }
 }

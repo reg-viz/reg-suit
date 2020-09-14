@@ -1,8 +1,8 @@
-import * as fs from "fs";
-import * as path from "path";
-import * as zlib from "zlib";
+import fs from "fs";
+import path from "path";
+import zlib from "zlib";
 import { S3, config as awsConfig } from "aws-sdk";
-import * as mkdirp from "mkdirp";
+import mkdirp from "mkdirp";
 
 import { PublisherPlugin, PluginCreateOptions, PluginLogger, WorkingDirectoryInfo } from "reg-suit-interface";
 import { FileItem, RemoteFileItem, ObjectListResult, AbstractPublisher } from "reg-suit-util";

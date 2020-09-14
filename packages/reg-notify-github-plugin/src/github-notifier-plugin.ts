@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 import { Repository } from "tiny-commit-walker";
 import { inflateRawSync } from "zlib";
 import { execSync } from "child_process";
@@ -12,7 +12,7 @@ import {
   PluginLogger,
 } from "reg-suit-interface";
 
-import * as rp from "request-promise";
+import rp from "request-promise";
 
 export interface GitHubPluginOption {
   clientId?: string;

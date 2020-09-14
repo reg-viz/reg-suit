@@ -7,10 +7,10 @@
   },
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "tsc -p src/tsconfig.build.json",
-    "test": "ava",
-    "gen:fixtures": "find test/builder -type f -name *.sh -exec sh {} \\;",
-    "watch:test": "ava --watch"
+    "prepublish": "tsc -p tsconfig.build.json",
+    "test": "jest",
+    "watch:test": "jest --watch",
+    "gen:fixtures": "find test/builder -type f -name *.sh -exec sh {} \\;"
   },
   "keywords": [
     "reg",
@@ -26,15 +26,12 @@
     "reg-suit-util": "^0.10.3"
   },
   "devDependencies": {
-    "ava": "^0.20.0",
+    "@types/jest": "^26.0.13",
     "glob": "^7.1.2",
+    "jest": "^26.4.2",
     "reg-suit-interface": "^0.10.3",
     "rimraf": "^2.6.1",
+    "ts-jest": "^26.3.0",
     "typescript": "3.9.4"
-  },
-  "ava": {
-    "files": [
-      "lib/**/*.test.js"
-    ]
   }
 }

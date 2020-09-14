@@ -1,11 +1,11 @@
-import * as path from "path";
-import * as fs from "fs";
+import path from "path";
+import fs from "fs";
 import { PluginLogger, WorkingDirectoryInfo } from "reg-suit-interface";
 
 import * as mkdirp from "mkdirp";
 import { lookup } from "mime-types";
-import * as glob from "glob";
-import * as _ from "lodash";
+import glob from "glob";
+import _ from "lodash";
 
 export type FileItem = {
   path: string;

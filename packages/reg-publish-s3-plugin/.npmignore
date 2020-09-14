@@ -3,5 +3,4 @@ lib/**/*.spec.js
 src/
 test/
 e2e/
-built_e2e/
 built/

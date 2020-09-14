@@ -1,7 +1,7 @@
-import test from "ava";
+import assert from "assert";
 import { parseGitConfig } from "./git-config-parser";
 
-test("parse from git config file", (t) => {
+test("parse from git config file", () => {
   const rawConfig = `[core]
 	repositoryformatversion = 0
 	filemode = true
@@ -14,7 +14,7 @@ test("parse from git config file", (t) => {
 	fetch = +refs/heads/*:refs/remotes/origin/*`;
 
   const actual = parseGitConfig(rawConfig);
-  t.is(actual.length, 2);
-  t.is(actual[1].name, "remote \"origin\"");
-  t.is(actual[1].keys["url"], "https://github.com/Quramy/reg-suit.git");
+  assert.equal(actual.length, 2);
+  assert.equal(actual[1].name, "remote \"origin\"");
+  assert.equal(actual[1].keys["url"], "https://github.com/Quramy/reg-suit.git");
 });

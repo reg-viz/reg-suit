@@ -1,5 +1,5 @@
-const mkdirp = require("mkdirp");
-const Puppeteer = require('puppeteer');
+import mkdirp from "mkdirp";
+import Puppeteer from "puppeteer";
 
 async function main() {
   try {

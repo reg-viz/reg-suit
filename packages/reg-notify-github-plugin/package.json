@@ -7,8 +7,8 @@
   },
   "main": "lib/index.js",
   "scripts": {
-    "test": "ava",
-    "prepublish": "tsc -p src/tsconfig.build.json"
+    "test": "jest",
+    "prepublish": "tsc -p tsconfig.build.json"
   },
   "keywords": [
     "reg",
@@ -22,9 +22,11 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^26.0.13",
     "@types/request-promise": "^4.1.35",
-    "ava": "^0.20.0",
+    "jest": "^26.4.2",
     "reg-suit-interface": "^0.10.3",
+    "ts-jest": "^26.3.0",
     "typescript": "^3.5.3"
   },
   "dependencies": {
@@ -34,8 +36,5 @@
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "tiny-commit-walker": "^1.1.2"
-  },
-  "ava": {
-    "files": "lib/**/*.test.js"
   }
 }

@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo T.B.D.",
-    "prepublish": "tsc -p src/tsconfig.build.json"
+    "prepublish": "tsc -p tsconfig.build.json"
   },
   "keywords": [
     "reg",

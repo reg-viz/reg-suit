@@ -1,9 +1,0 @@
-{
-  "extends": "../../../tsconfig.json",
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "rootDir": ".",
-    "outDir": "../built_e2e"
-  }
-}

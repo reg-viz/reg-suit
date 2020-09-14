@@ -1,5 +1,5 @@
+import assert from "assert";
 import * as path from "path";
-import test from "ava";
 import { PluginManager, PluginMetadata } from "./plugin-manager";
 import { RegLogger } from "reg-suit-util";
 
@@ -16,26 +16,26 @@ function createPluginManager(pluginConfig: any) {
   return pm;
 }
 
-test("should throws error when attempting to load non installed plugin", t => {
+test("should throws error when attempting to load non installed plugin", () => {
   const pm = createPluginManager({ "non-existing-plugin": { } });
-  t.throws(() => pm.loadPlugins());
+  expect(() => pm.loadPlugins()).toThrowError();
 });
 
-test("should return pluginHolders", t => {
+test("should return pluginHolders", () => {
   const pm = createPluginManager({ "./lib/testing/dummy-plugin": { } });
   pm.loadPlugins();
-  t.is(pm._pluginHolders.length, 1);
-  t.is(pm._pluginHolders[0].moduleId, "./lib/testing/dummy-plugin");
+  assert.equal(pm._pluginHolders.length, 1);
+  assert.equal(pm._pluginHolders[0].moduleId, "./lib/testing/dummy-plugin");
 });
 
-test("resolve locally installed module", t => {
+test("resolve locally installed module", () => {
   const pm = createPluginManager({ });
   const p = pm._resolve("reg-suit-util", path.resolve(__dirname, ".."));
-  t.truthy(p.endsWith("reg-suit-util/lib/index.js"));
+  assert.equal(p.endsWith("reg-suit-util/lib/index.js"), true);
 });
 
-test("resolve relative path", t => {
+test("resolve relative path", () => {
   const pm = createPluginManager({ });
-  const p = pm._resolve("../lib/testing/dummy-plugin", __dirname);
-  t.is(p, path.resolve(__dirname, "testing/dummy-plugin.js"));
+  const actual = pm._resolve("../lib/testing/dummy-plugin", __dirname);
+  assert.equal(actual, path.resolve(__dirname, "../lib/", "testing/dummy-plugin.js"));
 });
