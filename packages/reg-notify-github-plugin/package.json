@@ -31,7 +31,7 @@
     "typescript": "4.0.2"
   },
   "dependencies": {
-    "open": "^6.0.0",
+    "open": "^7.2.1",
     "reg-gh-app-interface": "^1.0.6",
     "reg-suit-util": "^0.10.3",
     "request": "^2.88.2",

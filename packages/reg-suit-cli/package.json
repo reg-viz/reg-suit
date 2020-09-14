@@ -24,7 +24,7 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "dependencies": {
-    "cp-file": "^7.0.0",
+    "cp-file": "^9.0.0",
     "ignore": "^3.3.7",
     "inquirer": "^3.1.1",
     "reg-suit-core": "^0.10.3",
@@ -32,6 +32,7 @@
     "yargs": "^16.0.3"
   },
   "devDependencies": {
+    "@types/cp-file": "^6.1.2",
     "@types/inquirer": "^0.0.35",
     "@types/yargs": "^15.0.5",
     "reg-suit-interface": "^0.10.3",

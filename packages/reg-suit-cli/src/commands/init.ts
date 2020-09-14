@@ -1,5 +1,6 @@
-import * as path from "path";
-import * as inquirer from "inquirer";
+import path from "path";
+import inquirer from "inquirer";
+import cpFile from "cp-file";
 
 import { RegSuitCore } from "reg-suit-core";
 import { CliOptions } from "../cli-options";
@@ -8,9 +9,6 @@ import install from "./install";
 import prepare from "./prepare";
 import packageUtil from "../package-util";
 import getRegCore from "../get-reg-core";
-
-type CpFile = (from: string, to: string) => Promise<void>;
-const cpFile = require("cp-file") as CpFile;
 
 function init(options: CliOptions) {
   return install(options)
