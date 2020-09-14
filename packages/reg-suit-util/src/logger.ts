@@ -1,9 +1,7 @@
 import { Chalk, Instance } from "chalk";
 import { Logger, Colors, Spinner, ProgressBar } from "reg-suit-interface";
-
-const SpinnerConstructor = require("cli-spinner").Spinner;
-const progress = require("cli-progress");
-const ProgressBarConstructor = progress.Bar;
+import { Bar as ProgressBarConstructor, Presets } from "cli-progress";
+import { Spinner as SpinnerConstructor } from "cli-spinner";
 
 export type LogLevel = "verbose" | "info" | "silent";
 
@@ -56,7 +54,7 @@ export class RegLogger implements Logger {
 
   getProgressBar(): ProgressBar {
     if (this._level === "silent") return noopProgressBar;
-    const bar = new ProgressBarConstructor({}, progress.Presets.rect);
+    const bar = new ProgressBarConstructor({}, Presets.rect);
     return bar;
   }
 

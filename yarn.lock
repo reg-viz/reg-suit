@@ -1536,6 +1536,20 @@
   resolved "https://registry.yarnpkg.com/@types/caseless/-/caseless-0.12.2.tgz#f65d3d6389e01eeb458bd54dc8f52b95a9463bc8"
   integrity sha512-6ckxMjBBD8URvjB6J3NcnuAn5Pkl7t3TizAg+xdlzzQGSPSmBcXf8KoIH0ua/i+tio+ZRUHEXp0HEmvaR4kt0w==
 
+"@types/cli-progress@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@types/cli-progress/-/cli-progress-3.8.0.tgz#f60f6d88ef2d9628876c9e906431ac9f34670975"
+  integrity sha512-2OV7ybuYQc6ju6Xlg8ncQcPA/vVbMTSGS0vygjszi9O7swC63S6f2oAnP4CE+4ppRo7eCQovlj268KySt1MaUQ==
+  dependencies:
+    "@types/node" "*"
+
+"@types/cli-spinner@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@types/cli-spinner/-/cli-spinner-0.2.0.tgz#50304d21d9a3623a878fc2a42c9bfa6921c6d236"
+  integrity sha512-M7+zuU/wPkgG74TZnS4lE/FD6pH4HQg/H7QHPInGfPcx+kfc9dam+yWbye6CAqdpUczdMjvN7NfBf1OUEJnAZA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/color-name@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
@@ -2847,12 +2861,13 @@ cli-cursor@^2.1.0:
   dependencies:
     restore-cursor "^2.0.0"
 
-cli-progress@^1.4.1:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/cli-progress/-/cli-progress-1.8.0.tgz#5e8afc310f2058fbe33e9006e31c71c1c3b5da7f"
-  integrity sha1-Xor8MQ8gWPvjPpAG4xxxwcO12n8=
+cli-progress@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/cli-progress/-/cli-progress-3.8.2.tgz#abaf1fc6d6401351f16f068117a410554a0eb8c7"
+  integrity sha512-qRwBxLldMSfxB+YGFgNRaj5vyyHe1yMpVeDL79c+7puGujdKJHQHydgqXDcrkvQgJ5U/d3lpf6vffSoVVUftVQ==
   dependencies:
     colors "^1.1.2"
+    string-width "^4.2.0"
 
 cli-spinner@0.2.10, cli-spinner@^0.2.6:
   version "0.2.10"
