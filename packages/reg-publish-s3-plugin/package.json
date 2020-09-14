@@ -22,16 +22,16 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.432.0",
-    "mkdirp": "^0.5.1",
+    "aws-sdk": "^2.751.0",
+    "mkdirp": "^1.0.4",
     "reg-suit-util": "^0.10.3",
-    "uuid": "^3.1.0"
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@types/mkdirp": "^0.3.29",
-    "@types/uuid": "^3.0.0",
+    "@types/mkdirp": "^1.0.1",
+    "@types/uuid": "^8.3.0",
     "reg-suit-interface": "^0.10.3",
-    "rimraf": "^2.6.1",
+    "rimraf": "^3.0.2",
     "typescript": "4.0.2"
   }
 }

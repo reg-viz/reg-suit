@@ -1,6 +1,7 @@
-import * as path from "path";
-import * as fs from "fs";
-import * as inquirer from "inquirer";
+import path from "path";
+import fs from "fs";
+import inquirer from "inquirer";
+import ignore from "ignore";
 
 import { RegSuitCore } from "reg-suit-core";
 import { CoreConfig } from "reg-suit-interface";
@@ -14,7 +15,7 @@ function hasGitignore(dir: string) {
 
 function loadGitignore(dir: string) {
   const gi = fs.readFileSync(path.resolve(dir, ".gitignore"), "utf8");
-  const ig = ((require("ignore") as unknown) as typeof import("ignore").default)();
+  const ig = ignore();
   gi.split("\n").forEach(l => {
     if (!l.trim().startsWith("#")) {
       ig.add(l);

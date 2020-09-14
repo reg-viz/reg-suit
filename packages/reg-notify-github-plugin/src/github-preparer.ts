@@ -1,10 +1,7 @@
 import path from "path";
-
+import opn from "open";
 import { PreparerQuestion, PluginCreateOptions, PluginPreparer } from "reg-suit-interface";
-
 import { GitHubPluginOption } from "./github-notifier-plugin";
-
-const opn = require("opn");
 
 export interface GitHubPreparerOption {
   clientId: string;

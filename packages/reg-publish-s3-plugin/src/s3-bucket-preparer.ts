@@ -1,4 +1,4 @@
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import { S3, config as awsConfig } from "aws-sdk";
 import { PluginPreparer, PluginCreateOptions, PreparerQuestions, PluginLogger } from "reg-suit-interface";
 import { PluginConfig } from "./s3-publisher-plugin";
