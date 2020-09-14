@@ -21,13 +21,10 @@
   "devDependencies": {
     "@types/chalk": "^0.4.31",
     "@types/glob": "^5.0.34",
-    "@types/jest": "^26.0.13",
     "@types/lodash": "^4.14.66",
     "@types/mime-types": "^2.1.0",
     "@types/mkdirp": "^0.3.29",
-    "jest": "^26.4.2",
     "reg-suit-interface": "^0.10.3",
-    "ts-jest": "^26.3.0",
     "typescript": "3.9.4"
   },
   "dependencies": {

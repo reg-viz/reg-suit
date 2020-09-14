@@ -1,8 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "clean": "rimraf packages/**/lib/ node_modules/reg-*",
-    "postinstall": "rm -rf node_modules/@types/react-dom/node_modules",
+    "clean": "rimraf \"packages/*/lib\"",
     "bootstrap": "lerna bootstrap && lerna run prepublish",
     "test": "lerna run test",
     "lint": "tslint packages/*/src/**/*.ts packages/*/test/**/*.ts",
