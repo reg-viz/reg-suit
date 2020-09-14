@@ -61,7 +61,9 @@ function createOptions() {
     .command("compare", "Compare actual images with expected images and creates report.")
     .command("publish", "Publish the latest comparison result in working directory.", {
       n: { alias: "notification", desc: "Send notifications with publishing", boolean: true, default: false },
-    });
+    })
+    .wrap(120)
+    .locale("en");
   const { config, verbose, quiet, test, useYarn, plugin, useDevCore, notification } = yargs.argv;
   const command = yargs.argv._[0];
   const logLevel = verbose ? "verbose" : quiet ? "silent" : "info";
