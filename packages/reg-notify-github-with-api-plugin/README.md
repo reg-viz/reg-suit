@@ -27,3 +27,9 @@ reg-suit prepare -p notify-github-with-api
 - `owner` - *Required* - GitHub owner name.
 - `repository` - *Required* - GitHub repository name.
 - `privateToken` - *Required* Private access token. The `repo` scope is required if the repository is private.
+- `shortDescription` - *Optional* Returns a small table with the item counts.
+  Example:
+
+  | 🔴 Changed | ⚪️ New | 🔵 Passing |
+  | ---        | ---    | ---        |
+  | 3          | 4      | 120        |
