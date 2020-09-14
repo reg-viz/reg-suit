@@ -19,6 +19,7 @@ export interface GitHubPluginOption {
   installationId?: string;
   owner?: string;
   repository?: string;
+  branchName?: string;
   prComment?: boolean;
   setCommitStatus?: boolean;
   customEndpoint?: string;
@@ -74,7 +75,10 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     if (config.options.clientId) {
       this._apiOpt = this._decodeClientId(config.options.clientId);
     } else {
-      this._apiOpt = (config.options as BaseEventBody);
+      this._apiOpt = (config.options || {} as BaseEventBody);
+    }
+    if (config.options.branchName) {
+        (this._apiOpt as any).branchName = config.options.branchName;
     }
     this._prComment = config.options.prComment !== false;
     this._setCommitStatus = config.options.setCommitStatus !== false;
@@ -128,12 +132,12 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     }
 
     if (this._prComment) {
-      if (head.type === "branch" && head.branch) {
+      if ((head.type === "branch" && head.branch) || this._apiOpt.branchName) {
         const prCommentBody: CommentToPrBody = {
           ...this._apiOpt,
-          branchName: head.branch.name,
           failedItemsCount, newItemsCount, deletedItemsCount, passedItemsCount,
         };
+        if (!prCommentBody.branchName && head.branch) prCommentBody.branchName = head.branch.name;
         if (params.reportUrl) prCommentBody.reportUrl = params.reportUrl;
         const commentReq: rp.OptionsWithUri = {
           uri: `${this._apiPrefix}/api/comment-to-pr`,
