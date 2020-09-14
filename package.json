@@ -21,6 +21,7 @@
     "lerna": "^3.22.1",
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.6.1",
+    "ts-node": "^9.0.0",
     "tslint": "^5.4.3",
     "typescript": "^3.9.7"
   },
