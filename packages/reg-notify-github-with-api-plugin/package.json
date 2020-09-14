@@ -1,6 +1,6 @@
 {
   "name": "reg-notify-github-with-api-plugin",
-  "version": "0.10.3",
+  "version": "0.10.4",
   "description": "Notify reg-suit result to GHE repository using API",
   "main": "lib/index.js",
   "scripts": {
