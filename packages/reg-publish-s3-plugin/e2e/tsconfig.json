@@ -1,7 +1,0 @@
-{
-  "extends": "../../../tsconfig.json",
-  "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "../built_e2e"
-  }
-}
