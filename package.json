@@ -4,6 +4,7 @@
     "clean": "rimraf \"packages/*/lib\"",
     "bootstrap": "lerna bootstrap && lerna run prepublish",
     "test": "lerna run test",
+    "prettier": "prettier \"*.md\" \"*.json\" \"*.yml\" \"packages/**/*\"",
     "format": "yarn prettier --write",
     "format:check": "yarn prettier --check",
     "lint": "tslint packages/*/src/**/*.ts packages/*/test/**/*.ts",

@@ -59,10 +59,10 @@ export class PackageUtil {
       const packageJson = JSON.parse(fs.readFileSync(path.join(cwd, "package.json"), "utf8"));
       let result: string[] = [];
       if (packageJson["dependencies"]) {
-        result = [ ...result, ...Object.keys(packageJson["dependencies"])];
+        result = [...result, ...Object.keys(packageJson["dependencies"])];
       }
       if (packageJson["devDependencies"]) {
-        result = [ ...result, ...Object.keys(packageJson["devDependencies"])];
+        result = [...result, ...Object.keys(packageJson["devDependencies"])];
       }
       return result.filter(dep => PLUGIN_NAME_REGEXP.test(dep));
     } catch (e) {

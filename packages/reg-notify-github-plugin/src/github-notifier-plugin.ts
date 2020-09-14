@@ -5,12 +5,7 @@ import { inflateRawSync } from "zlib";
 import { execSync } from "child_process";
 import { getGhAppInfo, BaseEventBody, CommentToPrBody, UpdateStatusBody } from "reg-gh-app-interface";
 import { fsUtil } from "reg-suit-util";
-import {
-  NotifierPlugin,
-  NotifyParams,
-  PluginCreateOptions,
-  PluginLogger,
-} from "reg-suit-interface";
+import { NotifierPlugin, NotifyParams, PluginCreateOptions, PluginLogger } from "reg-suit-interface";
 
 import rp from "request-promise";
 
@@ -48,7 +43,6 @@ const errorHandler = (logger: PluginLogger) => {
 };
 
 export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> {
-
   _logger!: PluginLogger;
   _noEmit!: boolean;
   _apiOpt!: BaseEventBody;
@@ -74,7 +68,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     if (config.options.clientId) {
       this._apiOpt = this._decodeClientId(config.options.clientId);
     } else {
-      this._apiOpt = (config.options as BaseEventBody);
+      this._apiOpt = config.options as BaseEventBody;
     }
     this._prComment = config.options.prComment !== false;
     this._setCommitStatus = config.options.setCommitStatus !== false;
@@ -89,7 +83,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     const newItemsCount = newItems.length;
     const deletedItemsCount = deletedItems.length;
     const passedItemsCount = passedItems.length;
-    const state = (failedItemsCount + newItemsCount + deletedItemsCount === 0) ? "success" : "failure";
+    const state = failedItemsCount + newItemsCount + deletedItemsCount === 0 ? "success" : "failure";
     const description = state === "success" ? "Regression testing passed" : "Regression testing failed";
     let sha1: string;
 
@@ -132,7 +126,10 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
         const prCommentBody: CommentToPrBody = {
           ...this._apiOpt,
           branchName: head.branch.name,
-          failedItemsCount, newItemsCount, deletedItemsCount, passedItemsCount,
+          failedItemsCount,
+          newItemsCount,
+          deletedItemsCount,
+          passedItemsCount,
         };
         if (params.reportUrl) prCommentBody.reportUrl = params.reportUrl;
         const commentReq: rp.OptionsWithUri = {
@@ -155,7 +152,6 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     spinner.start();
     return Promise.all(reqs.map(r => rp(r).catch(errorHandler(this._logger))))
       .then(() => spinner.stop())
-      .catch(() => spinner.stop())
-    ;
+      .catch(() => spinner.stop());
   }
 }

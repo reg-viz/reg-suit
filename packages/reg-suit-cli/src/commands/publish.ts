@@ -12,18 +12,22 @@ function publish(options: CliOptions) {
   try {
     comparisonResult = JSON.parse(fs.readFileSync(resultPath, "utf8"));
   } catch (e) {
-    core.logger.error(`Not found comparison result file. Retry after execution ${core.logger.colors.cyan("reg-suit compare")}.`);
+    core.logger.error(
+      `Not found comparison result file. Retry after execution ${core.logger.colors.cyan("reg-suit compare")}.`,
+    );
     return Promise.reject(e);
   }
-  return processor.getExpectedKey()
-    .then(ctx => processor.getActualKey({
-      comparisonResult,
-      expectedKey: ctx.expectedKey,
-    }))
+  return processor
+    .getExpectedKey()
+    .then(ctx =>
+      processor.getActualKey({
+        comparisonResult,
+        expectedKey: ctx.expectedKey,
+      }),
+    )
     .then(ctx => processor.publish(ctx))
-    .then(ctx => options.notification ? processor.notify(ctx) : ctx)
-    .then(ctx => null)
-  ;
+    .then(ctx => (options.notification ? processor.notify(ctx) : ctx))
+    .then(ctx => null);
 }
 
 export default publish;

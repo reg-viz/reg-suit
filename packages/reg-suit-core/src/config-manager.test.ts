@@ -18,8 +18,8 @@ test("replace placeholders in config", () => {
   const conf = {
     core: { actualDir: "$HOGE_FOO", workingDir: "HOGE_FOO" },
     plugins: {
-      "some-plugin": { "xxx": "$HOGE_FOO", "yyy": "${HOGE_FOO}", "zzz": "HOGE_FOO" }
-    }
+      "some-plugin": { xxx: "$HOGE_FOO", yyy: "${HOGE_FOO}", zzz: "HOGE_FOO" },
+    },
   };
   const manager = createManager();
   manager._loadedConfig = conf;
@@ -35,8 +35,8 @@ test("replace nested placeholders", () => {
   const conf = {
     core: coreConf,
     plugins: {
-      "some-plugin": { "xxx": { "yyy": "$HOGE_FOO" } }
-    }
+      "some-plugin": { xxx: { yyy: "$HOGE_FOO" } },
+    },
   };
   const manager = createManager();
   manager._loadedConfig = conf;
@@ -48,8 +48,8 @@ test("replace placeholders in array", () => {
   const conf = {
     core: coreConf,
     plugins: {
-      "some-plugin": { "xxx": ["$HOGE_FOO"] }
-    }
+      "some-plugin": { xxx: ["$HOGE_FOO"] },
+    },
   };
   const manager = createManager();
   manager._loadedConfig = conf;
@@ -61,8 +61,8 @@ test("escape $$ to $", () => {
   const conf = {
     core: coreConf,
     plugins: {
-      "some-plugin": { "xxx": "$$HOGE_FOO" }
-    }
+      "some-plugin": { xxx: "$$HOGE_FOO" },
+    },
   };
   const manager = createManager();
   manager._loadedConfig = conf;
@@ -74,8 +74,8 @@ test("replace only once", () => {
   const conf = {
     core: coreConf,
     plugins: {
-      "some-plugin": { "xxx": "$HOGE_FOO", "yyy": "$$HOGE_FOO" }
-    }
+      "some-plugin": { xxx: "$HOGE_FOO", yyy: "$$HOGE_FOO" },
+    },
   };
   const manager = createManager();
   manager._loadedConfig = conf;

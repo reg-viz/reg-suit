@@ -93,7 +93,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
           }
           this._s3client.putObject(req, (err, x) => {
             if (err) return reject(err);
-            this.logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`,);
+            this.logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`);
             return resolve(item);
           });
         });
@@ -104,24 +104,27 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
   protected downloadItem(remoteItem: RemoteFileItem, item: FileItem): Promise<FileItem> {
     const s3Key = remoteItem.remotePath;
     return new Promise((resolve, reject) => {
-      this._s3client.getObject({
-        Bucket: this._pluginConfig.bucketName,
-        Key: `${s3Key}`,
-      }, (err, x) => {
-        if (err) {
-          return reject(err);
-        }
-        mkdirp.sync(path.dirname(item.absPath));
-        this._gunzipIfNeed(x, (err, content) => {
-          fs.writeFile(item.absPath, content, (err) => {
-            if (err) {
-              return reject(err);
-            }
-            this.logger.verbose(`Downloaded from ${s3Key} to ${item.absPath}`);
-            resolve(item);
+      this._s3client.getObject(
+        {
+          Bucket: this._pluginConfig.bucketName,
+          Key: `${s3Key}`,
+        },
+        (err, x) => {
+          if (err) {
+            return reject(err);
+          }
+          mkdirp.sync(path.dirname(item.absPath));
+          this._gunzipIfNeed(x, (err, content) => {
+            fs.writeFile(item.absPath, content, err => {
+              if (err) {
+                return reject(err);
+              }
+              this.logger.verbose(`Downloaded from ${s3Key} to ${item.absPath}`);
+              resolve(item);
+            });
           });
-        });
-      });
+        },
+      );
     });
   }
 
@@ -136,20 +139,20 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
       Bucket: this._pluginConfig.bucketName,
       Prefix: prefix,
       MaxKeys: 1000,
-    }
+    };
     if (lastKey) {
-        options.Marker = lastKey
+      options.Marker = lastKey;
     }
 
     return new Promise<ObjectListResult>((resolve, reject) => {
       this._s3client.listObjects(options, async (err, result: S3.ListObjectsOutput) => {
         if (err) {
-          reject(err)
+          reject(err);
         }
 
-        let nextMarker: string | undefined
+        let nextMarker: string | undefined;
         if (result.Contents && result.Contents.length > 0 && result.IsTruncated) {
-          nextMarker = result.Contents[result.Contents.length - 1].Key
+          nextMarker = result.Contents[result.Contents.length - 1].Key;
         }
 
         resolve({
@@ -157,8 +160,8 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
           contents: !result.Contents ? [] : result.Contents.map(f => ({ key: f.Key })),
           nextMarker,
         } as ObjectListResult);
-      })
-    })
+      });
+    });
   }
 
   private _gunzipIfNeed(output: S3.GetObjectOutput, cb: (err: any, data: Buffer) => any) {

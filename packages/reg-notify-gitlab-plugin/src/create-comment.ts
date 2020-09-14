@@ -6,7 +6,6 @@ export interface CommentSeed {
   passedItemsCount: number;
 }
 
-
 // NOTE: The following function is copied from /packages/reg-gh-app/src/pr-comment-fns.ts
 export function createCommentBody(eventBody: CommentSeed) {
   const lines: string[] = [];

@@ -1,10 +1,6 @@
 import path from "path";
 
-import {
-  PreparerQuestion,
-  PluginCreateOptions,
-  PluginPreparer
-} from "reg-suit-interface";
+import { PreparerQuestion, PluginCreateOptions, PluginPreparer } from "reg-suit-interface";
 
 import { GitHubPluginOption } from "./github-notifier-plugin";
 
@@ -20,7 +16,8 @@ export class GitHubPreparer implements PluginPreparer<GitHubPreparerOption, GitH
       {
         type: "confirm",
         name: "openApp",
-        message: "notify-github plugin requires a client ID of reg-suit GitHub app. Open installation window in your browser",
+        message:
+          "notify-github plugin requires a client ID of reg-suit GitHub app. Open installation window in your browser",
         default: true,
       },
       {

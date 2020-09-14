@@ -49,9 +49,9 @@ export interface PluginPreparer<S, T> {
   prepare(option: PluginCreateOptions<S>): Promise<T>;
 }
 
-export interface KeyGeneratorPlugin<T> extends KeyGenerator, Plugin<T> { }
-export interface PublisherPlugin<T> extends Publisher, Plugin<T> { }
-export interface NotifierPlugin<T> extends Notifier, Plugin<T> { }
+export interface KeyGeneratorPlugin<T> extends KeyGenerator, Plugin<T> {}
+export interface PublisherPlugin<T> extends Publisher, Plugin<T> {}
+export interface NotifierPlugin<T> extends Notifier, Plugin<T> {}
 
 export interface KeyGeneratorPluginHolder<S, T> {
   preparer?: PluginPreparer<S, T>;

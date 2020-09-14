@@ -1,10 +1,5 @@
 import path from "path";
-import {
-  NotifierPlugin,
-  NotifyParams,
-  PluginCreateOptions,
-  PluginLogger,
-} from "reg-suit-interface";
+import { NotifierPlugin, NotifyParams, PluginCreateOptions, PluginLogger } from "reg-suit-interface";
 import { fsUtil } from "reg-suit-util";
 import { Repository } from "tiny-commit-walker";
 import { createCommentBody } from "./create-comment";

@@ -9,24 +9,23 @@ const ProgressBarConstructor = progress.Bar;
 export type LogLevel = "verbose" | "info" | "silent";
 
 const noopSpinner: Spinner = {
-  start: () => { },
-  stop: () => { },
+  start: () => {},
+  stop: () => {},
 };
 
 const noopProgressBar: ProgressBar = {
-  start: (x: number, y?: number) => { },
-  update: (x: number) => { },
-  increment: (x: number) => { },
-  stop: () => { },
+  start: (x: number, y?: number) => {},
+  update: (x: number) => {},
+  increment: (x: number) => {},
+  stop: () => {},
 };
 
 export class RegLogger implements Logger {
-
   _level: LogLevel;
   _chalk: chalk.Chalk;
 
   constructor(private _category = "reg-suit") {
-    this._chalk = chalk.constructor(({ level: 1 } as any));
+    this._chalk = chalk.constructor({ level: 1 } as any);
     this._level = "info";
   }
 
@@ -58,7 +57,7 @@ export class RegLogger implements Logger {
 
   getProgressBar(): ProgressBar {
     if (this._level === "silent") return noopProgressBar;
-    const bar = new ProgressBarConstructor({ }, progress.Presets.rect);
+    const bar = new ProgressBarConstructor({}, progress.Presets.rect);
     return bar;
   }
 

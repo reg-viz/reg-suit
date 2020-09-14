@@ -8,11 +8,11 @@ import {
   PluginCreateOptions,
   PublisherPluginFactory,
   KeyGeneratorPluginFactory,
-  NotifierPluginFactory
+  NotifierPluginFactory,
 } from "reg-suit-interface";
 
 class DummyPlugin implements PublisherPlugin<null>, KeyGeneratorPlugin<null>, NotifierPlugin<null> {
-  init(config: PluginCreateOptions<null>) { }
+  init(config: PluginCreateOptions<null>) {}
 
   getExpectedKey(): Promise<string> {
     return Promise.resolve("expected");
@@ -35,7 +35,7 @@ class DummyPlugin implements PublisherPlugin<null>, KeyGeneratorPlugin<null>, No
   }
 }
 
-const factory: (PublisherPluginFactory & NotifierPluginFactory & KeyGeneratorPluginFactory) = () => {
+const factory: PublisherPluginFactory & NotifierPluginFactory & KeyGeneratorPluginFactory = () => {
   const p = new DummyPlugin();
   return {
     keyGenerator: p,

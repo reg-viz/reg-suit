@@ -39,7 +39,6 @@ export interface ConfigManagerCreateOptions {
 }
 
 export class ConfigManager {
-
   get defaultConfigFileName() {
     return DEFAULT_CONFIG_FILE_NAME;
   }
@@ -61,7 +60,7 @@ export class ConfigManager {
 
   replaceEnvValue(): RegSuitConfiguration {
     const rawConfig = this.config;
-    if (!!((<any>rawConfig)["__replaced__"])) return rawConfig;
+    if (!!(<any>rawConfig)["__replaced__"]) return rawConfig;
     expandPlaceholders(rawConfig);
     (<any>rawConfig)["__replaced__"] = true;
     return rawConfig;

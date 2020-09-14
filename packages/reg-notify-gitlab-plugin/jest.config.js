@@ -1,25 +1,14 @@
 module.exports = {
-  "globals": {
+  globals: {
     "ts-jest": {
-      "diagnostics": false
-    }
+      diagnostics: false,
+    },
   },
-  "transform": {
-    "^.+\\.ts$": "ts-jest"
+  transform: {
+    "^.+\\.ts$": "ts-jest",
   },
-  "testRegex": "(src/.*\\.test)\\.ts$",
-  "testPathIgnorePatterns": [
-    "/node_modules/",
-    "\\.d\\.ts$",
-    "lib/.*"
-  ],
-  "collectCoverageFrom": [
-    "src/**/*.ts",
-    "!**/testing/**"
-  ],
-  "moduleFileExtensions": [
-    "js",
-    "ts",
-    "json"
-  ]
+  testRegex: "(src/.*\\.test)\\.ts$",
+  testPathIgnorePatterns: ["/node_modules/", "\\.d\\.ts$", "lib/.*"],
+  collectCoverageFrom: ["src/**/*.ts", "!**/testing/**"],
+  moduleFileExtensions: ["js", "ts", "json"],
 };

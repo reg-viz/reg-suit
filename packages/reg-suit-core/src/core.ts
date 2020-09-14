@@ -1,11 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import {
-  Plugin,
-  CoreConfig,
-  CreateQuestionsOptions,
-  RegSuitConfiguration,
-} from "reg-suit-interface";
+import { Plugin, CoreConfig, CreateQuestionsOptions, RegSuitConfiguration } from "reg-suit-interface";
 import { createLogger, RegLogger, LogLevel, fsUtil } from "reg-suit-util";
 
 import { ConfigManager } from "./config-manager";
@@ -13,23 +8,28 @@ import { PluginManager } from "./plugin-manager";
 import { RegProcessor } from "./processor";
 
 export class RegSuitCore {
-
   noEmit: boolean;
   logger: RegLogger;
   _configManager: ConfigManager;
   _pluginManager!: PluginManager;
 
-  constructor(opt: {
-    logLevel?: LogLevel;
-    noEmit?: boolean;
-    configFileName?: string;
-  } = { }) {
+  constructor(
+    opt: {
+      logLevel?: LogLevel;
+      noEmit?: boolean;
+      configFileName?: string;
+    } = {},
+  ) {
     this.logger = createLogger();
     if (opt.logLevel) {
       this.logger.setLevel(opt.logLevel);
     }
-    this.noEmit = !!(opt.noEmit);
-    this._configManager = new ConfigManager({ logger: this.logger, noEmit: this.noEmit, configFileName: opt.configFileName });
+    this.noEmit = !!opt.noEmit;
+    this._configManager = new ConfigManager({
+      logger: this.logger,
+      noEmit: this.noEmit,
+      configFileName: opt.configFileName,
+    });
   }
 
   get config() {
@@ -41,17 +41,22 @@ export class RegSuitCore {
     return this._pluginManager.createQuestions(opt);
   }
 
-  persistMergedConfig(opt: { core?: CoreConfig; pluginConfigs: { name: string; config: any }[] }, confirm: (newConfig: RegSuitConfiguration) => Promise<boolean>) {
+  persistMergedConfig(
+    opt: { core?: CoreConfig; pluginConfigs: { name: string; config: any }[] },
+    confirm: (newConfig: RegSuitConfiguration) => Promise<boolean>,
+  ) {
     const baseConfig = this.config;
     const mergedConfig: RegSuitConfiguration & { plugins: any } = {
       core: opt.core ? { ...baseConfig.core, ...opt.core } : baseConfig.core,
       plugins: { ...baseConfig.plugins },
     };
     opt.pluginConfigs.forEach(pc => {
-      mergedConfig.plugins[pc.name] = baseConfig.plugins ? {
-        ...baseConfig.plugins[pc.name],
-        ...pc.config,
-      } : pc.config;
+      mergedConfig.plugins[pc.name] = baseConfig.plugins
+        ? {
+            ...baseConfig.plugins[pc.name],
+            ...pc.config,
+          }
+        : pc.config;
     });
     this.logger.info("Configuration:");
     this.logger.info(JSON.stringify(mergedConfig, null, 2));

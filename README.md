@@ -5,9 +5,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 **reg-suit** is a command line interface for visual regression testing.
-- *Compare Images* - reg-suit is inspired by snapshot testing. It compares the current images with the previous images, creates an HTML report for their differences. All you need is to give images to assert.
-- *Store Snapshots* - reg-suit automatically stores snapshot images to external cloud storage(e.g. AWS S3, Google Cloud Storage). You can review result of comparison and differences at any time you want.
-- *Work Everywhere* - reg-suit is just a CLI. So it's easy to integrate with your project. It works at any CI services and even your local machine.
+
+- _Compare Images_ - reg-suit is inspired by snapshot testing. It compares the current images with the previous images, creates an HTML report for their differences. All you need is to give images to assert.
+- _Store Snapshots_ - reg-suit automatically stores snapshot images to external cloud storage(e.g. AWS S3, Google Cloud Storage). You can review result of comparison and differences at any time you want.
+- _Work Everywhere_ - reg-suit is just a CLI. So it's easy to integrate with your project. It works at any CI services and even your local machine.
 
 ## Getting Started
 
@@ -27,18 +28,19 @@ $ reg-suit run
 If you want more details, [this sample repository](https://github.com/reg-viz/reg-puppeteer-demo) may help you.
 
 ## Plugins
+
 reg-suit has it's own plugin system. Plugins integrate various functions and services into your project.
 
 The following plugins are available:
 
-- [reg-keygen-git-hash-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-keygen-git-hash-plugin/README.md) - *key-generator plugin* - This plugin provides functions to identify "what commit hash should I compare to" walking git branch graph.
-- [reg-simple-keygen-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-simple-keygen-plugin/README.md) - *key-generator plugin* - This plugin allows to use arbitrary string as the snapshot key.
-- [reg-publish-s3-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-publish-s3-plugin/README.md) - *publisher plugin* - This plugin fetches the previous snapshot images from S3 bucket and these fetched snapshots are used as expected images in comparison. After the comparison, this plugin pushes the current(the actual) snapshot images and the report of the comparison result.
-- [reg-publish-gcs-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-publish-gcs-plugin/README.md) - *publisher plugin* - An alternative publisher plugin. It's so similar to S3 plugin but this uses Google Cloud Storage instead of S3.
-- [reg-notify-github-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-github-plugin/README.md) - *notifier plugin* - This plugin integrates reg-suit and it's [GitHub app](https://github.com/apps/reg-suit). Installing these plugin and app, you can receive reg-suit result via GitHub commit status and PR comment.
-- [reg-notify-gitlab-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-gitlab-plugin/README.md) - *notifier plugin* - This plugin notifies reg-suit result to your GitLab projects' merge requests comment.
-- [reg-notify-github-with-api-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-github-with-api-plugin/README.md) - *notifier plugin* - This plugin notifies reg-suit result to your GHE repositories PR comment.
-- [reg-notify-slack-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-slack-plugin/README.md) - *notifier plugin* - This plugin notifies reg-suit result to your Slack channel using incoming Webhook.
+- [reg-keygen-git-hash-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-keygen-git-hash-plugin/README.md) - _key-generator plugin_ - This plugin provides functions to identify "what commit hash should I compare to" walking git branch graph.
+- [reg-simple-keygen-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-simple-keygen-plugin/README.md) - _key-generator plugin_ - This plugin allows to use arbitrary string as the snapshot key.
+- [reg-publish-s3-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-publish-s3-plugin/README.md) - _publisher plugin_ - This plugin fetches the previous snapshot images from S3 bucket and these fetched snapshots are used as expected images in comparison. After the comparison, this plugin pushes the current(the actual) snapshot images and the report of the comparison result.
+- [reg-publish-gcs-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-publish-gcs-plugin/README.md) - _publisher plugin_ - An alternative publisher plugin. It's so similar to S3 plugin but this uses Google Cloud Storage instead of S3.
+- [reg-notify-github-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-github-plugin/README.md) - _notifier plugin_ - This plugin integrates reg-suit and it's [GitHub app](https://github.com/apps/reg-suit). Installing these plugin and app, you can receive reg-suit result via GitHub commit status and PR comment.
+- [reg-notify-gitlab-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-gitlab-plugin/README.md) - _notifier plugin_ - This plugin notifies reg-suit result to your GitLab projects' merge requests comment.
+- [reg-notify-github-with-api-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-github-with-api-plugin/README.md) - _notifier plugin_ - This plugin notifies reg-suit result to your GHE repositories PR comment.
+- [reg-notify-slack-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-slack-plugin/README.md) - _notifier plugin_ - This plugin notifies reg-suit result to your Slack channel using incoming Webhook.
 
 For example, installing keygen-git-hash and publish-s3 plugins, you can get regression testing workflow according with GitHub flow as shown in the figure below.
 
@@ -51,18 +53,22 @@ reg-suit [options] <command>
 ```
 
 ### `run` command
+
 Run visual testing, publish the current snapshot images, and send notifications. It's equivalent to `reg-suit sync-expected && reg-suit compare && reg-suit publish -n`.
 
 #### `sync-expected` command
-Fetch images published already as the expected snapshot data into working directory. The expected key is detected with the installed *key-generator plugin*, and installed `publisher-plugin` fetches images data.
+
+Fetch images published already as the expected snapshot data into working directory. The expected key is detected with the installed _key-generator plugin_, and installed `publisher-plugin` fetches images data.
 
 #### `compare` command
+
 Compare images in the `actualDir` with images fetched at `sync-expected` and create an HTML report.
 
 #### `publish` command
-Publish the `compare` result and actual images to external storage with *publisher-plugin* with the actual snapshot key generated by installed *key-generator plugin*.
 
-- `-n`, `--notification` : Send notification using installed *notifier plugins*.
+Publish the `compare` result and actual images to external storage with _publisher-plugin_ with the actual snapshot key generated by installed _key-generator plugin_.
+
+- `-n`, `--notification` : Send notification using installed _notifier plugins_.
 
 ### `init` command
 
@@ -86,6 +92,7 @@ Configure the installed plugin(s). It's useful to configure reg-suit and plugins
 If you want more details, please exec `reg-suit -h` or `reg-suit <command> -h`.
 
 ## Configuration
+
 To configure reg-suit, put `regconfig.json` under the project root directory. `regconfig.json` should be JSON file such as:
 
 ```json
@@ -104,36 +111,38 @@ To configure reg-suit, put `regconfig.json` under the project root directory. `r
 }
 ```
 
-The `core` section contains reg-suit core setting and the `plugins` section contains plugin specific options. 
+The `core` section contains reg-suit core setting and the `plugins` section contains plugin specific options.
 
 ### `core`
 
 ```ts
 {
-  actualDir: string;      
+  actualDir: string;
   workingDir?: string;        // default ".reg"
   thresholdRate?: number;    // default 0
   thresholdPixel?: number;    // default 0
   enableAntialias?: boolean;    // default false
   ximgdiff?: {
-    invocationType: "none" | "client";  // default "client" 
+    invocationType: "none" | "client";  // default "client"
   };
 }
 ```
 
-- `actualDir` - *Required* - A directory which contains image files you want to test.
-- `workingDir` - *Optional* - A directory used by reg-suit puts temporary files. Ordinarily this dir is in listed at `.gitignore`.
-- `thresholdRate` - *Optional* - Threshold of the ratio of the number of pixels where the difference occurred to the whole. It should be in ranges from `0` to `1`.
-- `thresholdPixel` - *Optional* - Alternative threshold. The absolute number of pixels where difference occurred.
-- `matchingThreshold` - *Optional* - Matching threshold for YUV color distance between two pixels. It should be in ranges from 0 to 1. Smaller values make the comparison more sensitive.
-- `enableAntialias` - *Optional* - Enable antialias, so that anti-aliased pixels are detected and ignored when comparing images.
-- `ximgdiff` - *Optional* - An option to display more detailed difference information to report html.
+- `actualDir` - _Required_ - A directory which contains image files you want to test.
+- `workingDir` - _Optional_ - A directory used by reg-suit puts temporary files. Ordinarily this dir is in listed at `.gitignore`.
+- `thresholdRate` - _Optional_ - Threshold of the ratio of the number of pixels where the difference occurred to the whole. It should be in ranges from `0` to `1`.
+- `thresholdPixel` - _Optional_ - Alternative threshold. The absolute number of pixels where difference occurred.
+- `matchingThreshold` - _Optional_ - Matching threshold for YUV color distance between two pixels. It should be in ranges from 0 to 1. Smaller values make the comparison more sensitive.
+- `enableAntialias` - _Optional_ - Enable antialias, so that anti-aliased pixels are detected and ignored when comparing images.
+- `ximgdiff` - _Optional_ - An option to display more detailed difference information to report html.
 - `ximgdiff.invocationType` - If set `"client"`, x-img-diff-js be invoked only with browsers. See [smart differences detection](#smart-difference-detection) section.
 
 ### `plugins`
+
 Entries of `plugins` section are described as key-value pairs. Each key should be plugin name. If you want configurable value, see README.md under the each plugin package(e.g. [packages/reg-publish-s3-plugin/README.md](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-publish-s3-plugin/README.md)).
 
 #### Embed environment values
+
 reg-suit replaces embedded placeholders in `plugins` section to environment values at runtime. For example:
 
 ```json
@@ -156,6 +165,7 @@ reg-suit run
 ```
 
 ### Smart difference detection
+
 If you turn `core.ximgdiff` option on in `regconfig.json`, reg-suit outputs a report with x-img-diff-js.
 
 [x-img-diff-js](https://reg-viz.github.io/x-img-diff-js) is a difference detection engine which calculates more structural information than naive pixel based comparison result.
@@ -164,11 +174,12 @@ reg-suit use this to display which parts of testing image were inserted or moved
 If `invocationType` is set to `"client"`, x-img-diff-js works on your web browser (It uses Web Assembly and Web Workers, so you need "modern" browser).
 
 ## Run with CI service
+
 A working demonstration is [here](https://github.com/reg-viz/reg-simple-demo).
 
-### *Workaround for Detached HEAD*
+### _Workaround for Detached HEAD_
 
-reg-suit(git-hash-plugin) needs the current branch name to identify the base-commit hash. However, under some CI services' environment(e.g. TravisCI, WerckerCI), the HEAD is detached. So you should attach it explicitly. 
+reg-suit(git-hash-plugin) needs the current branch name to identify the base-commit hash. However, under some CI services' environment(e.g. TravisCI, WerckerCI), the HEAD is detached. So you should attach it explicitly.
 
 For example:
 
@@ -181,30 +192,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Use Node.js v10
-      uses: actions/setup-node@v1
-      with:
-        node-version: "10.x"
-    - name: npm install, build, and test
-      run: |
-        npm i
-    - name: workaround for detached HEAD
-      run: |
-        git checkout ${GITHUB_REF#refs/heads/} || git checkout -b ${GITHUB_REF#refs/heads/} && git pull
-    - name: run reg-suit
-      run: |
-        npx reg-suit run
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js v10
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+      - name: npm install, build, and test
+        run: |
+          npm i
+      - name: workaround for detached HEAD
+        run: |
+          git checkout ${GITHUB_REF#refs/heads/} || git checkout -b ${GITHUB_REF#refs/heads/} && git pull
+      - name: run reg-suit
+        run: |
+          npx reg-suit run
 ```
 
 ```yml
-# .travis.yml 
+# .travis.yml
 
 script:
-  - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"  # This line is necessary to disable --single-branch option to fetch all remote branches on TravisCI.
-  - git fetch origin                                                      # Ditto
+  - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*" # This line is necessary to disable --single-branch option to fetch all remote branches on TravisCI.
+  - git fetch origin # Ditto
   - git checkout $TRAVIS_BRANCH || git checkout -b $TRAVIS_BRANCH
   - npx reg-suit run
 ```
@@ -248,6 +259,7 @@ test:
 ```
 
 ## Examples
+
 The following repositories using reg-suit. These repos can help you to introduce visual snapshot testing.
 
 - [reg-viz/reg-simple-demo](https://github.com/reg-viz/reg-simple-demo): Simple image files project includes various CI services' script.
@@ -263,6 +275,7 @@ The following repositories using reg-suit. These repos can help you to introduce
 If you use reg-suit, let us know your repository. We'll list it at the above :)
 
 ## Contribute
+
 PRs are welcome!
 
 ### Bootstrap
@@ -279,14 +292,13 @@ yarn run bootstrap
 yarn run test
 ```
 
-*Remarks*
+_Remarks_
 
 - `reg-publish-s3-plugin` testing access to AWS S3 and it needs AWS credentials.
 - `reg-publish-gcs-plugin` testing access to Google Cloud Platform. You should `gcloud auth application-default login` before testing it.
 
-
 ## License
+
 MIT. See LICENSE.txt.
 
 ![reg-viz](https://raw.githubusercontent.com/reg-viz/artwork/master/repository/footer.png)
-

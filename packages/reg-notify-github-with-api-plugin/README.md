@@ -23,13 +23,13 @@ reg-suit prepare -p notify-github-with-api
 }
 ```
 
-- `githubUrl` - *Optional* - URL for your GitHub Enterprise. Default: `https://github.com`.
-- `owner` - *Required* - GitHub owner name.
-- `repository` - *Required* - GitHub repository name.
-- `privateToken` - *Required* Private access token. The `repo` scope is required if the repository is private.
-- `shortDescription` - *Optional* Returns a small table with the item counts.
+- `githubUrl` - _Optional_ - URL for your GitHub Enterprise. Default: `https://github.com`.
+- `owner` - _Required_ - GitHub owner name.
+- `repository` - _Required_ - GitHub repository name.
+- `privateToken` - _Required_ Private access token. The `repo` scope is required if the repository is private.
+- `shortDescription` - _Optional_ Returns a small table with the item counts.
   Example:
 
   | 🔴 Changed | ⚪️ New | 🔵 Passing |
-  | ---        | ---    | ---        |
-  | 3          | 4      | 120        |
+  | ---------- | ------- | ---------- |
+  | 3          | 4       | 120        |
