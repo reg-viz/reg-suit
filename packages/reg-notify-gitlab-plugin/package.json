@@ -21,10 +21,10 @@
   "devDependencies": {
     "@types/jest": "^26.0.13",
     "@types/request-promise": "^4.1.46",
-    "@types/sinon": "^5.0.1",
+    "@types/sinon": "^9.0.5",
     "jest": "^26.4.2",
     "reg-suit-interface": "^0.10.3",
-    "sinon": "^6.1.3",
+    "sinon": "^9.0.3",
     "ts-jest": "^26.3.0",
     "typescript": "4.0.2"
   },
