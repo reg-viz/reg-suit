@@ -85,7 +85,7 @@ export abstract class AbstractPublisher {
     const actualPrefix = `${this.resolveInBucket(key)}/${path.basename(this.getWorkingDirs().actualDir)}`;
     const progress = this.logger.getProgressBar();
     return new Promise<ObjectMetadata[]>(async (resolve, reject) => {
-      let contents = [] as ObjectMetadata[];
+      const contents = [] as ObjectMetadata[];
       let isTruncated: boolean = true;
       let nextMarker: string = "";
 
@@ -95,7 +95,7 @@ export abstract class AbstractPublisher {
         let result: ObjectListResult;
         try {
           result = await this.listItems(nextMarker, actualPrefix);
-          let curContents = result.contents || [];
+          const curContents = result.contents || [];
           if (curContents.length > 0) {
             Array.prototype.push.apply(contents, curContents);
           }

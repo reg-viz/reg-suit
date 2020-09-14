@@ -1,0 +1,31 @@
+root: true
+extends:
+  - prettier
+  - "prettier/@typescript-eslint"
+parser: "@typescript-eslint/parser"
+parserOptions:
+  sourceType: "module"
+  project: "./tsconfig.json"
+  ecmaFeatures:
+    jsx: true
+  useJSXTextNode: true
+plugins:
+  - "@typescript-eslint"
+rules:
+  no-eval: error
+  no-debugger: error
+  no-console: error
+  no-duplicate-imports: error
+  no-var: error
+  no-unsafe-finally: error
+  prefer-const: error
+  prefer-rest-params: error
+  prefer-spread: error
+  object-curly-spacing:
+    - error
+    - always
+  no-trailing-spaces:
+    - error
+    - ignoreComments: true
+  "@typescript-eslint/no-use-before-define": error
+  "@typescript-eslint/no-namespace": error

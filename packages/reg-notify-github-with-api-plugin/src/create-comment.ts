@@ -7,38 +7,8 @@ export interface CommentSeed {
   shortDescription: boolean;
 }
 
-export function createCommentBody(eventBody: CommentSeed) {
-  const lines: string[] = [];
-  if (eventBody.failedItemsCount === 0 && eventBody.newItemsCount === 0 && eventBody.deletedItemsCount === 0) {
-    lines.push(`:sparkles: :sparkles: **That's perfect, there is no visual difference!** :sparkles: :sparkles:`);
-    if (eventBody.reportUrl) {
-      lines.push("");
-      lines.push(`You can check the report out [here](${eventBody.reportUrl}).`);
-    }
-  } else {
-    lines.push("**reg-suit detected visual differences.**");
-    lines.push("");
-    if (eventBody.reportUrl) {
-      lines.push("");
-      lines.push(`Check [this report](${eventBody.reportUrl}), and review them.`);
-      lines.push("");
-    }
-
-    if (eventBody.shortDescription) {
-      lines.push(shortDescription(eventBody));
-    } else {
-      lines.push(longDescription(eventBody));
-    }
-
-    lines.push(
-      `<details>
-          <summary>How can I change the check status?</summary>
-          If reviewers approve this PR, the reg context status will be green automatically.
-          <br />
-       </details><br />`,
-    );
-  }
-  return lines.join("\n");
+function tableItem(itemCount: number, header: string): [number, string] | null {
+  return itemCount == 0 ? null : [itemCount, header];
 }
 
 /**
@@ -94,6 +64,36 @@ function longDescription(eventBody: CommentSeed) {
   return lines.join("\n");
 }
 
-function tableItem(itemCount: number, header: string): [number, string] | null {
-  return itemCount == 0 ? null : [itemCount, header];
+export function createCommentBody(eventBody: CommentSeed) {
+  const lines: string[] = [];
+  if (eventBody.failedItemsCount === 0 && eventBody.newItemsCount === 0 && eventBody.deletedItemsCount === 0) {
+    lines.push(`:sparkles: :sparkles: **That's perfect, there is no visual difference!** :sparkles: :sparkles:`);
+    if (eventBody.reportUrl) {
+      lines.push("");
+      lines.push(`You can check the report out [here](${eventBody.reportUrl}).`);
+    }
+  } else {
+    lines.push("**reg-suit detected visual differences.**");
+    lines.push("");
+    if (eventBody.reportUrl) {
+      lines.push("");
+      lines.push(`Check [this report](${eventBody.reportUrl}), and review them.`);
+      lines.push("");
+    }
+
+    if (eventBody.shortDescription) {
+      lines.push(shortDescription(eventBody));
+    } else {
+      lines.push(longDescription(eventBody));
+    }
+
+    lines.push(
+      `<details>
+          <summary>How can I change the check status?</summary>
+          If reviewers approve this PR, the reg context status will be green automatically.
+          <br />
+       </details><br />`,
+    );
+  }
+  return lines.join("\n");
 }

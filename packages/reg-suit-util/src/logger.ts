@@ -1,4 +1,3 @@
-/* tslint:disable:no-console */
 import * as chalk from "chalk";
 import { Logger, Colors, Spinner, ProgressBar } from "reg-suit-interface";
 
@@ -63,12 +62,14 @@ export class RegLogger implements Logger {
 
   info(msg: string) {
     if (this._level !== "silent") {
+      // eslint-disable-next-line no-console
       console.log(this._prefix + this.colors.green("info ") + msg);
     }
   }
 
   warn(msg: string) {
     if (this._level !== "silent") {
+      // eslint-disable-next-line no-console
       console.warn(this._prefix + this.colors.yellow("warn ") + msg);
     }
   }
@@ -76,8 +77,10 @@ export class RegLogger implements Logger {
   error(obj: string | Error) {
     if (this._level !== "silent") {
       if (typeof obj === "string") {
+        // eslint-disable-next-line no-console
         console.error(this._prefix + this.colors.red("error ") + obj);
       } else {
+        // eslint-disable-next-line no-console
         console.error(this._prefix + this.colors.red("error "), obj);
       }
     }
@@ -85,9 +88,11 @@ export class RegLogger implements Logger {
 
   verbose(msg: string, ...objects: any[]) {
     if (this._level === "verbose") {
+      // eslint-disable-next-line no-console
       console.log(this._prefix + this.colors.green("debug ") + msg);
       if (objects && objects.length) {
         objects.forEach(obj => {
+          // eslint-disable-next-line no-console
           console.log(this.colors.gray(JSON.stringify(obj, null, 2)));
         });
       }

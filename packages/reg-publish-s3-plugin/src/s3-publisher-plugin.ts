@@ -135,7 +135,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
       MaxKeys: number;
       Marker?: string;
     }
-    let options: S3ListObjectsOptions = {
+    const options: S3ListObjectsOptions = {
       Bucket: this._pluginConfig.bucketName,
       Prefix: prefix,
       MaxKeys: 1000,

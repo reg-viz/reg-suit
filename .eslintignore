@@ -1,0 +1,6 @@
+__generated__/
+project-fixtures/
+lib/
+e2e/
+coverage/
+e2e_coverage/

@@ -10,6 +10,11 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "stripInternal": true,
-    "strict": true
+    "strict": true,
+    "plugins": [
+      {
+        "name": "typescript-eslint-language-service"
+      }
+    ]
   }
 }
