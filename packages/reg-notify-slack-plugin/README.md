@@ -17,4 +17,4 @@ reg-suit prepare -p notify-slack
 }
 ```
 
-- `webhookUrl` - *Required* - The incoming WebHook URL sending message your Slack channel.
+- `webhookUrl` - _Required_ - The incoming WebHook URL sending message your Slack channel.

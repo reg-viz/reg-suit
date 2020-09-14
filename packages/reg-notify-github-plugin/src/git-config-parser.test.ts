@@ -15,6 +15,6 @@ test("parse from git config file", () => {
 
   const actual = parseGitConfig(rawConfig);
   assert.equal(actual.length, 2);
-  assert.equal(actual[1].name, "remote \"origin\"");
+  assert.equal(actual[1].name, 'remote "origin"');
   assert.equal(actual[1].keys["url"], "https://github.com/Quramy/reg-suit.git");
 });

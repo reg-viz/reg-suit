@@ -26,7 +26,7 @@ export type DiscussionResource = {
 
 export type GetMergeRequestsParams = {
   project_id: ProjectIdType;
-}
+};
 
 export type PutMergeRequestParams = {
   project_id: ProjectIdType;
@@ -37,7 +37,7 @@ export type PutMergeRequestParams = {
 export type GetMergeRequestCommitsParams = {
   project_id: ProjectIdType;
   merge_request_iid: MergeResuestIidType;
-}
+};
 
 export type GetMergeRequestNotesParams = {
   project_id: ProjectIdType;
@@ -74,10 +74,7 @@ export interface GitLabApiClient {
 }
 
 export class DefaultGitLabApiClient implements GitLabApiClient {
-  constructor(
-    private _urlPrefix: string,
-    private _token: string,
-  ) { }
+  constructor(private _urlPrefix: string, private _token: string) {}
 
   getMergeRequests(params: GetMergeRequestsParams): Promise<MergeRequestResource[]> {
     const reqParam: rp.OptionsWithUrl = {
@@ -86,7 +83,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
       json: true,
       headers: {
         "Private-Token": this._token,
-      }
+      },
     };
     return (rp(reqParam) as any) as Promise<MergeRequestResource[]>;
   }
@@ -111,7 +108,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
       json: true,
       headers: {
         "Private-Token": this._token,
-      }
+      },
     };
     return (rp(reqParam) as any) as Promise<CommitResource[]>;
   }
@@ -123,7 +120,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
       json: true,
       headers: {
         "Private-Token": this._token,
-      }
+      },
     };
     return (rp(reqParam) as any) as Promise<NoteResouce[]>;
   }
@@ -137,7 +134,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         "Private-Token": this._token,
       },
       body: {
-        "body": params.body,
+        body: params.body,
       },
     };
     return (rp(reqParam) as any) as Promise<NoteResouce>;
@@ -152,7 +149,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         "Private-Token": this._token,
       },
       body: {
-        "body": params.body,
+        body: params.body,
       },
     };
     return (rp(reqParam) as any) as Promise<NoteResouce>;
@@ -167,7 +164,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         "Private-Token": this._token,
       },
       body: {
-        "body": params.body,
+        body: params.body,
       },
     };
     return (rp(reqParam) as any) as Promise<DiscussionResource>;

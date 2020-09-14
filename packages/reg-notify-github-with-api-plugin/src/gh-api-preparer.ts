@@ -1,9 +1,4 @@
-
-import {
-  PreparerQuestion,
-  PluginCreateOptions,
-  PluginPreparer
-} from "reg-suit-interface";
+import { PreparerQuestion, PluginCreateOptions, PluginPreparer } from "reg-suit-interface";
 import { GhApiPluginOption } from "./gh-api-notifier-plugin";
 
 export interface GhApiPreparerOption {
@@ -40,7 +35,7 @@ export class GhApiPreparer implements PluginPreparer<GhApiPreparerOption, GhApiP
     ];
   }
 
-  async prepare({ options: { ghHostname, owner, repository, token, } }: PluginCreateOptions<GhApiPreparerOption>) {
+  async prepare({ options: { ghHostname, owner, repository, token } }: PluginCreateOptions<GhApiPreparerOption>) {
     return {
       githubUrl: `https://${ghHostname}`,
       owner,

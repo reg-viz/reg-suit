@@ -20,28 +20,51 @@ function createOptions() {
     .usage("Usage: $0 [options] <command>")
     .help()
     .option("h", { alias: "help", group: "Global Options:" })
-    .option("c", { alias: "config", desc: "Configuration file path.", default: "regconfig.json", group: "Global Options:" })
-    .option("t", { alias: "test", desc: "Perform a trial with no changes.", boolean: true, default: false, group: "Global Options:" })
-    .option("v", { alias: "verbose", desc: "Display debug logging messages.", boolean: true, default: false, group: "Global Options:" })
-    .option("q", { alias: "quiet", desc: "Suppress logging messages", boolean: true, default: false, group: "Global Options:" })
-    .option("version", { desc: "Print version number.", group: "Global Options:" }).version(version)
+    .option("c", {
+      alias: "config",
+      desc: "Configuration file path.",
+      default: "regconfig.json",
+      group: "Global Options:",
+    })
+    .option("t", {
+      alias: "test",
+      desc: "Perform a trial with no changes.",
+      boolean: true,
+      default: false,
+      group: "Global Options:",
+    })
+    .option("v", {
+      alias: "verbose",
+      desc: "Display debug logging messages.",
+      boolean: true,
+      default: false,
+      group: "Global Options:",
+    })
+    .option("q", {
+      alias: "quiet",
+      desc: "Suppress logging messages",
+      boolean: true,
+      default: false,
+      group: "Global Options:",
+    })
+    .option("version", { desc: "Print version number.", group: "Global Options:" })
+    .version(version)
     .boolean("use-dev-core") // This option is used for cli developers only, so does not need help.
     .command("init", "Install and set up reg-suit and plugins into your project.", {
       useYarn: { desc: "Whether to use yarn as npm client.", boolean: true, default: false },
     })
     .command("prepare", "Configure installed plugin", {
-      "p": { alias: "plugin", array: true, desc: "Plugin name(s) you want to set up(e.g. slack-notify)." },
+      p: { alias: "plugin", array: true, desc: "Plugin name(s) you want to set up(e.g. slack-notify)." },
     })
     .command("run", "Run all procedure regression testing.")
     .command("sync-expected", "Fecth expected images into working directory.")
     .command("compare", "Compare actual images with expected images and creates report.")
     .command("publish", "Publish the latest comparison result in working directory.", {
-      "n": { alias: "notification", desc: "Send notifications with publishing", boolean: true, default: false },
-    })
-  ;
+      n: { alias: "notification", desc: "Send notifications with publishing", boolean: true, default: false },
+    });
   const { config, verbose, quiet, test, useYarn, plugin, useDevCore, notification } = yargs.argv;
   const command = yargs.argv._[0];
-  const logLevel = verbose ? "verbose" : (quiet ? "silent" : "info");
+  const logLevel = verbose ? "verbose" : quiet ? "silent" : "info";
   const npmClient = useYarn ? "yarn" : "npm";
   const plugins = (plugin || []) as string[];
   const noInstallCore = !!useDevCore;
@@ -82,10 +105,9 @@ function cli(): Promise<any> {
 }
 
 cli()
-.then(() => process.exit(0))
-.catch((reason: any) => {
-  // tslint:disable-next-line:no-console
-  console.error(reason);
-  process.exit(1);
-})
-;
+  .then(() => process.exit(0))
+  .catch((reason: any) => {
+    // tslint:disable-next-line:no-console
+    console.error(reason);
+    process.exit(1);
+  });

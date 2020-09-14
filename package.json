@@ -4,6 +4,9 @@
     "clean": "rimraf \"packages/*/lib\"",
     "bootstrap": "lerna bootstrap && lerna run prepublish",
     "test": "lerna run test",
+    "prettier": "prettier \"*.md\" \"*.json\" \"*.yml\" \"packages/**/*\"",
+    "format": "yarn prettier --write",
+    "format:check": "yarn prettier --check",
     "lint": "tslint packages/*/src/**/*.ts packages/*/test/**/*.ts",
     "build:io": "cd packages/reg-suit-toppage; npm run build",
     "deploy:io": "cd packages/reg-suit-toppage; npm run deploy",
@@ -17,8 +20,11 @@
   },
   "devDependencies": {
     "@types/node": "^14.6.4",
+    "husky": "^4.3.0",
     "lerna": "^3.22.1",
     "npm-run-all": "^4.0.2",
+    "prettier": "^2.1.1",
+    "pretty-quick": "^3.0.2",
     "rimraf": "^2.6.1",
     "ts-node": "^9.0.0",
     "tslint": "^5.4.3",
@@ -30,5 +36,10 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
 }

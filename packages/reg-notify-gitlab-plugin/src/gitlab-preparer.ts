@@ -1,8 +1,4 @@
-import {
-  PreparerQuestion,
-  PluginCreateOptions,
-  PluginPreparer
-} from "reg-suit-interface";
+import { PreparerQuestion, PluginCreateOptions, PluginPreparer } from "reg-suit-interface";
 
 import { GitLabPluginOption } from "./gitlab-notifier-plugin";
 

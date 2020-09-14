@@ -1,9 +1,4 @@
-import {
-  PluginCreateOptions,
-  PluginLogger,
-  NotifierPlugin,
-  NotifyParams
-} from "reg-suit-interface";
+import { PluginCreateOptions, PluginLogger, NotifierPlugin, NotifyParams } from "reg-suit-interface";
 
 import { sendWebHook } from "./send-web-hook";
 
@@ -32,8 +27,7 @@ export class SlackNotifierPlugin implements NotifierPlugin<SlackNotiferPluginOpt
     spinner.start();
     return sendWebHook({ body, color, webhookUrl: this._webhookUrl })
       .then(() => spinner.stop())
-      .catch(() => spinner.stop())
-    ;
+      .catch(() => spinner.stop());
   }
 
   createBody(params: NotifyParams) {

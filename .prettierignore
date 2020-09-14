@@ -1,0 +1,12 @@
+lib/
+__snapshots__/
+coverage/
+fixtures/
+landing-page/
+*.tsbuildinfo
+*.png
+.gitignore
+.npmignore
+node_modules/
+*.sh
+*.log

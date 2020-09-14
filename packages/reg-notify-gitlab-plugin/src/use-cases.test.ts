@@ -3,11 +3,17 @@ import sinon from "sinon";
 import { ComparisonResult } from "reg-suit-interface";
 import { RegLogger } from "reg-suit-util";
 import { GitLabFixtureClient } from "./testing/gitlab-fixture-client";
-import { commentToMergeRequests, appendOrUpdateMergerequestsBody, DESC_BODY_START_MARK, DESC_BODY_END_MARK, addDiscussionToMergeRequests } from "./use-cases";
+import {
+  commentToMergeRequests,
+  appendOrUpdateMergerequestsBody,
+  DESC_BODY_START_MARK,
+  DESC_BODY_END_MARK,
+  addDiscussionToMergeRequests,
+} from "./use-cases";
 import { PutMergeRequestParams } from "./gitlab-api-client";
 
 function createComparisonResult() {
-  return { 
+  return {
     actualDir: "",
     diffDir: "",
     expectedDir: "",
@@ -29,7 +35,8 @@ test("nothing post when noEmit: true", async () => {
   const putMergeRequestNoteSpy = sinon.spy(client, "putMergeRequestNote");
   await commentToMergeRequests({
     noEmit: true,
-    client, logger,
+    client,
+    logger,
     projectId: "1234",
     notifyParams: {
       actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
@@ -51,7 +58,8 @@ test("add comment to MR when the MR does not have this notifiers comment", async
   const putMergeRequestNoteSpy = sinon.spy(client, "putMergeRequestNote");
   await commentToMergeRequests({
     noEmit: false,
-    client, logger,
+    client,
+    logger,
     projectId: "1234",
     notifyParams: {
       actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
@@ -74,7 +82,8 @@ test("add comment to MR when the MR already has note this notifiers comment", as
   const putMergeRequestNoteSpy = sinon.spy(client, "putMergeRequestNote");
   await commentToMergeRequests({
     noEmit: false,
-    client, logger,
+    client,
+    logger,
     projectId: "1234",
     notifyParams: {
       actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
@@ -96,7 +105,8 @@ test("nothing discussion post when noEmit: true", async () => {
   const putMergeRequestNoteSpy = sinon.spy(client, "putMergeRequestNote");
   await addDiscussionToMergeRequests({
     noEmit: true,
-    client, logger,
+    client,
+    logger,
     projectId: "1234",
     notifyParams: {
       actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
@@ -118,7 +128,8 @@ test("add discussion comment to MR when the MR does not have this notifiers comm
   const putMergeRequestNoteSpy = sinon.spy(client, "putMergeRequestNote");
   await addDiscussionToMergeRequests({
     noEmit: false,
-    client, logger,
+    client,
+    logger,
     projectId: "1234",
     notifyParams: {
       actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
@@ -141,7 +152,8 @@ test("update discussion to MR when the MR already has note this notifiers commen
   const putMergeRequestNoteSpy = sinon.spy(client, "putMergeRequestNote");
   await addDiscussionToMergeRequests({
     noEmit: false,
-    client, logger,
+    client,
+    logger,
     projectId: "1234",
     notifyParams: {
       actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
@@ -162,7 +174,8 @@ test("modify description of MR", async () => {
   const putMergeRequestSpy = sinon.spy(client, "putMergeRequest");
   await appendOrUpdateMergerequestsBody({
     noEmit: false,
-    client, logger,
+    client,
+    logger,
     projectId: "1234",
     notifyParams: {
       actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
@@ -172,10 +185,10 @@ test("modify description of MR", async () => {
   });
   assert.equal(getMergeRequestsSpy.called, true);
   assert.equal(putMergeRequestSpy.called, true);
-  const { description } = putMergeRequestSpy.firstCall.args[0] as PutMergeRequestParams
+  const { description } = putMergeRequestSpy.firstCall.args[0] as PutMergeRequestParams;
   if (!description) {
     throw new assert.AssertionError();
   }
   assert.equal(description.indexOf(DESC_BODY_START_MARK) !== -1, true);
   assert.equal(description.indexOf(DESC_BODY_END_MARK) !== -1, true);
-})
+});

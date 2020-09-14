@@ -7,7 +7,6 @@ export interface CommentSeed {
   shortDescription: boolean;
 }
 
-
 export function createCommentBody(eventBody: CommentSeed) {
   const lines: string[] = [];
   if (eventBody.failedItemsCount === 0 && eventBody.newItemsCount === 0 && eventBody.deletedItemsCount === 0) {
@@ -36,7 +35,7 @@ export function createCommentBody(eventBody: CommentSeed) {
           <summary>How can I change the check status?</summary>
           If reviewers approve this PR, the reg context status will be green automatically.
           <br />
-       </details><br />`
+       </details><br />`,
     );
   }
   return lines.join("\n");
@@ -50,24 +49,29 @@ export function createCommentBody(eventBody: CommentSeed) {
  * | ---        | ---    | ---        |
  * | 3          | 4      | 120        |
  */
-function shortDescription({ failedItemsCount, newItemsCount, deletedItemsCount, passedItemsCount }: CommentSeed): string {
+function shortDescription({
+  failedItemsCount,
+  newItemsCount,
+  deletedItemsCount,
+  passedItemsCount,
+}: CommentSeed): string {
   const descriptions = [
-    tableItem(failedItemsCount, ':red_circle:  Changed'),
-    tableItem(newItemsCount, ':white_circle:  New'),
-    tableItem(deletedItemsCount, ':black_circle:  Deleted'),
-    tableItem(passedItemsCount, ':large_blue_circle:  Passing'),
+    tableItem(failedItemsCount, ":red_circle:  Changed"),
+    tableItem(newItemsCount, ":white_circle:  New"),
+    tableItem(deletedItemsCount, ":black_circle:  Deleted"),
+    tableItem(passedItemsCount, ":large_blue_circle:  Passing"),
   ];
 
   const filteredDescriptions = descriptions.filter((item): item is [number, string] => item != null);
 
   const headerColumns = filteredDescriptions.map(([_, header]) => header);
-  const headerDelimiter = filteredDescriptions.map(() => ' --- ');
+  const headerDelimiter = filteredDescriptions.map(() => " --- ");
   const itemCount = filteredDescriptions.map(([itemCount]) => itemCount);
 
   return `
-    | ${headerColumns.join(' | ')} |
-    | ${headerDelimiter.join(' | ')} |
-    | ${itemCount.join(' | ')} |
+    | ${headerColumns.join(" | ")} |
+    | ${headerDelimiter.join(" | ")} |
+    | ${itemCount.join(" | ")} |
   `;
 }
 
@@ -87,7 +91,7 @@ function longDescription(eventBody: CommentSeed) {
                 :large_blue_circle: : Passing items
                 <br />
              </details><br />`);
-  return lines.join('\n')
+  return lines.join("\n");
 }
 
 function tableItem(itemCount: number, header: string): [number, string] | null {

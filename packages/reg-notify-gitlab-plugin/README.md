@@ -1,4 +1,5 @@
 # reg-notify-gitlab-plugin
+
 reg-suit plugin to send notification the testing result to your GitLab repository.
 
 Installing this plugin, reg-suit comments to your Merge Request.
@@ -21,10 +22,10 @@ reg-suit prepare -p notify-gitlab
 }
 ```
 
-- `projectId` - *Required* - Your GitLab project id. You can get this id via `https://gitlab.com/<your-name>/<your-project-name/edit>` page.
-- `privateToken` - *Required* - Your GitLab API token. If you want more detail, see [Personal access tokens doc](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
-- `gitlabUrl` - *Optional* - Set if you host your GitLab instance. Default: `https://gitlab.com`
-- `commentTo` - *Optional* - How this plugin comments to MR. If `"note"`, it posts or puts the comment as a MR's note. if `"description"`, your MR's description gets updated. If `"discussion"`, it posts or puts the comment as a MR's *resolvable* note. Default: `"note"`.
+- `projectId` - _Required_ - Your GitLab project id. You can get this id via `https://gitlab.com/<your-name>/<your-project-name/edit>` page.
+- `privateToken` - _Required_ - Your GitLab API token. If you want more detail, see [Personal access tokens doc](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
+- `gitlabUrl` - _Optional_ - Set if you host your GitLab instance. Default: `https://gitlab.com`
+- `commentTo` - _Optional_ - How this plugin comments to MR. If `"note"`, it posts or puts the comment as a MR's note. if `"description"`, your MR's description gets updated. If `"discussion"`, it posts or puts the comment as a MR's _resolvable_ note. Default: `"note"`.
 
 ### Auto complete on GitLab CI
 

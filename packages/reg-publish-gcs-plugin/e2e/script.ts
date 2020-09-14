@@ -31,13 +31,13 @@ const dirsB = {
 };
 
 async function after(bn: string) {
-  const bucket = await (new Storage()).bucket(bn);
+  const bucket = await new Storage().bucket(bn);
   await bucket.deleteFiles();
   await bucket.delete();
 }
 
 async function case1() {
-  const { bucketName } = await preparer.prepare({ ...baseConf, options: { createBucket: true, }, workingDirs: dirsA });
+  const { bucketName } = await preparer.prepare({ ...baseConf, options: { createBucket: true }, workingDirs: dirsA });
   try {
     const plugin = new GcsPublisherPlugin();
     plugin.init({
@@ -73,12 +73,10 @@ async function case1() {
 
 async function main() {
   try {
-
     await case1();
 
     console.log(" 🌟  Test was ended successfully! 🌟 ");
     process.exit(0);
-
   } catch (err) {
     console.error(err);
     process.exit(1);

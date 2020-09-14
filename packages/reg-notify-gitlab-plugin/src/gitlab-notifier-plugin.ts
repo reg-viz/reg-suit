@@ -1,9 +1,4 @@
-import {
-  NotifierPlugin,
-  NotifyParams,
-  PluginCreateOptions,
-  PluginLogger,
-} from "reg-suit-interface";
+import { NotifierPlugin, NotifyParams, PluginCreateOptions, PluginLogger } from "reg-suit-interface";
 import { parse } from "url";
 import { commentToMergeRequests, appendOrUpdateMergerequestsBody, addDiscussionToMergeRequests } from "./use-cases";
 import { DefaultGitLabApiClient } from "./gitlab-api-client";
@@ -75,7 +70,7 @@ export class GitLabNotifierPlugin implements NotifierPlugin<GitLabPluginOption> 
         client,
         notifyParams: params,
         projectId: this._projectId,
-      });      
+      });
     } else {
       await commentToMergeRequests({
         noEmit: this._noEmit,

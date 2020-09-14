@@ -25,15 +25,14 @@ const copyGitFiles = (name: string) => {
 //   t.throws(() => new CommitExplorer().getCurrentCommitHash());
 // });
 
-
 test("detached head", () => {
   copyGitFiles("detached-head");
   expect(() => new CommitExplorer().getCurrentBranchName()).toThrowError();
 });
 
 /*
-* first commit
-*/
+ * first commit
+ */
 test("initial commit", () => {
   copyGitFiles("initial-commit");
   const baseHash = new CommitExplorer().getBaseCommitHash();
@@ -41,20 +40,19 @@ test("initial commit", () => {
 });
 
 /*
-* (HEAD -> master) two commit
-* first commit
-*/
+ * (HEAD -> master) two commit
+ * first commit
+ */
 test("master two commits", () => {
   copyGitFiles("master-two-commits");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   assert.equal(null, baseHash);
 });
 
-
 /*
-* (HEAD -> feat-y, master) second commit
-* first commit
-*/
+ * (HEAD -> feat-y, master) second commit
+ * first commit
+ */
 test("after create new branch", () => {
   copyGitFiles("after-create-new-branch");
   const baseHash = new CommitExplorer().getBaseCommitHash();
@@ -62,10 +60,10 @@ test("after create new branch", () => {
 });
 
 /*
-* (HEAD -> feat-y) y1
-* (tag: expected, master) second commit
-* first commit
-*/
+ * (HEAD -> feat-y) y1
+ * (tag: expected, master) second commit
+ * first commit
+ */
 test("commit after create new branch", () => {
   copyGitFiles("commit-new-branch");
   const baseHash = new CommitExplorer().getBaseCommitHash();
@@ -74,11 +72,11 @@ test("commit after create new branch", () => {
 });
 
 /*
-* (HEAD -> feat-y) y2
-* y1
-* (tag: expected, master) second commit
-* first commit
-*/
+ * (HEAD -> feat-y) y2
+ * y1
+ * (tag: expected, master) second commit
+ * first commit
+ */
 test("two commits after create new branch", () => {
   copyGitFiles("two-commit-new-branch");
   const baseHash = new CommitExplorer().getBaseCommitHash();
@@ -203,7 +201,7 @@ test("merge catch up and commit", () => {
   assert.equal(expected, baseHash);
 });
 
-// *---.   merge branch11 branch2 branch3 to master 
+// *---.   merge branch11 branch2 branch3 to master
 // |\ \ \
 // | | | * branch3 commit
 // | |_|/
@@ -215,10 +213,10 @@ test("merge catch up and commit", () => {
 // |/
 // * (tag: expected) init import
 test("merge multipe commit three", () => {
-    copyGitFiles("merge-multipe-commit-three");
-    const baseHash = new CommitExplorer().getBaseCommitHash();
-    const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
-    assert.equal(expected, baseHash);
+  copyGitFiles("merge-multipe-commit-three");
+  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
+  assert.equal(expected, baseHash);
 });
 
 test("error patter found in reg-suit repository", () => {

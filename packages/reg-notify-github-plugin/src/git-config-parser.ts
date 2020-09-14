@@ -5,14 +5,14 @@ import { fsUtil } from "reg-suit-util";
 
 export interface ConfigSection {
   name: string;
-  keys: { [key: string]: string; };
+  keys: { [key: string]: string };
 }
 
 export function readGitConfig() {
   const prjRoot = fsUtil.lookup(".git");
   if (!prjRoot) return;
   try {
-    const file= fs.readFileSync(path.join(prjRoot, "config"), "utf-8") as string;
+    const file = fs.readFileSync(path.join(prjRoot, "config"), "utf-8") as string;
     return file;
   } catch (e) {
     return;
@@ -26,7 +26,7 @@ export function parseGitConfig(file: string) {
   lines.forEach(line => {
     const sectionStartHit = line.match(/^\s*\[([^\]]+)\]/);
     if (sectionStartHit) {
-      currentSection = { name: sectionStartHit[1], keys: { } };
+      currentSection = { name: sectionStartHit[1], keys: {} };
       sections.push(currentSection);
     } else {
       const keyValueHit = line.match(/^\s*([^\s=]+)\s*=\s*([^\s]*)/);

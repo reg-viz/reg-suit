@@ -35,8 +35,12 @@ if (!mrId) {
 
 const shouldPost = !!process.argv[4];
 
-function write<T>(data: T , methodName: string) {
-  fs.writeFileSync(path.join(__dirname, `../../test/fixtures/${fixtureName}`, `${methodName}.json`), JSON.stringify(data, null, 2), "utf-8");
+function write<T>(data: T, methodName: string) {
+  fs.writeFileSync(
+    path.join(__dirname, `../../test/fixtures/${fixtureName}`, `${methodName}.json`),
+    JSON.stringify(data, null, 2),
+    "utf-8",
+  );
   return data;
 }
 
@@ -52,11 +56,24 @@ async function main() {
   sync(path.join(__dirname, `../../test/fixtures/${fixtureName}`));
 
   await client.getMergeRequests({ project_id: +projectId }).then(data => write(data, "getMergeRequests"));
-  await client.getMergeRequestCommits({ project_id: +projectId, merge_request_iid: +mrId }).then(data => write(data, "getMergeRequestCommits"));
-  await client.getMergeRequestNotes({ project_id: +projectId, merge_request_iid: +mrId }).then(data => write(data, "getMergeRequestNotes"));
+  await client
+    .getMergeRequestCommits({ project_id: +projectId, merge_request_iid: +mrId })
+    .then(data => write(data, "getMergeRequestCommits"));
+  await client
+    .getMergeRequestNotes({ project_id: +projectId, merge_request_iid: +mrId })
+    .then(data => write(data, "getMergeRequestNotes"));
   if (!shouldPost) return;
-  const note = await client.postMergeRequestNote({ project_id: +projectId, merge_request_iid: +mrId, body: COMMENT_MARK }).then(data => write(data, "postMergeRequestNote"));
-  await client.putMergeRequestNote({ project_id: +projectId, merge_request_iid: +mrId, note_id: note.id, body: COMMENT_MARK + "\nupdated" }).then(data => write(data, "putMergeRequestNote"));
+  const note = await client
+    .postMergeRequestNote({ project_id: +projectId, merge_request_iid: +mrId, body: COMMENT_MARK })
+    .then(data => write(data, "postMergeRequestNote"));
+  await client
+    .putMergeRequestNote({
+      project_id: +projectId,
+      merge_request_iid: +mrId,
+      note_id: note.id,
+      body: COMMENT_MARK + "\nupdated",
+    })
+    .then(data => write(data, "putMergeRequestNote"));
 }
 
 main();

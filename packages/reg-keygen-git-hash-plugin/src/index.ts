@@ -1,19 +1,14 @@
-import {
-  KeyGeneratorPlugin,
-  PluginCreateOptions,
-  KeyGeneratorPluginFactory
-} from "reg-suit-interface";
+import { KeyGeneratorPlugin, PluginCreateOptions, KeyGeneratorPluginFactory } from "reg-suit-interface";
 import { fsUtil } from "reg-suit-util";
 
 import { CommitExplorer } from "./commit-explorer";
 
-class GitHashKeyGenPlugin implements KeyGeneratorPlugin<{ }> {
-
+class GitHashKeyGenPlugin implements KeyGeneratorPlugin<{}> {
   private _explorer = new CommitExplorer();
   private _expectedRev!: string;
-  private _conf!: PluginCreateOptions<{ }>;
+  private _conf!: PluginCreateOptions<{}>;
 
-  init(config: PluginCreateOptions<{ }>): void {
+  init(config: PluginCreateOptions<{}>): void {
     this._conf = config;
   }
 
@@ -48,7 +43,11 @@ class GitHashKeyGenPlugin implements KeyGeneratorPlugin<{ }> {
   private _checkAndMessage() {
     const result = this._isInGitRepository();
     if (!result) {
-      this._conf.logger.error(this._conf.logger.colors.red("reg-keygen-git-hash-plugin does not work outside of a Git repository. Please retry after running `git init`."));
+      this._conf.logger.error(
+        this._conf.logger.colors.red(
+          "reg-keygen-git-hash-plugin does not work outside of a Git repository. Please retry after running `git init`.",
+        ),
+      );
     }
     return result;
   }

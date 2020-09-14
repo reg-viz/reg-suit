@@ -1,11 +1,10 @@
 import { execSync } from "child_process";
 
 export class GitCmdClient {
-
-  private _revParseHash: { [key: string]: string; } = {};
+  private _revParseHash: { [key: string]: string } = {};
 
   currentName() {
-    return execSync("git branch | grep \"^\\*\" | cut -b 3-", { encoding: "utf8" });
+    return execSync('git branch | grep "^\\*" | cut -b 3-', { encoding: "utf8" });
   }
 
   revParse(currentName: string) {
@@ -32,7 +31,7 @@ export class GitCmdClient {
   }
 
   logGraph() {
-    return execSync("git log -n 300 --graph --pretty=format:\"%h %p\"", { encoding: "utf8" });
+    return execSync('git log -n 300 --graph --pretty=format:"%h %p"', { encoding: "utf8" });
   }
 
   mergeBase(a: string, b: string) {
