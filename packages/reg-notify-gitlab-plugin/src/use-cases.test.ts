@@ -1,4 +1,4 @@
-import test from "ava";
+import assert from "assert";
 import sinon from "sinon";
 import { ComparisonResult } from "reg-suit-interface";
 import { RegLogger } from "reg-suit-util";
@@ -21,7 +21,7 @@ function createComparisonResult() {
   } as ComparisonResult;
 }
 
-test("nothing post when noEmit: true", async t => {
+test("nothing post when noEmit: true", async () => {
   const client = new GitLabFixtureClient("base-no-marked-comment");
   const logger = new RegLogger();
   const getMergeRequestsSpy = sinon.spy(client, "getMergeRequests");
@@ -37,12 +37,12 @@ test("nothing post when noEmit: true", async t => {
       comparisonResult: createComparisonResult(),
     },
   });
-  t.truthy(getMergeRequestsSpy.called);
-  t.falsy(postMergeRequestNoteSpy.called);
-  t.falsy(putMergeRequestNoteSpy.called);
+  assert.equal(getMergeRequestsSpy.called, true);
+  assert.equal(postMergeRequestNoteSpy.called, false);
+  assert.equal(putMergeRequestNoteSpy.called, false);
 });
 
-test("add comment to MR when the MR does not have this notifiers comment", async t => {
+test("add comment to MR when the MR does not have this notifiers comment", async () => {
   const client = new GitLabFixtureClient("base-no-marked-comment");
   const logger = new RegLogger();
   const getMergeRequestsSpy = sinon.spy(client, "getMergeRequests");
@@ -59,13 +59,13 @@ test("add comment to MR when the MR does not have this notifiers comment", async
       comparisonResult: createComparisonResult(),
     },
   });
-  t.truthy(getMergeRequestsSpy.called);
-  t.deepEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
-  t.truthy(postMergeRequestNoteSpy.called);
-  t.falsy(putMergeRequestNoteSpy.called);
+  assert.equal(getMergeRequestsSpy.called, true);
+  assert.deepStrictEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
+  assert.equal(postMergeRequestNoteSpy.called, true);
+  assert.equal(putMergeRequestNoteSpy.called, false);
 });
 
-test("add comment to MR when the MR already has note this notifiers comment", async t => {
+test("add comment to MR when the MR already has note this notifiers comment", async () => {
   const client = new GitLabFixtureClient("base-fulfilled");
   const logger = new RegLogger();
   const getMergeRequestsSpy = sinon.spy(client, "getMergeRequests");
@@ -82,13 +82,13 @@ test("add comment to MR when the MR already has note this notifiers comment", as
       comparisonResult: createComparisonResult(),
     },
   });
-  t.truthy(getMergeRequestsSpy.called);
-  t.deepEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
-  t.falsy(postMergeRequestNoteSpy.called);
-  t.truthy(putMergeRequestNoteSpy.called);
+  assert.equal(getMergeRequestsSpy.called, true);
+  assert.deepStrictEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
+  assert.equal(postMergeRequestNoteSpy.called, false);
+  assert.equal(putMergeRequestNoteSpy.called, true);
 });
 
-test("nothing discussion post when noEmit: true", async t => {
+test("nothing discussion post when noEmit: true", async () => {
   const client = new GitLabFixtureClient("base-no-marked-comment");
   const logger = new RegLogger();
   const getMergeRequestsSpy = sinon.spy(client, "getMergeRequests");
@@ -104,12 +104,12 @@ test("nothing discussion post when noEmit: true", async t => {
       comparisonResult: createComparisonResult(),
     },
   });
-  t.truthy(getMergeRequestsSpy.called);
-  t.falsy(postMergeRequestDiscussionSpy.called);
-  t.falsy(putMergeRequestNoteSpy.called);
+  assert.equal(getMergeRequestsSpy.called, true);
+  assert.equal(postMergeRequestDiscussionSpy.called, false);
+  assert.equal(putMergeRequestNoteSpy.called, false);
 });
 
-test("add discussion comment to MR when the MR does not have this notifiers comment", async t => {
+test("add discussion comment to MR when the MR does not have this notifiers comment", async () => {
   const client = new GitLabFixtureClient("base-no-marked-comment");
   const logger = new RegLogger();
   const getMergeRequestsSpy = sinon.spy(client, "getMergeRequests");
@@ -126,13 +126,13 @@ test("add discussion comment to MR when the MR does not have this notifiers comm
       comparisonResult: createComparisonResult(),
     },
   });
-  t.truthy(getMergeRequestsSpy.called);
-  t.deepEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
-  t.truthy(postMergeRequestDiscussionSpy.called);
-  t.falsy(putMergeRequestNoteSpy.called);
+  assert.equal(getMergeRequestsSpy.called, true);
+  assert.deepStrictEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
+  assert.equal(postMergeRequestDiscussionSpy.called, true);
+  assert.equal(putMergeRequestNoteSpy.called, false);
 });
 
-test("update discussion to MR when the MR already has note this notifiers comment", async t => {
+test("update discussion to MR when the MR already has note this notifiers comment", async () => {
   const client = new GitLabFixtureClient("base-fulfilled");
   const logger = new RegLogger();
   const getMergeRequestsSpy = sinon.spy(client, "getMergeRequests");
@@ -149,13 +149,13 @@ test("update discussion to MR when the MR already has note this notifiers commen
       comparisonResult: createComparisonResult(),
     },
   });
-  t.truthy(getMergeRequestsSpy.called);
-  t.deepEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
-  t.falsy(postMergeRequestDiscussionSpy.called);
-  t.truthy(putMergeRequestNoteSpy.called);
+  assert.equal(getMergeRequestsSpy.called, true);
+  assert.deepStrictEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
+  assert.equal(postMergeRequestDiscussionSpy.called, false);
+  assert.equal(putMergeRequestNoteSpy.called, true);
 });
 
-test("modify description of MR", async t => {
+test("modify description of MR", async () => {
   const client = new GitLabFixtureClient("base-fulfilled");
   const logger = new RegLogger();
   const getMergeRequestsSpy = sinon.spy(client, "getMergeRequests");
@@ -170,13 +170,12 @@ test("modify description of MR", async t => {
       comparisonResult: createComparisonResult(),
     },
   });
-  t.truthy(getMergeRequestsSpy.called);
-  t.truthy(putMergeRequestSpy.called);
+  assert.equal(getMergeRequestsSpy.called, true);
+  assert.equal(putMergeRequestSpy.called, true);
   const { description } = putMergeRequestSpy.firstCall.args[0] as PutMergeRequestParams
   if (!description) {
-    t.fail();
-    return
+    throw new assert.AssertionError();
   }
-  t.truthy(description.indexOf(DESC_BODY_START_MARK) !== -1)
-  t.truthy(description.indexOf(DESC_BODY_END_MARK) !== -1)
+  assert.equal(description.indexOf(DESC_BODY_START_MARK) !== -1, true);
+  assert.equal(description.indexOf(DESC_BODY_END_MARK) !== -1, true);
 })
