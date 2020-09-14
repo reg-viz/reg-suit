@@ -23,7 +23,7 @@ cat << JSON > $PKG_DIR/package.json
   "main": "lib/index.js",
   "scripts": {
     "test": "echo T.B.D.",
-    "prepublish": "tsc -p src/tsconfig.build.json"
+    "prepublish": "tsc -p tsconfig.build.json"
   },
   "keywords": [
     "reg"
@@ -35,28 +35,30 @@ cat << JSON > $PKG_DIR/package.json
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^3.5.3"
+    "typescript": "3.9.7"
   },
   "dependencies": {
   }
 }
 JSON
 
-cat << JSON > $PKG_DIR/src/tsconfig.build.json
+cat << JSON > $PKG_DIR/tsconfig.build.json
 {
-  "extends": "../../../tsconfig.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "../lib"
-  }
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "exclude": ["lib", "e2e"]
 }
 JSON
 
-cat << JSON > $PKG_DIR/src/tsconfig.json
+cat << JSON > $PKG_DIR/tsconfig.json
 {
-  "extends": "./tsconfig.build.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-  }
+  },
+  "exclude": ["lib", "e2e"]
 }
 JSON
 
