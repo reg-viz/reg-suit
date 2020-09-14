@@ -28,10 +28,13 @@
     "uuid": "^3.1.0"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.13",
     "@types/mkdirp": "^0.3.29",
     "@types/uuid": "^3.0.0",
+    "jest": "^26.4.2",
     "reg-suit-interface": "^0.10.3",
     "rimraf": "^2.6.1",
+    "ts-jest": "^26.3.0",
     "typescript": "3.9.4"
   }
 }
