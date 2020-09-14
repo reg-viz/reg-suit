@@ -1,5 +1,5 @@
 import path from "path";
-import * as mkdirp from "mkdirp";
+import mkdirp from "mkdirp";
 import { Storage, GetFilesOptions } from "@google-cloud/storage"
 
 import { WorkingDirectoryInfo, PublisherPlugin, PluginCreateOptions, PluginLogger } from "reg-suit-interface";

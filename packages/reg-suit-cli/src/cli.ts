@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import * as path from "path";
-import * as yargs from "yargs";
+import path from "path";
+import yargs from "yargs";
 
 import { RegSuitCore } from "reg-suit-core";
 import { CliOptions } from "./cli-options";

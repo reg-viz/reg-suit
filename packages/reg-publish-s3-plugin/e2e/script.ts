@@ -2,8 +2,8 @@
 import { createLogger } from "reg-suit-util";
 import { S3PublisherPlugin } from "../lib/s3-publisher-plugin";
 import { S3BucketPreparer } from "../lib/s3-bucket-preparer";
-import * as glob from "glob";
-import * as assert from "assert";
+import glob from "glob";
+import assert from "assert";
 import { S3 } from "aws-sdk";
 
 const preparer = new S3BucketPreparer();

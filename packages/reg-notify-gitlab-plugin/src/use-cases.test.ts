@@ -1,5 +1,5 @@
 import test from "ava";
-import * as sinon from "sinon";
+import sinon from "sinon";
 import { ComparisonResult } from "reg-suit-interface";
 import { RegLogger } from "reg-suit-util";
 import { GitLabFixtureClient } from "./testing/gitlab-fixture-client";

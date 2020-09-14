@@ -12,7 +12,7 @@ import {
   PluginLogger,
 } from "reg-suit-interface";
 
-import * as rp from "request-promise";
+import rp from "request-promise";
 
 export interface GitHubPluginOption {
   clientId?: string;

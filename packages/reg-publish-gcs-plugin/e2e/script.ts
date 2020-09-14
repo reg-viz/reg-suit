@@ -2,8 +2,8 @@
 import { createLogger } from "reg-suit-util";
 import { GcsPublisherPlugin } from "../lib/gcs-publisher-plugin";
 import { GcsBucketPreparer } from "../lib/gcs-bucket-preparer";
-import * as glob from "glob";
-import * as assert from "assert";
+import glob from "glob";
+import assert from "assert";
 import { Storage } from "@google-cloud/storage";
 
 const preparer = new GcsBucketPreparer();
