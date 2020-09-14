@@ -1,5 +1,4 @@
-import uuid from "uuid/v4";
-// import { S3, config as awsConfig } from "aws-sdk";
+import { v4 as uuid } from "uuid";
 import { PluginPreparer, PluginCreateOptions, PreparerQuestions, PluginLogger } from "reg-suit-interface";
 import { PluginConfig } from "./gcs-publisher-plugin";
 import { Storage } from "@google-cloud/storage";
