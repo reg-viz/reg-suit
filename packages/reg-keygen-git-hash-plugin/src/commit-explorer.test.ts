@@ -1,8 +1,8 @@
 import test from "ava";
 import { execSync } from "child_process";
 import { CommitExplorer } from "./commit-explorer";
-import * as process from "process";
-import * as path from "path";
+import process from "process";
+import path from "path";
 
 const glob = require("glob");
 const rimraf = require("rimraf");

@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 import { Repository } from "tiny-commit-walker";
 import { inflateRawSync } from "zlib";
 import { execSync } from "child_process";

@@ -1,4 +1,4 @@
-import * as rp from "request-promise";
+import rp from "request-promise";
 
 export interface SendOption {
   webhookUrl: string;

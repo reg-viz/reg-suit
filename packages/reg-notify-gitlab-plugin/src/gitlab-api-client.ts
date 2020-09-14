@@ -2,7 +2,7 @@ export type ProjectIdType = number;
 export type MergeResuestIidType = number;
 export type NoteIdType = number;
 export type DiscussionIdType = number;
-import * as rp from "request-promise";
+import rp from "request-promise";
 
 export type MergeRequestResource = {
   iid: MergeResuestIidType;
