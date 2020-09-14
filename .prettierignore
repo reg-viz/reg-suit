@@ -11,3 +11,6 @@ node_modules/
 *.sh
 *.log
 packages/reg-suit-cli/well-known-plugins.json
+.env
+.env.*
+
