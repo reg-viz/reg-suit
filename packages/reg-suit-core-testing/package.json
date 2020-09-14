@@ -14,12 +14,9 @@
     "reg-suit-core": "^0.10.3"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.13",
-    "jest": "^26.4.2",
     "reg-keygen-git-hash-plugin": "^0.10.3",
     "reg-suit": "^0.10.3",
     "reg-suit-interface": "^0.10.3",
-    "ts-jest": "^26.3.0",
     "typescript": "3.9.4"
   }
 }
