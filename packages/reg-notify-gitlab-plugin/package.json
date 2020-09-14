@@ -20,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^26.0.13",
-    "@types/request-promise": "^4.1.35",
+    "@types/request-promise": "^4.1.46",
     "@types/sinon": "^5.0.1",
     "jest": "^26.4.2",
     "reg-suit-interface": "^0.10.3",
@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "reg-suit-util": "^0.10.3",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
   }
 }

@@ -23,7 +23,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^26.0.13",
-    "@types/request-promise": "^4.1.35",
+    "@types/request-promise": "^4.1.46",
     "jest": "^26.4.2",
     "reg-suit-interface": "^0.10.3",
     "ts-jest": "^26.3.0",
@@ -33,8 +33,8 @@
     "opn": "^5.4.0",
     "reg-gh-app-interface": "^1.0.6",
     "reg-suit-util": "^0.10.3",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
     "tiny-commit-walker": "^1.1.2"
   }
 }

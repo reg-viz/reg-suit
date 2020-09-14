@@ -25,7 +25,7 @@
   "devDependencies": {
     "@types/puppeteer": "^3.0.0",
     "gh-pages": "^1.0.0",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^1.0.4",
     "puppeteer": "^5.0.0",
     "reg-keygen-git-hash-plugin": "^0.10.3",
     "reg-notify-github-plugin": "^0.10.3",
