@@ -5,5 +5,5 @@
       "reg-suit-interface": ["./reg-suit-interface/src/index.ts"]
     }
   },
-  "exclude": ["lib", "e2e"]
+  "exclude": ["lib"]
 }

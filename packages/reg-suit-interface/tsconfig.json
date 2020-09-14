@@ -1,5 +1,5 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {},
-  "exclude": ["lib", "e2e"]
+  "exclude": ["lib"]
 }

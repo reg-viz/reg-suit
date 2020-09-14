@@ -7,5 +7,5 @@
       "reg-suit-util": ["./reg-suit-util/src/index.ts"]
     }
   },
-  "exclude": ["lib", "e2e"]
+  "exclude": ["lib"]
 }
