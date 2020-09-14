@@ -74,10 +74,11 @@ const updateCommentMutation = gql`
 export class GhGqlClient {
   private _client: ApolloClient<any>;
 
-  constructor(token: string, url: string) {
+  constructor(token: string, urlStr: string) {
+    const url = new URL(urlStr);
     this._client = new ApolloClient({
       link: createHttpLink({
-        uri: `${url}/api/graphql`,
+        uri: url.pathname !== "/" ? urlStr : `${urlStr}/api/graphql`,
         headers: {
           Authorization: `bearer ${token}`,
         },
@@ -156,5 +157,6 @@ export class GhGqlClient {
         return;
       }),
     );
+    return pullRequests.map(p => p.number);
   }
 }
