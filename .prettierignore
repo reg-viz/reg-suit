@@ -10,3 +10,4 @@ landing-page/
 node_modules/
 *.sh
 *.log
+packages/reg-suit-cli/well-known-plugins.json

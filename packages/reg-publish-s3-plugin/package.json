@@ -32,6 +32,6 @@
     "@types/uuid": "^3.0.0",
     "reg-suit-interface": "^0.10.3",
     "rimraf": "^2.6.1",
-    "typescript": "3.9.4"
+    "typescript": "4.0.2"
   }
 }

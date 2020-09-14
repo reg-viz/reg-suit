@@ -107,7 +107,7 @@ function cli(): Promise<any> {
 cli()
   .then(() => process.exit(0))
   .catch((reason: any) => {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.error(reason);
     process.exit(1);
   });

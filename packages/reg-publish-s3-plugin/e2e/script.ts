@@ -1,4 +1,3 @@
-/* tslint:disable:no-console */
 import { createLogger } from "reg-suit-util";
 import { S3PublisherPlugin } from "../lib/s3-publisher-plugin";
 import { S3BucketPreparer } from "../lib/s3-bucket-preparer";
@@ -114,10 +113,11 @@ async function main() {
   try {
     await case1();
     await case2();
-
+    // eslint-disable-next-line no-console
     console.log(" 🌟  Test was ended successfully! 🌟 ");
     process.exit(0);
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error(err);
     process.exit(1);
   }
