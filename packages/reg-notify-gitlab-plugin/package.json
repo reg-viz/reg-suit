@@ -5,8 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "ava",
-    "prepublish": "tsc -p src/tsconfig.build.json",
-    "watch": "tsc -p src/tsconfig.build.json -w"
+    "prepublish": "tsc -p tsconfig.build.json",
+    "watch": "tsc -p tsconfig.build.json -w"
   },
   "keywords": [
     "reg",

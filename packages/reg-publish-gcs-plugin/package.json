@@ -4,10 +4,10 @@
   "description": "Fetch and publish snapshot images to Google Cloud Storage.",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "tsc -p src/tsconfig.build.json",
+    "prepublish": "tsc -p tsconfig.build.json",
     "clean:e2e": "rimraf e2e/report-fixture-expected",
     "test": "npm run clean:e2e && tsc -p e2e/tsconfig.json && node built_e2e/script.js",
-    "watch": "tsc -w -p src/tsconfig.build.json"
+    "watch": "tsc -w -p tsconfig.build.json"
   },
   "keywords": [
     "GCP",

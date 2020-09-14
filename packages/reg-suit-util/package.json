@@ -6,8 +6,8 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "test": "echo T.B.D.",
-    "prepublish": "tsc -p src/tsconfig.build.json",
-    "watch": "tsc -w -p src/tsconfig.build.json"
+    "prepublish": "tsc -p tsconfig.build.json",
+    "watch": "tsc -w -p tsconfig.build.json"
   },
   "keywords": [
     "reg"

@@ -1,11 +1,11 @@
 {
-  "extends": "./tsconfig.build.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "esModuleInterop": true,
     "paths": {
       "reg-suit-core": ["./reg-suit-core/src/index.ts"],
       "reg-suit-interface": ["./reg-suit-interface/src/index.ts"],
       "reg-suit-util": ["./reg-suit-util/src/index.ts"]
     }
-  }
+  },
+  "exclude": ["lib", "e2e"]
 }

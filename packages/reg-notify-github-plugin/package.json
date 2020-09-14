@@ -8,7 +8,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "ava",
-    "prepublish": "tsc -p src/tsconfig.build.json"
+    "prepublish": "tsc -p tsconfig.build.json"
   },
   "keywords": [
     "reg",
