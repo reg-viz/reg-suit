@@ -63,3 +63,5 @@ typings/
 .env.prod
 
 # End of https://www.gitignore.io/api/node
+
+*.tsbuildinfo
