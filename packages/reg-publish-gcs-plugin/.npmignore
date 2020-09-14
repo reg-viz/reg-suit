@@ -6,5 +6,4 @@ lib/**/*.spec.d.ts
 src/
 test/
 e2e/
-built_e2e/
 built/
