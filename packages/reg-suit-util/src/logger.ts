@@ -1,4 +1,4 @@
-import * as chalk from "chalk";
+import { Chalk, Instance } from "chalk";
 import { Logger, Colors, Spinner, ProgressBar } from "reg-suit-interface";
 
 const SpinnerConstructor = require("cli-spinner").Spinner;
@@ -21,10 +21,10 @@ const noopProgressBar: ProgressBar = {
 
 export class RegLogger implements Logger {
   _level: LogLevel;
-  _chalk: chalk.Chalk;
+  _chalk: Chalk;
 
   constructor(private _category = "reg-suit") {
-    this._chalk = chalk.constructor({ level: 1 } as any);
+    this._chalk = new Instance({ level: 1 });
     this._level = "info";
   }
 
@@ -39,7 +39,7 @@ export class RegLogger implements Logger {
   }
 
   get colors(): Colors {
-    return (<any>this._chalk) as Colors;
+    return this._chalk as Colors;
   }
 
   set colors(v: Colors) {
