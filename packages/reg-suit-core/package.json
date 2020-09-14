@@ -25,10 +25,10 @@
     "rimraf": "^3.0.2"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.13",
-    "jest": "^26.4.2",
+    "@types/jest": "26.0.13",
+    "jest": "26.4.2",
     "reg-suit-interface": "^0.10.6",
-    "ts-jest": "^26.3.0",
+    "ts-jest": "26.3.0",
     "typescript": "4.0.2"
   }
 }
