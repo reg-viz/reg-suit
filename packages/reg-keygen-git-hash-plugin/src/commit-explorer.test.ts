@@ -1,4 +1,4 @@
-import test from "ava";
+import assert from "assert";
 import { execSync } from "child_process";
 import { CommitExplorer } from "./commit-explorer";
 import process from "process";
@@ -9,7 +9,7 @@ const rimraf = require("rimraf");
 
 process.chdir("./test");
 
-test.afterEach.always(() => {
+afterEach(() => {
   rimraf.sync(path.resolve(__dirname, "../test/.git"));
 });
 
@@ -17,37 +17,37 @@ const copyGitFiles = (name: string) => {
   execSync(`cp -r ${path.resolve("fixtures", name)} ${path.resolve("./", ".git")}`);
 };
 
-// FIXME: This test failed on circleCI, because `reg-suit` repository is applied when there is no commit
-//        But this test passed in my local env(git 2.14.1)....
-//        This issue will be fixed in version using git-tiny-walker
-// test.serial("no commit", t => {
+// FIXME: assert.equal test failed on circleCI, because `reg-suit` repository is applied when there is no commit
+//        But assert.equal test passed in my local env(git 2.14.1)....
+//        assert.equal issue will be fixed in version using git-tiny-walker
+// test.serial("no commit", () => {
 //   copyGitFiles("no-commit");
 //   t.throws(() => new CommitExplorer().getCurrentCommitHash());
 // });
 
 
-test.serial("detached head", t => {
+test("detached head", () => {
   copyGitFiles("detached-head");
-  t.throws(() => new CommitExplorer().getCurrentBranchName());
+  expect(() => new CommitExplorer().getCurrentBranchName()).toThrowError();
 });
 
 /*
 * first commit
 */
-test.serial("initial commit", t => {
+test("initial commit", () => {
   copyGitFiles("initial-commit");
   const baseHash = new CommitExplorer().getBaseCommitHash();
-  t.is(null, baseHash);
+  assert.equal(null, baseHash);
 });
 
 /*
 * (HEAD -> master) two commit
 * first commit
 */
-test.serial("master two commits", t => {
+test("master two commits", () => {
   copyGitFiles("master-two-commits");
   const baseHash = new CommitExplorer().getBaseCommitHash();
-  t.is(null, baseHash);
+  assert.equal(null, baseHash);
 });
 
 
@@ -55,10 +55,10 @@ test.serial("master two commits", t => {
 * (HEAD -> feat-y, master) second commit
 * first commit
 */
-test.serial("after create new branch", t => {
+test("after create new branch", () => {
   copyGitFiles("after-create-new-branch");
   const baseHash = new CommitExplorer().getBaseCommitHash();
-  t.is(null, baseHash);
+  assert.equal(null, baseHash);
 });
 
 /*
@@ -66,11 +66,11 @@ test.serial("after create new branch", t => {
 * (tag: expected, master) second commit
 * first commit
 */
-test.serial("commit after create new branch", t => {
+test("commit after create new branch", () => {
   copyGitFiles("commit-new-branch");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
-  t.is(expected, baseHash);
+  assert.equal(expected, baseHash);
 });
 
 /*
@@ -79,11 +79,11 @@ test.serial("commit after create new branch", t => {
 * (tag: expected, master) second commit
 * first commit
 */
-test.serial("two commits after create new branch", t => {
+test("two commits after create new branch", () => {
   copyGitFiles("two-commit-new-branch");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
-  t.is(expected, baseHash);
+  assert.equal(expected, baseHash);
 });
 
 /*
@@ -96,11 +96,11 @@ test.serial("two commits after create new branch", t => {
 * second commit
 * first commit
 */
-test.serial("after catch up master merge", t => {
+test("after catch up master merge", () => {
   copyGitFiles("after-catch-up-master");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
-  t.is(expected, baseHash);
+  assert.equal(expected, baseHash);
 });
 
 /*
@@ -114,11 +114,11 @@ test.serial("after catch up master merge", t => {
 * second commit
 * first commit
 */
-test.serial("commit after merge", t => {
+test("commit after merge", () => {
   copyGitFiles("commit-after-merge");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
-  t.is(expected, baseHash);
+  assert.equal(expected, baseHash);
 });
 
 /*
@@ -132,11 +132,11 @@ test.serial("commit after merge", t => {
 * first commit
 */
 
-test.serial("master to catch up branch", t => {
+test("master to catch up branch", () => {
   copyGitFiles("master-to-catch-up-branch");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
-  t.is(expected, baseHash);
+  assert.equal(expected, baseHash);
 });
 
 /*
@@ -158,11 +158,11 @@ test.serial("master to catch up branch", t => {
 * first commit
 */
 
-test.serial("commit after catch up and merge", t => {
+test("commit after catch up and merge", () => {
   copyGitFiles("commit-after-catch-up-and-merge");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
-  t.is(expected, baseHash);
+  assert.equal(expected, baseHash);
 });
 
 // *   (HEAD -> feat-x) merge master2feat-x to feat-x
@@ -176,11 +176,11 @@ test.serial("commit after catch up and merge", t => {
 // |/
 // * (tag: expected) second commit
 // * first commit
-test.serial("after merge catch up", t => {
+test("after merge catch up", () => {
   copyGitFiles("after-merge-catch-up");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
-  t.is(expected, baseHash);
+  assert.equal(expected, baseHash);
 });
 
 // * (HEAD -> feat-x) x3
@@ -196,11 +196,11 @@ test.serial("after merge catch up", t => {
 // |/
 // * second commit
 // * first commit
-test.serial("merge catch up and commit", t => {
+test("merge catch up and commit", () => {
   copyGitFiles("merge-catch-up-then-commit");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
-  t.is(expected, baseHash);
+  assert.equal(expected, baseHash);
 });
 
 // *---.   merge branch11 branch2 branch3 to master 
@@ -214,16 +214,16 @@ test.serial("merge catch up and commit", t => {
 // | * branch1 commit
 // |/
 // * (tag: expected) init import
-test.serial("merge multipe commit three", t => {
+test("merge multipe commit three", () => {
     copyGitFiles("merge-multipe-commit-three");
     const baseHash = new CommitExplorer().getBaseCommitHash();
     const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
-    t.is(expected, baseHash);
+    assert.equal(expected, baseHash);
 });
 
-test.serial("error patter found in reg-suit repository", t => {
+test("error patter found in reg-suit repository", () => {
   copyGitFiles("reg-suit-error-pattern");
   const baseHash = new CommitExplorer().getBaseCommitHash();
   const expected = "49d38a929ae3675a1c79216709c35884f0b78900";
-  t.is(expected, baseHash);
+  assert.equal(expected, baseHash);
 });
