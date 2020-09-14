@@ -19,17 +19,17 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "@types/node-fetch": "^2.5.4",
+    "@types/node-fetch": "^2.5.7",
     "reg-suit-interface": "^0.10.3",
     "typescript": "4.0.2"
   },
   "dependencies": {
-    "apollo-cache-inmemory": "^1.6.5",
-    "apollo-client": "^2.6.8",
-    "apollo-link-http": "^1.5.16",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link-http": "^1.5.17",
     "graphql": "^14.6.0",
-    "graphql-tag": "^2.10.3",
-    "node-fetch": "^2.6.0",
+    "graphql-tag": "^2.11.0",
+    "node-fetch": "^2.6.1",
     "reg-suit-util": "^0.10.3",
     "tiny-commit-walker": "^1.2.1"
   }
