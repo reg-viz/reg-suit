@@ -35,14 +35,14 @@ async function after(bn: string) {
       {
         Bucket: bn,
       },
-      (err, result) => {
+      (_err, result) => {
         if (result.Contents) {
           new S3().deleteObjects(
             {
               Bucket: bn,
               Delete: { Objects: result.Contents.map(c => ({ Key: c.Key as any })) },
             },
-            (err2, x) => resolve(x),
+            (__err, x) => resolve(x),
           );
         }
       },
