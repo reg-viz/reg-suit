@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import assert from "assert";
 import { GhGqlClient } from "../src/gh-gql-client";
 
 require("dotenv").config();
