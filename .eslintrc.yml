@@ -21,11 +21,7 @@ rules:
   prefer-const: error
   prefer-rest-params: error
   prefer-spread: error
-  object-curly-spacing:
-    - error
-    - always
-  no-trailing-spaces:
-    - error
-    - ignoreComments: true
   "@typescript-eslint/no-use-before-define": error
   "@typescript-eslint/no-namespace": error
+  "@typescript-eslint/ban-ts-comment": error
+  "@typescript-eslint/ban-types": error

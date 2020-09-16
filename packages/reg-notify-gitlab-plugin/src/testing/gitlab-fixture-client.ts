@@ -19,22 +19,22 @@ export class GitLabFixtureClient implements GitLabApiClient {
     return Promise.resolve(JSON.parse(data) as T);
   }
 
-  getMergeRequests(params: { project_id: number }): Promise<MergeRequestResource[]> {
+  getMergeRequests(_params: { project_id: number }): Promise<MergeRequestResource[]> {
     return this.loadFixtue<MergeRequestResource[]>("getMergeRequests");
   }
-  putMergeRequest(params: { project_id: number; iid: number }): Promise<MergeRequestResource> {
+  putMergeRequest(_params: { project_id: number; iid: number }): Promise<MergeRequestResource> {
     return this.loadFixtue<MergeRequestResource>("putMergeRequest");
   }
-  getMergeRequestCommits(params: { project_id: number; merge_request_iid: number }): Promise<CommitResource[]> {
+  getMergeRequestCommits(_params: { project_id: number; merge_request_iid: number }): Promise<CommitResource[]> {
     return this.loadFixtue<CommitResource[]>("getMergeRequestCommits");
   }
-  getMergeRequestNotes(params: { project_id: number; merge_request_iid: number }): Promise<NoteResouce[]> {
+  getMergeRequestNotes(_params: { project_id: number; merge_request_iid: number }): Promise<NoteResouce[]> {
     return this.loadFixtue<NoteResouce[]>("getMergeRequestNotes");
   }
-  postMergeRequestNote(params: { project_id: number; merge_request_iid: number; body: string }): Promise<NoteResouce> {
+  postMergeRequestNote(_params: { project_id: number; merge_request_iid: number; body: string }): Promise<NoteResouce> {
     return this.loadFixtue<NoteResouce>("postMergeRequestNote");
   }
-  putMergeRequestNote(params: {
+  putMergeRequestNote(_params: {
     project_id: number;
     merge_request_iid: number;
     note_id: number;
@@ -42,7 +42,7 @@ export class GitLabFixtureClient implements GitLabApiClient {
   }): Promise<NoteResouce> {
     return this.loadFixtue<NoteResouce>("putMergeRequestNote");
   }
-  postMergeRequestDiscussion(params: {
+  postMergeRequestDiscussion(_params: {
     project_id: number;
     merge_request_iid: number;
     body: string;

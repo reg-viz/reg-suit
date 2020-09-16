@@ -3,7 +3,6 @@ import fs from "fs";
 import inquirer from "inquirer";
 import ignore from "ignore";
 
-import { RegSuitCore } from "reg-suit-core";
 import { CoreConfig } from "reg-suit-interface";
 import { CliOptions } from "../cli-options";
 import packageUtil, { PLUGIN_NAME_REGEXP } from "../package-util";

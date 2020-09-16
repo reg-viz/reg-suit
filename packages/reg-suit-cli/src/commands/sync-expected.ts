@@ -6,7 +6,7 @@ function syncExpected(options: CliOptions) {
   return processor
     .getExpectedKey()
     .then(ctx => processor.syncExpected(ctx))
-    .then(ctx => null);
+    .then(() => null);
 }
 
 export default syncExpected;

@@ -1,4 +1,4 @@
-import * as path from "path";
+import path from "path";
 import {
   CoreConfig,
   WorkingDirectoryInfo,
@@ -10,7 +10,6 @@ import {
   PluginLogger,
   ComparisonResult,
 } from "reg-suit-interface";
-import { fsUtil } from "reg-suit-util";
 import { EventEmitter } from "events";
 
 const compare = require("reg-cli");

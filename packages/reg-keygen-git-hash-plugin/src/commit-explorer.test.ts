@@ -4,7 +4,6 @@ import { CommitExplorer } from "./commit-explorer";
 import process from "process";
 import path from "path";
 
-const glob = require("glob");
 const rimraf = require("rimraf");
 
 process.chdir("./test");

@@ -1,5 +1,4 @@
 import {
-  Plugin,
   PublisherPlugin,
   NotifierPlugin,
   NotifyParams,
@@ -12,13 +11,13 @@ import {
 } from "reg-suit-interface";
 
 class DummyPlugin implements PublisherPlugin<null>, KeyGeneratorPlugin<null>, NotifierPlugin<null> {
-  init(config: PluginCreateOptions<null>) {}
+  init(_config: PluginCreateOptions<null>) {}
 
   getExpectedKey(): Promise<string> {
     return Promise.resolve("expected");
   }
 
-  fetch(key: string): Promise<any> {
+  fetch(_key: string): Promise<any> {
     return Promise.resolve("fetch");
   }
 
@@ -26,11 +25,11 @@ class DummyPlugin implements PublisherPlugin<null>, KeyGeneratorPlugin<null>, No
     return Promise.resolve("actual");
   }
 
-  publish(key: string): Promise<PublishResult> {
+  publish(_key: string): Promise<PublishResult> {
     return Promise.resolve({ reportUrl: "" });
   }
 
-  notify(params: NotifyParams): Promise<any> {
+  notify(_params: NotifyParams): Promise<any> {
     return Promise.resolve("notify");
   }
 }

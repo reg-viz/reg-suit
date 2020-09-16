@@ -1,6 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
-import { Plugin, CoreConfig, CreateQuestionsOptions, RegSuitConfiguration } from "reg-suit-interface";
+import path from "path";
+import { CoreConfig, CreateQuestionsOptions, RegSuitConfiguration } from "reg-suit-interface";
 import { createLogger, RegLogger, LogLevel, fsUtil } from "reg-suit-util";
 
 import { ConfigManager } from "./config-manager";
@@ -78,7 +77,6 @@ export class RegSuitCore {
     const keyGenerator = this._pluginManager.initKeyGenerator();
     const publisher = this._pluginManager.initPublisher();
     const notifiers = this._pluginManager.initNotifiers();
-    const directoryInfo = this.getDirectoryInfo();
     this.logger.verbose("userDirs: ", this._getUserDirs());
     this.logger.verbose("workingDirs: ", this._getWorkingDirs());
     return new RegProcessor({

@@ -1,6 +1,6 @@
 import assert from "assert";
 import * as path from "path";
-import { PluginManager, PluginMetadata } from "./plugin-manager";
+import { PluginManager } from "./plugin-manager";
 import { RegLogger } from "reg-suit-util";
 
 function createPluginManager(pluginConfig: any) {

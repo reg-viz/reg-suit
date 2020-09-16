@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 import { CoreConfig, RegSuitConfiguration } from "reg-suit-interface";
 import { RegLogger, fsUtil } from "reg-suit-util";
 
@@ -16,7 +16,7 @@ function expandPlaceholders(x: any): any {
     });
     return x;
   } else if (Array.isArray(x)) {
-    return x.map(item => expandPlaceholders(x));
+    return x.map(() => expandPlaceholders(x));
   } else if (typeof x === "string") {
     if (ESCAPE_REGEXP.test(x)) {
       return x.replace(ESCAPE_REGEXP, (_, g1) => g1);
@@ -50,12 +50,10 @@ export class ConfigManager {
 
   private _configFileName?: string;
   private _logger: RegLogger;
-  private _noEmit: boolean;
 
   constructor(opt: ConfigManagerCreateOptions) {
     this._configFileName = opt.configFileName;
     this._logger = opt.logger;
-    this._noEmit = opt.noEmit;
   }
 
   replaceEnvValue(): RegSuitConfiguration {

@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { S3, config as awsConfig } from "aws-sdk";
-import { PluginPreparer, PluginCreateOptions, PreparerQuestions, PluginLogger } from "reg-suit-interface";
+import { PluginPreparer, PluginCreateOptions, PluginLogger } from "reg-suit-interface";
 import { PluginConfig } from "./s3-publisher-plugin";
 
 export interface SetupInquireResult {
@@ -91,7 +91,7 @@ export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, Plug
           Bucket: bucketName,
           Policy: JSON.stringify(createPolicy(bucketName)),
         },
-        (err, x) => {
+        err => {
           if (err) {
             return reject(err);
           }
@@ -107,7 +107,7 @@ export class S3BucketPreparer implements PluginPreparer<SetupInquireResult, Plug
         {
           Bucket: bucketName,
         },
-        (err, x) => {
+        err => {
           if (err) {
             return reject(err);
           }

@@ -11,6 +11,9 @@
     "sourceMap": true,
     "stripInternal": true,
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "plugins": [
       {
         "name": "typescript-eslint-language-service"

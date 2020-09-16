@@ -1,8 +1,6 @@
 import path from "path";
-import fs from "fs";
 import { PluginLogger, WorkingDirectoryInfo } from "reg-suit-interface";
 
-import * as mkdirp from "mkdirp";
 import { lookup } from "mime-types";
 import glob from "glob";
 import _ from "lodash";

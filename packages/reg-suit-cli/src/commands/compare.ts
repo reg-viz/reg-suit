@@ -1,12 +1,11 @@
 import { CliOptions } from "../cli-options";
 import getRegCore from "../get-reg-core";
 
-function compare(options: CliOptions) {
+async function compare(options: CliOptions) {
   const processor = getRegCore(options).createProcessor();
-  return processor
-    .getExpectedKey()
-    .then(ctx => processor.compare(ctx))
-    .then(ctx => null);
+  const ctx = await processor.getExpectedKey();
+  await processor.compare(ctx);
+  return null;
 }
 
 export default compare;

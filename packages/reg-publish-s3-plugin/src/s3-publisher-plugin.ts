@@ -1,10 +1,10 @@
 import fs from "fs";
 import path from "path";
 import zlib from "zlib";
-import { S3, config as awsConfig } from "aws-sdk";
+import { S3 } from "aws-sdk";
 import mkdirp from "mkdirp";
 
-import { PublisherPlugin, PluginCreateOptions, PluginLogger, WorkingDirectoryInfo } from "reg-suit-interface";
+import { PublisherPlugin, PluginCreateOptions, WorkingDirectoryInfo } from "reg-suit-interface";
 import { FileItem, RemoteFileItem, ObjectListResult, AbstractPublisher } from "reg-suit-util";
 
 export interface PluginConfig {
@@ -91,7 +91,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
             const sseVal = this._pluginConfig.sse;
             req.ServerSideEncryption = typeof sseVal === "string" ? sseVal : "AES256";
           }
-          this._s3client.putObject(req, (err, x) => {
+          this._s3client.putObject(req, err => {
             if (err) return reject(err);
             this.logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`);
             return resolve(item);
@@ -114,7 +114,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
             return reject(err);
           }
           mkdirp.sync(path.dirname(item.absPath));
-          this._gunzipIfNeed(x, (err, content) => {
+          this._gunzipIfNeed(x, (_err, content) => {
             fs.writeFile(item.absPath, content, err => {
               if (err) {
                 return reject(err);
