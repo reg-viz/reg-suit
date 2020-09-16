@@ -29,7 +29,7 @@ export interface Notifier {
   notify(params: NotifyParams): Promise<any>;
 }
 
-export interface PluginCreateOptions<T> {
+export interface PluginCreateOptions<T = undefined> {
   coreConfig: CoreConfig;
   workingDirs: WorkingDirectoryInfo;
   logger: Logger;
@@ -37,7 +37,7 @@ export interface PluginCreateOptions<T> {
   options: T;
 }
 
-export interface Plugin<T> {
+export interface Plugin<T = undefined> {
   init(config: PluginCreateOptions<T>): void;
 }
 
@@ -49,21 +49,21 @@ export interface PluginPreparer<S, T> {
   prepare(option: PluginCreateOptions<S>): Promise<T>;
 }
 
-export interface KeyGeneratorPlugin<T> extends KeyGenerator, Plugin<T> {}
-export interface PublisherPlugin<T> extends Publisher, Plugin<T> {}
-export interface NotifierPlugin<T> extends Notifier, Plugin<T> {}
+export interface KeyGeneratorPlugin<T = undefined> extends KeyGenerator, Plugin<T> {}
+export interface PublisherPlugin<T = undefined> extends Publisher, Plugin<T> {}
+export interface NotifierPlugin<T = undefined> extends Notifier, Plugin<T> {}
 
-export interface KeyGeneratorPluginHolder<S, T> {
+export interface KeyGeneratorPluginHolder<S, T = undefined> {
   preparer?: PluginPreparer<S, T>;
   keyGenerator: KeyGeneratorPlugin<T>;
 }
 
-export interface PublisherPluginHolder<S, T> {
+export interface PublisherPluginHolder<S, T = undefined> {
   preparer?: PluginPreparer<S, T>;
   publisher: PublisherPlugin<T>;
 }
 
-export interface NotifierPluginHolder<S, T> {
+export interface NotifierPluginHolder<S, T = undefined> {
   preparer?: PluginPreparer<S, T>;
   notifier: NotifierPlugin<T>;
 }
