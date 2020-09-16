@@ -1,8 +1,6 @@
-import fs from "fs";
 import path from "path";
 import { Repository } from "tiny-commit-walker";
 import { inflateRawSync } from "zlib";
-import { execSync } from "child_process";
 import { getGhAppInfo, BaseEventBody, CommentToPrBody, UpdateStatusBody } from "reg-gh-app-interface";
 import { fsUtil } from "reg-suit-util";
 import { NotifierPlugin, NotifyParams, PluginCreateOptions, PluginLogger } from "reg-suit-interface";
@@ -58,7 +56,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
       this._logger.error(`Invalid client ID: ${this._logger.colors.red(clientId)}`);
       throw new Error(`Invalid client ID: ${clientId}`);
     }
-    const [_, repository, installationId, owner] = tmp;
+    const [repository, installationId, owner] = tmp.slice(1);
     return { repository, installationId, owner };
   }
 

@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { PluginPreparer, PluginCreateOptions, PreparerQuestions, PluginLogger } from "reg-suit-interface";
+import { PluginPreparer, PluginCreateOptions, PluginLogger } from "reg-suit-interface";
 import { PluginConfig } from "./gcs-publisher-plugin";
 import { Storage } from "@google-cloud/storage";
 

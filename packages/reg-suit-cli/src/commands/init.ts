@@ -2,7 +2,6 @@ import path from "path";
 import inquirer from "inquirer";
 import cpFile from "cp-file";
 
-import { RegSuitCore } from "reg-suit-core";
 import { CliOptions } from "../cli-options";
 
 import install from "./install";

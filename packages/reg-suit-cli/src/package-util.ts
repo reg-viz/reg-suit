@@ -1,6 +1,6 @@
-import * as child_process from "child_process";
-import * as fs from "fs";
-import * as path from "path";
+import child_process from "child_process";
+import fs from "fs";
+import path from "path";
 import { fsUtil } from "reg-suit-util";
 
 export const PLUGIN_NAME_REGEXP = /^reg-.*-plugin$/;
@@ -23,7 +23,7 @@ export class PackageUtil {
     }
     const args = [...cliArguments, ...packageNames];
     return new Promise((resolve, reject) => {
-      child_process.exec(args.join(" "), (error, stdout, stderr) => {
+      child_process.exec(args.join(" "), error => {
         if (error) {
           return reject(error);
         }

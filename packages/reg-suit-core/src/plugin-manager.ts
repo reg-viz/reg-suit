@@ -1,13 +1,11 @@
-import * as path from "path";
+import path from "path";
 import {
   Plugin,
   PluginPreparer,
   WorkingDirectoryInfo,
   CreateQuestionsOptions,
   RegSuitConfiguration,
-  KeyGeneratorPlugin,
   KeyGeneratorPluginHolder,
-  PublisherPlugin,
   PublisherPluginHolder,
   NotifierPlugin,
   NotifierPluginHolder,
@@ -68,7 +66,7 @@ export class PluginManager {
         return {
           name: pluginName,
           questions: [] as any[],
-          prepare: (inquireResult: any) => Promise.resolve<any>(true),
+          prepare: () => Promise.resolve<any>(true),
           configured: null,
         };
       }),

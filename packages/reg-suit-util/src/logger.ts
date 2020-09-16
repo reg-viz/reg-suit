@@ -11,9 +11,9 @@ const noopSpinner: Spinner = {
 };
 
 const noopProgressBar: ProgressBar = {
-  start: (x: number, y?: number) => {},
-  update: (x: number) => {},
-  increment: (x: number) => {},
+  start: (_x: number, _y?: number) => {},
+  update: (_x: number) => {},
+  increment: (_x: number) => {},
   stop: () => {},
 };
 
@@ -40,7 +40,7 @@ export class RegLogger implements Logger {
     return this._chalk as Colors;
   }
 
-  set colors(v: Colors) {
+  set colors(_v: Colors) {
     return;
   }
 

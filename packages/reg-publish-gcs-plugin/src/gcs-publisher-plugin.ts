@@ -2,7 +2,7 @@ import path from "path";
 import mkdirp from "mkdirp";
 import { Storage, GetFilesOptions } from "@google-cloud/storage";
 
-import { WorkingDirectoryInfo, PublisherPlugin, PluginCreateOptions, PluginLogger } from "reg-suit-interface";
+import { WorkingDirectoryInfo, PublisherPlugin, PluginCreateOptions } from "reg-suit-interface";
 import { AbstractPublisher, RemoteFileItem, FileItem, ObjectListResult } from "reg-suit-util";
 
 export interface PluginConfig {

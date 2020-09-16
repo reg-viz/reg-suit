@@ -82,7 +82,7 @@ export class CommitExplorer {
     } catch (e) {}
   }
 
-  getBranchHash(candidateHashes: string[]): string | undefined {
+  getBranchHash(): string | undefined {
     const branches = this.getAllBranchNames();
     return branches
       .map(b => {
@@ -130,7 +130,7 @@ export class CommitExplorer {
     this._branchName = this.getCurrentBranchName();
     this._commitNodes = this.getCommitNodes();
     const candidateHashes = this.getCandidateHashes();
-    const branchHash = this.getBranchHash(candidateHashes);
+    const branchHash = this.getBranchHash();
     if (!branchHash) return null;
     const baseHash = this.findBaseCommitHash(candidateHashes, branchHash);
     if (!baseHash) return null;

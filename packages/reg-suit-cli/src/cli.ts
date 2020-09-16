@@ -2,7 +2,6 @@
 import path from "path";
 import yargs from "yargs";
 
-import { RegSuitCore } from "reg-suit-core";
 import { CliOptions } from "./cli-options";
 import init from "./commands/init";
 import install from "./commands/install";

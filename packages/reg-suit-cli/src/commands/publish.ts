@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 import { ComparisonResult } from "reg-suit-interface";
 import { CliOptions } from "../cli-options";
 import getRegCore from "../get-reg-core";
@@ -27,7 +27,7 @@ function publish(options: CliOptions) {
     )
     .then(ctx => processor.publish(ctx))
     .then(ctx => (options.notification ? processor.notify(ctx) : ctx))
-    .then(ctx => null);
+    .then(() => null);
 }
 
 export default publish;

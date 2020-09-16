@@ -1,4 +1,4 @@
-import { GitLabApiClient, ProjectIdType, DiscussionResource } from "./gitlab-api-client";
+import { GitLabApiClient } from "./gitlab-api-client";
 import { NotifyParams, PluginLogger } from "reg-suit-interface";
 import { createCommentBody } from "./create-comment";
 
@@ -47,7 +47,7 @@ function modifyDescription(description: string, params: NotifyParams) {
     );
   }
   const [pre, tmp] = description.split(DESC_BODY_START_MARK);
-  const [body, post] = tmp.split(DESC_BODY_END_MARK);
+  const post = tmp.split(DESC_BODY_END_MARK)![1];
   return (
     pre +
     "\n" +
@@ -84,7 +84,7 @@ export async function commentToMergeRequests({ noEmit, logger, client, notifyPar
       }),
     );
 
-    const targetMrs = commitsList.filter(({ mr, commits }) => commits.some(c => c.id === notifyParams.actualKey));
+    const targetMrs = commitsList.filter(({ commits }) => commits.some(c => c.id === notifyParams.actualKey));
     if (!targetMrs.length) {
       logger.warn(
         "There's no opened merge requests including the commit " + logger.colors.green(notifyParams.actualKey) + " ...",
@@ -93,7 +93,7 @@ export async function commentToMergeRequests({ noEmit, logger, client, notifyPar
     }
 
     await Promise.all(
-      targetMrs.map(async ({ mr, commits }) => {
+      targetMrs.map(async ({ mr }) => {
         const notes = await client.getMergeRequestNotes({ project_id: +projectId, merge_request_iid: mr.iid });
         const commentedNote = notes.find(note => note.body.startsWith(COMMENT_MARK));
         const spinner = logger.getSpinner("commenting merge request" + logger.colors.magenta(mr.web_url));
@@ -146,7 +146,7 @@ export async function addDiscussionToMergeRequests({ noEmit, logger, client, not
       }),
     );
 
-    const targetMrs = commitsList.filter(({ mr, commits }) => commits.some(c => c.id === notifyParams.actualKey));
+    const targetMrs = commitsList.filter(({ commits }) => commits.some(c => c.id === notifyParams.actualKey));
     if (!targetMrs.length) {
       logger.warn(
         "There's no opened merge requests including the commit " + logger.colors.green(notifyParams.actualKey) + " ...",
@@ -155,7 +155,7 @@ export async function addDiscussionToMergeRequests({ noEmit, logger, client, not
     }
 
     await Promise.all(
-      targetMrs.map(async ({ mr, commits }) => {
+      targetMrs.map(async ({ mr }) => {
         const notes = await client.getMergeRequestNotes({ project_id: +projectId, merge_request_iid: mr.iid });
         const commentedNote = notes.find(note => note.body.startsWith(COMMENT_MARK));
         const spinner = logger.getSpinner("commenting merge request" + logger.colors.magenta(mr.web_url));
@@ -208,7 +208,7 @@ export async function appendOrUpdateMergerequestsBody({ noEmit, logger, client, 
       }),
     );
 
-    const targetMrs = commitsList.filter(({ mr, commits }) => commits.some(c => c.id === notifyParams.actualKey));
+    const targetMrs = commitsList.filter(({ commits }) => commits.some(c => c.id === notifyParams.actualKey));
     if (!targetMrs.length) {
       logger.warn(
         "There's no opened merge requests including the commit " + logger.colors.green(notifyParams.actualKey) + " ...",
@@ -217,7 +217,7 @@ export async function appendOrUpdateMergerequestsBody({ noEmit, logger, client, 
     }
 
     await Promise.all(
-      targetMrs.map(async ({ mr, commits }) => {
+      targetMrs.map(async ({ mr }) => {
         const newDescription = modifyDescription(mr.description, notifyParams);
         const spinner = logger.getSpinner("commenting merge request" + logger.colors.magenta(mr.web_url));
         spinner.start();

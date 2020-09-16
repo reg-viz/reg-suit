@@ -1,5 +1,5 @@
 import assert from "assert";
-import { CoreConfig, RegSuitConfiguration } from "reg-suit-interface";
+import { CoreConfig } from "reg-suit-interface";
 import { createLogger } from "reg-suit-util";
 import { ConfigManager } from "./config-manager";
 
