@@ -33,7 +33,7 @@
     "pretty-quick": "3.0.2",
     "rimraf": "3.0.2",
     "ts-node": "9.0.0",
-    "typescript": "4.0.2",
+    "typescript": "4.0.3",
     "typescript-eslint-language-service": "4.0.1"
   },
   "workspaces": [
