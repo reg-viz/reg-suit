@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "reg-suit-toppage",
-  "version": "0.10.6",
+  "version": "0.10.7",
   "description": "",
   "scripts": {
     "build": "bash scripts/build.sh v1.0.0",
@@ -27,12 +27,12 @@
     "gh-pages": "3.1.0",
     "mkdirp": "1.0.4",
     "puppeteer": "5.3.0",
-    "reg-keygen-git-hash-plugin": "^0.10.6",
-    "reg-notify-github-plugin": "^0.10.6",
-    "reg-notify-slack-plugin": "^0.10.6",
-    "reg-publish-s3-plugin": "^0.10.6",
-    "reg-suit": "^0.10.6",
-    "reg-suit-core": "^0.10.6",
+    "reg-keygen-git-hash-plugin": "^0.10.7",
+    "reg-notify-github-plugin": "^0.10.7",
+    "reg-notify-slack-plugin": "^0.10.7",
+    "reg-publish-s3-plugin": "^0.10.7",
+    "reg-suit": "^0.10.7",
+    "reg-suit-core": "^0.10.7",
     "typescript": "4.0.2"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-util",
-  "version": "0.10.6",
+  "version": "0.10.7",
   "description": "",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -19,7 +19,7 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "reg-suit-interface": "^0.10.6",
+    "reg-suit-interface": "^0.10.7",
     "typescript": "4.0.2"
   },
   "dependencies": {
