@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "cpx": "^1.5.0",
-    "reg-cli": "^0.16.1",
+    "reg-cli": "https://github.com/APT-Business/reg-cli",
     "reg-suit-util": "^0.10.7",
     "rimraf": "^3.0.2"
   },
