@@ -124,6 +124,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
         const prCommentBody: CommentToPrBody = {
           ...this._apiOpt,
           branchName: head.branch.name,
+          headOid: sha1,
           failedItemsCount,
           newItemsCount,
           deletedItemsCount,

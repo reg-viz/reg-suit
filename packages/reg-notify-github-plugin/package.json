@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "open": "^7.2.1",
-    "reg-gh-app-interface": "^1.0.6",
+    "reg-gh-app-interface": "^1.1.0",
     "reg-suit-util": "^0.10.6",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
