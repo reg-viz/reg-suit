@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/jest": "26.0.14",
     "@types/request-promise": "4.1.46",
-    "@types/sinon": "9.0.5",
+    "@types/sinon": "9.0.6",
     "jest": "26.4.2",
     "reg-suit-interface": "^0.10.7",
     "sinon": "9.0.3",
