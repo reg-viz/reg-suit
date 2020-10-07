@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@types/jest": "26.0.14",
-    "jest": "26.5.0",
+    "jest": "26.5.2",
     "reg-suit-interface": "^0.10.7",
     "ts-jest": "26.4.1",
     "typescript": "4.0.3"
