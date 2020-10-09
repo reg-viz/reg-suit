@@ -21,7 +21,7 @@
     "watch": "run-p watch:*"
   },
   "devDependencies": {
-    "@types/node": "14.11.5",
+    "@types/node": "14.11.8",
     "@typescript-eslint/eslint-plugin": "4.4.0",
     "@typescript-eslint/parser": "4.4.0",
     "eslint": "7.10.0",
