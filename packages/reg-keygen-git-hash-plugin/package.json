@@ -28,7 +28,7 @@
   "devDependencies": {
     "@types/jest": "26.0.14",
     "glob": "7.1.6",
-    "jest": "26.5.2",
+    "jest": "26.5.3",
     "reg-suit-interface": "^0.10.7",
     "rimraf": "3.0.2",
     "ts-jest": "26.4.1",
