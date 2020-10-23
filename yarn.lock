@@ -6189,10 +6189,10 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@4.17.15:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+lodash@4.17.19:
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
 lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.2.1:
   version "4.17.20"
@@ -7905,10 +7905,10 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
-reg-cli@^0.16.1:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.16.1.tgz#4f1d447742c4120d110783e84e2f85ee9dc18247"
-  integrity sha512-e9Afa1ajOCKrmdDuQye6nzt8L6pfxD+hGQ/acHPyzoLKfXHaFfDPgq8iJNjf/chJ5CBKA7w5M4YTNH02pzjkSw==
+reg-cli@^0.16.2:
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/reg-cli/-/reg-cli-0.16.2.tgz#b200f7c9db26d297831ff5ff04f69e228fe12f6e"
+  integrity sha512-amxib9sO22tLv7bxJnjG61Hs3JoTNsYzqh+ERkuuRQPn3Pn5w/+km/J0RZ06QH3KF2k2lF0hx19+JwalIbqPNQ==
   dependencies:
     bluebird "3.5.5"
     chalk "2.4.2"
@@ -7917,7 +7917,7 @@ reg-cli@^0.16.1:
     del "3.0.0"
     glob "7.1.4"
     img-diff-js "0.4.1"
-    lodash "4.17.15"
+    lodash "4.17.19"
     make-dir "3.0.0"
     md5-file "4.0.0"
     meow "3.7.0"
