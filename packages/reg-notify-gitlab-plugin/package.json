@@ -22,7 +22,7 @@
     "@types/jest": "26.0.15",
     "@types/request-promise": "4.1.46",
     "@types/sinon": "9.0.8",
-    "jest": "26.6.0",
+    "jest": "26.6.1",
     "reg-suit-interface": "^0.10.7",
     "sinon": "9.2.0",
     "ts-jest": "26.4.2",
