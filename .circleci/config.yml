@@ -2,6 +2,9 @@ defaults: &defaults
   working_directory: ~/reg-suit
   docker:
     - image: regviz/node-xcb
+      auth:
+        username: $DOCKERHUB_USERNAME
+        password: $DOCKERHUB_PASSWORD
       environment:
         GOOGLE_APPLICATION_CREDENTIALS: "/root/gcloud-service-key.json"
 
