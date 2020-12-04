@@ -113,7 +113,7 @@ export class RegProcessor {
       threshold: this._config.threshold,
       thresholdPixel: this._config.thresholdPixel,
       thresholdRate: this._config.thresholdRate,
-      matchingThreshold: this._config.matchingThreshold,
+      matchingThreshold: this._config.matchingThreshold ?? 0, // matchingThreshold should not be undefined
       enableAntialias: this._config.enableAntialias,
       enableCliAdditionalDetection: ximgdiffConf.invocationType === "cli",
       enableClientAdditionalDetection: ximgdiffConf.invocationType !== "none",
