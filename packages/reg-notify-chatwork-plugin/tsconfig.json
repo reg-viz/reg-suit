@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "reg-suit-interface": ["./reg-suit-interface/src/index.ts"]
+    }
+  },
+  "exclude": ["lib"]
+}
