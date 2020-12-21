@@ -4,7 +4,6 @@ import { ChatworkNotiferPluginOptions } from "./chatwork-notifier-plugin";
 import { sendWebHook } from "./send-web-hook";
 
 export interface QuestionResult {
-  webhookUrl?: string;
   chatworkToken?: string;
   roomID?: string;
   sendTestMessage: boolean;
@@ -21,7 +20,7 @@ export class ChatworkPreparer implements PluginPreparer<QuestionResult, Chatwork
       {
         name: "sendTestMessage",
         type: "confirm",
-        message: "Send test message to this URL ?",
+        message: "Send test message to this Url ?",
         default: true,
         when: ({ chatworkToken }: { chatworkToken?: string }) => !!chatworkToken,
       },

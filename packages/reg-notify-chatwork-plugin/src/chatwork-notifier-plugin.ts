@@ -7,8 +7,8 @@ export interface ChatworkNotiferPluginOptions {
   chatworkToken: string;
   mention?: string;
   message?: string;
-  mrURL?: string;
-  pipelineURL?: string;
+  mrUrl?: string;
+  pipelineUrl?: string;
 }
 
 export class ChatworkNotifierPlugin implements NotifierPlugin<ChatworkNotiferPluginOptions> {
@@ -16,16 +16,16 @@ export class ChatworkNotifierPlugin implements NotifierPlugin<ChatworkNotiferPlu
   _roomID!: string;
   _mention?: string;
   _chatworkToken!: string;
-  _mrURL?: string;
-  _pipelineURL?: string;
+  _mrUrl?: string;
+  _pipelineUrl?: string;
   _noEmmit!: boolean;
 
   init(config: PluginCreateOptions<ChatworkNotiferPluginOptions>): void {
     this._logger = config.logger;
     this._roomID = config.options.roomID;
     this._mention = config.options.mention;
-    this._mrURL = config.options.mrURL;
-    this._pipelineURL = config.options.pipelineURL;
+    this._mrUrl = config.options.mrUrl;
+    this._pipelineUrl = config.options.pipelineUrl;
     this._chatworkToken = config.options.chatworkToken;
     this._noEmmit = config.noEmit;
   }
@@ -64,14 +64,14 @@ export class ChatworkNotifierPlugin implements NotifierPlugin<ChatworkNotiferPlu
     }
     if (params.reportUrl) {
       lines.push("");
-      lines.push(`▲  Report URL: ${params.reportUrl}`);
+      lines.push(`▲  Report Url: ${params.reportUrl}`);
     }
-    if (this._mrURL && this._mrURL.length > 0) {
+    if (this._mrUrl && this._mrUrl.length > 0) {
       lines.push("");
-      lines.push(`■  Merge Request: ${this._mrURL}`);
+      lines.push(`■  Merge Request: ${this._mrUrl}`);
     }
-    if (this._pipelineURL && this._pipelineURL.length > 0) {
-      lines.push(`■  Pipeline URL: ${this._pipelineURL}`);
+    if (this._pipelineUrl && this._pipelineUrl.length > 0) {
+      lines.push(`■  Pipeline Url: ${this._pipelineUrl}`);
     }
     return lines.join("\n") + ` [/info]`;
   }
