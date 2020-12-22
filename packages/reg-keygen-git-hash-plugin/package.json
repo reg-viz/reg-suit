@@ -1,6 +1,6 @@
 {
   "name": "reg-keygen-git-hash-plugin",
-  "version": "0.10.9",
+  "version": "0.10.10",
   "description": "Detect the snapshot key to be compare with using Git hash.",
   "regSuitPlugin": {
     "recommended": true
@@ -23,13 +23,13 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "dependencies": {
-    "reg-suit-util": "^0.10.9"
+    "reg-suit-util": "^0.10.10"
   },
   "devDependencies": {
     "@types/jest": "26.0.19",
     "glob": "7.1.6",
     "jest": "26.6.3",
-    "reg-suit-interface": "^0.10.9",
+    "reg-suit-interface": "^0.10.10",
     "rimraf": "3.0.2",
     "ts-jest": "26.4.4",
     "typescript": "4.1.3"

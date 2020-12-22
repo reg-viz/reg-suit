@@ -1,22 +1,22 @@
 {
   "name": "reg-suit-core-testing",
-  "version": "0.10.9",
+  "version": "0.10.10",
   "private": true,
   "scripts": {
     "reg-suit-debug": "node ../reg-suit-cli/lib/cli.js",
     "test": "echo \"T.B.D.\""
   },
   "dependencies": {
-    "reg-notify-gitlab-plugin": "^0.10.9",
-    "reg-notify-slack-plugin": "^0.10.9",
-    "reg-publish-gcs-plugin": "^0.10.9",
-    "reg-simple-keygen-plugin": "^0.10.9",
-    "reg-suit-core": "^0.10.9"
+    "reg-notify-gitlab-plugin": "^0.10.10",
+    "reg-notify-slack-plugin": "^0.10.10",
+    "reg-publish-gcs-plugin": "^0.10.10",
+    "reg-simple-keygen-plugin": "^0.10.10",
+    "reg-suit-core": "^0.10.10"
   },
   "devDependencies": {
-    "reg-keygen-git-hash-plugin": "^0.10.9",
-    "reg-suit": "^0.10.9",
-    "reg-suit-interface": "^0.10.9",
+    "reg-keygen-git-hash-plugin": "^0.10.10",
+    "reg-suit": "^0.10.10",
+    "reg-suit-interface": "^0.10.10",
     "typescript": "4.1.3"
   }
 }
