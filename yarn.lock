@@ -1761,6 +1761,14 @@
   dependencies:
     "@types/node" "*"
 
+"@types/request-promise@4.1.46":
+  version "4.1.46"
+  resolved "https://registry.yarnpkg.com/@types/request-promise/-/request-promise-4.1.46.tgz#37df6efae984316dfbfbbe8fcda37f3ba52822f2"
+  integrity sha512-3Thpj2Va5m0ji3spaCk8YKrjkZyZc6RqUVOphA0n/Xet66AW/AiOAs5vfXhQIL5NmkaO7Jnun7Nl9NEjJ2zBaw==
+  dependencies:
+    "@types/bluebird" "*"
+    "@types/request" "*"
+
 "@types/request-promise@4.1.47":
   version "4.1.47"
   resolved "https://registry.yarnpkg.com/@types/request-promise/-/request-promise-4.1.47.tgz#62f58a52476ef6cfe4f38d689cb826959a33a268"
@@ -9274,6 +9282,11 @@ typescript-eslint-language-service@4.1.2:
   integrity sha512-qIY6SJOqoODeAZs5d88W1lmA+ZQxiCypqK7Adxbl0G5EjE9DM1iP9FfpY7Jk4cO3ohfgOmTQ4A4r0jzyhCM7fA==
   dependencies:
     read-pkg-up "^7.0.0"
+
+typescript@4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.1.2.tgz#6369ef22516fe5e10304aae5a5c4862db55380e9"
+  integrity sha512-thGloWsGH3SOxv1SoY7QojKi0tc+8FnOmiarEGMbd/lar7QOEd3hvlx3Fp5y6FlDUGl9L+pd4n2e+oToGMmhRQ==
 
 typescript@4.1.3:
   version "4.1.3"
