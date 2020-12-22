@@ -21,6 +21,11 @@
     }
   },
   {
+    "name": "reg-notify-chatwork-plugin",
+    "description": "Notify reg-suit result to Chatwork channel.",
+    "metadata": {}
+  },
+  {
     "name": "reg-notify-github-with-api-plugin",
     "description": "Notify reg-suit result to GHE repository using API",
     "metadata": {}
