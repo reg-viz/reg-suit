@@ -41,6 +41,7 @@ The following plugins are available:
 - [reg-notify-gitlab-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-gitlab-plugin/README.md) - _notifier plugin_ - This plugin notifies reg-suit result to your GitLab projects' merge requests comment.
 - [reg-notify-github-with-api-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-github-with-api-plugin/README.md) - _notifier plugin_ - This plugin notifies reg-suit result to your GHE repositories PR comment.
 - [reg-notify-slack-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-slack-plugin/README.md) - _notifier plugin_ - This plugin notifies reg-suit result to your Slack channel using incoming Webhook.
+- [reg-notify-chatwork-plugin](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-chatwork-plugin/README.md) - _notifier plugin_ - This plugin notifies reg-suit result to your Chatwork channel use [Chatwork API Token](https://www.chatwork.com/service/packages/chatwork/subpackages/api/token.php).
 
 For example, installing keygen-git-hash and publish-s3 plugins, you can get regression testing workflow according with GitHub flow as shown in the figure below.
 
