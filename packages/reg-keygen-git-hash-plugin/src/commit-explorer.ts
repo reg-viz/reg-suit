@@ -96,9 +96,8 @@ export class CommitExplorer {
   }
 
   getCandidateHashes(): string[] {
-    const re = new RegExp(`^this._branchName$`);
     const mergedBranches = this.getBranchNames(this._commitNodes[0][0]).filter(
-      b => !b.endsWith("/" + this._branchName) && !re.test(b),
+      b => !b.endsWith("/" + this._branchName) && b !== this._branchName,
     );
     return this._commitNodes
       .map(c => c[0])
