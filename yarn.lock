@@ -9274,10 +9274,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript-eslint-language-service@4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/typescript-eslint-language-service/-/typescript-eslint-language-service-4.1.2.tgz#df60ea6eec96e158ddd52346865f5dafc955ee9d"
-  integrity sha512-qIY6SJOqoODeAZs5d88W1lmA+ZQxiCypqK7Adxbl0G5EjE9DM1iP9FfpY7Jk4cO3ohfgOmTQ4A4r0jzyhCM7fA==
+typescript-eslint-language-service@4.1.3:
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/typescript-eslint-language-service/-/typescript-eslint-language-service-4.1.3.tgz#e59400d623fc04108f7d8d54c8fac4c11afe31ae"
+  integrity sha512-zwtvwW2dIKgCi6CzJOVvUcqIRFZ3MzXG2gGO5vT3EcIbBStqSqkd4oEzGnyq5O2to6fsNgvvw2n9d9azSqTe5g==
   dependencies:
     read-pkg-up "^7.0.0"
 
