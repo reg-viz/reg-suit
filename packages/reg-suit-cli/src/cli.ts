@@ -51,6 +51,7 @@ function createOptions() {
     .boolean("use-dev-core") // This option is used for cli developers only, so does not need help.
     .command("init", "Install and set up reg-suit and plugins into your project.", {
       useYarn: { desc: "Whether to use yarn as npm client.", boolean: true, default: false },
+      useYarnWs: { desc: "Whether to use yarn workspace.", boolean: true, default: false },
     })
     .command("prepare", "Configure installed plugin", {
       p: { alias: "plugin", array: true, desc: "Plugin name(s) you want to set up(e.g. slack-notify)." },
@@ -63,10 +64,10 @@ function createOptions() {
     })
     .wrap(120)
     .locale("en");
-  const { config, verbose, quiet, test, useYarn, plugin, useDevCore, notification } = yargs.argv;
+  const { config, verbose, quiet, test, useYarn, useYarnWs, plugin, useDevCore, notification } = yargs.argv;
   const command = yargs.argv._[0];
   const logLevel = verbose ? "verbose" : quiet ? "silent" : "info";
-  const npmClient = useYarn ? "yarn" : "npm";
+  const npmClient = useYarn || useYarnWs ? (useYarnWs ? "yarn workspace" : "yarn") : "npm";
   const plugins = (plugin || []) as string[];
   const noInstallCore = !!useDevCore;
   return {
