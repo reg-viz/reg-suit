@@ -6,7 +6,7 @@ import { fsUtil } from "reg-suit-util";
 export const PLUGIN_NAME_REGEXP = /^reg-.*-plugin$/;
 const CLI_MODULE_ID = require(path.join(__dirname, "..", "package.json"))["name"] as string;
 
-export type NpmClient = "npm" | "yarn";
+export type NpmClient = "npm" | "yarn" | "yarn workspace";
 
 export class PackageUtil {
   installPackages(client: NpmClient, packageNames: string[]): Promise<string[]> {
@@ -20,6 +20,11 @@ export class PackageUtil {
       cliArguments.push("yarn");
       cliArguments.push("add");
       cliArguments.push("-D");
+    } else if (client === "yarn workspace") {
+      cliArguments.push("yarn");
+      cliArguments.push("add");
+      cliArguments.push("-D");
+      cliArguments.push("-W");
     }
     const args = [...cliArguments, ...packageNames];
     return new Promise((resolve, reject) => {
