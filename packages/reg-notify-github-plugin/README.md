@@ -35,10 +35,15 @@ If reg-suit detects visual differences, it set the commit status failure. Someti
 {
   clientId: string;
   prComment?: boolean;
+  prCommentBehavior?: "default" | "once" | "new";
   setCommitStatus?: boolean;
 }
 ```
 
 - `clientId` - _Required_ - Client ID for reg-suit GitHub app. You can get it visiting [here](https://reg-viz.github.io/gh-app/) and click the **Get client ID** button.
 - `prComment` - _Optional_ - Whether to allow reg-suit to comment to pull request. Default: `true`.
+- `prCommentBehavior` - _Optional_ - How the plugin comments to your pull requests. Enabled values are the following. Default: `default`.
+  - `"default"` : Update the PR comment if exists. Otherwise post new comment.
+  - `"new"` : Delete existing old comment and post new comment.
+  - `"once"` : Does nothing if the PR comment exists.
 - `setCommitStatus` - _Optional_ - Whether to allow reg-suit to set commit status to fail if any visual differences are detected. Default: `true`.

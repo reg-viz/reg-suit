@@ -7,12 +7,15 @@ import { NotifierPlugin, NotifyParams, PluginCreateOptions, PluginLogger } from 
 
 import rp from "request-promise";
 
+type PrCommentBehavior = "default" | "once" | "new";
+
 export interface GitHubPluginOption {
   clientId?: string;
   installationId?: string;
   owner?: string;
   repository?: string;
   prComment?: boolean;
+  prCommentBehavior?: PrCommentBehavior;
   setCommitStatus?: boolean;
   customEndpoint?: string;
 }
@@ -46,6 +49,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
   _apiOpt!: BaseEventBody;
   _prComment!: boolean;
   _setCommitStatus!: boolean;
+  _behavior!: PrCommentBehavior;
 
   _apiPrefix!: string;
   _repo!: Repository;
@@ -69,6 +73,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
       this._apiOpt = config.options as BaseEventBody;
     }
     this._prComment = config.options.prComment !== false;
+    this._behavior = config.options.prCommentBehavior ?? "default";
     this._setCommitStatus = config.options.setCommitStatus !== false;
     this._apiPrefix = config.options.customEndpoint || getGhAppInfo().endpoint;
     this._repo = new Repository(path.join(fsUtil.prjRootDir(".git"), ".git"));
@@ -123,6 +128,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
       if (head.type === "branch" && head.branch) {
         const prCommentBody: CommentToPrBody = {
           ...this._apiOpt,
+          behavior: this._behavior,
           branchName: head.branch.name,
           headOid: sha1,
           failedItemsCount,
