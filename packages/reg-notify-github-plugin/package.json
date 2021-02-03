@@ -1,6 +1,6 @@
 {
   "name": "reg-notify-github-plugin",
-  "version": "0.10.12",
+  "version": "0.10.14",
   "description": "Notify reg-suit result to GitHub repository",
   "regSuitPlugin": {
     "recommended": true

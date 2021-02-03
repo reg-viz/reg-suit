@@ -1,6 +1,6 @@
 {
   "name": "reg-suit",
-  "version": "0.10.13",
+  "version": "0.10.14",
   "description": "",
   "bin": {
     "reg-suit": "lib/cli.js"
@@ -27,7 +27,7 @@
     "cp-file": "9.0.0",
     "ignore": "5.1.8",
     "inquirer": "7.3.3",
-    "reg-suit-core": "^0.10.12",
+    "reg-suit-core": "^0.10.14",
     "reg-suit-util": "^0.10.10",
     "yargs": "16.2.0"
   },
