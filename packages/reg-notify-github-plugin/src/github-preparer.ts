@@ -30,6 +30,8 @@ export class GitHubPreparer implements PluginPreparer<GitHubPreparerOption, GitH
 
   prepare(option: PluginCreateOptions<GitHubPreparerOption>): Promise<GitHubPluginOption> {
     return Promise.resolve({
+      prComment: true,
+      prCommentBehavior: "default",
       clientId: option.options.clientId,
     });
   }
