@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/node-fetch": "2.5.8",
     "dotenv": "8.2.0",
-    "reg-suit-interface": "^0.10.10",
+    "reg-suit-interface": "0.10.10",
     "typescript": "4.2.2"
   },
   "dependencies": {

@@ -34,7 +34,7 @@
     "@types/mkdirp": "1.0.1",
     "@types/uuid": "8.3.0",
     "glob": "7.1.6",
-    "reg-suit-interface": "^0.10.10",
+    "reg-suit-interface": "0.10.10",
     "typescript": "4.2.2"
   }
 }

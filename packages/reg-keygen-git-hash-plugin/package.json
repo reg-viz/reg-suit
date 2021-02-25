@@ -29,7 +29,7 @@
     "@types/jest": "26.0.20",
     "glob": "7.1.6",
     "jest": "26.6.3",
-    "reg-suit-interface": "^0.10.10",
+    "reg-suit-interface": "0.10.10",
     "rimraf": "3.0.2",
     "ts-jest": "26.5.1",
     "typescript": "4.2.2"

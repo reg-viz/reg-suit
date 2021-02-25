@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@types/request-promise": "4.1.47",
-    "reg-suit-interface": "^0.10.10",
+    "reg-suit-interface": "0.10.10",
     "typescript": "4.2.2"
   }
 }
