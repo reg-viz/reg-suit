@@ -9,7 +9,7 @@ export class GitCmdClient {
 
   revParse(currentName: string) {
     if (!this._revParseHash[currentName]) {
-      this._revParseHash[currentName] = execSync(`git rev-parse ${currentName}`, { encoding: "utf8" });
+      this._revParseHash[currentName] = execSync(`git rev-parse "${currentName}"`, { encoding: "utf8" });
     }
     return this._revParseHash[currentName];
   }
