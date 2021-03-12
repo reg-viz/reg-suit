@@ -33,6 +33,6 @@
     "reg-publish-s3-plugin": "^0.10.10",
     "reg-suit": "^0.10.14",
     "reg-suit-core": "^0.10.14",
-    "typescript": "4.2.2"
+    "typescript": "4.2.3"
   }
 }
