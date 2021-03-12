@@ -1,6 +1,6 @@
 {
   "name": "reg-suit",
-  "version": "0.10.14",
+  "version": "0.10.15",
   "description": "",
   "bin": {
     "reg-suit": "lib/cli.js"
@@ -27,15 +27,15 @@
     "cp-file": "9.0.0",
     "ignore": "5.1.8",
     "inquirer": "7.3.3",
-    "reg-suit-core": "^0.10.14",
-    "reg-suit-util": "^0.10.10",
+    "reg-suit-core": "^0.10.15",
+    "reg-suit-util": "^0.10.15",
     "yargs": "16.2.0"
   },
   "devDependencies": {
     "@types/cp-file": "6.1.2",
     "@types/inquirer": "7.3.1",
     "@types/yargs": "16.0.0",
-    "reg-suit-interface": "^0.10.10",
+    "reg-suit-interface": "^0.10.15",
     "typescript": "4.2.3"
   }
 }
