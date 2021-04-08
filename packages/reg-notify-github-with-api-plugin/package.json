@@ -22,7 +22,7 @@
     "@types/node-fetch": "2.5.9",
     "dotenv": "8.2.0",
     "reg-suit-interface": "^0.10.15",
-    "typescript": "4.2.3"
+    "typescript": "4.2.4"
   },
   "dependencies": {
     "apollo-cache-inmemory": "^1.6.6",
