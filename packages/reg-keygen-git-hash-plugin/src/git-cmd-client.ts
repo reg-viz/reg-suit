@@ -1,4 +1,5 @@
 import { execSync } from "child_process";
+import shellEscape from "shell-escape";
 
 export class GitCmdClient {
   private _revParseHash: { [key: string]: string } = {};
@@ -19,15 +20,15 @@ export class GitCmdClient {
   }
 
   containedBranches(hash: string): string {
-    return execSync(`git branch -a --contains ${hash}`, { encoding: "utf8" });
+    return execSync(shellEscape(["git", "branch", "-a", "--contains", hash]), { encoding: "utf8" });
   }
 
   logTime(hash: string) {
-    return execSync(`git log --pretty=%ci -n 1 ${hash}`, { encoding: "utf8" });
+    return execSync(shellEscape(["git", "log", "--pretty=%ci", "-n", "1", hash]), { encoding: "utf8" });
   }
 
   logBetween(a: string, b: string) {
-    return execSync(`git log --oneline ${a}..${b}`, { encoding: "utf8" });
+    return execSync(shellEscape(["git", "log", "--oneline", `${a}..${b}`]), { encoding: "utf8" });
   }
 
   logGraph() {
@@ -35,6 +36,6 @@ export class GitCmdClient {
   }
 
   mergeBase(a: string, b: string) {
-    return execSync(`git merge-base -a ${a} ${b}`, { encoding: "utf8" });
+    return execSync(shellEscape(["git", "merge-base", "-a", a, b]), { encoding: "utf8" });
   }
 }
