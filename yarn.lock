@@ -1760,6 +1760,11 @@
     "@types/tough-cookie" "*"
     form-data "^2.5.0"
 
+"@types/shell-escape@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@types/shell-escape/-/shell-escape-0.2.0.tgz#cd2f0df814388599dd07196dcc510de2669d1ed2"
+  integrity sha512-7kUdtJtUylvyISJbe9FMcvMTjRdP0EvNDO1WbT0lT22k/IPBiPRTpmWaKu5HTWLCGLQRWVHrzVHZktTDvvR23g==
+
 "@types/sinon@10.0.2":
   version "10.0.2"
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-10.0.2.tgz#f360d2f189c0fd433d14aeb97b9d705d7e4cc0e4"
@@ -8072,6 +8077,11 @@ shebang-regex@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
+
+shell-escape@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/shell-escape/-/shell-escape-0.2.0.tgz#68fd025eb0490b4f567a027f0bf22480b5f84133"
+  integrity sha1-aP0CXrBJC09WegJ/C/IkgLX4QTM=
 
 shell-quote@^1.6.1:
   version "1.7.1"
