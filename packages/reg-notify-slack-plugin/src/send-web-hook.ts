@@ -22,5 +22,5 @@ export function sendWebHook(opt: SendOption): Promise<any> {
       ],
     },
   };
-  return (rp(reqParam) as any) as Promise<any>;
+  return rp(reqParam) as any as Promise<any>;
 }
