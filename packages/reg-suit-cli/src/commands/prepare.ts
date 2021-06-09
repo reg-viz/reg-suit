@@ -108,9 +108,8 @@ function prepare(options: CliOptions, willPrepareCore = false) {
         },
       ])
       .then(({ result }: { [key: string]: boolean }) => result);
-  return (willPrepareCore
-    ? prepareCore(core.config.core, core.getDirectoryInfo().prjDir)
-    : Promise.resolve(core.config.core)
+  return (
+    willPrepareCore ? prepareCore(core.config.core, core.getDirectoryInfo().prjDir) : Promise.resolve(core.config.core)
   )
     .then(coreConfig => {
       const questions = core.createQuestions({ pluginNames });

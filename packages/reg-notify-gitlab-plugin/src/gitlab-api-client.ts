@@ -85,7 +85,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         "Private-Token": this._token,
       },
     };
-    return (rp(reqParam) as any) as Promise<MergeRequestResource[]>;
+    return rp(reqParam) as any as Promise<MergeRequestResource[]>;
   }
 
   putMergeRequest(params: PutMergeRequestParams): Promise<MergeRequestResource> {
@@ -98,7 +98,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
       },
       body: params,
     };
-    return (rp(reqParam) as any) as Promise<MergeRequestResource>;
+    return rp(reqParam) as any as Promise<MergeRequestResource>;
   }
 
   getMergeRequestCommits(params: GetMergeRequestCommitsParams): Promise<CommitResource[]> {
@@ -110,7 +110,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         "Private-Token": this._token,
       },
     };
-    return (rp(reqParam) as any) as Promise<CommitResource[]>;
+    return rp(reqParam) as any as Promise<CommitResource[]>;
   }
 
   getMergeRequestNotes(params: GetMergeRequestNotesParams): Promise<NoteResouce[]> {
@@ -122,7 +122,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         "Private-Token": this._token,
       },
     };
-    return (rp(reqParam) as any) as Promise<NoteResouce[]>;
+    return rp(reqParam) as any as Promise<NoteResouce[]>;
   }
 
   postMergeRequestNote(params: PostMergeRequestNoteParams): Promise<NoteResouce> {
@@ -137,7 +137,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         body: params.body,
       },
     };
-    return (rp(reqParam) as any) as Promise<NoteResouce>;
+    return rp(reqParam) as any as Promise<NoteResouce>;
   }
 
   putMergeRequestNote(params: PutMergeRequestNoteParams): Promise<NoteResouce> {
@@ -152,7 +152,7 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         body: params.body,
       },
     };
-    return (rp(reqParam) as any) as Promise<NoteResouce>;
+    return rp(reqParam) as any as Promise<NoteResouce>;
   }
 
   postMergeRequestDiscussion(params: PostMergeRequestDiscussionParams): Promise<DiscussionResource> {
@@ -167,6 +167,6 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         body: params.body,
       },
     };
-    return (rp(reqParam) as any) as Promise<DiscussionResource>;
+    return rp(reqParam) as any as Promise<DiscussionResource>;
   }
 }
