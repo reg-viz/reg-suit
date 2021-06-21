@@ -24,7 +24,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/puppeteer": "5.4.3",
-    "gh-pages": "3.2.1",
+    "gh-pages": "3.2.3",
     "mkdirp": "1.0.4",
     "puppeteer": "10.0.0",
     "reg-keygen-git-hash-plugin": "^0.10.16",
