@@ -30,7 +30,7 @@
     "@types/jest": "26.0.23",
     "@types/shell-escape": "0.2.0",
     "glob": "7.1.7",
-    "jest": "27.0.5",
+    "jest": "27.0.6",
     "reg-suit-interface": "^0.10.16",
     "rimraf": "3.0.2",
     "ts-jest": "27.0.3",
