@@ -27,7 +27,7 @@
     "shell-escape": "^0.2.0"
   },
   "devDependencies": {
-    "@types/jest": "26.0.23",
+    "@types/jest": "26.0.24",
     "@types/shell-escape": "0.2.0",
     "glob": "7.1.7",
     "jest": "27.0.6",
