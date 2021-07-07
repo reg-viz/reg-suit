@@ -30,7 +30,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@types/glob": "7.1.3",
+    "@types/glob": "7.1.4",
     "@types/mkdirp": "1.0.2",
     "@types/uuid": "8.3.0",
     "glob": "7.1.7",
