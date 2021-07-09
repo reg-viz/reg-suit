@@ -19,7 +19,7 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "@types/node-fetch": "2.5.10",
+    "@types/node-fetch": "2.5.11",
     "dotenv": "8.6.0",
     "reg-suit-interface": "^0.10.16",
     "typescript": "4.3.5"
