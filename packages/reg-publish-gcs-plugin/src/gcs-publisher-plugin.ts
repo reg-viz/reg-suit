@@ -2,7 +2,7 @@ import path from "path";
 import mkdirp from "mkdirp";
 import { Storage, GetFilesOptions } from "@google-cloud/storage";
 
-import { WorkingDirectoryInfo, PublisherPlugin, PluginCreateOptions } from "reg-suit-interface";
+import { WorkingDirectoryInfo, PublisherPlugin, PluginCreateOptions, ProjectConfig } from "reg-suit-interface";
 import { AbstractPublisher, RemoteFileItem, FileItem, ObjectListResult } from "reg-suit-util";
 
 export interface PluginConfig {
@@ -16,6 +16,7 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
   name = "reg-publish-gcs-plugin";
 
   private _options!: PluginCreateOptions<any>;
+  private _projectOptions!: ProjectConfig;
   private _pluginConfig!: PluginConfig;
   private _gcsClient!: Storage;
 
@@ -26,6 +27,7 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
   init(config: PluginCreateOptions<PluginConfig>) {
     this.noEmit = config.noEmit;
     this.logger = config.logger;
+    this._projectOptions = config.projectConfig;
     this._options = config;
     this._pluginConfig = {
       ...config.options,
@@ -58,6 +60,10 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
 
   protected getBucketName(): string {
     return this._pluginConfig.bucketName;
+  }
+
+  protected getProjectName(): string | undefined {
+    return this._projectOptions.name;
   }
 
   protected getLocalGlobPattern(): string | undefined {

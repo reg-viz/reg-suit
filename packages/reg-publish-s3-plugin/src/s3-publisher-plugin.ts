@@ -4,7 +4,7 @@ import zlib from "zlib";
 import { S3 } from "aws-sdk";
 import mkdirp from "mkdirp";
 
-import { PublisherPlugin, PluginCreateOptions, WorkingDirectoryInfo } from "reg-suit-interface";
+import { PublisherPlugin, PluginCreateOptions, WorkingDirectoryInfo, ProjectConfig } from "reg-suit-interface";
 import { FileItem, RemoteFileItem, ObjectListResult, AbstractPublisher } from "reg-suit-util";
 
 export interface PluginConfig {
@@ -21,6 +21,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
   name = "reg-publish-s3-plugin";
 
   private _options!: PluginCreateOptions<any>;
+  private _projectOptions!: ProjectConfig;
   private _pluginConfig!: PluginConfig;
   private _s3client!: S3;
 
@@ -31,6 +32,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
   init(config: PluginCreateOptions<PluginConfig>) {
     this.noEmit = config.noEmit;
     this.logger = config.logger;
+    this._projectOptions = config.projectConfig;
     this._options = config;
     this._pluginConfig = {
       ...config.options,
@@ -71,6 +73,10 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
 
   protected getWorkingDirs(): WorkingDirectoryInfo {
     return this._options.workingDirs;
+  }
+
+  protected getProjectName(): string | undefined {
+    return this._projectOptions.name;
   }
 
   protected uploadItem(key: string, item: FileItem): Promise<FileItem> {

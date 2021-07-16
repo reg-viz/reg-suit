@@ -1,5 +1,9 @@
 export type AdditionalDetectionInvocationType = "none" | "cli" | "client";
 
+export interface ProjectConfig {
+  name?: string
+}
+
 export interface CoreConfig {
   actualDir: string;
   workingDir: string;
@@ -21,6 +25,7 @@ export interface WorkingDirectoryInfo {
 }
 
 export interface RegSuitConfiguration {
+  project: ProjectConfig;
   core: CoreConfig;
   plugins?: {
     [key: string]: any;
