@@ -1,5 +1,8 @@
 {
-  "private": true,
+  "private": false,
+  "name": "reg-suit",
+  "version": "0.0.0",
+  "repository": "https://github.com/olijyat/reg-suit",
   "scripts": {
     "clean": "rimraf \"packages/*/lib\"",
     "build": "lerna run prepublish",
