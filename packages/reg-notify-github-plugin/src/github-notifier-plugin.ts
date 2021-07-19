@@ -92,7 +92,8 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
 
     const name = this._projectName;
     const formattedName = `${name && `${name}: `}`;
-    const description = state === "success" ? `${formattedName}Regression testing passed` : `${formattedName}Regression testing failed`;
+    const description =
+      state === "success" ? `${formattedName}Regression testing passed` : `${formattedName}Regression testing failed`;
     let sha1: string;
 
     if (head.branch) {
@@ -118,12 +119,12 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     const reqs = [];
 
     if (this._setCommitStatus) {
-      const statusReq: rp.OptionsWithUri = {
+      const statusReq: any = {
         uri: `${this._apiPrefix}/api/update-status`,
         method: "POST",
         body: updateStatusBody,
         json: true,
-        context: name
+        context: name,
       };
       this._logger.info(`Update status for ${this._logger.colors.green(updateStatusBody.sha1)} .`);
       this._logger.verbose("update-status: ", statusReq);

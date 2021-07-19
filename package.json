@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "reg-suit-olijyat",
+  "name": "reg-suit",
   "version": "1.0.1",
   "scripts": {
     "clean": "rimraf \"packages/*/lib\"",
