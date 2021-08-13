@@ -7843,7 +7843,7 @@ read-pkg-up@^3.0.0:
     find-up "^2.0.0"
     read-pkg "^3.0.0"
 
-read-pkg-up@^7.0.0, read-pkg-up@^7.0.1:
+read-pkg-up@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-7.0.1.tgz#f3a6135758459733ae2b95638056e1854e7ef507"
   integrity sha512-zK0TB7Xd6JpCLmlLmufqykGE+/TlOePD6qKClNW7hHDKFh/J7/7gCWGR7joEQEW1bKq3a3yUZSObOoWLFQ4ohg==
@@ -9158,12 +9158,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript-eslint-language-service@4.1.4:
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/typescript-eslint-language-service/-/typescript-eslint-language-service-4.1.4.tgz#6e2f9c651e3593785b86d6c7d7c293451b18f920"
-  integrity sha512-iQZ05hQK0ETQgm044q3XRJ+fNt0TgyVrLiqT3D1/ZCvwuZrjUPWW3wG1Dt8e3PjHZadBlpTAI1B1jhvMP5PLaQ==
-  dependencies:
-    read-pkg-up "^7.0.0"
+typescript-eslint-language-service@4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/typescript-eslint-language-service/-/typescript-eslint-language-service-4.1.5.tgz#8c4e66e3d742b520f2abb7d1d8e953d9fa1bf8b4"
+  integrity sha512-lJ9tH53m8e8fYYwhG5hTpiUHCz4SjY55rT8T4ADrmF/29JPdWkUik8cbZy+KsCsUIG1CEMRz+DOV4S+wVyYivQ==
 
 typescript@4.3.5:
   version "4.3.5"
