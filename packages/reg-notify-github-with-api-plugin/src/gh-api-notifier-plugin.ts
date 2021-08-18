@@ -28,7 +28,7 @@ export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
     this._logger = config.logger;
     this._owner = config.options.owner;
     this._repository = config.options.repository;
-    this._githubUrl = config.options.githubUrl || "https://github.com";
+    this._githubUrl = config.options.githubUrl || "https://api.github.com/graphql";
     this._token = config.options.privateToken;
     this._repo = new Repository(path.join(fsUtil.prjRootDir(".git"), ".git"));
     this._shortDescription = config.options.shortDescription || false;
