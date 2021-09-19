@@ -19,7 +19,6 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "dependencies": {
-    "cpx": "^1.5.0",
     "reg-cli": "^0.17.0",
     "reg-suit-util": "^0.10.16",
     "rimraf": "^3.0.2"
