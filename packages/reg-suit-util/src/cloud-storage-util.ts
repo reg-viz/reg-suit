@@ -86,26 +86,25 @@ export abstract class AbstractPublisher {
       const contents = [] as ObjectMetadata[];
       let isTruncated: boolean = true;
       let nextMarker: string = "";
-
-      const maxLoop = 3;
-      let loop = 0;
-      while (isTruncated && loop < maxLoop) {
+      
+      do {
         let result: ObjectListResult;
+        
         try {
           result = await this.listItems(nextMarker, actualPrefix);
           const curContents = result.contents || [];
           if (curContents.length > 0) {
             Array.prototype.push.apply(contents, curContents);
           }
-          if (result.nextMarker) {
-            nextMarker = result.nextMarker;
-          }
+
+          nextMarker = result.nextMarker;
           isTruncated = result.isTruncated || false;
         } catch (e) {
+          nextMarker = '';
           reject(e);
         }
-        loop += 1;
-      }
+      } while (nextMarker);
+      
       resolve(contents);
     })
       .then(contents => {
