@@ -84,12 +84,11 @@ export abstract class AbstractPublisher {
     const progress = this.logger.getProgressBar();
     return new Promise<ObjectMetadata[]>(async (resolve, reject) => {
       const contents = [] as ObjectMetadata[];
-      let isTruncated: boolean = true;
-      let nextMarker: string = "";
-      
+      let nextMarker: string | undefined = "";
+
       do {
         let result: ObjectListResult;
-        
+
         try {
           result = await this.listItems(nextMarker, actualPrefix);
           const curContents = result.contents || [];
@@ -98,13 +97,12 @@ export abstract class AbstractPublisher {
           }
 
           nextMarker = result.nextMarker;
-          isTruncated = result.isTruncated || false;
         } catch (e) {
-          nextMarker = '';
+          nextMarker = "";
           reject(e);
         }
       } while (nextMarker);
-      
+
       resolve(contents);
     })
       .then(contents => {
