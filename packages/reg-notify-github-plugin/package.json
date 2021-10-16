@@ -1,6 +1,6 @@
 {
-  "name": "reg-notify-github-plugin",
-  "version": "0.10.16",
+  "name": "reg-notify-github-plugin-olijyat",
+  "version": "0.0.1",
   "description": "Notify reg-suit result to GitHub repository",
   "regSuitPlugin": {
     "recommended": true
@@ -19,7 +19,6 @@
     "name": "Quramy",
     "email": "yosuke.kurami@gmail.com"
   },
-  "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "26.0.24",

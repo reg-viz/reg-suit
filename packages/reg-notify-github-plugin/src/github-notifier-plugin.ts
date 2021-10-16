@@ -53,6 +53,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
 
   _apiPrefix!: string;
   _repo!: Repository;
+  _projectName: string | undefined;
 
   _decodeClientId(clientId: string) {
     const tmp = inflateRawSync(new Buffer(clientId, "base64")).toString().split("/");
@@ -77,6 +78,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     this._setCommitStatus = config.options.setCommitStatus !== false;
     this._apiPrefix = config.options.customEndpoint || getGhAppInfo().endpoint;
     this._repo = new Repository(path.join(fsUtil.prjRootDir(".git"), ".git"));
+    this._projectName = config.projectConfig.name;
   }
 
   notify(params: NotifyParams): Promise<any> {
@@ -87,7 +89,11 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     const deletedItemsCount = deletedItems.length;
     const passedItemsCount = passedItems.length;
     const state = failedItemsCount + newItemsCount + deletedItemsCount === 0 ? "success" : "failure";
-    const description = state === "success" ? "Regression testing passed" : "Regression testing failed";
+
+    const name = this._projectName;
+    const formattedName = `${name && `${name}: `}`;
+    const description =
+      state === "success" ? `${formattedName}Regression testing passed` : `${formattedName}Regression testing failed`;
     let sha1: string;
 
     if (head.branch) {
@@ -113,11 +119,12 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     const reqs = [];
 
     if (this._setCommitStatus) {
-      const statusReq: rp.OptionsWithUri = {
+      const statusReq: any = {
         uri: `${this._apiPrefix}/api/update-status`,
         method: "POST",
         body: updateStatusBody,
         json: true,
+        context: name,
       };
       this._logger.info(`Update status for ${this._logger.colors.green(updateStatusBody.sha1)} .`);
       this._logger.verbose("update-status: ", statusReq);

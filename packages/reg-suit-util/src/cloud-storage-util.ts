@@ -40,6 +40,7 @@ export abstract class AbstractPublisher {
   protected abstract getLocalGlobPattern(): string | undefined;
   protected abstract getBucketName(): string;
   protected abstract getBucketRootDir(): string | undefined;
+  protected abstract getProjectName(): string | undefined;
 
   protected createList(): Promise<FileItem[]> {
     return new Promise<string[]>((resolve, reject) => {
@@ -71,11 +72,19 @@ export abstract class AbstractPublisher {
   }
 
   protected resolveInBucket(key: string) {
-    if (this.getBucketRootDir()) {
+    if (this.getBucketRootDir() && !this.getProjectName()) {
       return this.getBucketRootDir() + "/" + key;
-    } else {
-      return key;
     }
+
+    if (this.getBucketRootDir() && this.getProjectName()) {
+      return this.getBucketRootDir() + "/" + this.getProjectName() + "/" + key;
+    }
+
+    if (!this.getBucketRootDir() && this.getProjectName()) {
+      return this.getProjectName() + "/" + key;
+    }
+
+    return key;
   }
 
   protected fetchInternal(key: string): Promise<any> {

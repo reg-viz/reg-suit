@@ -1,5 +1,7 @@
 {
   "private": true,
+  "name": "reg-suit",
+  "version": "1.0.1",
   "scripts": {
     "clean": "rimraf \"packages/*/lib\"",
     "build": "lerna run prepublish",
@@ -18,8 +20,7 @@
     "watch:core": "tsc -w -p packages/reg-suit-core/tsconfig.build.json",
     "watch:cli": "tsc -w -p packages/reg-suit-cli/tsconfig.build.json",
     "watch:util": "tsc -w -p packages/reg-suit-util/tsconfig.build.json",
-    "watch": "run-p watch:*",
-    "postinstall": "husky install"
+    "watch": "run-p watch:*"
   },
   "devDependencies": {
     "@types/node": "14.17.5",
