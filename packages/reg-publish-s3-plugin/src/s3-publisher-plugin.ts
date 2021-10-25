@@ -12,6 +12,7 @@ export interface PluginConfig {
   pattern?: string;
   acl?: string;
   sse?: boolean | string;
+  sseKMSKeyId?: string;
   customDomain?: string;
   pathPrefix?: string;
   sdkOptions?: S3.Types.ClientConfiguration;
@@ -86,6 +87,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
             ContentType: item.mimeType,
             ContentEncoding: "gzip",
             ACL: this._pluginConfig.acl || "public-read",
+            SSEKMSKeyId: this._pluginConfig.sseKMSKeyId,
           } as S3.Types.PutObjectRequest;
           if (this._pluginConfig.sse) {
             const sseVal = this._pluginConfig.sse;

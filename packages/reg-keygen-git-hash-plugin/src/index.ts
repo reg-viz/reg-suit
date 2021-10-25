@@ -22,7 +22,7 @@ class GitHashKeyGenPlugin implements KeyGeneratorPlugin {
       } else {
         return Promise.reject<string>(null);
       }
-    } catch (e) {
+    } catch (e: any) {
       this._conf.logger.error(this._conf.logger.colors.red(e.message));
       return Promise.reject<string>(null);
     }
