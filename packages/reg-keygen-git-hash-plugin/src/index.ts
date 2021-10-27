@@ -22,8 +22,8 @@ class GitHashKeyGenPlugin implements KeyGeneratorPlugin {
       } else {
         return Promise.reject<string>(null);
       }
-    } catch (e) {
-      this._conf.logger.error(this._conf.logger.colors.red(e.message));
+    } catch (e: any) {
+      this._conf.logger.error(this._conf.logger.colors.red(e.message ?? "unknown error"));
       return Promise.reject<string>(null);
     }
   }
