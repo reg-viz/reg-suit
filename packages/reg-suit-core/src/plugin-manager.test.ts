@@ -35,12 +35,10 @@ test("should return pluginHolders", () => {
 
 test("resolve locally installed module", () => {
   const pm = createPluginManager({});
-  const p = pm._resolve("reg-suit-util", path.resolve(__dirname, ".."));
-  assert.equal(p.endsWith("reg-suit-util/lib/index.js"), true);
+  expect(() => pm._loadPlugin("reg-simple-keygen-plugin")).not.toThrowError();
 });
 
 test("resolve relative path", () => {
   const pm = createPluginManager({});
-  const actual = pm._resolve("../lib/testing/dummy-plugin", __dirname);
-  assert.equal(actual, path.resolve(__dirname, "../lib/", "testing/dummy-plugin.js"));
+  expect(() => pm._loadPlugin("./lib/testing/dummy-plugin.js")).not.toThrowError();
 });
