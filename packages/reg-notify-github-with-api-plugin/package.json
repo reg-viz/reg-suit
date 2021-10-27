@@ -3,6 +3,7 @@
   "version": "0.10.17",
   "description": "Notify reg-suit result to GHE repository using API",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "ts-node e2e/script.ts",
     "prepublish": "tsc -p tsconfig.build.json"

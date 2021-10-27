@@ -93,11 +93,13 @@ export class GhGqlClient {
     repository,
     branchName,
     body,
+    markerComment = "reg-comment",
   }: {
     owner: string;
     repository: string;
     branchName: string;
     body: string;
+    markerComment?: string;
   }) {
     const { data, errors } = await this._client.query<
       ContextData,
@@ -123,7 +125,7 @@ export class GhGqlClient {
       !data.repository.ref.associatedPullRequests.totalCount
     ) {
       // Nothing to do
-      return;
+      return [];
     }
 
     const pullRequests = data.repository.ref.associatedPullRequests.nodes;
@@ -132,14 +134,14 @@ export class GhGqlClient {
       pullRequests.map(async pullRequest => {
         if (pullRequest.comments && pullRequest.comments.nodes) {
           const commentToBeUpdated = pullRequest.comments.nodes.find(
-            c => c.body && c.body.startsWith("<!-- reg-comment -->"),
+            c => c.body && c.body.startsWith(`<!-- ${markerComment} -->`),
           );
           if (commentToBeUpdated) {
             const { errors } = await this._client.mutate({
               mutation: updateCommentMutation,
               variables: {
                 id: commentToBeUpdated.id,
-                body: `<!-- reg-comment -->\n${body}`,
+                body: `<!-- ${markerComment} -->\n${body}`,
               },
             });
             if (errors) throw errors;
@@ -150,7 +152,7 @@ export class GhGqlClient {
           mutation: createCommentMutation,
           variables: {
             id: pullRequest.id,
-            body: `<!-- reg-comment -->\n${body}`,
+            body: `<!-- ${markerComment} -->\n${body}`,
           },
         });
         if (errors) throw errors;
