@@ -174,7 +174,7 @@ export class PluginManager {
     }
     if (pluginFileName) {
       const factory = require(pluginFileName);
-      const pluginHolder = factory();
+      const pluginHolder = typeof factory?.default === "function" ? factory.default() : factory();
       this._pluginHolders.push({ ...pluginHolder, moduleId: name });
     }
   }
