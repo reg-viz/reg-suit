@@ -23,7 +23,7 @@ reg-suit prepare -p notify-github-with-api
 }
 ```
 
-- `githubUrl` - _Optional_ - URL for your GitHub Enterprise. Default: `https://github.com`.
+- `githubUrl` - _Optional_ - URL for your GitHub Enterprise. Default: `https://api.github.com/graphql`.
 - `owner` - _Required_ - GitHub owner name.
 - `repository` - _Required_ - GitHub repository name.
 - `privateToken` - _Required_ Private access token. The `repo` scope is required if the repository is private.
