@@ -33,6 +33,13 @@ test("should return pluginHolders", () => {
   assert.equal(pm._pluginHolders[0].moduleId, "./lib/testing/dummy-plugin");
 });
 
+test("should return pluginHolders2", () => {
+  const pm = createPluginManager({ "./lib/testing/dummy-plugin-mod": {} });
+  pm.loadPlugins();
+  assert.equal(pm._pluginHolders.length, 1);
+  assert.equal(pm._pluginHolders[0].moduleId, "./lib/testing/dummy-plugin-mod");
+});
+
 test("resolve locally installed module", () => {
   const pm = createPluginManager({});
   expect(() => pm._loadPlugin("reg-simple-keygen-plugin")).not.toThrowError();
