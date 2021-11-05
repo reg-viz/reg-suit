@@ -20,6 +20,8 @@ reg-suit prepare -p notify-github-with-api
   owner: string;
   repository: string;
   privateToken: string;
+  ref?: string;
+  shortDescription?: boolean;
 }
 ```
 
@@ -27,6 +29,7 @@ reg-suit prepare -p notify-github-with-api
 - `owner` - _Required_ - GitHub owner name.
 - `repository` - _Required_ - GitHub repository name.
 - `privateToken` - _Required_ Private access token. The `repo` scope is required if the repository is private.
+- `ref` - _Optional_ Git branch ref value. If specified, this plugin searches PRs to comment using this value.
 - `shortDescription` - _Optional_ Returns a small table with the item counts.
   Example:
 
