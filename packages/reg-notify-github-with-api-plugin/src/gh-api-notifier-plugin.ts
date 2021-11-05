@@ -63,11 +63,11 @@ export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
     let branchName: string | undefined = undefined;
 
     if (this._ref) {
-      if (!this._ref.startsWith("refs/heads")) {
+      if (!this._ref.startsWith("refs/heads/")) {
         this._logger.warn(`ref option does not start with 'refs/heads': "${this._ref}"`);
         return;
       }
-      branchName = this._ref.replace(/^refs\/heads/, "");
+      branchName = this._ref.replace(/^refs\/heads\//, "");
     } else {
       const head = this._repo.readHeadSync();
       if (head.type !== "branch" || !head.branch) {
