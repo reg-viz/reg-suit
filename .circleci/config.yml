@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/reg-suit
   docker:
-    - image: regviz/node-xcb
+    - image: regviz/node-xcb:node-12
       auth:
         username: $DOCKERHUB_USERNAME
         password: $DOCKERHUB_PASSWORD
