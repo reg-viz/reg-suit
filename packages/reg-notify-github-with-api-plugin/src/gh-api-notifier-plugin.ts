@@ -11,6 +11,7 @@ export interface GhApiPluginOption {
   privateToken: string;
   githubUrl?: string;
   shortDescription?: boolean;
+  ref?: string;
 }
 
 export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
@@ -23,6 +24,7 @@ export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
   private _token?: string;
   private _repo!: Repository;
   private _shortDescription!: boolean;
+  private _ref?: string;
 
   init(config: PluginCreateOptions<GhApiPluginOption>) {
     this._logger = config.logger;
@@ -32,6 +34,7 @@ export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
     this._token = config.options.privateToken;
     this._repo = new Repository(path.join(fsUtil.prjRootDir(".git"), ".git"));
     this._shortDescription = config.options.shortDescription || false;
+    this._ref = config.options.ref;
   }
 
   async notify(params: NotifyParams) {
@@ -47,7 +50,6 @@ export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
       this._logger.warn("'repository' parameter is needed. Check plugins config.");
       return;
     }
-    const head = this._repo.readHeadSync();
     const commentBody = createCommentBody({
       reportUrl: params.reportUrl,
       passedItemsCount: params.comparisonResult.passedItems.length,
@@ -57,14 +59,31 @@ export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
       shortDescription: this._shortDescription,
     });
     const client = new GhGqlClient(this._token, this._githubUrl);
-    if (head.type !== "branch" || !head.branch) {
+
+    let branchName: string | undefined = undefined;
+
+    if (this._ref) {
+      if (!this._ref.startsWith("refs/heads")) {
+        this._logger.warn(`ref option does not start with 'refs/heads': "${this._ref}"`);
+        return;
+      }
+      branchName = this._ref.replace(/^refs\/heads/, "");
+    } else {
+      const head = this._repo.readHeadSync();
+      if (head.type !== "branch" || !head.branch) {
+        this._logger.warn("Can't detect branch name.");
+        return;
+      }
+      branchName = head.branch.name;
+    }
+    if (!branchName) {
       this._logger.warn("Can't detect branch name.");
       return;
     }
     await client.postCommentToPr({
       owner: this._owner,
       repository: this._repository,
-      branchName: head.branch.name,
+      branchName,
       body: commentBody,
     });
   }
