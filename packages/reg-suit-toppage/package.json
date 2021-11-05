@@ -26,7 +26,7 @@
     "@types/puppeteer": "5.4.4",
     "gh-pages": "3.2.3",
     "mkdirp": "1.0.4",
-    "puppeteer": "10.4.0",
+    "puppeteer": "11.0.0",
     "reg-keygen-git-hash-plugin": "^0.11.1",
     "reg-notify-github-plugin": "^0.11.1",
     "reg-notify-slack-plugin": "^0.11.0",
