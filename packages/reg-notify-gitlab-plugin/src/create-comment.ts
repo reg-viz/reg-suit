@@ -37,11 +37,7 @@ export function createCommentBody(eventBody: CommentSeed) {
                   :large_blue_circle: Passed items
                   <br />
                </details><br />`);
-    // lines.push(`<details>
-    //               <summary>How can I change the check status?</summary>
-    //               If reviewers accepts this differences, the reg context status will be green automatically.
-    //               <br />
-    //            </details><br />`);
+
   }
   return lines.join("\n");
 }
