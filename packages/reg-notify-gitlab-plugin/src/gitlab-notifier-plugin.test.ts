@@ -195,6 +195,7 @@ test("sends notification with appendOrUpdateMergerequestsBody", async () => {
     client,
     notifyParams,
     projectId: "98765",
+    shortDescription: false,
   });
 });
 
@@ -228,6 +229,7 @@ test("sends notification with commentToMergeRequests", async () => {
     client,
     notifyParams,
     projectId: "98765",
+    shortDescription: false,
   });
 });
 
@@ -261,5 +263,6 @@ test("sends notification with addDiscussionToMergeRequests", async () => {
     client,
     notifyParams,
     projectId: "98765",
+    shortDescription: false,
   });
 });

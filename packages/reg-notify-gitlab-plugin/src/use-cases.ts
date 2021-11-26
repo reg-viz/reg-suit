@@ -8,13 +8,14 @@ export type Context = {
   logger: PluginLogger;
   notifyParams: NotifyParams;
   projectId: string;
+  shortDescription: boolean;
 };
 
 export const COMMENT_MARK = "<!-- reg-notify-gitlab-plugin posted -->";
 export const DESC_BODY_START_MARK = COMMENT_MARK;
 export const DESC_BODY_END_MARK = "<!-- reg-notify-gitlab-plugin posted end -->";
 
-function createNoteBody(params: NotifyParams) {
+function createNoteBody(params: NotifyParams, shortDescription: boolean) {
   return (
     COMMENT_MARK +
     "\n" +
@@ -24,11 +25,12 @@ function createNoteBody(params: NotifyParams) {
       deletedItemsCount: params.comparisonResult.deletedItems.length,
       passedItemsCount: params.comparisonResult.passedItems.length,
       reportUrl: params.reportUrl,
+      shortDescription,
     })
   );
 }
 
-function modifyDescription(description: string, params: NotifyParams) {
+function modifyDescription(description: string, params: NotifyParams, shortDescription: boolean) {
   if (description.indexOf(DESC_BODY_START_MARK) === -1) {
     return (
       description +
@@ -41,6 +43,7 @@ function modifyDescription(description: string, params: NotifyParams) {
         deletedItemsCount: params.comparisonResult.deletedItems.length,
         passedItemsCount: params.comparisonResult.passedItems.length,
         reportUrl: params.reportUrl,
+        shortDescription,
       }) +
       "\n" +
       DESC_BODY_END_MARK
@@ -59,6 +62,7 @@ function modifyDescription(description: string, params: NotifyParams) {
       deletedItemsCount: params.comparisonResult.deletedItems.length,
       passedItemsCount: params.comparisonResult.passedItems.length,
       reportUrl: params.reportUrl,
+      shortDescription,
     }) +
     "\n" +
     DESC_BODY_END_MARK +
@@ -67,7 +71,14 @@ function modifyDescription(description: string, params: NotifyParams) {
   );
 }
 
-export async function commentToMergeRequests({ noEmit, logger, client, notifyParams, projectId }: Context) {
+export async function commentToMergeRequests({
+  noEmit,
+  logger,
+  client,
+  notifyParams,
+  projectId,
+  shortDescription,
+}: Context) {
   try {
     const mrList = await client.getMergeRequests({ project_id: +projectId });
     if (!mrList.length) {
@@ -104,7 +115,7 @@ export async function commentToMergeRequests({ noEmit, logger, client, notifyPar
               await client.postMergeRequestNote({
                 project_id: +projectId,
                 merge_request_iid: mr.iid,
-                body: createNoteBody(notifyParams),
+                body: createNoteBody(notifyParams, shortDescription),
               });
             }
           } else {
@@ -113,7 +124,7 @@ export async function commentToMergeRequests({ noEmit, logger, client, notifyPar
                 project_id: +projectId,
                 merge_request_iid: mr.iid,
                 note_id: commentedNote.id,
-                body: createNoteBody(notifyParams),
+                body: createNoteBody(notifyParams, shortDescription),
               });
             }
           }
@@ -129,7 +140,14 @@ export async function commentToMergeRequests({ noEmit, logger, client, notifyPar
   }
 }
 
-export async function addDiscussionToMergeRequests({ noEmit, logger, client, notifyParams, projectId }: Context) {
+export async function addDiscussionToMergeRequests({
+  noEmit,
+  logger,
+  client,
+  notifyParams,
+  projectId,
+  shortDescription,
+}: Context) {
   try {
     const mrList = await client.getMergeRequests({ project_id: +projectId });
     if (!mrList.length) {
@@ -166,7 +184,7 @@ export async function addDiscussionToMergeRequests({ noEmit, logger, client, not
               await client.postMergeRequestDiscussion({
                 project_id: +projectId,
                 merge_request_iid: mr.iid,
-                body: createNoteBody(notifyParams),
+                body: createNoteBody(notifyParams, shortDescription),
               });
             }
           } else {
@@ -175,7 +193,7 @@ export async function addDiscussionToMergeRequests({ noEmit, logger, client, not
                 project_id: +projectId,
                 merge_request_iid: mr.iid,
                 note_id: commentedNote.id,
-                body: createNoteBody(notifyParams),
+                body: createNoteBody(notifyParams, shortDescription),
               });
             }
           }
@@ -191,7 +209,14 @@ export async function addDiscussionToMergeRequests({ noEmit, logger, client, not
   }
 }
 
-export async function appendOrUpdateMergerequestsBody({ noEmit, logger, client, notifyParams, projectId }: Context) {
+export async function appendOrUpdateMergerequestsBody({
+  noEmit,
+  logger,
+  client,
+  notifyParams,
+  projectId,
+  shortDescription,
+}: Context) {
   try {
     const mrList = await client.getMergeRequests({ project_id: +projectId });
     if (!mrList.length) {
@@ -218,7 +243,7 @@ export async function appendOrUpdateMergerequestsBody({ noEmit, logger, client, 
 
     await Promise.all(
       targetMrs.map(async ({ mr }) => {
-        const newDescription = modifyDescription(mr.description, notifyParams);
+        const newDescription = modifyDescription(mr.description, notifyParams, shortDescription);
         const spinner = logger.getSpinner("commenting merge request" + logger.colors.magenta(mr.web_url));
         spinner.start();
         try {

@@ -8,10 +8,11 @@ export interface GitLabPluginOption {
   projectId?: string;
   privateToken: string;
   commentTo?: "note" | "description" | "discussion";
+  shortDescription?: boolean;
 }
 
 export class GitLabNotifierPlugin implements NotifierPlugin<GitLabPluginOption> {
-  naem = "reg-notify-gitlab-plugin";
+  name = "reg-notify-gitlab-plugin";
 
   private _noEmit!: boolean;
   private _logger!: PluginLogger;
@@ -19,18 +20,20 @@ export class GitLabNotifierPlugin implements NotifierPlugin<GitLabPluginOption> 
   private _projectId!: string | undefined;
   private _token!: string | undefined;
   private _commentTo: "note" | "description" | "discussion" = "note";
+  private _shortDescription!: boolean;
 
   init(config: PluginCreateOptions<GitLabPluginOption>) {
     this._noEmit = config.noEmit;
     this._logger = config.logger;
     this._token = config.options.privateToken;
     this._commentTo = config.options.commentTo || "note";
+    this._shortDescription = config.options.shortDescription || false;
 
     const ciProjectUrl = process.env["CI_PROJECT_URL"];
     if (ciProjectUrl && !config.options.gitlabUrl) {
       const parsedUrl = parse(ciProjectUrl);
       const gurl = parsedUrl.protocol + "//" + parsedUrl.host;
-      this._logger.info("GitLab url" + this._logger.colors.cyan(gurl) + " is detected.");
+      this._logger.info("GitLab url " + this._logger.colors.cyan(gurl) + " is detected.");
       this._gitlabUrl = gurl;
     } else {
       this._gitlabUrl = config.options.gitlabUrl || "https://gitlab.com";
@@ -62,6 +65,7 @@ export class GitLabNotifierPlugin implements NotifierPlugin<GitLabPluginOption> 
         client,
         notifyParams: params,
         projectId: this._projectId,
+        shortDescription: this._shortDescription,
       });
     } else if (this._commentTo === "discussion") {
       await addDiscussionToMergeRequests({
@@ -70,6 +74,7 @@ export class GitLabNotifierPlugin implements NotifierPlugin<GitLabPluginOption> 
         client,
         notifyParams: params,
         projectId: this._projectId,
+        shortDescription: this._shortDescription,
       });
     } else {
       await commentToMergeRequests({
@@ -78,6 +83,7 @@ export class GitLabNotifierPlugin implements NotifierPlugin<GitLabPluginOption> 
         client,
         notifyParams: params,
         projectId: this._projectId,
+        shortDescription: this._shortDescription,
       });
     }
   }

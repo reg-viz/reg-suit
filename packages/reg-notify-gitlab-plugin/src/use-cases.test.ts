@@ -11,6 +11,11 @@ import {
   addDiscussionToMergeRequests,
 } from "./use-cases";
 import { PutMergeRequestParams } from "./gitlab-api-client";
+import { createCommentBody } from "./create-comment";
+
+jest.mock("./create-comment", () => ({
+  createCommentBody: jest.fn(() => true),
+}));
 
 function createComparisonResult() {
   return {
@@ -26,6 +31,10 @@ function createComparisonResult() {
     passedItems: [],
   } as ComparisonResult;
 }
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
 test("nothing post when noEmit: true", async () => {
   const client = new GitLabFixtureClient("base-no-marked-comment");
@@ -43,10 +52,13 @@ test("nothing post when noEmit: true", async () => {
       expectedKey: "EXPECTED",
       comparisonResult: createComparisonResult(),
     },
+    shortDescription: false,
   });
   assert.equal(getMergeRequestsSpy.called, true);
   assert.equal(postMergeRequestNoteSpy.called, false);
   assert.equal(putMergeRequestNoteSpy.called, false);
+
+  expect(createCommentBody).not.toBeCalled();
 });
 
 test("add comment to MR when the MR does not have this notifiers comment", async () => {
@@ -56,6 +68,7 @@ test("add comment to MR when the MR does not have this notifiers comment", async
   const getMergeRequestCommitsSpy = sinon.spy(client, "getMergeRequestCommits");
   const postMergeRequestNoteSpy = sinon.spy(client, "postMergeRequestNote");
   const putMergeRequestNoteSpy = sinon.spy(client, "putMergeRequestNote");
+  const comparisonResult = createComparisonResult();
   await commentToMergeRequests({
     noEmit: false,
     client,
@@ -64,13 +77,23 @@ test("add comment to MR when the MR does not have this notifiers comment", async
     notifyParams: {
       actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
       expectedKey: "EXPECTED",
-      comparisonResult: createComparisonResult(),
+      comparisonResult,
     },
+    shortDescription: false,
   });
   assert.equal(getMergeRequestsSpy.called, true);
   assert.deepStrictEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
   assert.equal(postMergeRequestNoteSpy.called, true);
   assert.equal(putMergeRequestNoteSpy.called, false);
+
+  expect(createCommentBody).toBeCalledWith({
+    failedItemsCount: comparisonResult.failedItems.length,
+    newItemsCount: comparisonResult.newItems.length,
+    deletedItemsCount: comparisonResult.deletedItems.length,
+    passedItemsCount: comparisonResult.passedItems.length,
+    reportUrl: undefined,
+    shortDescription: false,
+  });
 });
 
 test("add comment to MR when the MR already has note this notifiers comment", async () => {
@@ -80,6 +103,7 @@ test("add comment to MR when the MR already has note this notifiers comment", as
   const getMergeRequestCommitsSpy = sinon.spy(client, "getMergeRequestCommits");
   const postMergeRequestNoteSpy = sinon.spy(client, "postMergeRequestNote");
   const putMergeRequestNoteSpy = sinon.spy(client, "putMergeRequestNote");
+  const comparisonResult = createComparisonResult();
   await commentToMergeRequests({
     noEmit: false,
     client,
@@ -88,13 +112,23 @@ test("add comment to MR when the MR already has note this notifiers comment", as
     notifyParams: {
       actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
       expectedKey: "EXPECTED",
-      comparisonResult: createComparisonResult(),
+      comparisonResult,
     },
+    shortDescription: true,
   });
   assert.equal(getMergeRequestsSpy.called, true);
   assert.deepStrictEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
   assert.equal(postMergeRequestNoteSpy.called, false);
   assert.equal(putMergeRequestNoteSpy.called, true);
+
+  expect(createCommentBody).toBeCalledWith({
+    failedItemsCount: comparisonResult.failedItems.length,
+    newItemsCount: comparisonResult.newItems.length,
+    deletedItemsCount: comparisonResult.deletedItems.length,
+    passedItemsCount: comparisonResult.passedItems.length,
+    reportUrl: undefined,
+    shortDescription: true,
+  });
 });
 
 test("nothing discussion post when noEmit: true", async () => {
@@ -113,10 +147,13 @@ test("nothing discussion post when noEmit: true", async () => {
       expectedKey: "EXPECTED",
       comparisonResult: createComparisonResult(),
     },
+    shortDescription: false,
   });
   assert.equal(getMergeRequestsSpy.called, true);
   assert.equal(postMergeRequestDiscussionSpy.called, false);
   assert.equal(putMergeRequestNoteSpy.called, false);
+
+  expect(createCommentBody).not.toBeCalled();
 });
 
 test("add discussion comment to MR when the MR does not have this notifiers comment", async () => {
@@ -126,6 +163,7 @@ test("add discussion comment to MR when the MR does not have this notifiers comm
   const getMergeRequestCommitsSpy = sinon.spy(client, "getMergeRequestCommits");
   const postMergeRequestDiscussionSpy = sinon.spy(client, "postMergeRequestDiscussion");
   const putMergeRequestNoteSpy = sinon.spy(client, "putMergeRequestNote");
+  const comparisonResult = createComparisonResult();
   await addDiscussionToMergeRequests({
     noEmit: false,
     client,
@@ -134,13 +172,23 @@ test("add discussion comment to MR when the MR does not have this notifiers comm
     notifyParams: {
       actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
       expectedKey: "EXPECTED",
-      comparisonResult: createComparisonResult(),
+      comparisonResult,
     },
+    shortDescription: false,
   });
   assert.equal(getMergeRequestsSpy.called, true);
   assert.deepStrictEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
   assert.equal(postMergeRequestDiscussionSpy.called, true);
   assert.equal(putMergeRequestNoteSpy.called, false);
+
+  expect(createCommentBody).toBeCalledWith({
+    failedItemsCount: comparisonResult.failedItems.length,
+    newItemsCount: comparisonResult.newItems.length,
+    deletedItemsCount: comparisonResult.deletedItems.length,
+    passedItemsCount: comparisonResult.passedItems.length,
+    reportUrl: undefined,
+    shortDescription: false,
+  });
 });
 
 test("update discussion to MR when the MR already has note this notifiers comment", async () => {
@@ -150,6 +198,7 @@ test("update discussion to MR when the MR already has note this notifiers commen
   const getMergeRequestCommitsSpy = sinon.spy(client, "getMergeRequestCommits");
   const postMergeRequestDiscussionSpy = sinon.spy(client, "postMergeRequestDiscussion");
   const putMergeRequestNoteSpy = sinon.spy(client, "putMergeRequestNote");
+  const comparisonResult = createComparisonResult();
   await addDiscussionToMergeRequests({
     noEmit: false,
     client,
@@ -158,13 +207,23 @@ test("update discussion to MR when the MR already has note this notifiers commen
     notifyParams: {
       actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
       expectedKey: "EXPECTED",
-      comparisonResult: createComparisonResult(),
+      comparisonResult,
     },
+    shortDescription: true,
   });
   assert.equal(getMergeRequestsSpy.called, true);
   assert.deepStrictEqual(getMergeRequestCommitsSpy.firstCall.args[0], { project_id: 1234, merge_request_iid: 1 });
   assert.equal(postMergeRequestDiscussionSpy.called, false);
   assert.equal(putMergeRequestNoteSpy.called, true);
+
+  expect(createCommentBody).toBeCalledWith({
+    failedItemsCount: comparisonResult.failedItems.length,
+    newItemsCount: comparisonResult.newItems.length,
+    deletedItemsCount: comparisonResult.deletedItems.length,
+    passedItemsCount: comparisonResult.passedItems.length,
+    reportUrl: undefined,
+    shortDescription: true,
+  });
 });
 
 test("modify description of MR", async () => {
@@ -172,6 +231,7 @@ test("modify description of MR", async () => {
   const logger = new RegLogger();
   const getMergeRequestsSpy = sinon.spy(client, "getMergeRequests");
   const putMergeRequestSpy = sinon.spy(client, "putMergeRequest");
+  const comparisonResult = createComparisonResult();
   await appendOrUpdateMergerequestsBody({
     noEmit: false,
     client,
@@ -180,8 +240,9 @@ test("modify description of MR", async () => {
     notifyParams: {
       actualKey: "cbab9a085be8cbcbdbd498d5226479ee5a44c34b",
       expectedKey: "EXPECTED",
-      comparisonResult: createComparisonResult(),
+      comparisonResult,
     },
+    shortDescription: false,
   });
   assert.equal(getMergeRequestsSpy.called, true);
   assert.equal(putMergeRequestSpy.called, true);
@@ -191,4 +252,13 @@ test("modify description of MR", async () => {
   }
   assert.equal(description.indexOf(DESC_BODY_START_MARK) !== -1, true);
   assert.equal(description.indexOf(DESC_BODY_END_MARK) !== -1, true);
+
+  expect(createCommentBody).toBeCalledWith({
+    failedItemsCount: comparisonResult.failedItems.length,
+    newItemsCount: comparisonResult.newItems.length,
+    deletedItemsCount: comparisonResult.deletedItems.length,
+    passedItemsCount: comparisonResult.passedItems.length,
+    reportUrl: undefined,
+    shortDescription: false,
+  });
 });
