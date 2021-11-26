@@ -29,7 +29,7 @@
     "@types/lodash": "^4.14.161",
     "@types/mime-types": "^2.1.0",
     "@types/mkdirp": "^1.0.1",
-    "chalk": "^4.1.0",
+    "chalk": "^5.0.0",
     "cli-progress": "^3.8.2",
     "cli-spinner": "^0.2.6",
     "glob": "^7.1.6",
