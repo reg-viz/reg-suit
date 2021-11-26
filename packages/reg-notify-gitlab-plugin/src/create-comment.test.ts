@@ -72,3 +72,21 @@ test("Reports changes with an icon per difference", async () => {
   assert.match(commentBody, new RegExp(":black_circle: ".repeat(7)));
   assert.doesNotMatch(commentBody, new RegExp(":black_circle: ".repeat(8)));
 });
+
+test("Reports changes with a short description", async () => {
+  const commentBody = createCommentBody({
+    passedItemsCount: 0,
+    failedItemsCount: 50,
+    newItemsCount: 60,
+    deletedItemsCount: 70,
+    shortDescription: true,
+  });
+
+  assert.match(commentBody, new RegExp(":red_circle:  Changed"));
+  assert.match(commentBody, /50/);
+  assert.match(commentBody, new RegExp(":white_circle:  New"));
+  assert.match(commentBody, /60/);
+  assert.match(commentBody, new RegExp(":black_circle:  Deleted"));
+  assert.match(commentBody, /70/);
+  assert.doesNotMatch(commentBody, new RegExp(":large_blue_circle:  Passingd"));
+});
