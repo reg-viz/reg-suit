@@ -42,7 +42,7 @@ function shortDescription({
     | ${headerColumns.join(" | ")} |
     | ${headerDelimiter.join(" | ")} |
     | ${itemCount.join(" | ")} |
-  `;
+  `.replace(/^ +/gm, "");
 }
 
 function longDescription(eventBody: CommentSeed) {

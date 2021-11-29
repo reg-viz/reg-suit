@@ -90,3 +90,15 @@ test("Reports changes with a short description", async () => {
   assert.match(commentBody, /70/);
   assert.doesNotMatch(commentBody, new RegExp(":large_blue_circle:  Passingd"));
 });
+
+test("Strips any leading spaces in the comment body", async () => {
+  const commentBody = createCommentBody({
+    passedItemsCount: 0,
+    failedItemsCount: 50,
+    newItemsCount: 60,
+    deletedItemsCount: 70,
+    shortDescription: true,
+  });
+
+  assert.doesNotMatch(commentBody, /^ /m);
+});
