@@ -18,6 +18,7 @@ export interface GitHubPluginOption {
   prCommentBehavior?: PrCommentBehavior;
   setCommitStatus?: boolean;
   customEndpoint?: string;
+  shortDescription?: boolean;
 }
 
 interface GhAppStatusCodeError {
@@ -50,6 +51,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
   _prComment!: boolean;
   _setCommitStatus!: boolean;
   _behavior!: PrCommentBehavior;
+  _shortDescription!: boolean;
 
   _apiPrefix!: string;
   _repo!: Repository;
@@ -75,6 +77,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     this._prComment = config.options.prComment !== false;
     this._behavior = config.options.prCommentBehavior ?? "default";
     this._setCommitStatus = config.options.setCommitStatus !== false;
+    this._shortDescription = config.options.shortDescription ?? false;
     this._apiPrefix = config.options.customEndpoint || getGhAppInfo().endpoint;
     this._repo = new Repository(path.join(fsUtil.prjRootDir(".git"), ".git"));
   }
@@ -107,7 +110,13 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     };
     if (params.reportUrl) updateStatusBody.reportUrl = params.reportUrl;
     if (this._prComment) {
-      updateStatusBody.metadata = { failedItemsCount, newItemsCount, deletedItemsCount, passedItemsCount };
+      updateStatusBody.metadata = {
+        failedItemsCount,
+        newItemsCount,
+        deletedItemsCount,
+        passedItemsCount,
+        shortDescription: this._shortDescription,
+      };
     }
 
     const reqs = [];
@@ -135,6 +144,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
           newItemsCount,
           deletedItemsCount,
           passedItemsCount,
+          shortDescription: this._shortDescription,
         };
         if (params.reportUrl) prCommentBody.reportUrl = params.reportUrl;
         const commentReq: rp.OptionsWithUri = {
