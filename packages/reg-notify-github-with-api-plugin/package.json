@@ -31,7 +31,7 @@
     "apollo-link-http": "^1.5.17",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.0.0",
     "reg-suit-util": "^0.12.1",
     "tiny-commit-walker": "^1.2.1"
   }
