@@ -57,7 +57,7 @@ function createOptions() {
       p: { alias: "plugin", array: true, desc: "Plugin name(s) you want to set up(e.g. slack-notify)." },
     })
     .command("run", "Run all procedure regression testing.")
-    .command("sync-expected", "Fecth expected images into working directory.")
+    .command("sync-expected", "Fetch expected images into working directory.")
     .command("compare", "Compare actual images with expected images and creates report.")
     .command("publish", "Publish the latest comparison result in working directory.", {
       n: { alias: "notification", desc: "Send notifications with publishing", boolean: true, default: false },
