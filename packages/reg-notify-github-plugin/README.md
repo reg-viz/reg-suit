@@ -37,6 +37,7 @@ If reg-suit detects visual differences, it set the commit status failure. Someti
   prComment?: boolean;
   prCommentBehavior?: "default" | "once" | "new";
   setCommitStatus?: boolean;
+  shortDescription?: boolean;
 }
 ```
 
@@ -47,3 +48,9 @@ If reg-suit detects visual differences, it set the commit status failure. Someti
   - `"new"` : Delete existing old comment and post new comment.
   - `"once"` : Does nothing if the PR comment exists.
 - `setCommitStatus` - _Optional_ - Whether to allow reg-suit to set commit status to fail if any visual differences are detected. Default: `true`.
+- `shortDescription` - _Optional_ Returns a small table with the item counts.
+  Example:
+
+  | 🔴 Changed | ⚪️ New | 🔵 Passing |
+  | ---------- | ------- | ---------- |
+  | 3          | 4       | 120        |
