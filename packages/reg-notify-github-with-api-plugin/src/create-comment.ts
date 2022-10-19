@@ -19,7 +19,7 @@ function tableItem(itemCount: number, header: string): [number, string] | null {
  * | ---        | ---    | ---        |
  * | 3          | 4      | 120        |
  */
-function shortDescription({
+export function shortDescription({
   failedItemsCount,
   newItemsCount,
   deletedItemsCount,
