@@ -39,10 +39,10 @@ function shortDescription({
   const itemCount = filteredDescriptions.map(([itemCount]) => itemCount);
 
   return `
-    | ${headerColumns.join(" | ")} |
-    | ${headerDelimiter.join(" | ")} |
-    | ${itemCount.join(" | ")} |
-  `;
+| ${headerColumns.join(" | ")} |
+| ${headerDelimiter.join(" | ")} |
+| ${itemCount.join(" | ")} |
+`;
 }
 
 function longDescription(eventBody: CommentSeed) {
