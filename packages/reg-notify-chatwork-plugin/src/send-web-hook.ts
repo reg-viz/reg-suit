@@ -1,4 +1,4 @@
-import rp from "request-promise";
+import fetch from "node-fetch";
 
 export interface SendOption {
   roomID: string;
@@ -6,15 +6,17 @@ export interface SendOption {
   chatworkToken: string;
 }
 
-export function sendWebHook(opt: SendOption): Promise<any> {
-  const reqParam: rp.OptionsWithUrl = {
-    url: "https://api.chatwork.com/v2/rooms/" + opt.roomID + "/messages",
+export async function sendWebHook({ roomID, chatworkToken, message }: SendOption): Promise<void> {
+  const res = await fetch(`https://api.chatwork.com/v2/rooms/${roomID}/messages`, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      "X-ChatWorkToken": opt.chatworkToken,
+      "X-ChatWorkToken": chatworkToken,
     },
-    body: "body=" + opt.message,
-  };
-  return rp(reqParam) as any as Promise<any>;
+    body: `body=${message}`,
+  });
+
+  if (400 <= res.status) {
+    throw new Error(`HTTP ${res.status}: Failed to send notification to ChatWork. Response: ${await res.json()}`);
+  }
 }

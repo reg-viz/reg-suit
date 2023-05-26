@@ -1,8 +1,9 @@
+import fetch from "node-fetch";
+
 export type ProjectIdType = number;
 export type MergeResuestIidType = number;
 export type NoteIdType = number;
 export type DiscussionIdType = number;
-import rp from "request-promise";
 
 export type MergeRequestResource = {
   iid: MergeResuestIidType;
@@ -76,97 +77,101 @@ export interface GitLabApiClient {
 export class DefaultGitLabApiClient implements GitLabApiClient {
   constructor(private _urlPrefix: string, private _token: string) {}
 
-  getMergeRequests(params: GetMergeRequestsParams): Promise<MergeRequestResource[]> {
-    const reqParam: rp.OptionsWithUrl = {
-      method: "GET",
-      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests?state=opened`,
-      json: true,
+  async getMergeRequests(params: GetMergeRequestsParams): Promise<MergeRequestResource[]> {
+    const res = await fetch(`${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests?state=opened`, {
       headers: {
         "Private-Token": this._token,
       },
-    };
-    return rp(reqParam) as any as Promise<MergeRequestResource[]>;
+    });
+
+    return res.json() as any as Promise<MergeRequestResource[]>;
   }
 
-  putMergeRequest(params: PutMergeRequestParams): Promise<MergeRequestResource> {
-    const reqParam: rp.OptionsWithUrl = {
+  async putMergeRequest(params: PutMergeRequestParams): Promise<MergeRequestResource> {
+    const res = await fetch(`${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.iid}`, {
       method: "PUT",
-      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.iid}`,
-      json: true,
       headers: {
         "Private-Token": this._token,
       },
-      body: params,
-    };
-    return rp(reqParam) as any as Promise<MergeRequestResource>;
+      body: JSON.stringify(params),
+    });
+
+    return res.json() as any as Promise<MergeRequestResource>;
   }
 
-  getMergeRequestCommits(params: GetMergeRequestCommitsParams): Promise<CommitResource[]> {
-    const reqParam: rp.OptionsWithUrl = {
-      method: "GET",
-      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.merge_request_iid}/commits`,
-      json: true,
-      headers: {
-        "Private-Token": this._token,
+  async getMergeRequestCommits(params: GetMergeRequestCommitsParams): Promise<CommitResource[]> {
+    const res = await fetch(
+      `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.merge_request_iid}/commits`,
+      {
+        headers: {
+          "Private-Token": this._token,
+        },
       },
-    };
-    return rp(reqParam) as any as Promise<CommitResource[]>;
+    );
+    return res.json() as any as Promise<CommitResource[]>;
   }
 
-  getMergeRequestNotes(params: GetMergeRequestNotesParams): Promise<NoteResouce[]> {
-    const reqParam: rp.OptionsWithUrl = {
-      method: "GET",
-      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.merge_request_iid}/notes`,
-      json: true,
-      headers: {
-        "Private-Token": this._token,
+  async getMergeRequestNotes(params: GetMergeRequestNotesParams): Promise<NoteResouce[]> {
+    const res = await fetch(
+      `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.merge_request_iid}/notes`,
+      {
+        headers: {
+          "Private-Token": this._token,
+        },
       },
-    };
-    return rp(reqParam) as any as Promise<NoteResouce[]>;
+    );
+
+    return res.json() as any as Promise<NoteResouce[]>;
   }
 
-  postMergeRequestNote(params: PostMergeRequestNoteParams): Promise<NoteResouce> {
-    const reqParam: rp.OptionsWithUrl = {
-      method: "POST",
-      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.merge_request_iid}/notes`,
-      json: true,
-      headers: {
-        "Private-Token": this._token,
+  async postMergeRequestNote(params: PostMergeRequestNoteParams): Promise<NoteResouce> {
+    const res = await fetch(
+      `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.merge_request_iid}/notes`,
+      {
+        method: "POST",
+        headers: {
+          "Private-Token": this._token,
+        },
+        body: JSON.stringify({
+          body: params.body,
+        }),
       },
-      body: {
-        body: params.body,
-      },
-    };
-    return rp(reqParam) as any as Promise<NoteResouce>;
+    );
+
+    return res.json() as any as Promise<NoteResouce>;
   }
 
-  putMergeRequestNote(params: PutMergeRequestNoteParams): Promise<NoteResouce> {
-    const reqParam: rp.OptionsWithUrl = {
-      method: "PUT",
-      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.merge_request_iid}/notes/${params.note_id}`,
-      json: true,
-      headers: {
-        "Private-Token": this._token,
+  async putMergeRequestNote(params: PutMergeRequestNoteParams): Promise<NoteResouce> {
+    const res = await fetch(
+      `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.merge_request_iid}/notes/${params.note_id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Private-Token": this._token,
+        },
+        body: JSON.stringify({
+          body: params.body,
+        }),
       },
-      body: {
-        body: params.body,
-      },
-    };
-    return rp(reqParam) as any as Promise<NoteResouce>;
+    );
+
+    return res.json() as any as Promise<NoteResouce>;
   }
 
-  postMergeRequestDiscussion(params: PostMergeRequestDiscussionParams): Promise<DiscussionResource> {
-    const reqParam: rp.OptionsWithUrl = {
-      method: "POST",
-      url: `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.merge_request_iid}/discussions`,
-      json: true,
-      headers: {
-        "Private-Token": this._token,
+  async postMergeRequestDiscussion(params: PostMergeRequestDiscussionParams): Promise<DiscussionResource> {
+    const res = await fetch(
+      `${this._urlPrefix}/api/v4/projects/${params.project_id}/merge_requests/${params.merge_request_iid}/discussions`,
+      {
+        method: "POST",
+        headers: {
+          "Private-Token": this._token,
+        },
+        body: JSON.stringify({
+          body: params.body,
+        }),
       },
-      body: {
-        body: params.body,
-      },
-    };
-    return rp(reqParam) as any as Promise<DiscussionResource>;
+    );
+
+    return res.json() as any as Promise<DiscussionResource>;
   }
 }

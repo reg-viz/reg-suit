@@ -4,10 +4,15 @@ import { inflateRawSync } from "zlib";
 import { getGhAppInfo, BaseEventBody, CommentToPrBody, UpdateStatusBody } from "reg-gh-app-interface";
 import { fsUtil } from "reg-suit-util";
 import { NotifierPlugin, NotifyParams, PluginCreateOptions, PluginLogger } from "reg-suit-interface";
-
-import rp from "request-promise";
+import fetch from "node-fetch";
 
 type PrCommentBehavior = "default" | "once" | "new";
+
+type FetchRequest = {
+  url: string;
+  method: "GET" | "POST" | "PUT" | "DELETE";
+  body: BaseEventBody;
+};
 
 export interface GitHubPluginOption {
   clientId?: string;
@@ -82,7 +87,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     this._repo = new Repository(path.join(fsUtil.prjRootDir(".git"), ".git"));
   }
 
-  notify(params: NotifyParams): Promise<any> {
+  async notify(params: NotifyParams): Promise<any> {
     const head = this._repo.readHeadSync();
     const { failedItems, newItems, deletedItems, passedItems } = params.comparisonResult;
     const failedItemsCount = failedItems.length;
@@ -119,14 +124,13 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
       };
     }
 
-    const reqs = [];
+    const reqs: FetchRequest[] = [];
 
     if (this._setCommitStatus) {
-      const statusReq: rp.OptionsWithUri = {
-        uri: `${this._apiPrefix}/api/update-status`,
+      const statusReq: FetchRequest = {
+        url: `${this._apiPrefix}/api/update-status`,
         method: "POST",
         body: updateStatusBody,
-        json: true,
       };
       this._logger.info(`Update status for ${this._logger.colors.green(updateStatusBody.sha1)} .`);
       this._logger.verbose("update-status: ", statusReq);
@@ -147,11 +151,10 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
           shortDescription: this._shortDescription,
         };
         if (params.reportUrl) prCommentBody.reportUrl = params.reportUrl;
-        const commentReq: rp.OptionsWithUri = {
-          uri: `${this._apiPrefix}/api/comment-to-pr`,
+        const commentReq: FetchRequest = {
+          url: `${this._apiPrefix}/api/comment-to-pr`,
           method: "POST",
           body: prCommentBody,
-          json: true,
         };
         this._logger.info(`Comment to PR associated with ${this._logger.colors.green(prCommentBody.branchName)} .`);
         this._logger.verbose("PR comment: ", commentReq);
@@ -165,7 +168,23 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     }
     const spinner = this._logger.getSpinner("sending notification to GitHub...");
     spinner.start();
-    return Promise.all(reqs.map(r => rp(r).catch(errorHandler(this._logger))))
+    return Promise.all(
+      reqs.map(async req => {
+        try {
+          const res = await fetch(req.url, {
+            method: req.method,
+            body: JSON.stringify(req.body),
+          });
+
+          if (400 <= res.status) {
+            throw new Error(`HTTP ${res.status}: Failed to request.`);
+          }
+        } catch (err) {
+          const handler = errorHandler(this._logger);
+          await handler(err);
+        }
+      }),
+    )
       .then(() => spinner.stop())
       .catch(() => spinner.stop());
   }

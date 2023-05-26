@@ -1,4 +1,4 @@
-import rp from "request-promise";
+import fetch from "node-fetch";
 
 export interface SendOption {
   webhookUrl: string;
@@ -6,21 +6,22 @@ export interface SendOption {
   color: string;
 }
 
-export function sendWebHook(opt: SendOption): Promise<any> {
-  const reqParam: rp.OptionsWithUrl = {
-    url: opt.webhookUrl,
+export async function sendWebHook({ webhookUrl, color, body }: SendOption): Promise<void> {
+  const res = await fetch(webhookUrl, {
     method: "POST",
-    json: true,
-    body: {
+    body: JSON.stringify({
       username: "Reg suit",
       icon_url: "https://raw.githubusercontent.com/reg-viz/artwork/master/logo/reg-viz-transparent_64.png",
       attachments: [
         {
-          color: opt.color,
-          text: opt.body,
+          color: color,
+          text: body,
         },
       ],
-    },
-  };
-  return rp(reqParam) as any as Promise<any>;
+    }),
+  });
+
+  if (400 <= res.status) {
+    throw new Error(`HTTP ${res.status}: Failed to send notification to ChatWork. Response: ${await res.json()}`);
+  }
 }

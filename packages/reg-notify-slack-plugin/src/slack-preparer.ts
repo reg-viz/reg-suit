@@ -41,7 +41,7 @@ export class SlackPreparer implements PluginPreparer<QuestionResult, SlackNotife
         })
         .catch(reason => {
           logger.error(logger.colors.red(reason.message));
-          return Promise.reject(reason.error);
+          return Promise.reject(reason);
         });
     } else {
       return Promise.resolve({ webhookUrl });
