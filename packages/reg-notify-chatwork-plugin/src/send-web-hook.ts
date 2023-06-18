@@ -6,14 +6,14 @@ export interface SendOption {
   chatworkToken: string;
 }
 
-export async function sendWebHook(opt: SendOption): Promise<void> {
-  const res = await fetch(`https://api.chatwork.com/v2/rooms/${opt.roomID}/messages`, {
+export async function sendWebHook({ roomID, chatworkToken, message }: SendOption): Promise<void> {
+  const res = await fetch(`https://api.chatwork.com/v2/rooms/${roomID}/messages`, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      "X-ChatWorkToken": opt.chatworkToken,
+      "X-ChatWorkToken": chatworkToken,
     },
-    body: `body=${opt.message}`,
+    body: `body=${message}`,
   });
 
   if (400 <= res.status) {
