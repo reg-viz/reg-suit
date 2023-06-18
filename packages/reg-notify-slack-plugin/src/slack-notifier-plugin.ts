@@ -17,7 +17,7 @@ export class SlackNotifierPlugin implements NotifierPlugin<SlackNotiferPluginOpt
     this._noEmmit = config.noEmit;
   }
 
-  notify(params: NotifyParams): Promise<any> {
+  async notify(params: NotifyParams): Promise<void> {
     const body = this.createBody(params);
     const color = this.createColor(params);
     this._logger.info(`Send to slack ${this._logger.colors.green(this._webhookUrl)}.`);

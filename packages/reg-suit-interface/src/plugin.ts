@@ -26,7 +26,7 @@ export interface NotifyParams {
 }
 
 export interface Notifier {
-  notify(params: NotifyParams): Promise<any>;
+  notify(params: NotifyParams): Promise<void>;
 }
 
 export interface PluginCreateOptions<T = undefined> {
