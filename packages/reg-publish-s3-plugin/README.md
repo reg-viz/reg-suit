@@ -45,6 +45,7 @@ aws_secret_access_key = <your-secret-key>
 ```
 
 - `bucketName` - _Required_ - AWS S3 bucket name to publish the snapshot images to.
+- `enableACL` - _Optional_ - Specifies whether ACL is enabled or not. Default `true`.
 - `acl` - _Optional_ - Specify ACL property. By default, `public-read`.
 - `sse` - _Optional_ - Specify server-side encryption property. Default `false`. If you set `true`, this plugin send with `--sse="AES256`.
 - `sseKMSKeyId` - _Optional_ - Specify server-side encryption KMS KEY ID. If provided, is passed as SSEKMSKeyId to s3.putObject.
