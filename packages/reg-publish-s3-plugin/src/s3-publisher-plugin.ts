@@ -82,10 +82,10 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
         zlib.gzip(content, (err, data) => {
           if (err) return reject(err);
 
-	  // Enable ACL by default.
-	  if(this._pluginConfig.enableACL == undefined) {
+          // Enable ACL by default.
+          if(this._pluginConfig.enableACL == undefined) {
             this._pluginConfig.enableACL = true
-	  }
+          }
           const req = {
             Bucket: this._pluginConfig.bucketName,
             Key: `${key}/${item.path}`,
