@@ -27,7 +27,7 @@ export class ChatworkPreparer implements PluginPreparer<QuestionResult, Chatwork
     ];
   }
 
-  prepare(opt: PluginCreateOptions<QuestionResult>): Promise<ChatworkNotiferPluginOptions> {
+  async prepare(opt: PluginCreateOptions<QuestionResult>): Promise<ChatworkNotiferPluginOptions> {
     const logger = opt.logger;
     const { chatworkToken, roomID, sendTestMessage } = opt.options;
     if (!chatworkToken || !chatworkToken.length) {
@@ -46,7 +46,7 @@ export class ChatworkPreparer implements PluginPreparer<QuestionResult, Chatwork
         })
         .catch(reason => {
           logger.error(logger.colors.red(reason.message));
-          return Promise.reject(reason.error);
+          return Promise.reject(reason);
         });
     } else {
       return Promise.resolve({ roomID: roomID, chatworkToken: chatworkToken });

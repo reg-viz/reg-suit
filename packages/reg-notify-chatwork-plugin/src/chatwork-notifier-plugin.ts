@@ -30,7 +30,7 @@ export class ChatworkNotifierPlugin implements NotifierPlugin<ChatworkNotiferPlu
     this._noEmmit = config.noEmit;
   }
 
-  notify(params: NotifyParams): Promise<any> {
+  async notify(params: NotifyParams): Promise<void> {
     const message = this.createMessage(params);
     this._logger.info(`Send to chatwork ${this._logger.colors.green(this._roomID)}.`);
     this._logger.verbose("body to send to chatwork", message);

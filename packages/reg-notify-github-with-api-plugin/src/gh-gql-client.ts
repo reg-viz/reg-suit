@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { createHttpLink } from "apollo-link-http";
-import fetch from "node-fetch";
+import { fetch } from "undici";
 
 const contextQuery = gql`
   query UpdatePrCommentContext($branchName: String!, $owner: String!, $repository: String!) {
