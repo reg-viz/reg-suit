@@ -13,4 +13,4 @@ node_modules/
 packages/reg-suit-cli/well-known-plugins.json
 .env
 .env.*
-
+.keep

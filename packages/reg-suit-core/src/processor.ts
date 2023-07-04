@@ -11,10 +11,11 @@ import {
   ComparisonResult,
 } from "reg-suit-interface";
 import { EventEmitter } from "events";
+import { rimrafSync } from "rimraf";
+
+import { copyImagesSync } from "./copy-image-sync";
 
 const compare = require("reg-cli");
-const rimraf = require("rimraf");
-const cpx = require("cpx");
 
 export interface ProcessorOptions {
   keyGenerator?: KeyGeneratorPlugin<any>;
@@ -99,8 +100,8 @@ export class RegProcessor {
     const json = path.join(this._directoryInfo.workingDirs.base, "out.json");
     const report = path.join(this._directoryInfo.workingDirs.base, "index.html");
     const ximgdiffConf = this._config.ximgdiff || { invocationType: "cli" };
-    rimraf.sync(actualDir);
-    cpx.copySync(`${this._directoryInfo.userDirs.actualDir}/**/*.{png,jpg,jpeg,tiff,bmp,gif}`, actualDir);
+    rimrafSync(actualDir);
+    copyImagesSync(this._directoryInfo.userDirs.actualDir, actualDir);
     const emitter = compare({
       actualDir,
       expectedDir,
