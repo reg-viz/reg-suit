@@ -10,6 +10,7 @@ import { FileItem, RemoteFileItem, ObjectListResult, AbstractPublisher } from "r
 export interface PluginConfig {
   bucketName: string;
   pattern?: string;
+  enableACL?: boolean;
   acl?: string;
   sse?: boolean | string;
   sseKMSKeyId?: string;
@@ -80,13 +81,18 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
         if (err) return reject(err);
         zlib.gzip(content, (err, data) => {
           if (err) return reject(err);
+
+          // Enable ACL by default.
+          if(this._pluginConfig.enableACL == undefined) {
+            this._pluginConfig.enableACL = true
+          }
           const req = {
             Bucket: this._pluginConfig.bucketName,
             Key: `${key}/${item.path}`,
             Body: data,
             ContentType: item.mimeType,
             ContentEncoding: "gzip",
-            ACL: this._pluginConfig.acl || "public-read",
+            ACL: this._pluginConfig.enableACL ? this._pluginConfig.acl || "public-read" : undefined,
             SSEKMSKeyId: this._pluginConfig.sseKMSKeyId,
           } as S3.Types.PutObjectRequest;
           if (this._pluginConfig.sse) {
