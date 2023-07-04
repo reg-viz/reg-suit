@@ -83,8 +83,8 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
           if (err) return reject(err);
 
           // Enable ACL by default.
-          if(this._pluginConfig.enableACL == undefined) {
-            this._pluginConfig.enableACL = true
+          if (this._pluginConfig.enableACL == undefined) {
+            this._pluginConfig.enableACL = true;
           }
           const req = {
             Bucket: this._pluginConfig.bucketName,
