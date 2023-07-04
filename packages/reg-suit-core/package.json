@@ -21,7 +21,7 @@
   "dependencies": {
     "reg-cli": "^0.17.0",
     "reg-suit-util": "^0.12.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^5.0.1"
   },
   "devDependencies": {
     "@types/jest": "27.4.1",

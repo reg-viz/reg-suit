@@ -11,24 +11,11 @@ import {
   ComparisonResult,
 } from "reg-suit-interface";
 import { EventEmitter } from "events";
-import { copyFileSync, mkdirSync, readdirSync, statSync } from "fs";
+import { rimrafSync } from "rimraf";
+
+import { copyImagesSync } from "./copy-image-sync";
 
 const compare = require("reg-cli");
-const rimraf = require("rimraf");
-
-const copiedExtensions = [".png", ".jpg", ".jpeg", ".tiff", ".bmp", ".gif"];
-
-function copyImagesSync(from: string, to: string) {
-  const stats = statSync(from);
-  if (stats.isDirectory()) {
-    for (const inner of readdirSync(from)) {
-      copyImagesSync(path.join(from, inner), path.join(to, inner));
-    }
-  } else if (stats.isFile() && copiedExtensions.some(ext => from.endsWith(ext))) {
-    mkdirSync(path.dirname(to), { recursive: true });
-    copyFileSync(from, to);
-  }
-}
 
 export interface ProcessorOptions {
   keyGenerator?: KeyGeneratorPlugin<any>;
@@ -113,7 +100,7 @@ export class RegProcessor {
     const json = path.join(this._directoryInfo.workingDirs.base, "out.json");
     const report = path.join(this._directoryInfo.workingDirs.base, "index.html");
     const ximgdiffConf = this._config.ximgdiff || { invocationType: "cli" };
-    rimraf.sync(actualDir);
+    rimrafSync(actualDir);
     copyImagesSync(this._directoryInfo.userDirs.actualDir, actualDir);
     const emitter = compare({
       actualDir,
