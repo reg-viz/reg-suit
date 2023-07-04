@@ -1,6 +1,6 @@
 {
   "name": "reg-publish-s3-plugin",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "description": "Fetch and publish snapshot images to AWS S3.",
   "regSuitPlugin": {
     "recommended": true
@@ -25,13 +25,13 @@
   "dependencies": {
     "aws-sdk": "^2.755.0",
     "mkdirp": "^1.0.4",
-    "reg-suit-util": "^0.12.1",
+    "reg-suit-util": "^0.12.2",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@types/mkdirp": "1.0.2",
     "@types/uuid": "8.3.4",
-    "reg-suit-interface": "^0.12.1",
+    "reg-suit-interface": "^0.12.2",
     "rimraf": "5.0.1",
     "typescript": "4.5.2"
   }
