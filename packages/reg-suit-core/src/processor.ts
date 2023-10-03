@@ -174,7 +174,9 @@ export class RegProcessor {
   syncExpected(ctx: StepResultAfterExpectedKey): Promise<StepResultAfterExpectedKey> {
     const keyForExpected = ctx.expectedKey;
     if (this._publisher && keyForExpected) {
-      return this._publisher.fetch(keyForExpected);
+      return this._publisher.fetch(keyForExpected).then(result => {
+        return { ...ctx, ...result };
+      });
     } else if (!keyForExpected) {
       this._logger.info("Skipped to fetch the expected data because expected key is null.");
       return Promise.resolve(ctx);
