@@ -19,6 +19,7 @@ reg-suit prepare -p notify-gitlab
   privateToken: string;
   gitlabUrl?: string;
   commentTo?: "note" | "description" | "discussion";
+  shortDescription?: boolean;
 }
 ```
 
@@ -26,6 +27,12 @@ reg-suit prepare -p notify-gitlab
 - `privateToken` - _Required_ - Your GitLab API token. If you want more detail, see [Personal access tokens doc](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
 - `gitlabUrl` - _Optional_ - Set if you host your GitLab instance. Default: `https://gitlab.com`
 - `commentTo` - _Optional_ - How this plugin comments to MR. If `"note"`, it posts or puts the comment as a MR's note. if `"description"`, your MR's description gets updated. If `"discussion"`, it posts or puts the comment as a MR's _resolvable_ note. Default: `"note"`.
+- `shortDescription` - _Optional_ Returns a small table with the item counts.
+  Example:
+
+  | 🔴 Changed | ⚪️ New | 🔵 Passing |
+  | ---------- | ------- | ---------- |
+  | 3          | 4       | 120        |
 
 ### Auto complete on GitLab CI
 
