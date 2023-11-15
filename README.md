@@ -77,6 +77,7 @@ Install and configure reg-suit and plugins into your project.
 
 - `--use-yarn` : By the default cli installs packages using `npm`. If you prefer yarn pkg, turn this option on.
 - `--use-yarn-ws` : If you use yarn workspace, turn this option on.
+- `--use-pnpm` : By the default cli installs packages using `pnpm`. If you prefer yarn pkg, turn this option on.
 
 ### `prepare` command
 
