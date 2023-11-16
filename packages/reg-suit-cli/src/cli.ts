@@ -52,7 +52,7 @@ function createOptions() {
     .command("init", "Install and set up reg-suit and plugins into your project.", {
       useYarn: { desc: "Whether to use yarn as npm client.", boolean: true, default: false },
       useYarnWs: { desc: "Whether to use yarn workspace.", boolean: true, default: false },
-      usePnpm: { desc: "Whether to use pnpm workspace.", boolean: true, default: false },
+      usePnpm: { desc: "Whether to use pnpm as npm client.", boolean: true, default: false },
     })
     .command("prepare", "Configure installed plugin", {
       p: { alias: "plugin", array: true, desc: "Plugin name(s) you want to set up(e.g. slack-notify)." },
@@ -73,10 +73,10 @@ function createOptions() {
     switch (true) {
       case useYarn:
         return "yarn";
-      case usePnpm:
-        return "pnpm";
       case useYarnWs:
         return "yarn workspace";
+      case usePnpm:
+        return "pnpm";
       default:
         return "npm";
     }
