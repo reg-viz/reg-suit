@@ -1,13 +1,13 @@
 {
   "name": "reg-suit-core-testing",
-  "version": "0.12.2",
+  "version": "0.12.3",
   "private": true,
   "scripts": {
     "reg-suit-debug": "node ../reg-suit-cli/lib/cli.js",
     "test": "echo \"T.B.D.\""
   },
   "dependencies": {
-    "reg-notify-gitlab-plugin": "^0.12.2",
+    "reg-notify-gitlab-plugin": "^0.12.3",
     "reg-notify-slack-plugin": "^0.12.2",
     "reg-publish-gcs-plugin": "^0.12.2",
     "reg-simple-keygen-plugin": "^0.12.2",
