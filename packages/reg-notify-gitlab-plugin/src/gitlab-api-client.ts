@@ -83,6 +83,9 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         "Private-Token": this._token,
       },
     });
+    if (400 <= res.status) {
+      throw new Error(`HTTP ${res.status}: Failed to request.`);
+    }
 
     return res.json() as any as Promise<MergeRequestResource[]>;
   }
@@ -92,9 +95,13 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
       method: "PUT",
       headers: {
         "Private-Token": this._token,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
     });
+    if (400 <= res.status) {
+      throw new Error(`HTTP ${res.status}: Failed to request.`);
+    }
 
     return res.json() as any as Promise<MergeRequestResource>;
   }
@@ -108,6 +115,9 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         },
       },
     );
+    if (400 <= res.status) {
+      throw new Error(`HTTP ${res.status}: Failed to request.`);
+    }
     return res.json() as any as Promise<CommitResource[]>;
   }
 
@@ -120,6 +130,9 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         },
       },
     );
+    if (400 <= res.status) {
+      throw new Error(`HTTP ${res.status}: Failed to request.`);
+    }
 
     return res.json() as any as Promise<NoteResouce[]>;
   }
@@ -131,12 +144,16 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         method: "POST",
         headers: {
           "Private-Token": this._token,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           body: params.body,
         }),
       },
     );
+    if (400 <= res.status) {
+      throw new Error(`HTTP ${res.status}: Failed to request.`);
+    }
 
     return res.json() as any as Promise<NoteResouce>;
   }
@@ -148,12 +165,16 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         method: "PUT",
         headers: {
           "Private-Token": this._token,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           body: params.body,
         }),
       },
     );
+    if (400 <= res.status) {
+      throw new Error(`HTTP ${res.status}: Failed to request.`);
+    }
 
     return res.json() as any as Promise<NoteResouce>;
   }
@@ -165,12 +186,16 @@ export class DefaultGitLabApiClient implements GitLabApiClient {
         method: "POST",
         headers: {
           "Private-Token": this._token,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           body: params.body,
         }),
       },
     );
+    if (400 <= res.status) {
+      throw new Error(`HTTP ${res.status}: Failed to request.`);
+    }
 
     return res.json() as any as Promise<DiscussionResource>;
   }
