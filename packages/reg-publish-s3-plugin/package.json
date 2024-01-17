@@ -23,7 +23,7 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.755.0",
+    "@aws-sdk/client-s3": "^3.485.0",
     "mkdirp": "^1.0.4",
     "reg-suit-util": "^0.12.2",
     "uuid": "^8.3.0"
