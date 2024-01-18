@@ -3,7 +3,7 @@ import { S3PublisherPlugin } from "../lib/s3-publisher-plugin";
 import { S3BucketPreparer } from "../lib/s3-bucket-preparer";
 import glob from "glob";
 import assert from "assert";
-import { S3 } from "aws-sdk";
+import { DeleteBucketCommand, DeleteObjectsCommand, ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
 
 const preparer = new S3BucketPreparer();
 
@@ -28,28 +28,24 @@ const dirsB = {
   expectedDir: __dirname + "/../e2e/report-fixture-expected/dir_b",
   diffDir: "",
 };
-
 async function after(bn: string) {
-  await new Promise(resolve => {
-    new S3().listObjects(
-      {
-        Bucket: bn,
-      },
-      (_err, result) => {
-        if (result.Contents) {
-          new S3().deleteObjects(
-            {
-              Bucket: bn,
-              Delete: { Objects: result.Contents.map(c => ({ Key: c.Key as any })) },
-            },
-            (__err, x) => resolve(x),
-          );
-        }
-      },
-    );
-  });
+  const S3 = new S3Client();
+  const result = await S3.send(
+    new ListObjectsV2Command({
+      Bucket: bn,
+    }),
+  );
 
-  await new Promise(resolve => new S3().deleteBucket({ Bucket: bn }, resolve));
+  if (result.Contents?.length) {
+    await S3.send(
+      new DeleteObjectsCommand({
+        Bucket: bn,
+        Delete: { Objects: result.Contents.map(c => ({ Key: c.Key as any })) },
+      }),
+    );
+  }
+
+  await S3.send(new DeleteBucketCommand({ Bucket: bn }));
 }
 
 async function case1() {
