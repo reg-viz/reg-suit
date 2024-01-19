@@ -136,6 +136,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
         .then((result: GetObjectCommandOutput) => {
           mkdirp.sync(path.dirname(item.absPath));
           this._gunzipIfNeed(result, (_err, content) => {
+            if (_err) return reject(_err);
             fs.writeFile(item.absPath, content, err => {
               if (err) {
                 return reject(err);
@@ -192,7 +193,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
     }
 
     result
-      .Body!.transformToString()
+      .Body!.transformToByteArray()
       .then(body => {
         if (result.ContentEncoding === "gzip") {
           zlib.gunzip(Buffer.from(body), (err, content) => {
