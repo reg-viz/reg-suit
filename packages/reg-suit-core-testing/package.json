@@ -9,7 +9,7 @@
   "dependencies": {
     "reg-notify-gitlab-plugin": "^0.12.3",
     "reg-notify-slack-plugin": "^0.12.2",
-    "reg-publish-gcs-plugin": "^0.12.2",
+    "reg-publish-s3-plugin": "^0.12.2",
     "reg-simple-keygen-plugin": "^0.12.2",
     "reg-suit-core": "^0.12.2"
   },
