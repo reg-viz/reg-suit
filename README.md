@@ -296,7 +296,6 @@ yarn run test
 
 _Remarks_
 
-- `reg-publish-s3-plugin` testing access to AWS S3 and it needs AWS credentials.
 - `reg-publish-gcs-plugin` testing access to Google Cloud Platform. You should `gcloud auth application-default login` before testing it.
 
 ## License
