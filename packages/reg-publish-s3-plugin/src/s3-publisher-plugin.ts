@@ -1,7 +1,17 @@
 import fs from "fs";
 import path from "path";
 import zlib from "zlib";
-import { S3 } from "aws-sdk";
+import {
+  GetObjectCommand,
+  GetObjectCommandOutput,
+  ListObjectsV2Command,
+  ListObjectsV2Output,
+  ObjectCannedACL,
+  PutObjectCommand,
+  S3Client,
+  S3ClientConfig,
+  ServerSideEncryption,
+} from "@aws-sdk/client-s3";
 import mkdirp from "mkdirp";
 
 import { PublisherPlugin, PluginCreateOptions, WorkingDirectoryInfo } from "reg-suit-interface";
@@ -11,12 +21,12 @@ export interface PluginConfig {
   bucketName: string;
   pattern?: string;
   enableACL?: boolean;
-  acl?: string;
-  sse?: boolean | string;
+  acl?: ObjectCannedACL;
+  sse?: boolean | ServerSideEncryption;
   sseKMSKeyId?: string;
   customDomain?: string;
   pathPrefix?: string;
-  sdkOptions?: S3.Types.ClientConfiguration;
+  sdkOptions?: S3ClientConfig;
 }
 
 export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlugin<PluginConfig> {
@@ -24,7 +34,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
 
   private _options!: PluginCreateOptions<any>;
   private _pluginConfig!: PluginConfig;
-  private _s3client!: S3;
+  private _s3client!: S3Client;
 
   constructor() {
     super();
@@ -37,7 +47,7 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
     this._pluginConfig = {
       ...config.options,
     };
-    this._s3client = new S3(this._pluginConfig.sdkOptions);
+    this._s3client = new S3Client(this._pluginConfig.sdkOptions ?? {});
   }
 
   publish(key: string) {
@@ -86,24 +96,28 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
           if (this._pluginConfig.enableACL == undefined) {
             this._pluginConfig.enableACL = true;
           }
-          const req = {
+          const req = new PutObjectCommand({
             Bucket: this._pluginConfig.bucketName,
             Key: `${key}/${item.path}`,
             Body: data,
             ContentType: item.mimeType,
             ContentEncoding: "gzip",
-            ACL: this._pluginConfig.enableACL ? this._pluginConfig.acl || "public-read" : undefined,
+            ACL: this._pluginConfig.enableACL ? this._pluginConfig.acl || ObjectCannedACL.public_read : undefined,
             SSEKMSKeyId: this._pluginConfig.sseKMSKeyId,
-          } as S3.Types.PutObjectRequest;
+          });
           if (this._pluginConfig.sse) {
             const sseVal = this._pluginConfig.sse;
-            req.ServerSideEncryption = typeof sseVal === "string" ? sseVal : "AES256";
+            req.input.ServerSideEncryption = typeof sseVal === "string" ? sseVal : ServerSideEncryption.AES256;
           }
-          this._s3client.putObject(req, err => {
-            if (err) return reject(err);
-            this.logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`);
-            return resolve(item);
-          });
+          this._s3client
+            .send(req)
+            .then(() => {
+              this.logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`);
+              return resolve(item);
+            })
+            .catch(err => {
+              return reject(err);
+            });
         });
       });
     });
@@ -112,17 +126,16 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
   protected downloadItem(remoteItem: RemoteFileItem, item: FileItem): Promise<FileItem> {
     const s3Key = remoteItem.remotePath;
     return new Promise((resolve, reject) => {
-      this._s3client.getObject(
-        {
-          Bucket: this._pluginConfig.bucketName,
-          Key: `${s3Key}`,
-        },
-        (err, x) => {
-          if (err) {
-            return reject(err);
-          }
+      this._s3client
+        .send(
+          new GetObjectCommand({
+            Bucket: this._pluginConfig.bucketName,
+            Key: `${s3Key}`,
+          }),
+        )
+        .then((result: GetObjectCommandOutput) => {
           mkdirp.sync(path.dirname(item.absPath));
-          this._gunzipIfNeed(x, (_err, content) => {
+          this._gunzipIfNeed(result, (_err, content) => {
             fs.writeFile(item.absPath, content, err => {
               if (err) {
                 return reject(err);
@@ -131,8 +144,10 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
               resolve(item);
             });
           });
-        },
-      );
+        })
+        .catch(err => {
+          return reject(err);
+        });
     });
   }
 
@@ -153,32 +168,42 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
     }
 
     return new Promise<ObjectListResult>((resolve, reject) => {
-      this._s3client.listObjects(options, async (err, result: S3.ListObjectsOutput) => {
-        if (err) {
-          reject(err);
-        }
+      this._s3client
+        .send(new ListObjectsV2Command(options))
+        .then((result: ListObjectsV2Output) => {
+          let nextMarker: string | undefined;
+          if (result.Contents && result.Contents.length > 0 && result.IsTruncated) {
+            nextMarker = result.Contents[result.Contents.length - 1].Key;
+          }
 
-        let nextMarker: string | undefined;
-        if (result.Contents && result.Contents.length > 0 && result.IsTruncated) {
-          nextMarker = result.Contents[result.Contents.length - 1].Key;
-        }
-
-        resolve({
-          isTruncated: result.IsTruncated,
-          contents: !result.Contents ? [] : result.Contents.map(f => ({ key: f.Key })),
-          nextMarker,
-        } as ObjectListResult);
-      });
+          resolve({
+            isTruncated: result.IsTruncated,
+            contents: !result.Contents ? [] : result.Contents.map(f => ({ key: f.Key })),
+            nextMarker,
+          } as ObjectListResult);
+        })
+        .catch(err => reject(err));
     });
   }
 
-  private _gunzipIfNeed(output: S3.GetObjectOutput, cb: (err: any, data: Buffer) => any) {
-    if (output.ContentEncoding === "gzip") {
-      zlib.gunzip(output.Body as Buffer, (err, content) => {
-        cb(err, content);
-      });
-    } else {
-      cb(null, output.Body as Buffer);
+  private _gunzipIfNeed(result: GetObjectCommandOutput, cb: (err: any, data: Buffer) => any) {
+    if (!result.Body) {
+      cb(new Error("No body returned!"), Buffer.from(""));
     }
+
+    result
+      .Body!.transformToString()
+      .then(body => {
+        if (result.ContentEncoding === "gzip") {
+          zlib.gunzip(Buffer.from(body), (err, content) => {
+            cb(err, content);
+          });
+        } else {
+          cb(null, Buffer.from(body));
+        }
+      })
+      .catch(err => {
+        cb(err, Buffer.from(""));
+      });
   }
 }
