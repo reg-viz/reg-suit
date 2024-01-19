@@ -8,8 +8,6 @@
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "tsc -p tsconfig.build.json",
-    "clean:e2e": "rimraf e2e/report-fixture-expected",
-    "test.bk": "npm run clean:e2e && ts-node e2e/script.ts",
     "test": "echo skip"
   },
   "keywords": [
