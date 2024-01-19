@@ -1,6 +1,6 @@
 {
   "name": "reg-notify-slack-plugin",
-  "version": "0.12.2",
+  "version": "0.13.0",
   "description": "Notify reg-suit result to Slack channel.",
   "main": "lib/index.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "undici": "^5.22.1"
   },
   "devDependencies": {
-    "reg-suit-interface": "^0.12.2",
+    "reg-suit-interface": "^0.13.0",
     "typescript": "4.5.2"
   }
 }
