@@ -121,12 +121,13 @@ The `core` section contains reg-suit core setting and the `plugins` section cont
 {
   actualDir: string;
   workingDir?: string;        // default ".reg"
-  thresholdRate?: number;    // default 0
+  thresholdRate?: number;     // default 0
   thresholdPixel?: number;    // default 0
-  enableAntialias?: boolean;    // default false
+  enableAntialias?: boolean;  // default false
   ximgdiff?: {
     invocationType: "none" | "client";  // default "client"
   };
+  concurrency?: number;       // default 4
 }
 ```
 
@@ -138,6 +139,7 @@ The `core` section contains reg-suit core setting and the `plugins` section cont
 - `enableAntialias` - _Optional_ - Enable antialias, so that anti-aliased pixels are detected and ignored when comparing images.
 - `ximgdiff` - _Optional_ - An option to display more detailed difference information to report html.
 - `ximgdiff.invocationType` - If set `"client"`, x-img-diff-js be invoked only with browsers. See [smart differences detection](#smart-difference-detection) section.
+- `concurrency` - _Optional_ - How many processes launches to compare in parallel.
 
 ### `plugins`
 

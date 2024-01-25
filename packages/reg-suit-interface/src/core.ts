@@ -11,6 +11,7 @@ export interface CoreConfig {
   ximgdiff?: {
     invocationType: AdditionalDetectionInvocationType;
   };
+  concurrency?: number;
 }
 
 export interface WorkingDirectoryInfo {
