@@ -47,6 +47,6 @@ This plugin needs following role policy.
     "s3:GetObjectAcl",
     "s3:PutObject",
     "s3:PutObjectAcl",
-    "s3:ListObject"
+    "s3:ListBucket"
   ]
 ```
