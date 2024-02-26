@@ -118,6 +118,7 @@ export class RegProcessor {
       enableAntialias: this._config.enableAntialias,
       enableCliAdditionalDetection: ximgdiffConf.invocationType === "cli",
       enableClientAdditionalDetection: ximgdiffConf.invocationType !== "none",
+      concurrency: this._config.concurrency ?? 4,
     }) as EventEmitter;
     emitter.on("compare", (compareItem: { type: string; path: string }) => {
       this._logger.verbose(
