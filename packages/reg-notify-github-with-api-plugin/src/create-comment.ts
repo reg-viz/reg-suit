@@ -38,11 +38,11 @@ function shortDescription({
   const headerDelimiter = filteredDescriptions.map(() => " --- ");
   const itemCount = filteredDescriptions.map(([itemCount]) => itemCount);
 
-  return `
-    | ${headerColumns.join(" | ")} |
-    | ${headerDelimiter.join(" | ")} |
-    | ${itemCount.join(" | ")} |
-  `;
+  return [
+    `| ${headerColumns.join(" | ")} |`,
+    `| ${headerDelimiter.join(" | ")} |`,
+    `| ${itemCount.join(" | ")} |`,
+  ].join("\n");
 }
 
 function longDescription(eventBody: CommentSeed) {
