@@ -2719,9 +2719,9 @@
     "@types/node" "*"
 
 "@types/cli-spinner@^0.2.0":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@types/cli-spinner/-/cli-spinner-0.2.1.tgz#d41515446773b40693ad5dd23ed74ea897a58278"
-  integrity sha512-bsdlZy3LThi9QbsK0GXm5s/e3F6HAJi1tMsIanm9trtoStSlV3gzir9JpfOK40gERMNIVevDTpG5NzSGnYs3QA==
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@types/cli-spinner/-/cli-spinner-0.2.3.tgz#5bc57d561a7a6a01690a72c324764136b26a562d"
+  integrity sha512-TMO6mWltW0lCu1de8DMRq9+59OP/tEjghS+rs8ZEQ2EgYP5yV3bGw0tS14TMyJGqFaoVChNvhkVzv9RC1UgX+w==
   dependencies:
     "@types/node" "*"
 
