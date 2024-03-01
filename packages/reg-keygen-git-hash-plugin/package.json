@@ -29,7 +29,7 @@
   "devDependencies": {
     "@types/jest": "27.4.1",
     "@types/shell-escape": "0.2.3",
-    "glob": "7.2.0",
+    "glob": "7.2.3",
     "jest": "27.5.1",
     "reg-suit-interface": "^0.14.2",
     "rimraf": "5.0.1",
