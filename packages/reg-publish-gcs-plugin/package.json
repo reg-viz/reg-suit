@@ -33,7 +33,7 @@
     "@types/glob": "7.2.0",
     "@types/mkdirp": "1.0.2",
     "@types/uuid": "8.3.4",
-    "glob": "7.2.0",
+    "glob": "7.2.3",
     "reg-suit-interface": "^0.14.2",
     "typescript": "4.5.2"
   }
