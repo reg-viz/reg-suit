@@ -17,6 +17,6 @@
     "reg-keygen-git-hash-plugin": "^0.14.2",
     "reg-suit": "^0.14.2",
     "reg-suit-interface": "^0.14.2",
-    "typescript": "4.5.2"
+    "typescript": "4.9.5"
   }
 }

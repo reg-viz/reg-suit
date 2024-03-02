@@ -22,7 +22,7 @@
   "devDependencies": {
     "dotenv": "10.0.0",
     "reg-suit-interface": "^0.14.2",
-    "typescript": "4.5.2"
+    "typescript": "4.9.5"
   },
   "dependencies": {
     "apollo-cache-inmemory": "^1.6.6",
