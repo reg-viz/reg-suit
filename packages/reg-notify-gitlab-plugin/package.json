@@ -19,7 +19,7 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "27.4.1",
+    "@types/jest": "27.5.2",
     "@types/sinon": "10.0.11",
     "jest": "27.5.1",
     "reg-suit-interface": "^0.14.2",
