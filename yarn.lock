@@ -9384,10 +9384,10 @@ typescript-eslint-language-service@4.1.5:
   resolved "https://registry.yarnpkg.com/typescript-eslint-language-service/-/typescript-eslint-language-service-4.1.5.tgz#8c4e66e3d742b520f2abb7d1d8e953d9fa1bf8b4"
   integrity sha512-lJ9tH53m8e8fYYwhG5hTpiUHCz4SjY55rT8T4ADrmF/29JPdWkUik8cbZy+KsCsUIG1CEMRz+DOV4S+wVyYivQ==
 
-typescript@4.5.2:
-  version "4.5.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.2.tgz#8ac1fba9f52256fdb06fb89e4122fa6a346c2998"
-  integrity sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==
+typescript@5.3.3:
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.3.3.tgz#b3ce6ba258e72e6305ba66f5c9b452aaee3ffe37"
+  integrity sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==
 
 uglify-js@^3.1.4:
   version "3.17.4"

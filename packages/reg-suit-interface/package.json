@@ -20,6 +20,6 @@
     "@types/inquirer": "8.2.10"
   },
   "devDependencies": {
-    "typescript": "4.5.2"
+    "typescript": "5.3.3"
   }
 }

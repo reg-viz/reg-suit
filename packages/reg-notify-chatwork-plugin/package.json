@@ -22,6 +22,6 @@
   },
   "devDependencies": {
     "reg-suit-interface": "^0.14.2",
-    "typescript": "4.5.2"
+    "typescript": "5.3.3"
   }
 }
