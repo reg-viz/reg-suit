@@ -1,6 +1,6 @@
 {
   "name": "reg-suit-core",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "description": "",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "reg-cli": "^0.18.1",
-    "reg-suit-util": "^0.14.2",
+    "reg-suit-util": "^0.14.3",
     "rimraf": "^5.0.1"
   },
   "devDependencies": {
