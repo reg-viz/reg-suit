@@ -5,6 +5,7 @@ import {
   GetObjectCommand,
   GetObjectCommandOutput,
   ListObjectsV2Command,
+  ListObjectsV2CommandInput,
   ListObjectsV2Output,
   ObjectCannedACL,
   PutObjectCommand,
@@ -153,34 +154,23 @@ export class S3PublisherPlugin extends AbstractPublisher implements PublisherPlu
   }
 
   protected listItems(lastKey: string, prefix: string): Promise<ObjectListResult> {
-    interface S3ListObjectsOptions {
-      Bucket: string;
-      Prefix: string;
-      MaxKeys: number;
-      Marker?: string;
-    }
-    const options: S3ListObjectsOptions = {
+    const options: ListObjectsV2CommandInput = {
       Bucket: this._pluginConfig.bucketName,
       Prefix: prefix,
       MaxKeys: 1000,
     };
     if (lastKey) {
-      options.Marker = lastKey;
+      options.ContinuationToken = lastKey;
     }
 
     return new Promise<ObjectListResult>((resolve, reject) => {
       this._s3client
         .send(new ListObjectsV2Command(options))
         .then((result: ListObjectsV2Output) => {
-          let nextMarker: string | undefined;
-          if (result.Contents && result.Contents.length > 0 && result.IsTruncated) {
-            nextMarker = result.Contents[result.Contents.length - 1].Key;
-          }
-
           resolve({
             isTruncated: result.IsTruncated,
             contents: !result.Contents ? [] : result.Contents.map(f => ({ key: f.Key })),
-            nextMarker,
+            nextMarker: result.NextContinuationToken,
           } as ObjectListResult);
         })
         .catch(err => reject(err));
