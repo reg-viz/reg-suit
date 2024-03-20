@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@types/glob": "8.1.0",
-    "@types/mkdirp": "1.0.2",
+    "@types/mkdirp": "2.0.0",
     "@types/uuid": "9.0.8",
     "glob": "7.2.3",
     "reg-suit-interface": "^0.14.2",
