@@ -24,6 +24,7 @@ export interface GitHubPluginOption {
   setCommitStatus?: boolean;
   customEndpoint?: string;
   shortDescription?: boolean;
+  name?: string;
 }
 
 interface GhAppStatusCodeError {
@@ -57,6 +58,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
   _setCommitStatus!: boolean;
   _behavior!: PrCommentBehavior;
   _shortDescription!: boolean;
+  _name!: string;
 
   _apiPrefix!: string;
   _repo!: Repository;
@@ -85,6 +87,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
     this._shortDescription = config.options.shortDescription ?? false;
     this._apiPrefix = config.options.customEndpoint || getGhAppInfo().endpoint;
     this._repo = new Repository(path.join(fsUtil.prjRootDir(".git"), ".git"));
+    this._name = config.options.name ?? "";
   }
 
   async notify(params: NotifyParams): Promise<any> {
@@ -149,6 +152,7 @@ export class GitHubNotifierPlugin implements NotifierPlugin<GitHubPluginOption> 
           deletedItemsCount,
           passedItemsCount,
           shortDescription: this._shortDescription,
+          name: this._name,
         };
         if (params.reportUrl) prCommentBody.reportUrl = params.reportUrl;
         const commentReq: FetchRequest = {
