@@ -1,6 +1,6 @@
 {
   "name": "reg-publish-gcs-plugin",
-  "version": "0.14.3",
+  "version": "0.14.4",
   "description": "Fetch and publish snapshot images to Google Cloud Storage.",
   "main": "lib/index.js",
   "scripts": {

@@ -1,6 +1,6 @@
 {
   "name": "reg-notify-chatwork-plugin",
-  "version": "0.14.2",
+  "version": "0.14.4",
   "description": "Notify reg-suit result to Chatwork channel.",
   "main": "lib/index.js",
   "scripts": {
