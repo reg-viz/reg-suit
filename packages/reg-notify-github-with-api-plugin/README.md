@@ -16,7 +16,7 @@ reg-suit prepare -p notify-github-with-api
 
 ```ts
 {
-  githubUrl?: sring;
+  githubUrl?: string;
   owner: string;
   repository: string;
   privateToken: string;
