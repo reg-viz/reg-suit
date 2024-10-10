@@ -10,6 +10,7 @@ export interface PluginConfig {
   pattern?: string;
   customUri?: string;
   pathPrefix?: string;
+  uncompressed?: boolean;
 }
 
 export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPlugin<PluginConfig> {
@@ -60,6 +61,14 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
     return this._pluginConfig.bucketName;
   }
 
+  protected getUncompressed(): boolean {
+    return this._pluginConfig.uncompressed ?? false;
+  }
+
+  protected getCompressed(): boolean {
+    return !this.getUncompressed();
+  }
+
   protected getLocalGlobPattern(): string | undefined {
     return this._pluginConfig.pattern;
   }
@@ -71,7 +80,7 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
   protected async uploadItem(key: string, item: FileItem) {
     await this._gcsClient.bucket(this._pluginConfig.bucketName).upload(item.absPath, {
       destination: `${key}/${item.path}`,
-      gzip: true,
+      gzip: this.getCompressed(),
     });
     this.logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`);
     return item;
