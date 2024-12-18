@@ -4,17 +4,23 @@ export type CommitNode = string[];
 
 export class CommitExplorer {
   private _gitCmdClient = new GitCmdClient();
-  private _commitNodes!: CommitNode[];
   private _branchName!: string;
+  private _commitHash!: string;
+  private _branchHash!: string;
   private _branchNameCache: { [hash: string]: string[] } = {};
+
+  constructor(private _gitLogCountPerPage = 10) {}
 
   /*
    * e.g. return `[["a38df15", "8e1ac3a"], ["8e1ac3a", "7ba8507"]]`.
    *      The first element of node means commit hash, rest elements means parent commit hashes.
    */
-  getCommitNodes(): CommitNode[] {
+  getCommitNodes(skip: number): CommitNode[] {
     return this._gitCmdClient
-      .logGraph()
+      .logGraph({
+        number: this._gitLogCountPerPage,
+        skip,
+      })
       .split("\n")
       .map((hashes: string) =>
         hashes
@@ -95,11 +101,11 @@ export class CommitExplorer {
       .map(b => b.hash)[0];
   }
 
-  getCandidateHashes(): string[] {
-    const mergedBranches = this.getBranchNames(this._commitNodes[0][0]).filter(
+  getCandidateHashes(commitNotes: ReadonlyArray<CommitNode>): string[] {
+    const mergedBranches = this.getBranchNames(this._commitHash).filter(
       b => !b.endsWith("/" + this._branchName) && b !== this._branchName,
     );
-    return this._commitNodes
+    return commitNotes
       .map(c => c[0])
       .filter(c => {
         const branches = this.getBranchNames(c);
@@ -125,15 +131,31 @@ export class CommitExplorer {
     return target;
   }
 
-  getBaseCommitHash(): string | null {
-    this._branchName = this.getCurrentBranchName();
-    this._commitNodes = this.getCommitNodes();
-    const candidateHashes = this.getCandidateHashes();
-    const branchHash = this.getBranchHash();
-    if (!branchHash) return null;
-    const baseHash = this.findBaseCommitHash(candidateHashes, branchHash);
-    if (!baseHash) return null;
+  getBaseCommitHashRec(cursor: number = 0): string | null {
+    const commitNotes = this.getCommitNodes(cursor);
+    if (commitNotes.length === 0) return null;
+
+    const candidateHashes = this.getCandidateHashes(commitNotes);
+    const baseHash = this.findBaseCommitHash(candidateHashes, this._branchHash);
+    if (!baseHash) {
+      const lastCommitNode = commitNotes.at(-1)!;
+      if (lastCommitNode.length === 1) return null;
+      const nextCursor = cursor + this._gitLogCountPerPage;
+      if (nextCursor === 300) return null;
+      return this.getBaseCommitHashRec(nextCursor);
+    }
+
     const result = this._gitCmdClient.revParse(baseHash).replace("\n", "");
     return result ? result : null;
+  }
+
+  getBaseCommitHash(): string | null {
+    this._branchName = this.getCurrentBranchName();
+    this._commitHash = this.getCurrentCommitHash();
+    const branchHash = this.getBranchHash();
+    if (branchHash === undefined) return null;
+    this._branchHash = branchHash;
+
+    return this.getBaseCommitHashRec();
   }
 }
