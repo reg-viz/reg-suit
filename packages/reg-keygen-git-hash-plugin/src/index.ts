@@ -2,13 +2,22 @@ import { KeyGeneratorPlugin, PluginCreateOptions, KeyGeneratorPluginFactory } fr
 import { fsUtil } from "reg-suit-util";
 
 import { CommitExplorer } from "./commit-explorer";
+import type { GitOptions } from "./git-cmd-client";
 
-class GitHashKeyGenPlugin implements KeyGeneratorPlugin {
+export interface PluginConfig {
+  gitObjectHashLength?: number;
+}
+
+class GitHashKeyGenPlugin implements KeyGeneratorPlugin<PluginConfig> {
   private _explorer = new CommitExplorer();
-  private _conf!: PluginCreateOptions;
+  private _conf!: PluginCreateOptions<PluginConfig>;
+  private _gitOptions!: GitOptions;
 
-  init(config: PluginCreateOptions): void {
+  init(config: PluginCreateOptions<PluginConfig>): void {
     this._conf = config;
+    this._gitOptions = {
+      objectHashLength: config.options.gitObjectHashLength || 7,
+    };
   }
 
   getExpectedKey(): Promise<string> {
@@ -16,7 +25,7 @@ class GitHashKeyGenPlugin implements KeyGeneratorPlugin {
       return Promise.reject<string>(null);
     }
     try {
-      const result = this._explorer.getBaseCommitHash();
+      const result = this._explorer.getBaseCommitHash(this._gitOptions);
       if (result) {
         return Promise.resolve(result);
       } else {
