@@ -32,7 +32,6 @@
     "open": "^8.0.0",
     "reg-gh-app-interface": "^1.3.0",
     "reg-suit-util": "^0.14.3",
-    "tiny-commit-walker": "^1.1.2",
-    "undici": "^6.0.0"
+    "tiny-commit-walker": "^1.1.2"
   }
 }

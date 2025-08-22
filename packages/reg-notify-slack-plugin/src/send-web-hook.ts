@@ -1,5 +1,3 @@
-import { fetch } from "undici";
-
 export interface SendOption {
   webhookUrl: string;
   body: string;
