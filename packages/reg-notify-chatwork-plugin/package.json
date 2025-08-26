@@ -1,6 +1,6 @@
 {
   "name": "reg-notify-chatwork-plugin",
-  "version": "0.14.4",
+  "version": "0.14.5",
   "description": "Notify reg-suit result to Chatwork channel.",
   "main": "lib/index.js",
   "scripts": {
@@ -17,7 +17,6 @@
   },
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
     "reg-suit-interface": "^0.14.2",
     "typescript": "4.5.2"
