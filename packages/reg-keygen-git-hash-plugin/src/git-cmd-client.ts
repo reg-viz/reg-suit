@@ -31,8 +31,26 @@ export class GitCmdClient {
     return execSync(shellEscape(["git", "log", "--oneline", `${a}..${b}`]), { encoding: "utf8" });
   }
 
-  logGraph() {
-    return execSync('git log -n 300 --graph --pretty=format:"%h %p"', { encoding: "utf8" });
+  logGraph(
+    options?: Partial<{
+      number: number;
+      skip: number;
+    }>,
+  ) {
+    const { number = 300, skip = 0 } = options ?? {};
+    return execSync(
+      shellEscape([
+        "git",
+        "log",
+        "-n",
+        number.toString(),
+        "--skip",
+        skip.toString(),
+        "--graph",
+        "--pretty=format:%h %p",
+      ]),
+      { encoding: "utf8" },
+    );
   }
 
   mergeBase(a: string, b: string) {
