@@ -1,5 +1,3 @@
-import { fetch } from "undici";
-
 export interface SendOption {
   roomID: string;
   message: string;

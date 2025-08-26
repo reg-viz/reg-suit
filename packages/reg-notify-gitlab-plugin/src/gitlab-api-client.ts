@@ -1,5 +1,3 @@
-import { fetch } from "undici";
-
 export type ProjectIdType = number;
 export type MergeResuestIidType = number;
 export type NoteIdType = number;

@@ -4,7 +4,6 @@ import { inflateRawSync } from "zlib";
 import { getGhAppInfo, BaseEventBody, CommentToPrBody, UpdateStatusBody } from "reg-gh-app-interface";
 import { fsUtil } from "reg-suit-util";
 import { NotifierPlugin, NotifyParams, PluginCreateOptions, PluginLogger } from "reg-suit-interface";
-import { fetch } from "undici";
 
 type PrCommentBehavior = "default" | "once" | "new";
 
