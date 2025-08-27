@@ -1,4 +1,4 @@
-import { GitCmdClient } from "./git-cmd-client";
+import { GitCmdClient, GitOptions } from "./git-cmd-client";
 
 export type CommitNode = string[];
 
@@ -12,9 +12,9 @@ export class CommitExplorer {
    * e.g. return `[["a38df15", "8e1ac3a"], ["8e1ac3a", "7ba8507"]]`.
    *      The first element of node means commit hash, rest elements means parent commit hashes.
    */
-  getCommitNodes(): CommitNode[] {
+  getCommitNodes(gitOptions: GitOptions): CommitNode[] {
     return this._gitCmdClient
-      .logGraph()
+      .logGraph(gitOptions)
       .split("\n")
       .map((hashes: string) =>
         hashes
@@ -76,17 +76,17 @@ export class CommitExplorer {
       .filter((x, i, self) => self.indexOf(x) === i);
   }
 
-  getIntersection(hash: string): string | undefined {
+  getIntersection(hash: string, gitOptions: GitOptions): string | undefined {
     try {
-      return this._gitCmdClient.mergeBase(hash, this._branchName).slice(0, 8);
+      return this._gitCmdClient.mergeBase(hash, this._branchName).slice(0, gitOptions.objectHashLength + 1);
     } catch (e) {}
   }
 
-  getBranchHash(): string | undefined {
+  getBranchHash(gitOptions: GitOptions): string | undefined {
     const branches = this.getAllBranchNames();
     return branches
       .map(b => {
-        const hash = this.getIntersection(b);
+        const hash = this.getIntersection(b, gitOptions);
         const time = hash ? new Date(this._gitCmdClient.logTime(hash).trim()).getTime() : Number.MAX_SAFE_INTEGER;
         return { hash, time };
       })
@@ -111,27 +111,27 @@ export class CommitExplorer {
       });
   }
 
-  isReachable(a: string, b: string) {
-    const between = this._gitCmdClient.logBetween(a, b).trim();
+  isReachable(a: string, b: string, gitOptions: GitOptions) {
+    const between = this._gitCmdClient.logBetween(a, b, gitOptions).trim();
     return !between;
   }
 
-  findBaseCommitHash(candidateHashes: string[], branchHash: string): string | undefined {
+  findBaseCommitHash(candidateHashes: string[], branchHash: string, gitOptions: GitOptions): string | undefined {
     const traverseLog = (candidateHash: string): boolean | undefined => {
       if (candidateHash === branchHash) return true;
-      return this.isReachable(candidateHash, branchHash);
+      return this.isReachable(candidateHash, branchHash, gitOptions);
     };
     const target = candidateHashes.find(hash => !!traverseLog(hash));
     return target;
   }
 
-  getBaseCommitHash(): string | null {
+  getBaseCommitHash(gitOptions: GitOptions): string | null {
     this._branchName = this.getCurrentBranchName();
-    this._commitNodes = this.getCommitNodes();
+    this._commitNodes = this.getCommitNodes(gitOptions);
     const candidateHashes = this.getCandidateHashes();
-    const branchHash = this.getBranchHash();
+    const branchHash = this.getBranchHash(gitOptions);
     if (!branchHash) return null;
-    const baseHash = this.findBaseCommitHash(candidateHashes, branchHash);
+    const baseHash = this.findBaseCommitHash(candidateHashes, branchHash, gitOptions);
     if (!baseHash) return null;
     const result = this._gitCmdClient.revParse(baseHash).replace("\n", "");
     return result ? result : null;
