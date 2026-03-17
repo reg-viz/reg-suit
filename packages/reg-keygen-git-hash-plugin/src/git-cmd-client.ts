@@ -1,6 +1,10 @@
 import { execSync } from "child_process";
 import shellEscape from "shell-escape";
 
+export type GitOptions = {
+  objectHashLength: number;
+};
+
 export class GitCmdClient {
   private _revParseHash: { [key: string]: string } = {};
 
@@ -27,12 +31,30 @@ export class GitCmdClient {
     return execSync(shellEscape(["git", "log", "--pretty=%ci", "-n", "1", hash]), { encoding: "utf8" });
   }
 
-  logBetween(a: string, b: string) {
-    return execSync(shellEscape(["git", "log", "--oneline", `${a}..${b}`]), { encoding: "utf8" });
+  logBetween(a: string, b: string, options: GitOptions) {
+    return execSync(
+      shellEscape([
+        "git",
+        "log",
+        options.objectHashLength !== null ? `--abbrev=${options.objectHashLength}` : "",
+        "--oneline",
+        `${a}..${b}`,
+      ]),
+      {
+        encoding: "utf8",
+      },
+    );
   }
 
-  logGraph() {
-    return execSync('git log -n 300 --graph --pretty=format:"%h %p"', { encoding: "utf8" });
+  logGraph(options: GitOptions) {
+    return execSync(
+      `git log -n 300 --graph${
+        options.objectHashLength !== null ? ` --abbrev=${options.objectHashLength}` : ""
+      } --pretty=format:"%h %p"`,
+      {
+        encoding: "utf8",
+      },
+    );
   }
 
   mergeBase(a: string, b: string) {

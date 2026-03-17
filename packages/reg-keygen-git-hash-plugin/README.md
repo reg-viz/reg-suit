@@ -8,6 +8,16 @@ A reg-suit plugin to detect the snapshot key to be compare with using Git commit
 npm i reg-keygen-git-hash-plugin -D
 ```
 
+## Configure
+
+```ts
+{
+  gitObjectHashLength: number;
+}
+```
+
+- `gitObjectHashLength` - _Optional_ - The length of the truncated git object hash. Default: `7`.
+
 ## Detection expected commit
 
 This plugin detects automatically the parent's commit which is the source of the topic branch. And use the snapshot result of the detected commit as the expected result of regression testing.

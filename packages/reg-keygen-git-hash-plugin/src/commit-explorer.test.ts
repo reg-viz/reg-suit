@@ -34,7 +34,7 @@ test("detached head", () => {
  */
 test("initial commit", () => {
   copyGitFiles("initial-commit");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   assert.equal(null, baseHash);
 });
 
@@ -44,7 +44,7 @@ test("initial commit", () => {
  */
 test("master two commits", () => {
   copyGitFiles("master-two-commits");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   assert.equal(null, baseHash);
 });
 
@@ -54,7 +54,7 @@ test("master two commits", () => {
  */
 test("after create new branch", () => {
   copyGitFiles("after-create-new-branch");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   assert.equal(null, baseHash);
 });
 
@@ -65,7 +65,7 @@ test("after create new branch", () => {
  */
 test("commit after create new branch", () => {
   copyGitFiles("commit-new-branch");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
   assert.equal(expected, baseHash);
 });
@@ -78,7 +78,7 @@ test("commit after create new branch", () => {
  */
 test("two commits after create new branch", () => {
   copyGitFiles("two-commit-new-branch");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
   assert.equal(expected, baseHash);
 });
@@ -95,7 +95,7 @@ test("two commits after create new branch", () => {
 */
 test("after catch up master merge", () => {
   copyGitFiles("after-catch-up-master");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
   assert.equal(expected, baseHash);
 });
@@ -113,7 +113,7 @@ test("after catch up master merge", () => {
 */
 test("commit after merge", () => {
   copyGitFiles("commit-after-merge");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
   assert.equal(expected, baseHash);
 });
@@ -131,7 +131,7 @@ test("commit after merge", () => {
 
 test("master to catch up branch", () => {
   copyGitFiles("master-to-catch-up-branch");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
   assert.equal(expected, baseHash);
 });
@@ -157,7 +157,7 @@ test("master to catch up branch", () => {
 
 test("commit after catch up and merge", () => {
   copyGitFiles("commit-after-catch-up-and-merge");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
   assert.equal(expected, baseHash);
 });
@@ -175,7 +175,7 @@ test("commit after catch up and merge", () => {
 // * first commit
 test("after merge catch up", () => {
   copyGitFiles("after-merge-catch-up");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
   assert.equal(expected, baseHash);
 });
@@ -195,7 +195,7 @@ test("after merge catch up", () => {
 // * first commit
 test("merge catch up and commit", () => {
   copyGitFiles("merge-catch-up-then-commit");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
   assert.equal(expected, baseHash);
 });
@@ -213,14 +213,28 @@ test("merge catch up and commit", () => {
 // * (tag: expected) init import
 test("merge multipe commit three", () => {
   copyGitFiles("merge-multipe-commit-three");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   const expected = execSync("git rev-parse expected", { encoding: "utf8" }).trim();
   assert.equal(expected, baseHash);
 });
 
 test("error patter found in reg-suit repository", () => {
   copyGitFiles("reg-suit-error-pattern");
-  const baseHash = new CommitExplorer().getBaseCommitHash();
+  const baseHash = new CommitExplorer().getBaseCommitHash({ objectHashLength: 7 });
   const expected = "49d38a929ae3675a1c79216709c35884f0b78900";
   assert.equal(expected, baseHash);
+});
+
+test.only("throws when short object ID is ambiguous", () => {
+  copyGitFiles("conflict-short-git-object-id");
+  expect(() => {
+    new CommitExplorer().getBaseCommitHash({ objectHashLength: 3 });
+  }).toThrow(/error: short object ID .+ is ambiguous/);
+});
+
+test.only("succeeds when short object ID is sufficiently long (length = 10)", () => {
+  copyGitFiles("conflict-short-git-object-id");
+  expect(() => {
+    new CommitExplorer().getBaseCommitHash({ objectHashLength: 10 });
+  }).not.toThrow(/error: short object ID .+ is ambiguous/);
 });
