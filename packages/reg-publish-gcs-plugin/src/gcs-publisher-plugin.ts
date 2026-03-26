@@ -10,6 +10,7 @@ export interface PluginConfig {
   pattern?: string;
   customUri?: string;
   pathPrefix?: string;
+  enableGZip?: boolean;
 }
 
 export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPlugin<PluginConfig> {
@@ -56,6 +57,10 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
     return this._pluginConfig.pathPrefix;
   }
 
+  protected getEnableGzipFlag(): boolean {
+    return this._pluginConfig.enableGZip ?? true;
+  }
+
   protected getBucketName(): string {
     return this._pluginConfig.bucketName;
   }
@@ -71,7 +76,7 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
   protected async uploadItem(key: string, item: FileItem) {
     await this._gcsClient.bucket(this._pluginConfig.bucketName).upload(item.absPath, {
       destination: `${key}/${item.path}`,
-      gzip: true,
+      gzip: this.getEnableGzipFlag(),
     });
     this.logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`);
     return item;
