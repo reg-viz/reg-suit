@@ -27,7 +27,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/mkdirp": "1.0.2",
+    "@types/mkdirp": "2.0.0",
     "@types/uuid": "9.0.8",
     "reg-suit-interface": "^0.14.2",
     "rimraf": "5.0.5",
