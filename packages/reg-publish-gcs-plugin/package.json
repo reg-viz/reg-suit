@@ -27,7 +27,7 @@
     "form-data": "^4.0.0",
     "mkdirp": "^1.0.4",
     "reg-suit-util": "^0.14.3",
-    "uuid": "^9.0.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@types/glob": "8.1.0",
