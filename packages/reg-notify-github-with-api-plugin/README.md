@@ -21,6 +21,7 @@ reg-suit prepare -p notify-github-with-api
   repository: string;
   privateToken: string;
   ref?: string;
+  heading?: string;
   shortDescription?: boolean;
   markerComment?: string;
 }
@@ -31,6 +32,8 @@ reg-suit prepare -p notify-github-with-api
 - `repository` - _Required_ - GitHub repository name.
 - `privateToken` - _Required_ Private access token. The `repo` scope is required if the repository is private.
 - `ref` - _Optional_ Git branch ref value. If specified, this plugin searches PRs to comment using this value.
+- `heading` - _Optional_ - A heading displayed at the top of the PR comment. Useful when running multiple VRT workflows on the same PR to identify which workflow the result belongs to.
+
 - `shortDescription` - _Optional_ Returns a small table with the item counts.
   Example:
 

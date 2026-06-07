@@ -10,6 +10,7 @@ export interface GhApiPluginOption {
   repository: string;
   privateToken: string;
   githubUrl?: string;
+  heading?: string;
   shortDescription?: boolean;
   ref?: string;
   markerComment?: string;
@@ -27,6 +28,7 @@ export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
   private _shortDescription!: boolean;
   private _ref?: string;
   private _markerComment?: string;
+  private _heading?: string;
 
   init(config: PluginCreateOptions<GhApiPluginOption>) {
     this._logger = config.logger;
@@ -38,6 +40,7 @@ export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
     this._shortDescription = config.options.shortDescription || false;
     this._ref = config.options.ref;
     this._markerComment = config.options.markerComment;
+    this._heading = config.options.heading;
   }
 
   async notify(params: NotifyParams) {
@@ -54,6 +57,7 @@ export class GhApiNotifierPlugin implements NotifierPlugin<GhApiPluginOption> {
       return;
     }
     const commentBody = createCommentBody({
+      heading: this._heading,
       reportUrl: params.reportUrl,
       passedItemsCount: params.comparisonResult.passedItems.length,
       failedItemsCount: params.comparisonResult.diffItems.length,
