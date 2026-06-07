@@ -1,4 +1,5 @@
 export interface CommentSeed {
+  heading?: string;
   reportUrl?: string;
   failedItemsCount: number;
   newItemsCount: number;
@@ -66,6 +67,10 @@ function longDescription(eventBody: CommentSeed) {
 
 export function createCommentBody(eventBody: CommentSeed) {
   const lines: string[] = [];
+  if (eventBody.heading) {
+    lines.push(`## ${eventBody.heading}`);
+    lines.push("");
+  }
   if (eventBody.failedItemsCount === 0 && eventBody.newItemsCount === 0 && eventBody.deletedItemsCount === 0) {
     lines.push(`:sparkles: :sparkles: **That's perfect, there is no visual difference!** :sparkles: :sparkles:`);
     if (eventBody.reportUrl) {
