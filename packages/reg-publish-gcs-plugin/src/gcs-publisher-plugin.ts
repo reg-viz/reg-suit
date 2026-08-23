@@ -1,3 +1,4 @@
+import fs from "fs";
 import path from "path";
 import mkdirp from "mkdirp";
 import { Storage, GetFilesOptions } from "@google-cloud/storage";
@@ -10,7 +11,12 @@ export interface PluginConfig {
   pattern?: string;
   customUri?: string;
   pathPrefix?: string;
+  concurrency?: number;
 }
+
+// Resumable uploads add a request and are discouraged for files smaller than 10 MB.
+// https://cloud.google.com/nodejs/docs/reference/storage/latest/storage/file#createWriteStream
+const RESUMABLE_UPLOAD_THRESHOLD_BYTES = 10 * 1024 * 1024;
 
 export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPlugin<PluginConfig> {
   name = "reg-publish-gcs-plugin";
@@ -64,14 +70,20 @@ export class GcsPublisherPlugin extends AbstractPublisher implements PublisherPl
     return this._pluginConfig.pattern;
   }
 
+  protected getConcurrencySize(): number {
+    return this._pluginConfig.concurrency ?? super.getConcurrencySize();
+  }
+
   protected getWorkingDirs(): WorkingDirectoryInfo {
     return this._options.workingDirs;
   }
 
   protected async uploadItem(key: string, item: FileItem) {
+    const { size } = await fs.promises.stat(item.absPath);
     await this._gcsClient.bucket(this._pluginConfig.bucketName).upload(item.absPath, {
       destination: `${key}/${item.path}`,
       gzip: true,
+      resumable: size >= RESUMABLE_UPLOAD_THRESHOLD_BYTES,
     });
     this.logger.verbose(`Uploaded from ${item.absPath} to ${key}/${item.path}`);
     return item;

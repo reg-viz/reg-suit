@@ -22,9 +22,11 @@ If you run this plugin in your CI service, it's recommended to create a Service 
   bucketName: string;
   customUri?: string;
   pathPrefix?: string;
+  concurrency?: number;
 }
 ```
 
 - `bucketName` - _Required_ - GCS bucket name to publish the snapshot images to.
 - `customUri` - _Optional_ - Custom URI prefix. Default value is `https://storage.googleapis.com/${bucketName}`. It's useful if you request report HTML over some HTTP proxy servers.
 - `pathPrefix` - _Optional_ - Specify paths. For example if you set `some_dir`, the report is published with URL such as `https://storage.googleapis.com/your-bucket/some_dir/xxxxxxxxxindex.html`.
+- `concurrency` - _Optional_ - Maximum number of files uploaded or downloaded in parallel. Must be a positive integer. Default value is `50`.
