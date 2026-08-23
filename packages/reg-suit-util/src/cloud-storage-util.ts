@@ -3,7 +3,6 @@ import { PluginLogger, WorkingDirectoryInfo } from "reg-suit-interface";
 
 import { lookup } from "mime-types";
 import glob from "glob";
-import _ from "lodash";
 
 export type FileItem = {
   path: string;
@@ -26,7 +25,7 @@ export type ObjectListResult = {
   nextMarker?: string;
 };
 
-const CONCURRENCY_SIZE = 50;
+const DEFAULT_CONCURRENCY_SIZE = 50;
 const DEFAULT_PATTERN = "**/*.{html,js,wasm,png,json,jpeg,jpg,tiff,bmp,gif}";
 
 export abstract class AbstractPublisher {
@@ -40,6 +39,29 @@ export abstract class AbstractPublisher {
   protected abstract getLocalGlobPattern(): string | undefined;
   protected abstract getBucketName(): string;
   protected abstract getBucketRootDir(): string | undefined;
+
+  protected getConcurrencySize(): number {
+    return DEFAULT_CONCURRENCY_SIZE;
+  }
+
+  private async processItems(items: FileItem[], processor: (item: FileItem) => Promise<FileItem>): Promise<FileItem[]> {
+    const concurrencySize = this.getConcurrencySize();
+    if (!Number.isInteger(concurrencySize) || concurrencySize < 1) {
+      throw new Error(`Concurrency size must be a positive integer, but received ${concurrencySize}.`);
+    }
+
+    const results = new Array<FileItem>(items.length);
+    let nextIndex = 0;
+    const workers = Array.from({ length: Math.min(concurrencySize, items.length) }, async () => {
+      while (nextIndex < items.length) {
+        const currentIndex = nextIndex++;
+        results[currentIndex] = await processor(items[currentIndex]);
+      }
+    });
+
+    await Promise.all(workers);
+    return results;
+  }
 
   protected createList(): Promise<FileItem[]> {
     return new Promise<string[]>((resolve, reject) => {
@@ -121,23 +143,16 @@ export abstract class AbstractPublisher {
           } as FileItem;
         });
       })
-      .then(items => _.chunk(items, CONCURRENCY_SIZE))
-      .then(chunks => {
-        return chunks.reduce((acc, chunk) => {
-          return acc.then(list => {
-            return Promise.all(
-              chunk.map(item => {
-                const remotePath = `${this.resolveInBucket(key)}/${path.basename(this.getWorkingDirs().actualDir)}/${
-                  item.path
-                }`;
-                return this.downloadItem({ remotePath, key }, item).then(fi => {
-                  progress.increment(1);
-                  return fi;
-                });
-              }),
-            ).then(items => [...list, ...items]);
+      .then(items => {
+        return this.processItems(items, item => {
+          const remotePath = `${this.resolveInBucket(key)}/${path.basename(this.getWorkingDirs().actualDir)}/${
+            item.path
+          }`;
+          return this.downloadItem({ remotePath, key }, item).then(fi => {
+            progress.increment(1);
+            return fi;
           });
-        }, Promise.resolve([] as FileItem[]));
+        });
       })
       .then(result => {
         progress.stop();
@@ -157,22 +172,16 @@ export abstract class AbstractPublisher {
             this.logger.info(`There are ${list.length} files to publish`);
           }
         }
-        return _.chunk(list, CONCURRENCY_SIZE);
+        return list;
       })
-      .then(chunks => {
-        return chunks.reduce((acc, chunk) => {
-          return acc.then(list => {
-            return Promise.all(
-              chunk.map(item => {
-                if (this.noEmit) return Promise.resolve(item);
-                return this.uploadItem(this.resolveInBucket(key), item).then(fi => {
-                  progress.increment(1);
-                  return fi;
-                });
-              }),
-            ).then(items => [...list, ...items]);
+      .then(items => {
+        return this.processItems(items, item => {
+          if (this.noEmit) return Promise.resolve(item);
+          return this.uploadItem(this.resolveInBucket(key), item).then(fi => {
+            progress.increment(1);
+            return fi;
           });
-        }, Promise.resolve([] as FileItem[]));
+        });
       })
       .then(items => {
         const indexFile = items.find(item => item.path.endsWith("index.html"));
