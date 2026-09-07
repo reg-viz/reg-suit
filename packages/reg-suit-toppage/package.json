@@ -23,7 +23,7 @@
   "repository": "git+https://github.com/reg-viz/reg-suit.git",
   "license": "MIT",
   "devDependencies": {
-    "@types/puppeteer": "5.4.7",
+    "@types/puppeteer": "7.0.4",
     "gh-pages": "6.1.1",
     "mkdirp": "1.0.4",
     "puppeteer": "10.4.0",
