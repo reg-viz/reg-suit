@@ -32,7 +32,7 @@
     "chalk": "^4.1.0",
     "cli-progress": "^3.8.2",
     "cli-spinner": "^0.2.6",
-    "glob": "^7.1.6",
+    "glob": "^10.0.0",
     "lodash": "^4.17.20",
     "mime-types": "^2.1.27",
     "mkdirp": "^1.0.4"
